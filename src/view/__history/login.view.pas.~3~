@@ -1,0 +1,43 @@
+unit login.view;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls, math,
+  Vcl.Imaging.jpeg, Vcl.StdCtrls;
+
+type
+  TForm2 = class(TForm)
+    LoginPanel: TPanel;
+    Image1: TImage;
+    Panel1: TPanel;
+    Image2: TImage;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Panel2: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    procedure FormResize(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form2: TForm2;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm2.FormResize(Sender: TObject);
+begin
+LoginPanel.Width := Floor(Form2.Width / 2);
+Panel1.Width := Floor(Form2.Width / 2);
+
+end;
+
+end.

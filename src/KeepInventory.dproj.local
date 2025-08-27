@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2025/08/27 15:40:41.607,=C:\Users\Auditorio\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/08/27 15:41:25.802,C:\Users\Auditorio\Documents\Keep Inventory\src\Project7.dproj=C:\Users\Auditorio\Documents\Embarcadero\Studio\Projects\Project7.dproj</Transaction>
+    <Transaction>2025/08/27 15:41:50.143,C:\Users\Auditorio\Documents\Keep Inventory\src\KeepInventory.dproj=C:\Users\Auditorio\Documents\Keep Inventory\src\Project7.dproj</Transaction>
+    <Transaction>2025/08/27 15:42:08.873,=C:\Users\Auditorio\Documents\Keep Inventory\src\view\login.view.pas</Transaction>
+    <Transaction>2025/08/27 15:45:16.372,=C:\Users\Auditorio\Documents\Keep Inventory\src\Unit1.pas</Transaction>
+    <Transaction>2025/08/27 15:52:42.690,=C:\Users\Auditorio\Documents\Keep Inventory\src\Unit2.pas</Transaction>
+    <Transaction>2025/08/27 15:53:22.904,C:\Users\Auditorio\Documents\Keep Inventory\src\view\uBlurHelper.pas=C:\Users\Auditorio\Documents\Keep Inventory\src\Unit2.pas</Transaction>
+    <Transaction>2025/08/27 15:54:13.362,=C:\Users\Auditorio\Documents\Keep Inventory\src\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
