@@ -5,16 +5,29 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls, math,
-  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia;
+  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons;
 
 type
   TForm2 = class(TForm)
     Panel2: TPanel;
     LoginPanel: TPanel;
-    Image1: TImage;
-    Image2: TImage;
     Panel1: TPanel;
+    Label1: TLabel;
+    Image1: TImage;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
     Panel3: TPanel;
+    Edit1: TEdit;
+    Panel4: TPanel;
+    Edit2: TEdit;
+    Shape2: TShape;
+    Panel5: TPanel;
+    Shape3: TShape;
+    SpeedButton1: TSpeedButton;
+    Label6: TLabel;
+    Shape1: TShape;
     procedure FormResize(Sender: TObject);
 
   private
