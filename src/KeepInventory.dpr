@@ -2,14 +2,20 @@ program KeepInventory;
 
 uses
   Vcl.Forms,
-  login.view in 'view\login.view.pas' {Form2},
-  uBlurHelper in 'view\uBlurHelper.pas';
+  LoginView in 'view\LoginView.pas' {Form2},
+  uBlurHelper in 'view\uBlurHelper.pas',
+  ConnectionView in 'view\ConnectionView.pas' {Form1},
+  ConnectionModel in 'model\ConnectionModel.pas',
+  ConnectionRepository in 'repository\ConnectionRepository.pas',
+  ConnectionService in 'service\ConnectionService.pas',
+  ConnectionController in 'controller\ConnectionController.pas';
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TForm2, Form2);
   Application.Run;
 end.
