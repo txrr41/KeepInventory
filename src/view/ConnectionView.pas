@@ -8,11 +8,11 @@ uses
   Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
-  FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, ConnectionModel, ConnectionService, ConnectionRepository, ConnectionController,
-  FireDAC.Phys.PGDef, FireDAC.Phys.PG;
+  FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, ConnectionModel, ConnectionService,
+  ConnectionRepository, ConnectionController, FireDAC.Phys.PGDef, FireDAC.Phys.PG;
 
 type
-  TForm1 = class(TForm)
+  TFormConnection = class(TForm)
     LoginPanel: TPanel;
     Label1: TLabel;
     Image1: TImage;
@@ -55,7 +55,6 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
-
   private
     { Private declarations }
   public
@@ -63,35 +62,26 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FormConnection: TFormConnection;
 
 implementation
 
 {$R *.dfm}
 
-
-
-procedure TForm1.FormResize(Sender: TObject);
-
-var terco:Integer;
+procedure TFormConnection.FormResize(Sender: TObject);
+var
+  terco: Integer;
 begin
-  terco:=Floor(Form1.Width / 3);
-  LoginPanel.Width := terco*2;
+  terco := Floor(FormConnection.Width / 3);
+  LoginPanel.Width := terco * 2;
   Panel2.Width := terco;
 end;
 
-
-
-
-
-
-procedure TForm1.SpeedButton1Click(Sender: TObject);
- var
+procedure TFormConnection.SpeedButton1Click(Sender: TObject);
+var
   Config: TConnectionConfig;
   Msg: string;
   Controller: TConnectionController;
-  Service: TConnectionService;
-  Repository: IConfigRepository;
 begin
   Config := TConnectionConfig.Create;
   try
@@ -101,42 +91,43 @@ begin
     Config.UserName := EditUser.Text;
     Config.Password := EditPassword.Text;
 
-    Service := TConnectionService.Create(FDConnection);
-    Repository := TIniConfigRepository.Create(ExtractFilePath(Application.ExeName) + 'conexao.ini');
-    Controller := TConnectionController.Create(Service, Repository);
-
-    if Controller.SaveConfig(Config, Msg) then
-      ShowMessage(Msg)
-    else
-      ShowMessage('Falha: ' + Msg);
+    // View cria apenas o controller, controller cria o service e o service cria o reository!!!!!!!!!!!
+    Controller := TConnectionController.Create(FDConnection);
+    try
+      if Controller.SaveConfig(Config, Msg) then
+        ShowMessage(Msg)
+      else
+        ShowMessage('Falha: ' + Msg);
+    finally
+      Controller.Free;
+    end;
 
   finally
     Config.Free;
-    Controller.Free;
-    Service.Free;
-    // Repository é interface, liberada automaticamente
   end;
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TFormConnection.FormCreate(Sender: TObject);
 var
   Config: TConnectionConfig;
-  Repository: IConfigRepository;
+  Controller: TConnectionController;
 begin
-  Repository := TIniConfigRepository.Create(ExtractFilePath(Application.ExeName) + 'conexao.ini');
-  Config := Repository.LoadConfig;
+  Controller := TConnectionController.Create(FDConnection);
   try
-    EditServer.Text := Config.Server;
-    EditPort.Text := Config.Port;
-    EditDatabase.Text := Config.Database;
-    EditUser.Text := Config.UserName;
-    EditPassword.Text := Config.Password;
+    Config := Controller.LoadConfig;
+    try
+      EditServer.Text := Config.Server;
+      EditPort.Text := Config.Port;
+      EditDatabase.Text := Config.Database;
+      EditUser.Text := Config.UserName;
+      EditPassword.Text := Config.Password;
+    finally
+      Config.Free;
+    end;
   finally
-    Config.Free;
+    Controller.Free;
   end;
 end;
 
 end.
-
-
 

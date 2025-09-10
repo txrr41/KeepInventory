@@ -1,8 +1,8 @@
-object Form1: TForm1
+object FormConnection: TFormConnection
   Left = 0
   Top = 0
   BorderStyle = bsNone
-  Caption = 'Form1'
+  Caption = 'FormConnection'
   ClientHeight = 724
   ClientWidth = 1225
   Color = clBtnFace
@@ -24,7 +24,6 @@ object Form1: TForm1
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = -4
     DesignSize = (
       767
       724)
@@ -45,7 +44,7 @@ object Form1: TForm1
       ExplicitTop = 55
     end
     object Image1: TImage
-      Left = 113
+      Left = 105
       Top = 199
       Width = 577
       Height = 417
@@ -2467,8 +2466,6 @@ object Form1: TForm1
         0088093200809820030088093200809820030088093200809820030088093200
         80982003008809320080D8DF3889BEF7DC6503DE0000000049454E44AE426082}
       Stretch = True
-      ExplicitLeft = 105
-      ExplicitTop = 177
     end
     object Label2: TLabel
       Left = 138
@@ -2512,8 +2509,6 @@ object Form1: TForm1
     Align = alRight
     Anchors = [akRight]
     TabOrder = 1
-    ExplicitLeft = 755
-    ExplicitHeight = 685
     object Panel1: TPanel
       Left = 1
       Top = 1
@@ -2528,12 +2523,11 @@ object Form1: TForm1
       Padding.Bottom = 100
       ParentBackground = False
       TabOrder = 0
-      ExplicitLeft = -15
       DesignSize = (
         456
         722)
       object Label4: TLabel
-        Left = 160
+        Left = 168
         Top = 62
         Width = 127
         Height = 37
@@ -2545,7 +2539,6 @@ object Form1: TForm1
         Font.Name = 'Segoe UI Semibold'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitTop = 56
       end
       object Label5: TLabel
         Left = 88
@@ -2640,7 +2633,6 @@ object Form1: TForm1
         Anchors = []
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitTop = 325
         DesignSize = (
           249
           33)
@@ -2673,7 +2665,6 @@ object Form1: TForm1
         Anchors = []
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitTop = 395
         DesignSize = (
           249
           33)
@@ -2706,7 +2697,6 @@ object Form1: TForm1
         Anchors = []
         BevelOuter = bvNone
         TabOrder = 2
-        ExplicitTop = 262
         DesignSize = (
           249
           33)
@@ -2739,7 +2729,6 @@ object Form1: TForm1
         Anchors = []
         BevelOuter = bvNone
         TabOrder = 3
-        ExplicitTop = 461
         DesignSize = (
           249
           33)
@@ -2772,7 +2761,6 @@ object Form1: TForm1
         Anchors = []
         BevelOuter = bvNone
         TabOrder = 4
-        ExplicitTop = 197
         DesignSize = (
           249
           33)
@@ -2805,7 +2793,6 @@ object Form1: TForm1
         Anchors = []
         BevelOuter = bvNone
         TabOrder = 5
-        ExplicitTop = 537
         DesignSize = (
           161
           33)

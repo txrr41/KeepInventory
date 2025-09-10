@@ -3,7 +3,7 @@ unit ConnectionRepository;
 interface
 
 uses
- ConnectionModel, System.SysUtils, System.Classes, System.IniFiles;
+  ConnectionModel, System.SysUtils, System.Classes, System.IniFiles;
 
 type
   IConfigRepository = interface
@@ -21,8 +21,8 @@ type
     function LoadConfig: TConnectionConfig;
   end;
 
-
 implementation
+
 constructor TIniConfigRepository.Create(const AFileName: string);
 begin
   inherited Create;
@@ -63,3 +63,4 @@ begin
 end;
 
 end.
+

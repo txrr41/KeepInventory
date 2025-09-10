@@ -25,8 +25,6 @@ object Form2: TForm2
     Align = alRight
     Anchors = [akRight]
     TabOrder = 0
-    ExplicitLeft = 747
-    ExplicitHeight = 682
     object Panel1: TPanel
       Left = 1
       Top = 1
@@ -41,7 +39,6 @@ object Form2: TForm2
       Padding.Bottom = 100
       ParentBackground = False
       TabOrder = 0
-      ExplicitHeight = 680
       DesignSize = (
         456
         719)
@@ -101,7 +98,6 @@ object Form2: TForm2
         Anchors = []
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitTop = 312
         DesignSize = (
           249
           33)
@@ -134,7 +130,6 @@ object Form2: TForm2
         Anchors = []
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitTop = 392
         DesignSize = (
           249
           33)
@@ -167,7 +162,6 @@ object Form2: TForm2
         Anchors = []
         BevelOuter = bvNone
         TabOrder = 2
-        ExplicitTop = 489
         DesignSize = (
           161
           33)
@@ -213,9 +207,6 @@ object Form2: TForm2
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = -7
-    ExplicitWidth = 747
-    ExplicitHeight = 682
     DesignSize = (
       763
       721)
@@ -6035,7 +6026,7 @@ object Form2: TForm2
     end
     object Label3: TLabel
       Left = 350
-      Top = 685
+      Top = 677
       Width = 63
       Height = 15
       Anchors = []
@@ -6046,8 +6037,6 @@ object Form2: TForm2
       Font.Name = 'Segoe UI Semibold'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitLeft = 342
-      ExplicitTop = 648
     end
   end
 end
