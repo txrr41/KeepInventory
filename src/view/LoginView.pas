@@ -8,7 +8,7 @@ uses
   Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons;
 
 type
-  TForm2 = class(TForm)
+  TFormLogin = class(TForm)
     Panel2: TPanel;
     LoginPanel: TPanel;
     Panel1: TPanel;
@@ -39,16 +39,16 @@ type
   end;
 
 var
-  Form2: TForm2;
+  FormLogin: TFormLogin;
 
 implementation
 
 {$R *.dfm}
 
-procedure TForm2.FormResize(Sender: TObject);
+procedure TFormLogin.FormResize(Sender: TObject);
 var terco:Integer;
 begin
-  terco:=Floor(Form2.Width / 3);
+  terco:=Floor(FormLogin.Width / 3);
   LoginPanel.Width := terco*2;
   Panel2.Width := terco;
 

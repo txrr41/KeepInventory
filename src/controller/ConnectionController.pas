@@ -3,30 +3,33 @@ unit ConnectionController;
 interface
 
 uses
-  System.SysUtils, ConnectionService, ConnectionModel, FireDAC.Comp.Client;
+  System.SysUtils, ConnectionService, ConnectionModel, FireDAC.Comp.Client, Unit1;
 
 type
   TConnectionController = class
   private
     FService: TConnectionService;
+    FIniService: TIniVerification;
   public
-    constructor Create(AConnection: TFDConnection);
+    constructor Create(TIniService: AIniVerification, AConnection: TFDConnection);
     destructor Destroy; override;
 
     // Declarar os métodos publicamente aqui
     function SaveConfig(const Config: TConnectionConfig; out Msg: string): Boolean;
     function LoadConfig: TConnectionConfig;
+    function IniExist: Boolean;
   end;
 
 implementation
 
 { TConnectionController }
 
-constructor TConnectionController.Create(AConnection: TFDConnection);
+constructor TConnectionController.Create(TIniService: AIniVerification, AConnection: TFDConnection);
 begin
   inherited Create;
   // Cria apenas o Service; o Service cuidará do Repository
   FService := TConnectionService.Create(AConnection);
+  FIniService := AIniService;
 end;
 
 destructor TConnectionController.Destroy;

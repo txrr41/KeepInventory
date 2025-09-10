@@ -28,6 +28,9 @@ verification := TFile.Exists(FileName);
 if  Verification = False then begin
  FormConnection.ShowModal;
 
+end else begin
+FormLogin.ShowModal;
+
 end;
 
 
