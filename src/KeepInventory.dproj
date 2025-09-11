@@ -138,6 +138,7 @@
         <DCCReference Include="repository\ConnectionRepository.pas"/>
         <DCCReference Include="service\ConnectionService.pas"/>
         <DCCReference Include="controller\ConnectionController.pas"/>
+        <DCCReference Include="service\ConnectionVerificationService.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

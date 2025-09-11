@@ -8,7 +8,8 @@ uses
   ConnectionModel in 'model\ConnectionModel.pas',
   ConnectionRepository in 'repository\ConnectionRepository.pas',
   ConnectionService in 'service\ConnectionService.pas',
-  ConnectionController in 'controller\ConnectionController.pas';
+  ConnectionController in 'controller\ConnectionController.pas',
+  ConnectionVerificationService in 'service\ConnectionVerificationService.pas';
 
 {$R *.res}
 
