@@ -3,29 +3,32 @@ unit ConnectionVerificationService;
 interface
 
 uses
-System.IOUtils, LoginView;
+  System.SysUtils, System.IOUtils;
 
 type
-TIniVerification = class
-FileName: String;
-
-function Verification: Boolean;
-
-end;
+  TIniVerification = class
+  private
+    FFileName: string;
+  public
+    constructor Create;
+    function Verification: Boolean;
+    property FileName: string read FFileName;
+  end;
 
 implementation
 
 { TIniVerification }
 
-function TIniVerification.Verification: Boolean;
-
+constructor TIniVerification.Create;
 begin
+  // Caminho completo do arquivo INI
+  FFileName := TPath.Combine(ExtractFilePath(ParamStr(0)), 'conexao.ini');
+end;
 
-result := True;
-FileName := 'C:\Users\Auditorio\Documents\Keep Inventory\src\Win32\Debug';
-verification := TFile.Exists(FileName);
-
-
+function TIniVerification.Verification: Boolean;
+begin
+  Result := TFile.Exists(FFileName);
 end;
 
 end.
+
