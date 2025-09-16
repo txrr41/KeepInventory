@@ -30,7 +30,9 @@ type
     Shape1: TShape;
     Label7: TLabel;
     Label8: TLabel;
+    Image2: TImage;
     procedure FormResize(Sender: TObject);
+    procedure Image2Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -55,5 +57,10 @@ begin
 end;
 
 
+
+procedure TFormLogin.Image2Click(Sender: TObject);
+begin
+self.close;
+end;
 
 end.
