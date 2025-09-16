@@ -9,7 +9,10 @@ uses
   ConnectionRepository in 'repository\ConnectionRepository.pas',
   ConnectionService in 'service\ConnectionService.pas',
   ConnectionController in 'controller\ConnectionController.pas',
-  ConnectionVerificationService in 'service\ConnectionVerificationService.pas';
+  ConnectionVerificationService in 'service\ConnectionVerificationService.pas',
+  LoginController in 'controller\LoginController.pas',
+  LoginModel in 'model\LoginModel.pas',
+  LoginService in 'service\LoginService.pas';
 
 {$R *.res}
 

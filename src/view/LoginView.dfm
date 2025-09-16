@@ -226,6 +226,7 @@ object FormLogin: TFormLogin
           Height = 22
           Anchors = []
           Flat = True
+          OnClick = SpeedButton1Click
         end
         object Label6: TLabel
           Left = 64

@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls, math,
-  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons;
+  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons, LoginController, LoginModel;
 
 type
   TFormLogin = class(TForm)
@@ -33,6 +33,7 @@ type
     Image2: TImage;
     procedure FormResize(Sender: TObject);
     procedure Image2Click(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -61,6 +62,24 @@ end;
 procedure TFormLogin.Image2Click(Sender: TObject);
 begin
 self.close;
+end;
+
+procedure TFormLogin.SpeedButton1Click(Sender: TObject);
+var
+Login: TLoginConfig;
+Controller: TLoginController;
+
+begin
+  Login := TLoginConfig.Create;
+  Controller := TLoginController.Create;
+try
+  Login.User := EditUserLogin.Text;
+  Login.Senha := EditSenhaLogin.Text;
+  Controller.SalvarLogin(Login)
+finally
+   Login.Free;
+   Controller.Free;
+end;
 end;
 
 end.

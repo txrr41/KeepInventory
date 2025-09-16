@@ -111,12 +111,13 @@ begin
     begin
       ShowMessage(Msg);
       LoadConfigToFields; // atualiza os campos
-       // Aqui você pode abrir a tela de login após salvar
+      FormLogin.ShowModal;
     end
     else
       ShowMessage('Falha: ' + Msg);
 
   finally
+    FormConnection.free;
     Config.Free;
   end;
 end;

@@ -139,6 +139,9 @@
         <DCCReference Include="service\ConnectionService.pas"/>
         <DCCReference Include="controller\ConnectionController.pas"/>
         <DCCReference Include="service\ConnectionVerificationService.pas"/>
+        <DCCReference Include="controller\LoginController.pas"/>
+        <DCCReference Include="model\LoginModel.pas"/>
+        <DCCReference Include="service\LoginService.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
