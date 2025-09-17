@@ -8,17 +8,18 @@ uses
   ConnectionService,
   ConnectionModel,
   Vcl.Dialogs,
-  ConnectionVerificationService;
+  ConnectionVerificationService,
+  DB;
 
 
 type
   TConnectionController = class
   private
-    FConnection: TFDConnection;
+
     FService: TConnectionService;
     FIniService: TIniVerification;
   public
-    constructor Create(AConnection: TFDConnection);
+    constructor Create;
     destructor Destroy; override;
 
     // Verifica se o arquivo INI existe
@@ -35,11 +36,11 @@ implementation
 
 { TConnectionController }
 
-constructor TConnectionController.Create(AConnection: TFDConnection);
+constructor TConnectionController.Create;
+
 begin
   inherited Create;
-  FConnection := AConnection;
-  FService := TConnectionService.Create(FConnection);
+  FService := TConnectionService.Create;
   FIniService := TIniVerification.Create; // service de verificação do INI
 end;
 

@@ -3,7 +3,7 @@ unit ConnectionService;
 interface
 
 uses
-  FireDAC.Comp.Client, ConnectionModel, ConnectionRepository, Vcl.Forms;
+  FireDAC.Comp.Client, ConnectionModel, ConnectionRepository, Vcl.Forms, DB;
 
 type
   TConnectionService = class
@@ -11,7 +11,7 @@ type
     FConnection: TFDConnection;
     FRepository: IConfigRepository;
   public
-    constructor Create(AConnection: TFDConnection);
+    constructor Create;
     function TestConnection(const Config: TConnectionConfig; out Msg: string): Boolean;
     function SaveConfig(const Config: TConnectionConfig; out Msg: string): Boolean;
     function LoadConfig: TConnectionConfig;
@@ -24,10 +24,10 @@ uses
 
 { TConnectionService }
 
-constructor TConnectionService.Create(AConnection: TFDConnection);
+constructor TConnectionService.Create;
 begin
   inherited Create;
-  FConnection := AConnection;
+  FConnection := DataModule2.FDConnection;
 
   // Cria o Repository internamente
   FRepository := TIniConfigRepository.Create(ExtractFilePath(Application.ExeName) + 'conexao.ini');

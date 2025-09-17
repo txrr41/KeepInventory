@@ -9,11 +9,11 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Phys.PGDef, FireDAC.Phys.PG,
-  Data.DB, Vcl.Imaging.pngimage, LoginView, Vcl.Skia;
+  Data.DB, Vcl.Imaging.pngimage, LoginView, Vcl.Skia, DB;
 
 type
   TFormConnection = class(TForm) LoginPanel: TPanel;
-   Label1: TLabel; Image1: TImage; Label2: TLabel; Label3: TLabel; Panel2: TPanel; Panel1: TPanel; Label4: TLabel; Label5: TLabel; Panel3: TPanel; EditPassword: TEdit; Panel4: TPanel; Shape2: TShape; EditServer: TEdit; Panel6: TPanel; EditUser: TEdit; Panel7: TPanel; EditPort: TEdit; Panel8: TPanel; Shape4: TShape; EditDatabase: TEdit; Shape1: TShape; Shape5: TShape; Shape6: TShape; Label7: TLabel; Label8: TLabel; Label9: TLabel; Label10: TLabel; Label11: TLabel; Label12: TLabel; Label13: TLabel; FDConnection: TFDConnection; Panel5: TPanel; Shape3: TShape; Label6: TLabel; FDPhysPgDriverLink1: TFDPhysPgDriverLink; SpeedButton1: TSpeedButton; Label14: TLabel; Label15: TLabel;
+   Label1: TLabel; Image1: TImage; Label2: TLabel; Label3: TLabel; Panel2: TPanel; Panel1: TPanel; Label4: TLabel; Label5: TLabel; Panel3: TPanel; EditPassword: TEdit; Panel4: TPanel; Shape2: TShape; EditServer: TEdit; Panel6: TPanel; EditUser: TEdit; Panel7: TPanel; EditPort: TEdit; Panel8: TPanel; Shape4: TShape; EditDatabase: TEdit; Shape1: TShape; Shape5: TShape; Shape6: TShape; Label7: TLabel; Label8: TLabel; Label9: TLabel; Label10: TLabel; Label11: TLabel; Label12: TLabel; Label13: TLabel; Panel5: TPanel; Shape3: TShape; Label6: TLabel; SpeedButton1: TSpeedButton; Label14: TLabel; Label15: TLabel;
     Image2: TImage;
     procedure FormResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -35,9 +35,11 @@ implementation
 {$R *.dfm}
 
 procedure TFormConnection.FormCreate(Sender: TObject);
+
+
 begin
   // Cria apenas uma instância do controller
-  FController := TConnectionController.Create(FDConnection);
+  FController := TConnectionController.Create;
   ShowInitialScreen; // Decide qual tela abrir
 end;
 

@@ -2873,13 +2873,4 @@ object FormConnection: TFormConnection
       end
     end
   end
-  object FDConnection: TFDConnection
-    Left = 920
-    Top = 641
-  end
-  object FDPhysPgDriverLink1: TFDPhysPgDriverLink
-    VendorLib = 'C:\Users\Auditorio\Documents\Keep Inventory\lib\lib\libpq.dll'
-    Left = 1080
-    Top = 641
-  end
 end

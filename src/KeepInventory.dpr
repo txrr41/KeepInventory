@@ -12,13 +12,16 @@ uses
   ConnectionVerificationService in 'service\ConnectionVerificationService.pas',
   LoginController in 'controller\LoginController.pas',
   LoginModel in 'model\LoginModel.pas',
-  LoginService in 'service\LoginService.pas';
+  LoginService in 'service\LoginService.pas',
+  LoginRepository in 'repository\LoginRepository.pas',
+  DB in 'view\DB.pas' {DataModule2: TDataModule};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TDataModule2, DataModule2);
   Application.CreateForm(TFormConnection, FormConnection);
   Application.CreateForm(TFormLogin, FormLogin);
   Application.Run;

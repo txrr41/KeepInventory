@@ -3,33 +3,41 @@ unit LoginService;
 interface
 
 uses
-LoginModel, vcl.Dialogs;
+  LoginModel, Vcl.Dialogs, LoginRepository;
 
-Type TLoginService = class
+type
+  TLoginService = class
+  private
+    FRepository: TLoginRepository;
   public
-  procedure SalvarLogin (const ALoginConfig: TLoginConfig);
-end;
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure SalvarLogin(const ALoginConfig: TLoginConfig);
+  end;
 
 implementation
 
 { TLoginService }
 
+constructor TLoginService.Create;
+begin
+  FRepository := TLoginRepository.Create;
+end;
+
+destructor TLoginService.Destroy;
+begin
+  FRepository.Free;
+  inherited;
+end;
+
 procedure TLoginService.SalvarLogin(const ALoginConfig: TLoginConfig);
 begin
- if ALoginConfig.User = '' then begin
-  ShowMessage('O campo Usuário é obrigatorio, preencha antes de continuar');
-
-
-
-end else if ALoginConfig.Senha = '' then begin
-
-   ShowMessage('O campo senha é obrigatorio, preencha antes de continuar');
-end else begin
-    ShowMessage('Login realizado com sucesso');
+  if FRepository.UsuarioExiste(ALoginConfig.User, ALoginConfig.Senha) then
+    ShowMessage('Login realizado com sucesso!')
+  else
+    ShowMessage('Usuário ou senha inválidos!');
 end;
-
-
-end;
-
 
 end.
+
