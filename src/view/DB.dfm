@@ -6,9 +6,7 @@ object DataModule2: TDataModule2
     Top = 248
   end
   object FDPhysPgDriverLink1: TFDPhysPgDriverLink
-    VendorLib = 
-      'C:\Users\Auditorio\Documents\Keep Inventory\KeepInventory\lib\li' +
-      'bpq.dll'
+    VendorLib = 'C:\Users\kauan.8961\KeepInventory\lib\libpq.dll'
     Left = 328
     Top = 80
   end

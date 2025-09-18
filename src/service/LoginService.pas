@@ -13,7 +13,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    procedure SalvarLogin(const ALoginConfig: TLoginConfig);
+    function SalvarLogin(const ALoginConfig: TLoginConfig): boolean ;
   end;
 
 implementation
@@ -31,12 +31,11 @@ begin
   inherited;
 end;
 
-procedure TLoginService.SalvarLogin(const ALoginConfig: TLoginConfig);
+function TLoginService.SalvarLogin(const ALoginConfig: TLoginConfig): boolean ;
 begin
+result := false;
   if FRepository.UsuarioExiste(ALoginConfig.User, ALoginConfig.Senha) then
-    ShowMessage('Login realizado com sucesso!')
-  else
-    ShowMessage('Usuário ou senha inválidos!');
+    result := True;
 end;
 
 end.

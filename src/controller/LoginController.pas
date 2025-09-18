@@ -12,7 +12,7 @@ type
   FService: TLoginService;
  public
   constructor Create;
-  procedure SalvarLogin (const ALoginConfig: TLoginConfig);
+  function SalvarLogin (const ALoginConfig: TLoginConfig): boolean;
 
 
 end;
@@ -26,9 +26,9 @@ begin
 FService := TLoginService.Create;
 end;
 
-procedure TLoginController.SalvarLogin(const ALoginConfig: TLoginConfig);
+function TLoginController.SalvarLogin(const ALoginConfig: TLoginConfig): boolean;
 begin
-  FService.SalvarLogin(ALoginConfig);
+ result := FService.SalvarLogin(ALoginConfig);
 end;
 
 end.

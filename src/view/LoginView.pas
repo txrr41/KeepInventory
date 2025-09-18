@@ -68,6 +68,7 @@ procedure TFormLogin.SpeedButton1Click(Sender: TObject);
 var
 Login: TLoginConfig;
 Controller: TLoginController;
+UsuarioExiste: Boolean;
 
 begin
   Login := TLoginConfig.Create;
@@ -75,7 +76,14 @@ begin
 try
   Login.User := EditUserLogin.Text;
   Login.Senha := EditSenhaLogin.Text;
-  Controller.SalvarLogin(Login)
+  UsuarioExiste := Controller.SalvarLogin(Login);
+  if UsuarioExiste = True then begin
+  ShowMessage('Login bem sucedido');
+
+
+  end else begin
+  raise exception.Create('Usuário ou senha invalidos.');
+  end;
 finally
    Login.Free;
    Controller.Free;
