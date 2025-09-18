@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls, math,
-  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons, LoginController, LoginModel;
+  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons, LoginController, LoginModel, HomeView;
 
 type
   TFormLogin = class(TForm)
@@ -79,6 +79,7 @@ try
   UsuarioExiste := Controller.SalvarLogin(Login);
   if UsuarioExiste = True then begin
   ShowMessage('Login bem sucedido');
+  FormHome.ShowModal;
 
 
   end else begin
@@ -87,6 +88,7 @@ try
 finally
    Login.Free;
    Controller.Free;
+   FormLogin.Free;
 end;
 end;
 

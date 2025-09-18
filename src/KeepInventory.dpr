@@ -14,7 +14,8 @@ uses
   LoginModel in 'model\LoginModel.pas',
   LoginService in 'service\LoginService.pas',
   LoginRepository in 'repository\LoginRepository.pas',
-  DB in 'view\DB.pas' {DataModule2: TDataModule};
+  DB in 'view\DB.pas' {DataModule2: TDataModule},
+  HomeView in 'view\HomeView.pas' {FormHome};
 
 {$R *.res}
 
@@ -24,5 +25,6 @@ begin
   Application.CreateForm(TDataModule2, DataModule2);
   Application.CreateForm(TFormConnection, FormConnection);
   Application.CreateForm(TFormLogin, FormLogin);
+  Application.CreateForm(TFormHome, FormHome);
   Application.Run;
 end.
