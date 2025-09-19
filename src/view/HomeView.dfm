@@ -4,7 +4,7 @@ object FormHome: TFormHome
   Caption = 'FormHome'
   ClientHeight = 762
   ClientWidth = 1442
-  Color = clBtnFace
+  Color = clSilver
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
@@ -14,14 +14,15 @@ object FormHome: TFormHome
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 57
-    Height = 49
+    Width = 49
+    Height = 761
     BevelOuter = bvNone
+    Color = clSilver
     ParentBackground = False
     TabOrder = 0
     object Image1: TImage
       Left = 8
-      Top = 0
+      Top = 8
       Width = 41
       Height = 41
       Picture.Data = {

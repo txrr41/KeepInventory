@@ -26,16 +26,17 @@ implementation
 
 procedure TFormHome.Image1Click(Sender: TObject);
 begin
-   if Panel1.height = 49 then begin
-   Panel1.Color := clInactiveCaption;
-    Panel1.Height := 761;
-    Panel1.Width := 161;
+   if Panel1.Width = 49 then begin
+   Panel1.Color := clbtnface;
+   Panel1.Width := 161;
+   end else if Panel1.Width = 161 then begin
+   Panel1.Color := clsilver;
+   Panel1.Width := 49;
+   end;
 
-    end else if Panel1.height = 761 then begin
-       Panel1.Color := clBtnFace;
-       Panel1.Height := 49;
-       Panel1.Width := 57;
-    end;
+
+
+
 
 end;
 
