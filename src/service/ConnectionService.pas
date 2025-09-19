@@ -40,12 +40,12 @@ begin
     FConnection.Close;
     FConnection.Params.Clear;
 
-    FConnection.Params.DriverID := 'PG';
     FConnection.Params.Database := Config.Database;
     FConnection.Params.UserName := Config.UserName;
     FConnection.Params.Password := Config.Password;
     FConnection.Params.Add('Server=' + Config.Server);
     FConnection.Params.Add('Port=' + Config.Port);
+    FConnection.Params.Add('DriverID=PG');
 
     FConnection.Open;
 

@@ -69,18 +69,20 @@ var
 Login: TLoginConfig;
 Controller: TLoginController;
 UsuarioExiste: Boolean;
+Home: TFormHome;
 
 begin
   Login := TLoginConfig.Create;
   Controller := TLoginController.Create;
+
 try
   Login.User := EditUserLogin.Text;
   Login.Senha := EditSenhaLogin.Text;
   UsuarioExiste := Controller.SalvarLogin(Login);
   if UsuarioExiste = True then begin
   ShowMessage('Login bem sucedido');
-  FormHome.ShowModal;
-
+  Home := TFormhome.Create(nil);
+  Home.ShowModal;
 
   end else begin
   raise exception.Create('Usuário ou senha invalidos.');
@@ -88,7 +90,7 @@ try
 finally
    Login.Free;
    Controller.Free;
-   FormLogin.Free;
+
 end;
 end;
 
