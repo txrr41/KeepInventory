@@ -21,12 +21,13 @@ object FormHome: TFormHome
     ParentBackground = False
     TabOrder = 0
     object Panel1: TPanel
-      Left = 0
-      Top = 0
+      Left = 1
+      Top = 1
       Width = 49
-      Height = 769
+      Height = 767
+      Align = alLeft
       BevelOuter = bvNone
-      Color = clSandybrown
+      Color = clGainsboro
       ParentBackground = False
       TabOrder = 0
       object Image2: TImage
@@ -73,6 +74,7 @@ object FormHome: TFormHome
           32203137204C203232203135204C203137203135204C203137203130205A222F
           3E3C2F7376673E}
         Stretch = True
+        OnClick = Image3Click
       end
       object Image4: TImage
         Left = 9
@@ -347,6 +349,18 @@ object FormHome: TFormHome
         Font.Style = []
         ParentFont = False
       end
+    end
+    object Panel3: TPanel
+      Left = 50
+      Top = 1
+      Width = 1390
+      Height = 767
+      Align = alClient
+      Caption = 'Panel3'
+      Color = clWhite
+      ParentBackground = False
+      TabOrder = 1
+      ExplicitLeft = 48
     end
   end
 end

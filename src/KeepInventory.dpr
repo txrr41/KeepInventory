@@ -15,7 +15,8 @@ uses
   LoginService in 'service\LoginService.pas',
   LoginRepository in 'repository\LoginRepository.pas',
   DB in 'view\DB.pas' {DataModule2: TDataModule},
-  HomeView in 'view\HomeView.pas' {FormHome};
+  HomeView in 'view\HomeView.pas' {FormHome},
+  CadastrosView in 'view\CadastrosView.pas' {Form3};
 
 {$R *.res}
 
@@ -23,8 +24,9 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDataModule2, DataModule2);
+  Application.CreateForm(TFormHome, FormHome);
   Application.CreateForm(TFormConnection, FormConnection);
   Application.CreateForm(TFormLogin, FormLogin);
-  Application.CreateForm(TFormHome, FormHome);
+  Application.CreateForm(TForm3, Form3);
   Application.Run;
 end.

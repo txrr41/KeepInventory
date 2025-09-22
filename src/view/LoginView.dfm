@@ -201,6 +201,7 @@ object FormLogin: TFormLogin
         Height = 33
         Anchors = []
         BevelOuter = bvNone
+        ParentBackground = False
         TabOrder = 2
         DesignSize = (
           161
