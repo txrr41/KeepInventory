@@ -322,6 +322,7 @@ object FormHome: TFormHome
           373831323520352E3738313235204C2031362031342E35363235205A222F3E3C
           2F7376673E}
         Stretch = True
+        OnClick = Image8Click
       end
       object Label7: TLabel
         Left = 56
@@ -356,11 +357,9 @@ object FormHome: TFormHome
       Width = 1390
       Height = 767
       Align = alClient
-      Caption = 'Panel3'
       Color = clWhite
       ParentBackground = False
       TabOrder = 1
-      ExplicitLeft = 48
     end
   end
 end

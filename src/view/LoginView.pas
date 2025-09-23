@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls, math,
-  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons, LoginController, LoginModel, HomeView;
+  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons, LoginController, LoginModel, HomeView, AuditoriaModel, AuditoriaController,
+  Vcl.Menus;
 
 type
   TFormLogin = class(TForm)
@@ -67,22 +68,36 @@ end;
 procedure TFormLogin.SpeedButton1Click(Sender: TObject);
 var
 Login: TLoginConfig;
+LogController: TLogController;
 Controller: TLoginController;
+UsuarioLog: TUserLog;
 UsuarioExiste: Boolean;
 Home: TFormHome;
+DataHora: TDateTime;
+DataFormatada: String;
+
 
 begin
   Login := TLoginConfig.Create;
   Controller := TLoginController.Create;
+  LogController := TLogController.Create;
+
 
 try
   Login.User := EditUserLogin.Text;
   Login.Senha := EditSenhaLogin.Text;
   UsuarioExiste := Controller.SalvarLogin(Login);
+
   if UsuarioExiste = True then begin
-  ShowMessage('Login bem sucedido');
-  Home := TFormhome.Create(nil);
-  Home.ShowModal;
+    UsuarioLog := TUserLog.Create;
+    UsuarioLog.UserName := EditUserLogin.Text;
+    DataHora := Now;
+    DataFormatada := FormatDateTime('dd/mm/yyyy hh:nn:ss', DataHora);
+    UsuarioLog.Date := DataHora;
+    UsuarioLog.Msg := 'Realizou o login';
+    LogController.RegAuditoria(UsuarioLog);
+    Home := TFormhome.Create(nil);
+    Home.ShowModal;
 
   end else begin
   raise exception.Create('Usuário ou senha invalidos.');

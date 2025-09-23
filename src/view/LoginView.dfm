@@ -39,6 +39,7 @@ object FormLogin: TFormLogin
       Padding.Bottom = 100
       ParentBackground = False
       TabOrder = 0
+      ExplicitLeft = 6
       DesignSize = (
         456
         719)
@@ -221,13 +222,17 @@ object FormLogin: TFormLogin
           ExplicitWidth = 249
         end
         object SpeedButton1: TSpeedButton
-          Left = 17
-          Top = 8
-          Width = 129
-          Height = 22
-          Anchors = []
+          Left = 0
+          Top = 0
+          Width = 161
+          Height = 33
+          Align = alClient
           Flat = True
           OnClick = SpeedButton1Click
+          ExplicitLeft = 17
+          ExplicitTop = 8
+          ExplicitWidth = 129
+          ExplicitHeight = 22
         end
         object Label6: TLabel
           Left = 64

@@ -3,7 +3,7 @@ unit LoginRepository;
 interface
 
 uses
-  FireDAC.Comp.Client, System.SysUtils, DB; // DBModule = seu DataModule com FDConnection
+  FireDAC.Comp.Client, System.SysUtils, DB;
 
 type
   TLoginRepository = class

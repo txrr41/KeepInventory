@@ -30,6 +30,7 @@ type
     Panel3: TPanel;
     procedure Image1Click(Sender: TObject);
     procedure Image3Click(Sender: TObject);
+    procedure Image8Click(Sender: TObject);
 
   private
    ActiveForm: TForm;
@@ -71,6 +72,11 @@ Cad.Parent := Self.Panel3;
 Cad.Align := alClient;
 Cad.BorderStyle := bsNone;
 Cad.Show;
+end;
+
+procedure TFormHome.Image8Click(Sender: TObject);
+begin
+Halt;
 end;
 
 end.

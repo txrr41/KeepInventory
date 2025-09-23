@@ -16,7 +16,11 @@ uses
   LoginRepository in 'repository\LoginRepository.pas',
   DB in 'view\DB.pas' {DataModule2: TDataModule},
   HomeView in 'view\HomeView.pas' {FormHome},
-  CadastrosView in 'view\CadastrosView.pas' {Form3};
+  CadastrosView in 'view\CadastrosView.pas' {Form3},
+  AuditoriaModel in 'model\AuditoriaModel.pas',
+  AuditoriaController in 'controller\AuditoriaController.pas',
+  AuditoriaService in 'service\AuditoriaService.pas',
+  AuditoriaRepository in 'repository\AuditoriaRepository.pas';
 
 {$R *.res}
 
@@ -27,6 +31,5 @@ begin
   Application.CreateForm(TFormHome, FormHome);
   Application.CreateForm(TFormConnection, FormConnection);
   Application.CreateForm(TFormLogin, FormLogin);
-  Application.CreateForm(TForm3, Form3);
   Application.Run;
 end.

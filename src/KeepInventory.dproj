@@ -155,6 +155,10 @@
             <Form>Form3</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="model\AuditoriaModel.pas"/>
+        <DCCReference Include="controller\AuditoriaController.pas"/>
+        <DCCReference Include="service\AuditoriaService.pas"/>
+        <DCCReference Include="repository\AuditoriaRepository.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
