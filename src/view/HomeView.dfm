@@ -27,7 +27,7 @@ object FormHome: TFormHome
       Height = 767
       Align = alLeft
       BevelOuter = bvNone
-      Color = clGainsboro
+      Color = 2733818
       ParentBackground = False
       TabOrder = 0
       object Image2: TImage
