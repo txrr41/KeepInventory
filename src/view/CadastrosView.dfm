@@ -43,7 +43,7 @@ object FormCadastro: TFormCadastro
       Top = 72
       Width = 1398
       Height = 664
-      ActivePage = TabSheet4
+      ActivePage = TabSheet1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15

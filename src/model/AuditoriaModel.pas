@@ -15,8 +15,8 @@ TUserLog = class
   public
   property UserName: string read FUsuario write FUsuario;
   property Date: TDateTime read FDate write FDate;
-  property Msg: string read FUsuario write FUsuario;
-  property Id: string read FUsuario write FUsuario;
+  property Msg: string read FMsg write FMsg;
+  property Id: integer read FId write FId;
   public
 end;
 
