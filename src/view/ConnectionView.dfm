@@ -2695,6 +2695,7 @@ object FormConnection: TFormConnection
           Anchors = []
           BorderStyle = bsNone
           TabOrder = 0
+          OnKeyPress = EditPasswordKeyPress
         end
       end
       object Panel4: TPanel
@@ -2727,6 +2728,7 @@ object FormConnection: TFormConnection
           Anchors = []
           BorderStyle = bsNone
           TabOrder = 0
+          OnKeyPress = EditServerKeyPress
         end
       end
       object Panel6: TPanel
@@ -2759,6 +2761,7 @@ object FormConnection: TFormConnection
           Anchors = []
           BorderStyle = bsNone
           TabOrder = 0
+          OnKeyPress = EditUserKeyPress
         end
       end
       object Panel7: TPanel
@@ -2791,6 +2794,7 @@ object FormConnection: TFormConnection
           Anchors = []
           BorderStyle = bsNone
           TabOrder = 0
+          OnKeyPress = EditPortKeyPress
         end
       end
       object Panel8: TPanel
@@ -2823,6 +2827,7 @@ object FormConnection: TFormConnection
           Anchors = []
           BorderStyle = bsNone
           TabOrder = 0
+          OnKeyPress = EditDatabaseKeyPress
         end
       end
       object Panel5: TPanel

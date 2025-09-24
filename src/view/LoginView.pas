@@ -35,6 +35,9 @@ type
     procedure FormResize(Sender: TObject);
     procedure Image2Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure EditUserLoginKeyPress(Sender: TObject; var Key: Char);
+    procedure EditSenhaLoginKeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
@@ -48,6 +51,29 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TFormLogin.EditSenhaLoginKeyPress(Sender: TObject; var Key: Char);
+begin
+If Key = #13 then begin
+  Key := #0;
+  Perform(WM_NEXTDLGCTL, 0, 0);
+  SpeedButton1.Click;
+end;
+end;
+
+procedure TFormLogin.EditUserLoginKeyPress(Sender: TObject; var Key: Char);
+begin
+If Key = #13 then begin
+  Key := #0;
+  Perform(WM_NEXTDLGCTL, 0, 0);
+  EditSenhaLogin.SetFocus;
+end;
+end;
+
+procedure TFormLogin.FormCreate(Sender: TObject);
+begin
+ KeyPreview := True;
+end;
 
 procedure TFormLogin.FormResize(Sender: TObject);
 var terco:Integer;
@@ -92,7 +118,7 @@ try
     UsuarioLog := TUserLog.Create;
     UsuarioLog.UserName := EditUserLogin.Text;
     DataHora := Now;
-    DataFormatada := FormatDateTime('dd/mm/yyyy hh:nn:ss', DataHora);
+    DataFormatada := FormatDateTime('yyyy/mm/dd hh:nn:ss', DataHora);
     UsuarioLog.Date := DataHora;
     UsuarioLog.Msg := 'Realizou o login';
     LogController.RegAuditoria(UsuarioLog);

@@ -12,6 +12,7 @@ object FormLogin: TFormLogin
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poDesktopCenter
+  OnCreate = FormCreate
   OnResize = FormResize
   TextHeight = 15
   object Panel2: TPanel
@@ -39,7 +40,6 @@ object FormLogin: TFormLogin
       Padding.Bottom = 100
       ParentBackground = False
       TabOrder = 0
-      ExplicitLeft = 6
       DesignSize = (
         456
         719)
@@ -161,6 +161,7 @@ object FormLogin: TFormLogin
           Anchors = []
           BorderStyle = bsNone
           TabOrder = 0
+          OnKeyPress = EditUserLoginKeyPress
         end
       end
       object Panel4: TPanel
@@ -193,6 +194,7 @@ object FormLogin: TFormLogin
           Anchors = []
           BorderStyle = bsNone
           TabOrder = 0
+          OnKeyPress = EditSenhaLoginKeyPress
         end
       end
       object Panel5: TPanel

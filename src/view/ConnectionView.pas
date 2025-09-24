@@ -19,6 +19,11 @@ type
     procedure FormCreate(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure Image2Click(Sender: TObject);
+    procedure EditDatabaseKeyPress(Sender: TObject; var Key: Char);
+    procedure EditUserKeyPress(Sender: TObject; var Key: Char);
+    procedure EditPasswordKeyPress(Sender: TObject; var Key: Char);
+    procedure EditPortKeyPress(Sender: TObject; var Key: Char);
+    procedure EditServerKeyPress(Sender: TObject; var Key: Char);
   private
     FController: TConnectionController; // mantém o controller como campo do form
     procedure LoadConfigToFields;
@@ -33,6 +38,56 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TFormConnection.EditDatabaseKeyPress(Sender: TObject; var Key: Char);
+begin
+If Key = #13 then begin
+  Key := #0;
+  Perform(WM_NEXTDLGCTL, 0, 0);
+  EditUser.SetFocus;
+end;
+end;
+
+
+procedure TFormConnection.EditPasswordKeyPress(Sender: TObject; var Key: Char);
+begin
+If Key = #13 then begin
+  Key := #0;
+  Perform(WM_NEXTDLGCTL, 0, 0);
+  EditServer.SetFocus;
+end;
+end;
+
+
+procedure TFormConnection.EditPortKeyPress(Sender: TObject; var Key: Char);
+begin
+If Key = #13 then begin
+  Key := #0;
+  Perform(WM_NEXTDLGCTL, 0, 0);
+  SpeedButton1.Click;
+end;
+end;
+
+
+procedure TFormConnection.EditServerKeyPress(Sender: TObject; var Key: Char);
+begin
+If Key = #13 then begin
+  Key := #0;
+  Perform(WM_NEXTDLGCTL, 0, 0);
+  EditPort.SetFocus;
+end;
+end;
+
+
+procedure TFormConnection.EditUserKeyPress(Sender: TObject; var Key: Char);
+begin
+If Key = #13 then begin
+  Key := #0;
+  Perform(WM_NEXTDLGCTL, 0, 0);
+  EditPassword.SetFocus;
+end;
+end;
+
 
 procedure TFormConnection.FormCreate(Sender: TObject);
 
