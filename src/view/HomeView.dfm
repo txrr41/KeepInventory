@@ -2,7 +2,7 @@ object FormHome: TFormHome
   Left = 0
   Top = 0
   Caption = 'FormHome'
-  ClientHeight = 762
+  ClientHeight = 846
   ClientWidth = 1442
   Color = clSkyBlue
   DoubleBuffered = True
@@ -16,7 +16,7 @@ object FormHome: TFormHome
     Left = 0
     Top = 0
     Width = 1441
-    Height = 769
+    Height = 913
     Color = clAzure
     ParentBackground = False
     TabOrder = 0
@@ -24,12 +24,13 @@ object FormHome: TFormHome
       Left = 1
       Top = 1
       Width = 49
-      Height = 767
+      Height = 911
       Align = alLeft
       BevelOuter = bvNone
-      Color = 2733818
+      Color = clWhite
       ParentBackground = False
       TabOrder = 0
+      ExplicitHeight = 728
       object Image2: TImage
         Left = 9
         Top = 118
@@ -305,8 +306,8 @@ object FormHome: TFormHome
         ParentFont = False
       end
       object Image8: TImage
-        Left = 9
-        Top = 702
+        Left = 11
+        Top = 774
         Width = 32
         Height = 29
         Picture.Data = {
@@ -355,11 +356,12 @@ object FormHome: TFormHome
       Left = 50
       Top = 1
       Width = 1390
-      Height = 767
+      Height = 911
       Align = alClient
       Color = clWhite
       ParentBackground = False
       TabOrder = 1
+      ExplicitHeight = 848
     end
   end
 end
