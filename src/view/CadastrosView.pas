@@ -89,7 +89,6 @@ type
     Label33: TLabel;
     Label34: TLabel;
     EdtNamePredio: TEdit;
-    EdtTipoPredio: TEdit;
     EditRuaPredio: TEdit;
     EdtTelefonePredio: TMaskEdit;
     EdtCepPredio: TMaskEdit;
@@ -129,8 +128,57 @@ type
     Panel19: TPanel;
     DBGrid2: TDBGrid;
     SearchBox2: TSearchBox;
+    ComboBoxSituacao: TComboBox;
+    Panel3: TPanel;
+    Shape17: TShape;
+    Shape18: TShape;
+    Shape19: TShape;
+    Panel20: TPanel;
+    Panel21: TPanel;
+    Shape20: TShape;
+    Label56: TLabel;
+    BtnAdicionarSala: TSpeedButton;
+    Panel22: TPanel;
+    Label57: TLabel;
+    Label58: TLabel;
+    Shape21: TShape;
+    BtnEditarSala: TSpeedButton;
+    Label59: TLabel;
+    Panel23: TPanel;
+    Shape22: TShape;
+    BtnExcluirSala: TSpeedButton;
+    Label60: TLabel;
+    Panel24: TPanel;
+    Label61: TLabel;
+    Shape23: TShape;
+    BtnFiltrarSala: TSpeedButton;
+    Label62: TLabel;
+    Panel25: TPanel;
+    Label63: TLabel;
+    Label64: TLabel;
+    Label65: TLabel;
+    Label66: TLabel;
+    Label67: TLabel;
+    Shape24: TShape;
+    BtnAtualizarSala: TSpeedButton;
+    Label68: TLabel;
+    Panel26: TPanel;
+    DBGrid3: TDBGrid;
+    SearchBox3: TSearchBox;
+    PanelAddSala: TPanel;
+    Label27: TLabel;
+    Label48: TLabel;
+    EdtSituacaoSala: TComboBox;
+    ComboBox2: TComboBox;
+    EditNameSala: TEdit;
+    Label49: TLabel;
+    EdtObs: TEdit;
+    Label50: TLabel;
+    EdtTipoSala: TEdit;
+    Label55: TLabel;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
+    procedure BtnAdicionarSalaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -166,4 +214,14 @@ end;
 
 end;
 
+procedure TFormCadastro.BtnAdicionarSalaClick(Sender: TObject);
+begin
+if PanelAddSala.Visible = False then begin
+  PanelAddSala.Visible := True;
+end else  begin
+  PanelAddSala.Visible := False;
+end;
+
+
+end;
 end.
