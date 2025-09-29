@@ -231,7 +231,7 @@ object FormCadastro: TFormCadastro
               Font.Style = []
               ParentFont = False
             end
-            object EditName: TEdit
+            object EditRazao: TEdit
               Left = 24
               Top = 40
               Width = 121
@@ -309,6 +309,15 @@ object FormCadastro: TFormCadastro
               Width = 121
               Height = 28
               TabOrder = 9
+            end
+            object Button1: TButton
+              Left = 1212
+              Top = 72
+              Width = 108
+              Height = 33
+              Caption = 'Button1'
+              TabOrder = 10
+              OnClick = Button1Click
             end
           end
         end

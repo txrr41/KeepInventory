@@ -20,7 +20,11 @@ uses
   AuditoriaModel in 'model\AuditoriaModel.pas',
   AuditoriaController in 'controller\AuditoriaController.pas',
   AuditoriaService in 'service\AuditoriaService.pas',
-  AuditoriaRepository in 'repository\AuditoriaRepository.pas';
+  AuditoriaRepository in 'repository\AuditoriaRepository.pas',
+  EmpresaModel in 'model\EmpresaModel.pas',
+  EmpresaController in 'controller\EmpresaController.pas',
+  EmpresaDTO in 'dto\EmpresaDTO.pas',
+  EmpresaService in 'service\EmpresaService.pas';
 
 {$R *.res}
 

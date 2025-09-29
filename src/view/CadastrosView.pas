@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask;
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO;
 
 type
   TFormCadastro = class(TForm)
@@ -54,7 +54,7 @@ type
     Shape7: TShape;
     Shape9: TShape;
     PanelAddEmpresa: TPanel;
-    EditName: TEdit;
+    EditRazao: TEdit;
     EditFantasia: TEdit;
     EditRua: TEdit;
     EditCnpj: TMaskEdit;
@@ -176,9 +176,11 @@ type
     Label50: TLabel;
     EdtTipoSala: TEdit;
     Label55: TLabel;
+    Button1: TButton;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -224,4 +226,36 @@ end;
 
 
 end;
+procedure TFormCadastro.Button1Click(Sender: TObject);
+var
+Controller: TEmpresaController;
+Dto: TEmpresaDTO;
+begin
+Controller := TEmpresaController.Create;
+try
+
+
+Dto.FNomeFan := EditFantasia.Text;
+Dto.FRazao := EditRazao.Text;
+Dto.FCnpj := EditCnpj.Text;
+Dto.FTelefone:= EditTelefone.Text;
+Dto.FCep := EditCep.Text;
+Dto.FRua:= EditRua.Text;
+Dto.FCidade := EditCidade.Text;
+Dto.FEstado := EditEstado.Text;
+Dto.FNumero := StrToInt (EditNumero.Text);
+Dto.FBairro := EditBairro.Text;
+
+Controller.AdicionarEmpresa(dto);
+
+ShowMessage('Cliente Adicionado');
+
+finally
+Controller.Free;
+end;
+
+
+end;
+
+
 end.

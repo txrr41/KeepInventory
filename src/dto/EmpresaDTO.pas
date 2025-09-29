@@ -1,8 +1,9 @@
-unit Unit1;
+unit EmpresaDTO;
 
 interface
 
 type
+
  TEmpresaDTO = record
   FNomeFan: String;
   FRazao: String;

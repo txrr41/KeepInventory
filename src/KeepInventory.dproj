@@ -159,6 +159,10 @@
         <DCCReference Include="controller\AuditoriaController.pas"/>
         <DCCReference Include="service\AuditoriaService.pas"/>
         <DCCReference Include="repository\AuditoriaRepository.pas"/>
+        <DCCReference Include="model\EmpresaModel.pas"/>
+        <DCCReference Include="controller\EmpresaController.pas"/>
+        <DCCReference Include="dto\EmpresaDTO.pas"/>
+        <DCCReference Include="service\EmpresaService.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
