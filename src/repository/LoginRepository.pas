@@ -23,7 +23,7 @@ begin
 
   Qry := TFDQuery.Create(nil);
   try
-    Qry.Connection := DataModule2.FDConnection; // usa a conexão do seu DataModule
+    Qry.Connection := DataModule2.FDConnection;
     Qry.SQL.Text :=
     'SELECT 1 FROM usuarios WHERE nome = :nome AND senha = :senha';
     Qry.ParamByName('nome').AsString := ALogin;

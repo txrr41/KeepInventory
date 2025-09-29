@@ -24,7 +24,8 @@ uses
   EmpresaModel in 'model\EmpresaModel.pas',
   EmpresaController in 'controller\EmpresaController.pas',
   EmpresaDTO in 'dto\EmpresaDTO.pas',
-  EmpresaService in 'service\EmpresaService.pas';
+  EmpresaService in 'service\EmpresaService.pas',
+  EmpresaRepository in 'repository\EmpresaRepository.pas';
 
 {$R *.res}
 
@@ -32,8 +33,8 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDataModule2, DataModule2);
-  Application.CreateForm(TFormHome, FormHome);
   Application.CreateForm(TFormConnection, FormConnection);
   Application.CreateForm(TFormLogin, FormLogin);
+  Application.CreateForm(TFormHome, FormHome);
   Application.Run;
 end.
