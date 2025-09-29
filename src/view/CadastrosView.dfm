@@ -44,7 +44,7 @@ object FormCadastro: TFormCadastro
       Top = 72
       Width = 1398
       Height = 785
-      ActivePage = TabSheet3
+      ActivePage = TabSheet1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -143,7 +143,7 @@ object FormCadastro: TFormCadastro
             object Label18: TLabel
               Left = 450
               Top = 19
-              Width = 44
+              Width = 45
               Height = 15
               Caption = 'Telefone'
               Font.Charset = DEFAULT_CHARSET
@@ -260,7 +260,7 @@ object FormCadastro: TFormCadastro
               EditMask = '##.###.###/####-##;1;_'
               MaxLength = 18
               TabOrder = 3
-              Text = '  .   .   .    -  '
+              Text = '  .   .   /    -  '
             end
             object EditTelefone: TMaskEdit
               Left = 450
@@ -771,7 +771,7 @@ object FormCadastro: TFormCadastro
             object Label28: TLabel
               Left = 314
               Top = 19
-              Width = 44
+              Width = 45
               Height = 15
               Caption = 'Telefone'
               Font.Charset = DEFAULT_CHARSET
@@ -1752,7 +1752,6 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 3
             Visible = False
-            ExplicitLeft = 2
             object Label27: TLabel
               Left = 168
               Top = 51
@@ -1808,7 +1807,7 @@ object FormCadastro: TFormCadastro
             object Label55: TLabel
               Left = 471
               Top = 51
-              Width = 23
+              Width = 24
               Height = 15
               Caption = 'Tipo'
               Font.Charset = DEFAULT_CHARSET
