@@ -177,6 +177,7 @@ type
     EdtTipoSala: TEdit;
     Label55: TLabel;
     Button1: TButton;
+    DataSEmpresa: TDataSource;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
@@ -249,6 +250,21 @@ Dto.FBairro := EditBairro.Text;
 Controller.AdicionarEmpresa(dto);
 
 ShowMessage('Cliente Adicionado');
+
+PanelAddEmpresa.Visible := False;
+
+EditFantasia.Text := '';
+EditRazao.Text := '';
+EditCnpj.Text := '';
+EditTelefone.Text := '';
+EditCep.Text := '';
+EditRua.Text := '';
+EditCidade.Text := '';
+EditEstado.Text := '';
+EditNumero.Text := '';
+EditBairro.Text := '';
+
+
 
 finally
 Controller.Free;

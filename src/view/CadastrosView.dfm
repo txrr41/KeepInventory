@@ -1883,4 +1883,8 @@ object FormCadastro: TFormCadastro
       TabOrder = 1
     end
   end
+  object DataSEmpresa: TDataSource
+    Left = 1005
+    Top = 140
+  end
 end

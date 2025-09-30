@@ -30,7 +30,6 @@ object FormHome: TFormHome
       Color = clWhite
       ParentBackground = False
       TabOrder = 0
-      ExplicitHeight = 728
       object Image2: TImage
         Left = 9
         Top = 118
@@ -361,7 +360,6 @@ object FormHome: TFormHome
       Color = clWhite
       ParentBackground = False
       TabOrder = 1
-      ExplicitHeight = 848
     end
   end
 end
