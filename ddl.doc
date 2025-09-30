@@ -1,0 +1,265 @@
+-- DROP SCHEMA public;
+
+CREATE SCHEMA public AUTHORIZATION pg_database_owner;
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+-- DROP SEQUENCE public.bens_id_seq;
+
+CREATE SEQUENCE public.bens_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.empresas_id_seq;
+
+CREATE SEQUENCE public.empresas_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.emprestimos_id_seq;
+
+CREATE SEQUENCE public.emprestimos_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.logs_id_seq;
+
+CREATE SEQUENCE public.logs_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.movimentacoes_id_seq;
+
+CREATE SEQUENCE public.movimentacoes_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.permissoes_id_seq;
+
+CREATE SEQUENCE public.permissoes_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.permissoes_usuarios_id_seq;
+
+CREATE SEQUENCE public.permissoes_usuarios_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.predios_id_seq;
+
+CREATE SEQUENCE public.predios_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.salas_id_seq;
+
+CREATE SEQUENCE public.salas_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.usuarios_id_seq;
+
+CREATE SEQUENCE public.usuarios_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;-- public.bens definição
+
+-- Drop table
+
+-- DROP TABLE public.bens;
+
+CREATE TABLE public.bens (
+	id serial4 NOT NULL,
+	nome varchar NULL,
+	tipo varchar NULL,
+	status varchar NULL,
+	bem_unidade varchar NULL,
+	data_aquisicao date NULL,
+	CONSTRAINT bens_pkey PRIMARY KEY (id),
+	CONSTRAINT bens_status_check CHECK (((status)::text = ANY ((ARRAY['ativo'::character varying, 'inativo'::character varying, 'em_manutencao'::character varying])::text[])))
+);
+
+
+-- public.empresas definição
+
+-- Drop table
+
+-- DROP TABLE public.empresas;
+
+CREATE TABLE public.empresas (
+	id serial4 NOT NULL,
+	cnpj varchar NULL,
+	nome_fantasia varchar NULL,
+	razao_social varchar(30) NOT NULL,
+	telefone varchar(11) NOT NULL,
+	cep varchar NOT NULL,
+	rua varchar NOT NULL,
+	numero int4 NOT NULL,
+	bairro varchar NOT NULL,
+	cidade varchar NOT NULL,
+	estado varchar NOT NULL,
+	CONSTRAINT empresas_pkey PRIMARY KEY (id)
+);
+
+
+-- public.logs definição
+
+-- Drop table
+
+-- DROP TABLE public.logs;
+
+CREATE TABLE public.logs (
+	id serial4 NOT NULL,
+	usuario varchar(100) NOT NULL,
+	acao text NOT NULL,
+	modulo varchar(100) NULL,
+	datahora timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	CONSTRAINT logs_pkey PRIMARY KEY (id)
+);
+
+
+-- public.permissoes definição
+
+-- Drop table
+
+-- DROP TABLE public.permissoes;
+
+CREATE TABLE public.permissoes (
+	id serial4 NOT NULL,
+	tipo varchar NULL,
+	CONSTRAINT permissoes_pkey PRIMARY KEY (id)
+);
+
+
+-- public.usuarios definição
+
+-- Drop table
+
+-- DROP TABLE public.usuarios;
+
+CREATE TABLE public.usuarios (
+	id serial4 NOT NULL,
+	nome varchar NULL,
+	senha varchar NULL,
+	CONSTRAINT usuarios_pkey PRIMARY KEY (id)
+);
+
+
+-- public.emprestimos definição
+
+-- Drop table
+
+-- DROP TABLE public.emprestimos;
+
+CREATE TABLE public.emprestimos (
+	id serial4 NOT NULL,
+	fk_id_bens int4 NULL,
+	fk_id_usuarios int4 NULL,
+	data_devolucao date NULL,
+	status_devolucao varchar NULL,
+	CONSTRAINT emprestimos_pkey PRIMARY KEY (id),
+	CONSTRAINT emprestimos_status_devolucao_check CHECK (((status_devolucao)::text = ANY ((ARRAY['pendente'::character varying, 'devolvido'::character varying])::text[]))),
+	CONSTRAINT emprestimos_fk_id_bens_fkey FOREIGN KEY (fk_id_bens) REFERENCES public.bens(id),
+	CONSTRAINT emprestimos_fk_id_usuarios_fkey FOREIGN KEY (fk_id_usuarios) REFERENCES public.usuarios(id)
+);
+
+
+-- public.permissoes_usuarios definição
+
+-- Drop table
+
+-- DROP TABLE public.permissoes_usuarios;
+
+CREATE TABLE public.permissoes_usuarios (
+	id serial4 NOT NULL,
+	fk_id_usuario int4 NULL,
+	fk_id_permissoes int4 NULL,
+	CONSTRAINT permissoes_usuarios_pkey PRIMARY KEY (id),
+	CONSTRAINT permissoes_usuarios_fk_id_permissoes_fkey FOREIGN KEY (fk_id_permissoes) REFERENCES public.permissoes(id),
+	CONSTRAINT permissoes_usuarios_fk_id_usuario_fkey FOREIGN KEY (fk_id_usuario) REFERENCES public.usuarios(id)
+);
+
+
+-- public.predios definição
+
+-- Drop table
+
+-- DROP TABLE public.predios;
+
+CREATE TABLE public.predios (
+	id serial4 NOT NULL,
+	fk_id_empresas int4 NULL,
+	rua varchar NULL,
+	numero int4 NULL,
+	complemento varchar NULL,
+	CONSTRAINT predios_pkey PRIMARY KEY (id),
+	CONSTRAINT predios_fk_id_empresas_fkey FOREIGN KEY (fk_id_empresas) REFERENCES public.empresas(id)
+);
+
+
+-- public.salas definição
+
+-- Drop table
+
+-- DROP TABLE public.salas;
+
+CREATE TABLE public.salas (
+	id serial4 NOT NULL,
+	fk_id_predios int4 NULL,
+	nome varchar NULL,
+	CONSTRAINT salas_pkey PRIMARY KEY (id),
+	CONSTRAINT salas_fk_id_predios_fkey FOREIGN KEY (fk_id_predios) REFERENCES public.predios(id)
+);
+
+
+-- public.movimentacoes definição
+
+-- Drop table
+
+-- DROP TABLE public.movimentacoes;
+
+CREATE TABLE public.movimentacoes (
+	id serial4 NOT NULL,
+	fk_id_bens int4 NULL,
+	fk_id_origem int4 NULL,
+	fk_id_destino int4 NULL,
+	data_movimentacao date NULL,
+	fk_id_usuarios int4 NULL,
+	observacoes varchar NULL,
+	CONSTRAINT movimentacoes_pkey PRIMARY KEY (id),
+	CONSTRAINT movimentacoes_fk_id_bens_fkey FOREIGN KEY (fk_id_bens) REFERENCES public.bens(id),
+	CONSTRAINT movimentacoes_fk_id_destino_fkey FOREIGN KEY (fk_id_destino) REFERENCES public.salas(id),
+	CONSTRAINT movimentacoes_fk_id_origem_fkey FOREIGN KEY (fk_id_origem) REFERENCES public.salas(id),
+	CONSTRAINT movimentacoes_fk_id_usuarios_fkey FOREIGN KEY (fk_id_usuarios) REFERENCES public.usuarios(id)
+);
