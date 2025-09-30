@@ -343,6 +343,74 @@ object FormCadastro: TFormCadastro
             TitleFont.Height = -15
             TitleFont.Name = 'Segoe UI'
             TitleFont.Style = []
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'ID'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'nome_fantasia'
+                Title.Caption = '  Nome Fantasia'
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'razao_social'
+                Title.Caption = '   Raz'#227'o Social'
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'cnpj'
+                Title.Caption = '          CNPJ'
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'telefone'
+                Title.Caption = '      Telefone'
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'estado'
+                Title.Caption = '      Estado'
+                Width = 100
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'cidade'
+                Title.Caption = '      Cidade'
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'bairro'
+                Title.Caption = '     Bairro'
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'rua'
+                Title.Caption = 'Rua'
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'numero'
+                Title.Caption = 'N'#250'mero'
+                Visible = True
+              end>
           end
         end
         object Panel4: TPanel
@@ -676,6 +744,7 @@ object FormCadastro: TFormCadastro
               Height = 41
               Align = alClient
               Flat = True
+              OnClick = BtnAtualizarEmpresaClick
               ExplicitTop = 16
             end
             object Label12: TLabel

@@ -73,8 +73,7 @@ Cad := TFormCadastro.Create(Self.Panel3);
 Cad.Parent := Self.Panel3;
 Cad.Align := alClient;
 Cad.BorderStyle := bsNone;
-Cad.Show;
-DataS.DataSet := Controller.ListarEmpresas;
+Cad.Show
 
 end;
 

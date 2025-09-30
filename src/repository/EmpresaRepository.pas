@@ -49,6 +49,7 @@ begin
     Q.ParamByName('cep').AsString := ApenasNumeros(EmpModel.Cep);
 
     Q.ExecSQL;
+    Q.Close;
   finally
     Q.Free;
   end;

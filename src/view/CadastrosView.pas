@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO;
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, ListarEmpresasController;
 
 type
   TFormCadastro = class(TForm)
@@ -182,6 +182,7 @@ type
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure BtnAtualizarEmpresaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -227,6 +228,16 @@ end;
 
 
 end;
+procedure TFormCadastro.BtnAtualizarEmpresaClick(Sender: TObject);
+var
+Controller: TListEmpController;
+begin
+Controller := TListEmpController.Create;
+DataSEmpresa.DataSet := Controller.ListarEmpresas;
+DbGrid1.DataSource := DataSEmpresa;
+
+end;
+
 procedure TFormCadastro.Button1Click(Sender: TObject);
 var
 Controller: TEmpresaController;
@@ -272,6 +283,7 @@ end;
 
 
 end;
+
 
 
 end.
