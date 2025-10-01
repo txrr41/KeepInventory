@@ -73,7 +73,10 @@ Cad := TFormCadastro.Create(Self.Panel3);
 Cad.Parent := Self.Panel3;
 Cad.Align := alClient;
 Cad.BorderStyle := bsNone;
-Cad.Show
+Cad.Show;
+Controller := TListEmpController.Create;
+Cad.DataSEmpresa.DataSet := Controller.ListarEmpresas;
+Cad.DbGrid1.DataSource := Cad.DataSEmpresa;
 
 end;
 

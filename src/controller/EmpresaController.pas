@@ -9,10 +9,13 @@ type
 TEmpresaController = class
   private
   FService: TEmpresaService;
+  function DtoForModel(AEmpresaDTO: TEmpresaDTO): TEmpresaConfig;
   public
   procedure AdicionarEmpresa (AEmpresaDTO: TEmpresaDTO);
   constructor Create;
   destructor destroy; override;
+  procedure EditarEmpresa (AEmpresaDTO: TEmpresaDTO);
+
 end;
 
 
@@ -24,23 +27,9 @@ procedure TEmpresaController.AdicionarEmpresa(AEmpresaDTO: TEmpresaDTO);
 var
 EmpModel: TEmpresaConfig;
 begin
-   EmpModel := TEmpresaConfig.Create;
-   try
-    EmpModel.NomeFan := AEmpresaDTO.FNomeFan;
-    EmpModel.Razao := AEmpresaDTO.FRazao;
-    EmpModel.Cnpj := AEmpresaDTO.FCnpj;
-    EmpModel.Telefone := AEmpresaDTO.FTelefone;
-    EmpModel.Cep := AEmpresaDTO.FCep;
-    EmpModel.Rua:= AEmpresaDTO.FRua;
-    EmpModel.Numero := AEmpresaDTO.FNumero;
-    EmpModel.Cidade := AEmpresaDTO.FCidade;
-    EmpModel.Bairro := AEmpresaDTO.FBairro;
-    EmpModel.Estado := AEmpresaDTO.FBairro;
+EmpModel := DtoForModel(AEmpresaDTO);
+FService.AdicionarEmpresa(EmpModel);
 
-    FService.AdicionarEmpresa(EmpModel);
-   finally
-    EmpModel.Free;
-   end;
 end;
 
 constructor TEmpresaController.Create;
@@ -52,6 +41,34 @@ destructor TEmpresaController.destroy;
 begin
   FService.Free;
   inherited;
+end;
+
+function TEmpresaController.DtoForModel(AEmpresaDTO: TEmpresaDTO): TEmpresaConfig;
+var
+EmpModel: TEmpresaConfig;
+begin
+   EmpModel := TEmpresaConfig.Create;
+
+    EmpModel.NomeFan := AEmpresaDTO.FNomeFan;
+    EmpModel.Razao := AEmpresaDTO.FRazao;
+    EmpModel.Cnpj := AEmpresaDTO.FCnpj;
+    EmpModel.Telefone := AEmpresaDTO.FTelefone;
+    EmpModel.Cep := AEmpresaDTO.FCep;
+    EmpModel.Rua:= AEmpresaDTO.FRua;
+    EmpModel.Numero := AEmpresaDTO.FNumero;
+    EmpModel.Cidade := AEmpresaDTO.FCidade;
+    EmpModel.Bairro := AEmpresaDTO.FBairro;
+    EmpModel.Estado := AEmpresaDTO.FBairro;
+
+    Result := EmpModel;
+end;
+
+procedure TEmpresaController.EditarEmpresa(AEmpresaDTO: TEmpresaDTO);
+var
+EmpModel: TEmpresaConfig;
+begin
+EmpModel := DtoForModel(AEmpresaDTO);
+FService.EditarEmpresa(EmpModel);
 end;
 
 end.

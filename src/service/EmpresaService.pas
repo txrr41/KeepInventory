@@ -11,6 +11,7 @@ Type
   FRepository: TEmpresaRepository;
   public
   procedure AdicionarEmpresa(AEmpModel: TEmpresaConfig);
+  procedure EditarEmpresa(AEmpModel: TEmpresaConfig);
   constructor Create;
   destructor destroy; override;
 end;
@@ -56,6 +57,11 @@ destructor TEmpresaService.destroy;
 begin
   FRepository.Free;
   inherited;
+end;
+
+procedure TEmpresaService.EditarEmpresa(AEmpModel: TEmpresaConfig);
+begin
+
 end;
 
 end.

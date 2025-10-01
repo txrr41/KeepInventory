@@ -528,6 +528,7 @@ object FormCadastro: TFormCadastro
               Height = 41
               Align = alClient
               Flat = True
+              OnClick = BtnEditarEmpresaClick
               ExplicitTop = 16
             end
             object Label9: TLabel

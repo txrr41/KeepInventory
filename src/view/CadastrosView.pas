@@ -183,6 +183,7 @@ type
     procedure BtnAdicionarSalaClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure BtnAtualizarEmpresaClick(Sender: TObject);
+    procedure BtnEditarEmpresaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -237,6 +238,45 @@ DataSEmpresa.DataSet := Controller.ListarEmpresas;
 DbGrid1.DataSource := DataSEmpresa;
 
 end;
+
+procedure TFormCadastro.BtnEditarEmpresaClick(Sender: TObject);
+var
+Controller: TEmpresaController;
+Dto: TEmpresaDTO;
+begin
+PanelCadastro.Visible := True;
+try
+
+EditFantasia.Text := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
+EditRazao.Text := DBGrid1.DataSource.DataSet.FieldByName('razao').AsString;
+EditBairro.Text := DBGrid1.DataSource.DataSet.FieldByName('bairro').AsString;
+EditRua.Text := DBGrid1.DataSource.DataSet.FieldByName('rua').AsString;
+EditCnpj.Text := DBGrid1.DataSource.DataSet.FieldByName('cnpj').AsString;
+EditTelefone.Text := DBGrid1.DataSource.DataSet.FieldByName('telefone').AsString;
+EditNumero.Text := DBGrid1.DataSource.DataSet.FieldByName('numero').AsString;
+EditEstado.Text := DBGrid1.DataSource.DataSet.FieldByName('estado').AsString;
+EditCidade.Text := DBGrid1.DataSource.DataSet.FieldByName('cidade').AsString;
+EditCep.Text := DBGrid1.DataSource.DataSet.FieldByName('cep').AsString;
+
+Dto.FNomeFan := EditFantasia.Text;
+Dto.FRazao := EditRazao.Text;
+Dto.FCnpj := EditCnpj.Text;
+Dto.FTelefone:= EditTelefone.Text;
+Dto.FCep := EditCep.Text;
+Dto.FRua:= EditRua.Text;
+Dto.FCidade := EditCidade.Text;
+Dto.FEstado := EditEstado.Text;
+Dto.FNumero := StrToInt (EditNumero.Text);
+Dto.FBairro := EditBairro.Text;
+
+Controller.EditarEmpresa(dto);
+
+finally
+
+end;
+
+end;
+
 
 procedure TFormCadastro.Button1Click(Sender: TObject);
 var
