@@ -15,6 +15,7 @@ type
   FBairro: String;
   FCidade: String;
   FEstado: String;
+  FId: Integer;
 
 end;
 

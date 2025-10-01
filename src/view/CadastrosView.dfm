@@ -311,13 +311,22 @@ object FormCadastro: TFormCadastro
               TabOrder = 9
             end
             object Button1: TButton
-              Left = 1212
-              Top = 72
-              Width = 108
+              Left = 1187
+              Top = 96
+              Width = 182
               Height = 33
               Caption = 'Button1'
               TabOrder = 10
               OnClick = Button1Click
+            end
+            object Button2: TButton
+              Left = 1187
+              Top = 34
+              Width = 182
+              Height = 32
+              Caption = 'Button2'
+              TabOrder = 11
+              OnClick = Button2Click
             end
           end
         end
@@ -346,7 +355,7 @@ object FormCadastro: TFormCadastro
             Columns = <
               item
                 Expanded = False
-                FieldName = 'ID'
+                FieldName = 'id'
                 Visible = True
               end
               item

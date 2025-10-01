@@ -50,7 +50,7 @@ end;
 
 constructor TEmpresaService.Create;
 begin
-FRepository := TEmpresaRepository.Create;
+  FRepository := TEmpresaRepository.Create;
 end;
 
 destructor TEmpresaService.destroy;
@@ -61,7 +61,7 @@ end;
 
 procedure TEmpresaService.EditarEmpresa(AEmpModel: TEmpresaConfig);
 begin
-
+  FRepository.EditarEmpresa(AEmpModel);
 end;
 
 end.

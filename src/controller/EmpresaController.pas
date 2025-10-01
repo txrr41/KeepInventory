@@ -9,13 +9,13 @@ type
 TEmpresaController = class
   private
   FService: TEmpresaService;
-  function DtoForModel(AEmpresaDTO: TEmpresaDTO): TEmpresaConfig;
+
   public
   procedure AdicionarEmpresa (AEmpresaDTO: TEmpresaDTO);
   constructor Create;
   destructor destroy; override;
   procedure EditarEmpresa (AEmpresaDTO: TEmpresaDTO);
-
+   function DtoForModel(AEmpresaDTO: TEmpresaDTO): TEmpresaConfig;
 end;
 
 
@@ -59,6 +59,8 @@ begin
     EmpModel.Cidade := AEmpresaDTO.FCidade;
     EmpModel.Bairro := AEmpresaDTO.FBairro;
     EmpModel.Estado := AEmpresaDTO.FBairro;
+    EmpModel.Id := AEmpresaDTO.FId;
+
 
     Result := EmpModel;
 end;
@@ -67,8 +69,8 @@ procedure TEmpresaController.EditarEmpresa(AEmpresaDTO: TEmpresaDTO);
 var
 EmpModel: TEmpresaConfig;
 begin
-EmpModel := DtoForModel(AEmpresaDTO);
-FService.EditarEmpresa(EmpModel);
+  EmpModel := DtoForModel(AEmpresaDTO);
+  FService.EditarEmpresa(EmpModel);
 end;
 
 end.

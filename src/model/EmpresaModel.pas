@@ -15,6 +15,7 @@ TEmpresaConfig = class
   FBairro: String;
   FCidade: String;
   FEstado: String;
+  FId: Integer;
   public
   property NomeFan: string read FNomeFan write FNomeFan;
   property Razao: string read FRazao write FRazao;
@@ -26,6 +27,7 @@ TEmpresaConfig = class
   property Bairro: string read FBairro write FBairro;
   property Cidade: string read FCidade write FCidade;
   property Estado: string read FEstado write FEstado;
+  property Id: integer read FId write FId;
 
 end;
 

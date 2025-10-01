@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, ListarEmpresasController;
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, ListarEmpresasController, EmpresaModel;
 
 type
   TFormCadastro = class(TForm)
@@ -178,12 +178,15 @@ type
     Label55: TLabel;
     Button1: TButton;
     DataSEmpresa: TDataSource;
+    Button2: TButton;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure BtnAtualizarEmpresaClick(Sender: TObject);
     procedure BtnEditarEmpresaClick(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    function  CarregarObjeto : TEmpresaDTO;
   private
     { Private declarations }
   public
@@ -244,11 +247,11 @@ var
 Controller: TEmpresaController;
 Dto: TEmpresaDTO;
 begin
-PanelCadastro.Visible := True;
+PanelAddEmpresa.Visible := True;
 try
 
 EditFantasia.Text := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
-EditRazao.Text := DBGrid1.DataSource.DataSet.FieldByName('razao').AsString;
+EditRazao.Text := DBGrid1.DataSource.DataSet.FieldByName('razao_social').AsString;
 EditBairro.Text := DBGrid1.DataSource.DataSet.FieldByName('bairro').AsString;
 EditRua.Text := DBGrid1.DataSource.DataSet.FieldByName('rua').AsString;
 EditCnpj.Text := DBGrid1.DataSource.DataSet.FieldByName('cnpj').AsString;
@@ -258,18 +261,6 @@ EditEstado.Text := DBGrid1.DataSource.DataSet.FieldByName('estado').AsString;
 EditCidade.Text := DBGrid1.DataSource.DataSet.FieldByName('cidade').AsString;
 EditCep.Text := DBGrid1.DataSource.DataSet.FieldByName('cep').AsString;
 
-Dto.FNomeFan := EditFantasia.Text;
-Dto.FRazao := EditRazao.Text;
-Dto.FCnpj := EditCnpj.Text;
-Dto.FTelefone:= EditTelefone.Text;
-Dto.FCep := EditCep.Text;
-Dto.FRua:= EditRua.Text;
-Dto.FCidade := EditCidade.Text;
-Dto.FEstado := EditEstado.Text;
-Dto.FNumero := StrToInt (EditNumero.Text);
-Dto.FBairro := EditBairro.Text;
-
-Controller.EditarEmpresa(dto);
 
 finally
 
@@ -286,18 +277,7 @@ begin
 Controller := TEmpresaController.Create;
 try
 
-
-Dto.FNomeFan := EditFantasia.Text;
-Dto.FRazao := EditRazao.Text;
-Dto.FCnpj := EditCnpj.Text;
-Dto.FTelefone:= EditTelefone.Text;
-Dto.FCep := EditCep.Text;
-Dto.FRua:= EditRua.Text;
-Dto.FCidade := EditCidade.Text;
-Dto.FEstado := EditEstado.Text;
-Dto.FNumero := StrToInt (EditNumero.Text);
-Dto.FBairro := EditBairro.Text;
-
+CarregarObjeto;
 Controller.AdicionarEmpresa(dto);
 
 ShowMessage('Cliente Adicionado');
@@ -325,5 +305,38 @@ end;
 end;
 
 
+
+procedure TFormCadastro.Button2Click(Sender: TObject);
+var
+EmpModel: TEmpresaConfig;
+Controller: TEmpresaController;
+Dto: TEmpresaDTO;
+begin
+Controller := TEmpresaController.Create;
+EmpModel := Controller.DtoForModel(CarregarObjeto);
+
+Controller.EditarEmpresa(CarregarObjeto);
+ShowMessage(IntToStr(EmpModel.Id));
+end;
+
+function TFormCadastro.CarregarObjeto : TEmpresaDTO;
+var
+Dto: TEmpresaDTO;
+begin
+
+Dto.FNomeFan := EditFantasia.Text;
+Dto.FRazao := EditRazao.Text;
+Dto.FCnpj := EditCnpj.Text;
+Dto.FTelefone:= EditTelefone.Text;
+Dto.FCep := EditCep.Text;
+Dto.FRua:= EditRua.Text;
+Dto.FCidade := EditCidade.Text;
+Dto.FEstado := EditEstado.Text;
+Dto.FNumero := StrToInt (EditNumero.Text);
+Dto.FBairro := EditBairro.Text;
+Dto.FId := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
+ShowMessage(Dto.FId.ToString);
+Result := Dto;
+end;
 
 end.
