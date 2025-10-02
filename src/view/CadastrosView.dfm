@@ -101,6 +101,7 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 0
             Visible = False
+            ExplicitLeft = 2
             object Label15: TLabel
               Left = 24
               Top = 19
@@ -143,7 +144,7 @@ object FormCadastro: TFormCadastro
             object Label18: TLabel
               Left = 450
               Top = 19
-              Width = 45
+              Width = 44
               Height = 15
               Caption = 'Telefone'
               Font.Charset = DEFAULT_CHARSET
@@ -260,7 +261,7 @@ object FormCadastro: TFormCadastro
               EditMask = '##.###.###/####-##;1;_'
               MaxLength = 18
               TabOrder = 3
-              Text = '  .   .   /    -  '
+              Text = '  .   .   .    -  '
             end
             object EditTelefone: TMaskEdit
               Left = 450
@@ -310,23 +311,23 @@ object FormCadastro: TFormCadastro
               Height = 28
               TabOrder = 9
             end
-            object Button1: TButton
-              Left = 1187
-              Top = 96
-              Width = 182
-              Height = 33
-              Caption = 'Button1'
+            object BtnEnviar: TButton
+              Left = 1195
+              Top = 57
+              Width = 151
+              Height = 37
+              Caption = 'Enviar'
               TabOrder = 10
-              OnClick = Button1Click
+              OnClick = BtnEnviarClick
             end
-            object Button2: TButton
-              Left = 1187
-              Top = 34
-              Width = 182
-              Height = 32
-              Caption = 'Button2'
+            object BtnConfirmarEd: TButton
+              Left = 1195
+              Top = 56
+              Width = 151
+              Height = 38
+              Caption = 'Confirmar altera'#231#227'o'
               TabOrder = 11
-              OnClick = Button2Click
+              OnClick = BtnConfirmarEdClick
             end
           end
         end
@@ -859,7 +860,7 @@ object FormCadastro: TFormCadastro
             object Label28: TLabel
               Left = 314
               Top = 19
-              Width = 45
+              Width = 44
               Height = 15
               Caption = 'Telefone'
               Font.Charset = DEFAULT_CHARSET
@@ -1895,7 +1896,7 @@ object FormCadastro: TFormCadastro
             object Label55: TLabel
               Left = 471
               Top = 51
-              Width = 24
+              Width = 23
               Height = 15
               Caption = 'Tipo'
               Font.Charset = DEFAULT_CHARSET

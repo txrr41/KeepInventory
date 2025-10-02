@@ -21,7 +21,7 @@ Q: TFDQuery;
 begin
  Q := TFDQuery.Create(nil);
  Q.Connection := DataModule2.FDConnection;
- Q.SQL.Text := 'SELECT * FROM empresas';
+ Q.SQL.Text := 'SELECT * FROM empresas ORDER BY id';
  Q.Open;
  Result := Q;
 end;

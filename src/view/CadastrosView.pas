@@ -176,16 +176,16 @@ type
     Label50: TLabel;
     EdtTipoSala: TEdit;
     Label55: TLabel;
-    Button1: TButton;
+    BtnEnviar: TButton;
     DataSEmpresa: TDataSource;
-    Button2: TButton;
+    BtnConfirmarEd: TButton;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure BtnEnviarClick(Sender: TObject);
     procedure BtnAtualizarEmpresaClick(Sender: TObject);
     procedure BtnEditarEmpresaClick(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure BtnConfirmarEdClick(Sender: TObject);
     function  CarregarObjeto : TEmpresaDTO;
   private
     { Private declarations }
@@ -202,6 +202,8 @@ implementation
 
 procedure TFormCadastro.BtnAdicionarEmpresaClick(Sender: TObject);
 begin
+BtnConfirmarEd.Visible := False;
+BtnEnviar.Visible := True;
 if PanelAddEmpresa.Visible = False then begin
   PanelAddEmpresa.Visible := True;
 end else  begin
@@ -248,6 +250,7 @@ Controller: TEmpresaController;
 Dto: TEmpresaDTO;
 begin
 PanelAddEmpresa.Visible := True;
+BtnEnviar.Visible := False;
 try
 
 EditFantasia.Text := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
@@ -269,7 +272,7 @@ end;
 end;
 
 
-procedure TFormCadastro.Button1Click(Sender: TObject);
+procedure TFormCadastro.BtnEnviarClick(Sender: TObject);
 var
 Controller: TEmpresaController;
 Dto: TEmpresaDTO;
@@ -306,7 +309,7 @@ end;
 
 
 
-procedure TFormCadastro.Button2Click(Sender: TObject);
+procedure TFormCadastro.BtnConfirmarEdClick(Sender: TObject);
 var
 EmpModel: TEmpresaConfig;
 Controller: TEmpresaController;
@@ -314,7 +317,7 @@ Dto: TEmpresaDTO;
 begin
 Controller := TEmpresaController.Create;
 EmpModel := Controller.DtoForModel(CarregarObjeto);
-
+PanelAddEmpresa.Visible := False;
 Controller.EditarEmpresa(CarregarObjeto);
 ShowMessage(IntToStr(EmpModel.Id));
 end;
@@ -335,7 +338,6 @@ Dto.FEstado := EditEstado.Text;
 Dto.FNumero := StrToInt (EditNumero.Text);
 Dto.FBairro := EditBairro.Text;
 Dto.FId := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
-ShowMessage(Dto.FId.ToString);
 Result := Dto;
 end;
 
