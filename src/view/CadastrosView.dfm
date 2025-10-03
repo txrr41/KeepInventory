@@ -101,7 +101,6 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 0
             Visible = False
-            ExplicitLeft = 2
             object Label15: TLabel
               Left = 24
               Top = 19
@@ -585,6 +584,7 @@ object FormCadastro: TFormCadastro
               Height = 41
               Align = alClient
               Flat = True
+              OnClick = SpeedButton3Click
               ExplicitTop = 16
             end
             object Label4: TLabel

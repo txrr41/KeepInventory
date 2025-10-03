@@ -187,6 +187,7 @@ type
     procedure BtnEditarEmpresaClick(Sender: TObject);
     procedure BtnConfirmarEdClick(Sender: TObject);
     function  CarregarObjeto : TEmpresaDTO;
+    procedure SpeedButton3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -339,6 +340,19 @@ Dto.FNumero := StrToInt (EditNumero.Text);
 Dto.FBairro := EditBairro.Text;
 Dto.FId := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
 Result := Dto;
+end;
+
+procedure TFormCadastro.SpeedButton3Click(Sender: TObject);
+var
+IdUser: Integer;
+Controller: TEmpresaController;
+Emp: String;
+begin
+Emp := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
+if MessageDlg('A Empresa ' + Emp + ' sera excluida, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    IdUser := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
+    Controller := TEmpresaController.Create;
+    Controller.ExcluirEmpresa(IdUser);
 end;
 
 end.

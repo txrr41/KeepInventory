@@ -15,7 +15,8 @@ TEmpresaController = class
   constructor Create;
   destructor destroy; override;
   procedure EditarEmpresa (AEmpresaDTO: TEmpresaDTO);
-   function DtoForModel(AEmpresaDTO: TEmpresaDTO): TEmpresaConfig;
+  function DtoForModel(AEmpresaDTO: TEmpresaDTO): TEmpresaConfig;
+  procedure ExcluirEmpresa(AId: Integer);
 end;
 
 
@@ -71,6 +72,11 @@ EmpModel: TEmpresaConfig;
 begin
   EmpModel := DtoForModel(AEmpresaDTO);
   FService.EditarEmpresa(EmpModel);
+end;
+
+procedure TEmpresaController.ExcluirEmpresa(AId: Integer);
+begin
+   FService.ExcluirEmpresa(AId);
 end;
 
 end.

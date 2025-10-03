@@ -11,6 +11,7 @@ type
   public
     procedure AdicionarEmpresa(EmpModel: TEmpresaConfig);
     procedure EditarEmpresa(EmpModel: TEmpresaConfig);
+    procedure ExcluirEmpresa(AId: Integer);
   end;
 
 implementation
@@ -53,6 +54,22 @@ try
 finally
   Q.Free;
 end;
+end;
+
+procedure TEmpresaRepository.ExcluirEmpresa(AId: Integer);
+var
+ Q: TFDQuery;
+begin
+ Q := TFDQuery.Create(nil);
+ try
+   Q.Connection := DataModule2.FDConnection;
+   Q.SQL.Text := 'UPDATE empresas SET ativo = false WHERE id = :id';
+   Q.ParamByName('id').AsInteger := AId;
+   Q.ExecSQL;
+   Q.Close;
+ finally
+  Q.Free;
+ end;
 end;
 
 procedure TEmpresaRepository.AdicionarEmpresa(EmpModel: TEmpresaConfig);

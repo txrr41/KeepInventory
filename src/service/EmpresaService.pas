@@ -12,6 +12,7 @@ Type
   public
   procedure AdicionarEmpresa(AEmpModel: TEmpresaConfig);
   procedure EditarEmpresa(AEmpModel: TEmpresaConfig);
+  procedure ExcluirEmpresa(AId: Integer);
   constructor Create;
   destructor destroy; override;
 end;
@@ -62,6 +63,11 @@ end;
 procedure TEmpresaService.EditarEmpresa(AEmpModel: TEmpresaConfig);
 begin
   FRepository.EditarEmpresa(AEmpModel);
+end;
+
+procedure TEmpresaService.ExcluirEmpresa(AId: Integer);
+begin
+    FRepository.ExcluirEmpresa(AId);
 end;
 
 end.
