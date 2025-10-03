@@ -26,7 +26,7 @@ type
     Panel7: TPanel;
     Label2: TLabel;
     Label3: TLabel;
-    SearchBox1: TSearchBox;
+    edtPesquisar: TSearchBox;
     Panel10: TPanel;
     BtnAdicionarEmpresa: TSpeedButton;
     Panel9: TPanel;
@@ -188,6 +188,7 @@ type
     procedure BtnConfirmarEdClick(Sender: TObject);
     function  CarregarObjeto : TEmpresaDTO;
     procedure SpeedButton3Click(Sender: TObject);
+    procedure edtPesquisarChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -340,6 +341,14 @@ Dto.FNumero := StrToInt (EditNumero.Text);
 Dto.FBairro := EditBairro.Text;
 Dto.FId := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
 Result := Dto;
+end;
+
+procedure TFormCadastro.edtPesquisarChange(Sender: TObject);
+var
+Controller: TEmpresaController;
+begin
+ Controller := TEmpresaController.Create;
+ Controller.PesquisarEmpresa(edtPesquisar.Text);
 end;
 
 procedure TFormCadastro.SpeedButton3Click(Sender: TObject);

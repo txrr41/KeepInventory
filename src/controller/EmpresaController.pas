@@ -3,7 +3,7 @@ unit EmpresaController;
 interface
 
 uses
-EmpresaModel, EmpresaDto, EmpresaService;
+EmpresaModel, EmpresaDto, EmpresaService, Data.DB;
 
 type
 TEmpresaController = class
@@ -17,6 +17,7 @@ TEmpresaController = class
   procedure EditarEmpresa (AEmpresaDTO: TEmpresaDTO);
   function DtoForModel(AEmpresaDTO: TEmpresaDTO): TEmpresaConfig;
   procedure ExcluirEmpresa(AId: Integer);
+  function PesquisarEmpresa (const aSearch: String): TDataSet;
 end;
 
 
@@ -77,6 +78,11 @@ end;
 procedure TEmpresaController.ExcluirEmpresa(AId: Integer);
 begin
    FService.ExcluirEmpresa(AId);
+end;
+
+function TEmpresaController.PesquisarEmpresa(const aSearch: String): TDataSet;
+begin
+Result := FService.PesquisarEmpresa(aSearch);
 end;
 
 end.

@@ -2,7 +2,7 @@ unit EmpresaRepository;
 
 interface
 uses
-  EmpresaModel, DB, FireDAC.Comp.Client, System.SysUtils;
+  EmpresaModel, DB, FireDAC.Comp.Client, System.SysUtils, Data.DB;
 
 type
   TEmpresaRepository = class
@@ -12,6 +12,7 @@ type
     procedure AdicionarEmpresa(EmpModel: TEmpresaConfig);
     procedure EditarEmpresa(EmpModel: TEmpresaConfig);
     procedure ExcluirEmpresa(AId: Integer);
+    function PesquisarEmpresa(const aSearch: String): TDataSet;
   end;
 
 implementation
@@ -71,6 +72,36 @@ begin
   Q.Free;
  end;
 end;
+
+function TEmpresaRepository.PesquisarEmpresa(const aSearch: String): TDataSet;
+var
+  Q: TFDQuery;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text :=
+      'SELECT id, nome_fantasia, cnpj, estado, ativo ' +
+      'FROM empresas ' +
+      'WHERE ativo = true ' +
+      '  AND (nome_fantasia ILIKE :fantasia ' +
+      '       OR cnpj LIKE :cnpj ' +
+      '       OR estado ILIKE :estado) ' +
+      'ORDER BY id';
+
+    Q.ParamByName('fantasia').AsString := '%' + Trim(aSearch) + '%';
+    Q.ParamByName('cnpj').AsString     := '%' + Trim(aSearch) + '%';
+    Q.ParamByName('estado').AsString   := '%' + Trim(aSearch) + '%';
+
+    Q.Open;
+
+    Result := Q;
+  except
+    // garante que não fica pendurado em caso de erro
+    raise;
+  end;
+end;
+
 
 procedure TEmpresaRepository.AdicionarEmpresa(EmpModel: TEmpresaConfig);
 var

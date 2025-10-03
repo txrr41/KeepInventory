@@ -63,7 +63,7 @@ object FormCadastro: TFormCadastro
         ShowHint = False
         object Panel10: TPanel
           Left = 3
-          Top = -2
+          Top = 0
           Width = 1387
           Height = 746
           Caption = 'Panel10'
@@ -773,7 +773,7 @@ object FormCadastro: TFormCadastro
             end
           end
         end
-        object SearchBox1: TSearchBox
+        object edtPesquisar: TSearchBox
           Left = 80
           Top = 31
           Width = 385
@@ -784,8 +784,8 @@ object FormCadastro: TFormCadastro
           Ctl3D = True
           ParentCtl3D = False
           TabOrder = 2
-          Text = 'Pesquisar'
           TextHint = 'Pesquisar'
+          OnChange = edtPesquisarChange
         end
       end
       object TabSheet2: TTabSheet

@@ -3,7 +3,7 @@ unit EmpresaService;
 interface
 
 uses
-EmpresaModel, EmpresaRepository, System.SysUtils;
+EmpresaModel, EmpresaRepository, System.SysUtils, Data.DB;
 
 Type
  TEmpresaService = class
@@ -13,6 +13,7 @@ Type
   procedure AdicionarEmpresa(AEmpModel: TEmpresaConfig);
   procedure EditarEmpresa(AEmpModel: TEmpresaConfig);
   procedure ExcluirEmpresa(AId: Integer);
+  function PesquisarEmpresa(const aSearch: String): TDataSet;
   constructor Create;
   destructor destroy; override;
 end;
@@ -68,6 +69,11 @@ end;
 procedure TEmpresaService.ExcluirEmpresa(AId: Integer);
 begin
     FRepository.ExcluirEmpresa(AId);
+end;
+
+function TEmpresaService.PesquisarEmpresa(const aSearch: String): TDataSet;
+begin
+   Result := FRepository.PesquisarEmpresa(aSearch);
 end;
 
 end.
