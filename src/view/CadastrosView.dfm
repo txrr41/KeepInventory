@@ -143,7 +143,7 @@ object FormCadastro: TFormCadastro
             object Label18: TLabel
               Left = 450
               Top = 19
-              Width = 44
+              Width = 45
               Height = 15
               Caption = 'Telefone'
               Font.Charset = DEFAULT_CHARSET
@@ -260,7 +260,7 @@ object FormCadastro: TFormCadastro
               EditMask = '##.###.###/####-##;1;_'
               MaxLength = 18
               TabOrder = 3
-              Text = '  .   .   .    -  '
+              Text = '  .   .   /    -  '
             end
             object EditTelefone: TMaskEdit
               Left = 450
@@ -644,6 +644,7 @@ object FormCadastro: TFormCadastro
               Height = 41
               Align = alClient
               Flat = True
+              OnClick = BtnFiltrarEmpresaClick
               ExplicitTop = 16
             end
             object Label14: TLabel
@@ -774,10 +775,10 @@ object FormCadastro: TFormCadastro
           end
         end
         object edtPesquisar: TSearchBox
-          Left = 80
-          Top = 31
-          Width = 385
-          Height = 28
+          Left = 77
+          Top = 40
+          Width = 372
+          Height = 25
           Cursor = crIBeam
           BevelOuter = bvNone
           BorderStyle = bsNone
@@ -785,6 +786,7 @@ object FormCadastro: TFormCadastro
           ParentCtl3D = False
           TabOrder = 2
           TextHint = 'Pesquisar'
+          Visible = False
           OnChange = edtPesquisarChange
         end
       end
@@ -860,7 +862,7 @@ object FormCadastro: TFormCadastro
             object Label28: TLabel
               Left = 314
               Top = 19
-              Width = 44
+              Width = 45
               Height = 15
               Caption = 'Telefone'
               Font.Charset = DEFAULT_CHARSET
@@ -1896,7 +1898,7 @@ object FormCadastro: TFormCadastro
             object Label55: TLabel
               Left = 471
               Top = 51
-              Width = 23
+              Width = 24
               Height = 15
               Caption = 'Tipo'
               Font.Charset = DEFAULT_CHARSET

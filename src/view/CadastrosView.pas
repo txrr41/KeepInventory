@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, ListarEmpresasController, EmpresaModel;
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, EmpresaModel;
 
 type
   TFormCadastro = class(TForm)
@@ -189,6 +189,7 @@ type
     function  CarregarObjeto : TEmpresaDTO;
     procedure SpeedButton3Click(Sender: TObject);
     procedure edtPesquisarChange(Sender: TObject);
+    procedure BtnFiltrarEmpresaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -238,10 +239,10 @@ end;
 end;
 procedure TFormCadastro.BtnAtualizarEmpresaClick(Sender: TObject);
 var
-Controller: TListEmpController;
+Controller: TEmpresaController;
 begin
-Controller := TListEmpController.Create;
-DataSEmpresa.DataSet := Controller.ListarEmpresas;
+Controller := TEmpresaController.Create;
+DataSEmpresa.DataSet := Controller.ListarEmpresa;
 DbGrid1.DataSource := DataSEmpresa;
 
 end;
@@ -282,7 +283,7 @@ begin
 Controller := TEmpresaController.Create;
 try
 
-CarregarObjeto;
+dto := CarregarObjeto;
 Controller.AdicionarEmpresa(dto);
 
 ShowMessage('Cliente Adicionado');
@@ -300,8 +301,6 @@ EditEstado.Text := '';
 EditNumero.Text := '';
 EditBairro.Text := '';
 
-
-
 finally
 Controller.Free;
 end;
@@ -310,6 +309,11 @@ end;
 end;
 
 
+
+procedure TFormCadastro.BtnFiltrarEmpresaClick(Sender: TObject);
+begin
+edtPesquisar.Visible := True;
+end;
 
 procedure TFormCadastro.BtnConfirmarEdClick(Sender: TObject);
 var
@@ -345,10 +349,13 @@ end;
 
 procedure TFormCadastro.edtPesquisarChange(Sender: TObject);
 var
+
 Controller: TEmpresaController;
 begin
  Controller := TEmpresaController.Create;
- Controller.PesquisarEmpresa(edtPesquisar.Text);
+ DataSEmpresa.DataSet := Controller.PesquisarEmpresa(edtPesquisar.Text);
+ DbGrid1.DataSource := DataSEmpresa;
+
 end;
 
 procedure TFormCadastro.SpeedButton3Click(Sender: TObject);

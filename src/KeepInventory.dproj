@@ -164,9 +164,6 @@
         <DCCReference Include="dto\EmpresaDTO.pas"/>
         <DCCReference Include="service\EmpresaService.pas"/>
         <DCCReference Include="repository\EmpresaRepository.pas"/>
-        <DCCReference Include="controller\ListarEmpresasController.pas"/>
-        <DCCReference Include="service\ListarEmpresaService.pas"/>
-        <DCCReference Include="repository\ListarEmpresasRepository.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

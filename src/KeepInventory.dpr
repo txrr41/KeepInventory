@@ -25,10 +25,7 @@ uses
   EmpresaController in 'controller\EmpresaController.pas',
   EmpresaDTO in 'dto\EmpresaDTO.pas',
   EmpresaService in 'service\EmpresaService.pas',
-  EmpresaRepository in 'repository\EmpresaRepository.pas',
-  ListarEmpresasController in 'controller\ListarEmpresasController.pas',
-  ListarEmpresaService in 'service\ListarEmpresaService.pas',
-  ListarEmpresasRepository in 'repository\ListarEmpresasRepository.pas';
+  EmpresaRepository in 'repository\EmpresaRepository.pas';
 
 {$R *.res}
 

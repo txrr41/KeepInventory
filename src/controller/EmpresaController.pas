@@ -18,6 +18,7 @@ TEmpresaController = class
   function DtoForModel(AEmpresaDTO: TEmpresaDTO): TEmpresaConfig;
   procedure ExcluirEmpresa(AId: Integer);
   function PesquisarEmpresa (const aSearch: String): TDataSet;
+  function ListarEmpresa: TDataSet;
 end;
 
 
@@ -60,7 +61,7 @@ begin
     EmpModel.Numero := AEmpresaDTO.FNumero;
     EmpModel.Cidade := AEmpresaDTO.FCidade;
     EmpModel.Bairro := AEmpresaDTO.FBairro;
-    EmpModel.Estado := AEmpresaDTO.FBairro;
+    EmpModel.Estado := AEmpresaDTO.FEstado;
     EmpModel.Id := AEmpresaDTO.FId;
 
 
@@ -78,6 +79,11 @@ end;
 procedure TEmpresaController.ExcluirEmpresa(AId: Integer);
 begin
    FService.ExcluirEmpresa(AId);
+end;
+
+function TEmpresaController.ListarEmpresa: TDataSet;
+begin
+ Result := FService.ListarEmpresa;
 end;
 
 function TEmpresaController.PesquisarEmpresa(const aSearch: String): TDataSet;

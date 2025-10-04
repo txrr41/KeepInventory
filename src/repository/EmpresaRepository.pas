@@ -13,6 +13,7 @@ type
     procedure EditarEmpresa(EmpModel: TEmpresaConfig);
     procedure ExcluirEmpresa(AId: Integer);
     function PesquisarEmpresa(const aSearch: String): TDataSet;
+    Function ListarEmpresa: TDataSet;
   end;
 
 implementation
@@ -73,6 +74,17 @@ begin
  end;
 end;
 
+function TEmpresaRepository.ListarEmpresa: TDataSet;
+var
+Q: TFDQuery;
+begin
+ Q := TFDQuery.Create(nil);
+ Q.Connection := DataModule2.FDConnection;
+ Q.SQL.Text := 'SELECT * FROM empresas WHERE ativo = true ORDER BY id ';
+ Q.Open;
+ Result := Q;
+end;
+
 function TEmpresaRepository.PesquisarEmpresa(const aSearch: String): TDataSet;
 var
   Q: TFDQuery;
@@ -81,27 +93,25 @@ begin
   try
     Q.Connection := DataModule2.FDConnection;
     Q.SQL.Text :=
-      'SELECT id, nome_fantasia, cnpj, estado, ativo ' +
+      'SELECT id, nome_fantasia, cnpj, razao_social, telefone, cep, ' +
+      '       rua, numero, bairro, cidade, estado ' +
       'FROM empresas ' +
       'WHERE ativo = true ' +
-      '  AND (nome_fantasia ILIKE :fantasia ' +
-      '       OR cnpj LIKE :cnpj ' +
-      '       OR estado ILIKE :estado) ' +
+      '  AND (nome_fantasia ILIKE :search ' +
+      '       OR cnpj LIKE :search ' +
+      '       OR estado ILIKE :search ' +
+      '       OR razao_social ILIKE :search ' +
+      '       OR cidade ILIKE :search ' +
+      '       OR bairro ILIKE :search) ' +
       'ORDER BY id';
-
-    Q.ParamByName('fantasia').AsString := '%' + Trim(aSearch) + '%';
-    Q.ParamByName('cnpj').AsString     := '%' + Trim(aSearch) + '%';
-    Q.ParamByName('estado').AsString   := '%' + Trim(aSearch) + '%';
-
+    Q.ParamByName('search').AsString := '%' + Trim(aSearch) + '%';
     Q.Open;
-
     Result := Q;
   except
-    // garante que não fica pendurado em caso de erro
+    Q.Free;
     raise;
   end;
 end;
-
 
 procedure TEmpresaRepository.AdicionarEmpresa(EmpModel: TEmpresaConfig);
 var

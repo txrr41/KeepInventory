@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Skia, Vcl.StdCtrls,
-  Vcl.ComCtrls, CadastrosView, ListarEmpresasController, Data.DB;
+  Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB;
 
 type
   TFormHome = class(TForm)
@@ -66,7 +66,7 @@ end;
 procedure TFormHome.Image3Click(Sender: TObject);
 var
 Cad: TFormCadastro;
-Controller: TListEmpController;
+Controller: TEmpresaController;
 DataS: TDataSource;
 begin
 Cad := TFormCadastro.Create(Self.Panel3);
@@ -74,8 +74,8 @@ Cad.Parent := Self.Panel3;
 Cad.Align := alClient;
 Cad.BorderStyle := bsNone;
 Cad.Show;
-Controller := TListEmpController.Create;
-Cad.DataSEmpresa.DataSet := Controller.ListarEmpresas;
+Controller := TEmpresaController.Create;
+Cad.DataSEmpresa.DataSet := Controller.ListarEmpresa;
 Cad.DbGrid1.DataSource := Cad.DataSEmpresa;
 
 end;

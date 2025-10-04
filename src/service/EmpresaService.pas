@@ -14,6 +14,7 @@ Type
   procedure EditarEmpresa(AEmpModel: TEmpresaConfig);
   procedure ExcluirEmpresa(AId: Integer);
   function PesquisarEmpresa(const aSearch: String): TDataSet;
+  function ListarEmpresa: TDataSet;
   constructor Create;
   destructor destroy; override;
 end;
@@ -69,6 +70,11 @@ end;
 procedure TEmpresaService.ExcluirEmpresa(AId: Integer);
 begin
     FRepository.ExcluirEmpresa(AId);
+end;
+
+function TEmpresaService.ListarEmpresa: TDataSet;
+begin
+  Result := FRepository.ListarEmpresa;
 end;
 
 function TEmpresaService.PesquisarEmpresa(const aSearch: String): TDataSet;
