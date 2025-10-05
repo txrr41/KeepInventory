@@ -25,7 +25,12 @@ uses
   EmpresaController in 'controller\EmpresaController.pas',
   EmpresaDTO in 'dto\EmpresaDTO.pas',
   EmpresaService in 'service\EmpresaService.pas',
-  EmpresaRepository in 'repository\EmpresaRepository.pas';
+  EmpresaRepository in 'repository\EmpresaRepository.pas',
+  PredioController in 'controller\PredioController.pas',
+  PredioService in 'service\PredioService.pas',
+  PredioRepository in 'repository\PredioRepository.pas',
+  PredioModel in 'model\PredioModel.pas',
+  PredioDTO in 'dto\PredioDTO.pas';
 
 {$R *.res}
 

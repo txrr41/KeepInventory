@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, EmpresaModel;
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController;
 
 type
   TFormCadastro = class(TForm)
@@ -179,6 +179,7 @@ type
     BtnEnviar: TButton;
     DataSEmpresa: TDataSource;
     BtnConfirmarEd: TButton;
+    Button1: TButton;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
@@ -190,6 +191,7 @@ type
     procedure SpeedButton3Click(Sender: TObject);
     procedure edtPesquisarChange(Sender: TObject);
     procedure BtnFiltrarEmpresaClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -313,6 +315,38 @@ end;
 procedure TFormCadastro.BtnFiltrarEmpresaClick(Sender: TObject);
 begin
 edtPesquisar.Visible := True;
+end;
+
+procedure TFormCadastro.Button1Click(Sender: TObject);
+var
+Dto : GPredioDTO;
+Controller: TPredioController;
+begin
+
+Controller := TPredioController.Create;
+
+try
+
+Dto.FNome := EdtNamePredio.Text;
+Dto.FSituacao := ComboBoxSituacao.Text;
+Dto.FTelefone:= EdtTelefonePredio.Text;
+Dto.FCep := EdtCepPredio.Text;
+Dto.FRua:= EditRuaPredio.Text;
+Dto.FCidade := EdtCidadePredio.Text;
+Dto.FEstado := EdtEstadoPredio.Text;
+Dto.FNumero := StrToInt (EdtNumeroPredio.Text);
+Dto.FBairro := EdtBairroPredio.Text;
+
+Controller.AdicionarPredio(Dto);
+
+ShowMessage('Predio Adicionado');
+
+PanelAddEmpresa.Visible := False;
+
+finally
+
+end;
+
 end;
 
 procedure TFormCadastro.BtnConfirmarEdClick(Sender: TObject);

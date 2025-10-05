@@ -12,7 +12,7 @@ object FormCadastro: TFormCadastro
   Font.Style = []
   TextHeight = 15
   object PanelCadastro: TPanel
-    Left = 0
+    Left = -8
     Top = 0
     Width = 1390
     Height = 857
@@ -44,7 +44,7 @@ object FormCadastro: TFormCadastro
       Top = 72
       Width = 1398
       Height = 785
-      ActivePage = TabSheet1
+      ActivePage = TabSheet2
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -356,6 +356,7 @@ object FormCadastro: TFormCadastro
               item
                 Expanded = False
                 FieldName = 'id'
+                Title.Caption = '     ID'
                 Visible = True
               end
               item
@@ -795,7 +796,7 @@ object FormCadastro: TFormCadastro
         ImageIndex = 1
         object Panel11: TPanel
           Left = 3
-          Top = -7
+          Top = 0
           Width = 1387
           Height = 737
           Caption = 'Panel10'
@@ -985,21 +986,21 @@ object FormCadastro: TFormCadastro
               Text = '     -   '
             end
             object EdtNumeroPredio: TEdit
-              Left = 741
+              Left = 733
               Top = 40
               Width = 121
               Height = 28
               TabOrder = 4
             end
             object EdtBairroPredio: TEdit
-              Left = 887
+              Left = 875
               Top = 40
               Width = 121
               Height = 28
               TabOrder = 5
             end
             object EdtCidadePredio: TEdit
-              Left = 1032
+              Left = 1024
               Top = 40
               Width = 121
               Height = 28
@@ -1013,7 +1014,7 @@ object FormCadastro: TFormCadastro
               TabOrder = 7
             end
             object ComboBoxSituacao: TComboBox
-              Left = 164
+              Left = 168
               Top = 40
               Width = 132
               Height = 28
@@ -1024,6 +1025,15 @@ object FormCadastro: TFormCadastro
                 'Inativo'
                 'Pr'#243'prio'
                 'Cedido')
+            end
+            object Button1: TButton
+              Left = 1221
+              Top = 80
+              Width = 116
+              Height = 33
+              Caption = 'Button1'
+              TabOrder = 9
+              OnClick = Button1Click
             end
           end
           object Panel13: TPanel
@@ -1386,7 +1396,7 @@ object FormCadastro: TFormCadastro
             TabOrder = 2
             object DBGrid2: TDBGrid
               Left = 12
-              Top = 14
+              Top = 16
               Width = 897
               Height = 393
               BorderStyle = bsNone
@@ -1396,6 +1406,75 @@ object FormCadastro: TFormCadastro
               TitleFont.Height = -15
               TitleFont.Name = 'Segoe UI'
               TitleFont.Style = []
+              Columns = <
+                item
+                  Expanded = False
+                  FieldName = 'id'
+                  Title.Caption = '     ID'
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'nome'
+                  Title.Caption = '      Nome'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'situacao'
+                  Title.Caption = '     Situa'#231#227'o'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'telefone'
+                  Title.Caption = '     Telefone'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'cep'
+                  Title.Caption = '        Cep'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'rua'
+                  Title.Caption = '           Rua'
+                  Width = 120
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'numero'
+                  Title.Caption = ' N'#250'mero'
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'bairro'
+                  Title.Caption = '      Bairro'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'cidade'
+                  Title.Caption = '     Cidade'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'estado'
+                  Title.Caption = '      Estado'
+                  Width = 100
+                  Visible = True
+                end>
             end
           end
           object SearchBox2: TSearchBox

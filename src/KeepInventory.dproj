@@ -164,6 +164,11 @@
         <DCCReference Include="dto\EmpresaDTO.pas"/>
         <DCCReference Include="service\EmpresaService.pas"/>
         <DCCReference Include="repository\EmpresaRepository.pas"/>
+        <DCCReference Include="controller\PredioController.pas"/>
+        <DCCReference Include="service\PredioService.pas"/>
+        <DCCReference Include="repository\PredioRepository.pas"/>
+        <DCCReference Include="model\PredioModel.pas"/>
+        <DCCReference Include="dto\PredioDTO.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
