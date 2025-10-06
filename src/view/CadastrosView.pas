@@ -192,7 +192,12 @@ type
     procedure edtPesquisarChange(Sender: TObject);
     procedure BtnFiltrarEmpresaClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure BtnAtualizarPredioClick(Sender: TObject);
+    procedure AtualizarTabelaP;
+    procedure AtualizarTabelaE;
     procedure PageControl1Change(Sender: TObject);
+
+
   private
     { Private declarations }
   public
@@ -205,6 +210,24 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TFormCadastro.AtualizarTabelaE;
+var
+Controller: TEmpresaController;
+begin
+Controller := TEmpresaController.Create;
+DataSEmpresa.DataSet := Controller.ListarEmpresa;
+DbGrid1.DataSource := DataSEmpresa;
+
+end;
+
+procedure TFormCadastro.AtualizarTabelaP;
+var Controller: TPredioController;
+begin
+Controller := TPredioController.Create;
+DataSEmpresa.DataSet := Controller.ListarPredio;
+DbGridPredio.DataSource := DataSEmpresa;
+end;
 
 procedure TFormCadastro.BtnAdicionarEmpresaClick(Sender: TObject);
 begin
@@ -241,13 +264,13 @@ end;
 
 end;
 procedure TFormCadastro.BtnAtualizarEmpresaClick(Sender: TObject);
-var
-Controller: TEmpresaController;
 begin
-Controller := TEmpresaController.Create;
-DataSEmpresa.DataSet := Controller.ListarEmpresa;
-DbGrid1.DataSource := DataSEmpresa;
+   AtualizarTabelaE;
+end;
 
+procedure TFormCadastro.BtnAtualizarPredioClick(Sender: TObject);
+begin
+    AtualizarTabelaP;
 end;
 
 procedure TFormCadastro.BtnEditarEmpresaClick(Sender: TObject);
@@ -394,12 +417,12 @@ begin
 end;
 
 procedure TFormCadastro.PageControl1Change(Sender: TObject);
-var
-Controller: TPredioController;
 begin
-Controller := TPredioController.Create;
-DataSEmpresa.DataSet := Controller.ListarPredio;
-DbGridPredio.DataSource := DataSEmpresa;
+if PageControl1.ActivePage = TabSheet1 then begin
+  AtualizarTabelaE;
+end else if PageControl1.ActivePage = TabSheet2 then
+AtualizarTabelaP;
+
 end;
 
 procedure TFormCadastro.SpeedButton3Click(Sender: TObject);
@@ -414,5 +437,6 @@ if MessageDlg('A Empresa ' + Emp + ' sera excluida, deseja continuar?', mtConfir
     Controller := TEmpresaController.Create;
     Controller.ExcluirEmpresa(IdUser);
 end;
+
 
 end.

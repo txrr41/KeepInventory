@@ -1368,6 +1368,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = BtnAtualizarPredioClick
                 ExplicitTop = 16
               end
               object Label47: TLabel

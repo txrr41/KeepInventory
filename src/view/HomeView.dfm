@@ -52,7 +52,7 @@ object FormHome: TFormHome
         Stretch = True
       end
       object Image3: TImage
-        Left = 9
+        Left = 12
         Top = 182
         Width = 31
         Height = 31

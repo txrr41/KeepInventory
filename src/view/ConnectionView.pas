@@ -28,6 +28,7 @@ type
     FController: TConnectionController; // mantém o controller como campo do form
     procedure LoadConfigToFields;
     procedure ShowInitialScreen;
+    procedure ConexaoDB;
   public
   end;
 
@@ -38,6 +39,15 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TFormConnection.ConexaoDB;
+var
+m: String;
+  Config: TConnectionConfig;
+begin
+  Config := FController.LoadConfig;
+  FController.SaveConfig(Config, m);
+end;
 
 procedure TFormConnection.EditDatabaseKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -91,11 +101,10 @@ end;
 
 procedure TFormConnection.FormCreate(Sender: TObject);
 
-
 begin
-  // Cria apenas uma instância do controller
+
   FController := TConnectionController.Create;
-  ShowInitialScreen; // Decide qual tela abrir
+  ShowInitialScreen;
 end;
 
 procedure TFormConnection.FormResize(Sender: TObject);
@@ -135,8 +144,8 @@ begin
   if FController.IniExist then
   begin
   try
+      ConexaoDB;
       formlogiN := TFormLogin.Create(nil);
-      // INI existe → abre login
       LoadConfigToFields;
       FormLogin.ShowModal;
   finally
@@ -146,7 +155,6 @@ begin
   end
   else
   begin
-    // INI não existe → mantém a tela de conexão aberta
     ShowMessage('Arquivo de configuração não encontrado. Preencha os dados de conexão.');
   end;
 end;

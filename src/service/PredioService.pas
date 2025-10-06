@@ -31,7 +31,7 @@ end;
 
 function TPredioService.ListarPredio: TDataSet;
 begin
-
+   Result := FRepository.ListarPredio;
 end;
 
 end.
