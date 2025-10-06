@@ -45,7 +45,7 @@ type
     Shape2: TShape;
     BtnEditarEmpresa: TSpeedButton;
     Shape3: TShape;
-    SpeedButton3: TSpeedButton;
+    BtnExcluirEmpresa: TSpeedButton;
     Label12: TLabel;
     Label4: TLabel;
     Label9: TLabel;
@@ -189,7 +189,7 @@ type
     procedure BtnEditarEmpresaClick(Sender: TObject);
     procedure BtnConfirmarEdClick(Sender: TObject);
     function  CarregarObjeto : TEmpresaDTO;
-    procedure SpeedButton3Click(Sender: TObject);
+    procedure BtnExcluirEmpresaClick(Sender: TObject);
     procedure edtPesquisarChange(Sender: TObject);
     procedure BtnFiltrarEmpresaClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -199,6 +199,7 @@ type
     procedure PageControl1Change(Sender: TObject);
     procedure BtnEditarPredioClick(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure BtnExcluirPredioClick(Sender: TObject);
 
 
   private
@@ -365,6 +366,21 @@ end;
 
 
 
+procedure TFormCadastro.BtnExcluirPredioClick(Sender: TObject);
+var
+IdPredio: Integer;
+Predio: String;
+begin
+Predio := DBGridPredio.DataSource.DataSet.FieldByName('nome').AsString;
+if MessageDlg('O Predio ' + Predio + ' sera excluido, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    IdPredio := DBGridPredio.DataSource.DataSet.FieldByName('id').AsInteger;
+
+    ControllerPredio.ExcluirPredio(IdPredio);
+
+    AtualizarTabelaP;
+end;
+
+
 procedure TFormCadastro.BtnFiltrarEmpresaClick(Sender: TObject);
 begin
 edtPesquisar.Visible := True;
@@ -478,7 +494,7 @@ AtualizarTabelaP;
 
 end;
 
-procedure TFormCadastro.SpeedButton3Click(Sender: TObject);
+procedure TFormCadastro.BtnExcluirEmpresaClick(Sender: TObject);
 var
 IdUser: Integer;
 Controller: TEmpresaController;

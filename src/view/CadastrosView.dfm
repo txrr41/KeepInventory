@@ -44,7 +44,7 @@ object FormCadastro: TFormCadastro
       Top = 72
       Width = 1398
       Height = 785
-      ActivePage = TabSheet2
+      ActivePage = TabSheet1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -579,14 +579,14 @@ object FormCadastro: TFormCadastro
               ExplicitWidth = 65
               ExplicitHeight = 65
             end
-            object SpeedButton3: TSpeedButton
+            object BtnExcluirEmpresa: TSpeedButton
               Left = 0
               Top = 0
               Width = 161
               Height = 41
               Align = alClient
               Flat = True
-              OnClick = SpeedButton3Click
+              OnClick = BtnExcluirEmpresaClick
               ExplicitTop = 16
             end
             object Label4: TLabel
@@ -1208,6 +1208,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = BtnExcluirPredioClick
                 ExplicitTop = 16
               end
               object Label39: TLabel

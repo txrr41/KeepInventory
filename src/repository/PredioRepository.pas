@@ -11,6 +11,7 @@ private
 public
 procedure AdicionarPredio(PrModel: TPredioConfig);
 procedure EditarPredio (APredioConfig: TPredioConfig);
+procedure ExcluirPredio (AId: Integer);
 function ListarPredio: TDataSet;
 end;
 
@@ -73,6 +74,22 @@ try
 finally
   Q.Free;
 end;
+end;
+
+procedure TPredioRepository.ExcluirPredio(AId: Integer);
+var
+ Q: TFDQuery;
+begin
+ Q := TFDQuery.Create(nil);
+ try
+   Q.Connection := DataModule2.FDConnection;
+   Q.SQL.Text := 'UPDATE predios SET ativo = false WHERE id = :id';
+   Q.ParamByName('id').AsInteger := AId;
+   Q.ExecSQL;
+   Q.Close;
+ finally
+  Q.Free;
+ end;
 end;
 
 function TPredioRepository.ListarPredio: TDataSet;

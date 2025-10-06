@@ -12,9 +12,10 @@ private
 public
   procedure AdicionarPredio (APredioDTO: GPredioDTO);
   procedure EditarPredio (APredioDTO: GPredioDTO);
+  procedure ExcluirPredio (AId: Integer);
   function DtoForModel(APredioDTO: GPredioDTO): TPredioConfig;
   function ListarPredio: TDataSet;
-  constructor Create;
+  destructor destroy; override;
 end;
 
 var
@@ -33,9 +34,12 @@ begin
   PService.AdicionarPredio(PrModel);
 end;
 
-constructor TPredioController.Create;
+
+destructor TPredioController.destroy;
 begin
 
+  PService.Free;
+  inherited;
 
 end;
 
@@ -65,6 +69,11 @@ PrModel: TPredioConfig;
 begin
    PrModel := DtoForModel(APredioDTO);
    PService.EditarPredio(PrModel);
+end;
+
+procedure TPredioController.ExcluirPredio(AId: Integer);
+begin
+PService.ExcluirPredio(AId)
 end;
 
 function TPredioController.ListarPredio: TDataSet;
