@@ -8,15 +8,20 @@ PredioDto, PredioModel, PredioService, Data.DB;
 type
 TPredioController = class
 private
-FService: TPredioService;
+
 public
   procedure AdicionarPredio (APredioDTO: GPredioDTO);
+  procedure EditarPredio (APredioDTO: GPredioDTO);
   function DtoForModel(APredioDTO: GPredioDTO): TPredioConfig;
   function ListarPredio: TDataSet;
   constructor Create;
 end;
 
+var
+ControllerPredio: TPredioController;
+
 implementation
+
 
 { TPredioController }
 
@@ -25,12 +30,12 @@ var
 PrModel: TPredioConfig;
 begin
   PrModel := DtoForModel(APredioDTO);
-  FService.AdicionarPredio(PrModel);
+  PService.AdicionarPredio(PrModel);
 end;
 
 constructor TPredioController.Create;
 begin
-    FService := TPredioService.Create;
+
 
 end;
 
@@ -54,9 +59,17 @@ begin
     Result := PrModel;
 end;
 
+procedure TPredioController.EditarPredio(APredioDTO: GPredioDTO);
+var
+PrModel: TPredioConfig;
+begin
+   PrModel := DtoForModel(APredioDTO);
+   PService.EditarPredio(PrModel);
+end;
+
 function TPredioController.ListarPredio: TDataSet;
 begin
-Result := FService.ListarPredio
+Result := PService.ListarPredio
 end;
 
 end.

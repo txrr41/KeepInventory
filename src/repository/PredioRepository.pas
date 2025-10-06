@@ -10,10 +10,12 @@ TPredioRepository = class
 private
 public
 procedure AdicionarPredio(PrModel: TPredioConfig);
+procedure EditarPredio (APredioConfig: TPredioConfig);
 function ListarPredio: TDataSet;
 end;
 
-
+ var
+ FRepository: TPredioRepository;
 implementation
 
 { TPredioRepository }
@@ -44,6 +46,33 @@ begin
   finally
     Q.Free;
   end;
+end;
+
+procedure TPredioRepository.EditarPredio(APredioConfig: TPredioConfig);
+var
+Q: TFDQuery;
+begin
+Q := TFDQuery.Create(nil);
+try
+  Q.Connection := DataModule2.FDConnection;
+  Q.SQL.Text := 'UPDATE predios SET nome = :Nome, situacao = :situacao, telefone = :Telefone, rua = :Rua, numero = :Numero, estado = :Estado, cidade = :Cidade, cep = :Cep, bairro = :Bairro WHERE id = :Id';
+  Q.ParamByName('Nome').AsString := APredioConfig.Nome;
+  Q.ParamByName('Situacao').AsString := APredioConfig.Situacao;
+  Q.ParamByName('Telefone').AsString := APredioConfig.Telefone;
+  Q.ParamByName('Rua').AsString := APredioConfig.Rua;
+  Q.ParamByName('Numero').AsInteger := APredioConfig.Numero;
+  Q.ParamByName('Estado').AsString := APredioConfig.Estado;
+  Q.ParamByName('Cidade').AsString := APredioConfig.Cidade;
+  Q.ParamByName('Cep').AsString := APredioConfig.Cep;
+  Q.ParamByName('Bairro').AsString := APredioConfig.Bairro;
+  Q.ParamByName('Id').AsInteger := APredioConfig.Id;
+
+  Q.ExecSQL;
+  Q.Close;
+
+finally
+  Q.Free;
+end;
 end;
 
 function TPredioRepository.ListarPredio: TDataSet;

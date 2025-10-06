@@ -1029,12 +1029,21 @@ object FormCadastro: TFormCadastro
             end
             object Button1: TButton
               Left = 1221
-              Top = 80
+              Top = 88
               Width = 116
               Height = 33
               Caption = 'Button1'
               TabOrder = 9
               OnClick = Button1Click
+            end
+            object Button2: TButton
+              Left = 1221
+              Top = 40
+              Width = 116
+              Height = 33
+              Caption = 'Button2'
+              TabOrder = 10
+              OnClick = Button2Click
             end
           end
           object Panel13: TPanel
@@ -1152,6 +1161,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = BtnEditarPredioClick
                 ExplicitTop = 16
               end
               object Label38: TLabel

@@ -180,6 +180,7 @@ type
     DataSEmpresa: TDataSource;
     BtnConfirmarEd: TButton;
     Button1: TButton;
+    Button2: TButton;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
@@ -196,6 +197,8 @@ type
     procedure AtualizarTabelaP;
     procedure AtualizarTabelaE;
     procedure PageControl1Change(Sender: TObject);
+    procedure BtnEditarPredioClick(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
 
 
   private
@@ -301,6 +304,32 @@ end;
 end;
 
 
+procedure TFormCadastro.BtnEditarPredioClick(Sender: TObject);
+var
+Controller: TPredioController;
+Dto: GPredioDTO;
+begin
+PanelAddPredio.Visible := True;
+
+try
+
+EdtNamePredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('nome').AsString;
+ComboBoxSituacao.Text := DBGridPredio.DataSource.DataSet.FieldByName('situacao').AsString;
+EdtBairroPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('bairro').AsString;
+EditRuaPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('rua').AsString;
+EdtTelefonePredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('telefone').AsString;
+EdtNumeroPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('numero').AsString;
+EdtEstadoPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('estado').AsString;
+EdtCidadePredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('cidade').AsString;
+EdtCepPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('cep').AsString;
+
+
+finally
+
+end;
+
+end;
+
 procedure TFormCadastro.BtnEnviarClick(Sender: TObject);
 var
 Controller: TEmpresaController;
@@ -344,10 +373,10 @@ end;
 procedure TFormCadastro.Button1Click(Sender: TObject);
 var
 Dto : GPredioDTO;
-Controller: TPredioController;
+
 begin
 
-Controller := TPredioController.Create;
+
 
 try
 
@@ -361,15 +390,39 @@ Dto.FEstado := EdtEstadoPredio.Text;
 Dto.FNumero := StrToInt (EdtNumeroPredio.Text);
 Dto.FBairro := EdtBairroPredio.Text;
 
-Controller.AdicionarPredio(Dto);
+ControllerPredio.AdicionarPredio(Dto);
 
-ShowMessage('Predio Adicionado');
 
 PanelAddEmpresa.Visible := False;
 
 finally
 
 end;
+
+end;
+
+procedure TFormCadastro.Button2Click(Sender: TObject);
+var
+Dto: GPredioDTO;
+
+begin
+Dto.FNome := EdtNamePredio.Text;
+Dto.FSituacao := ComboBoxSituacao.Text;
+Dto.FTelefone:= EdtTelefonePredio.Text;
+Dto.FCep := EdtCepPredio.Text;
+Dto.FRua:= EditRuaPredio.Text;
+Dto.FCidade := EdtCidadePredio.Text;
+Dto.FEstado := EdtEstadoPredio.Text;
+Dto.FNumero := StrToInt (EdtNumeroPredio.Text);
+Dto.FBairro := EdtBairroPredio.Text;
+Dto.FId := DBGridPredio.DataSource.DataSet.FieldByName('id').AsInteger;
+
+ControllerPredio.EditarPredio(Dto);
+
+AtualizarTabelaP;
+
+PanelAddPredio.Visible := False;
+
 
 end;
 
@@ -383,7 +436,7 @@ Controller := TEmpresaController.Create;
 EmpModel := Controller.DtoForModel(CarregarObjeto);
 PanelAddEmpresa.Visible := False;
 Controller.EditarEmpresa(CarregarObjeto);
-ShowMessage(IntToStr(EmpModel.Id));
+
 end;
 
 function TFormCadastro.CarregarObjeto : TEmpresaDTO;

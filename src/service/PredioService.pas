@@ -8,12 +8,16 @@ PredioModel, PredioRepository, Data.DB;
 Type
   TPredioService = class
   private
-  FRepository: TPredioRepository;
+
   public
   procedure AdicionarPredio(APredioConfig: TPredioConfig);
+  procedure EditarPredio (APredioConfig: TPredioConfig);
   constructor Create;
   function ListarPredio: TDataSet;
 end;
+
+var
+PService : TPredioService;
 
 implementation
 
@@ -26,7 +30,12 @@ end;
 
 constructor TPredioService.Create;
 begin
-FRepository := TPredioRepository.Create;
+
+end;
+
+procedure TPredioService.EditarPredio(APredioConfig: TPredioConfig);
+begin
+ FRepository.EditarPredio(APredioConfig);
 end;
 
 function TPredioService.ListarPredio: TDataSet;
