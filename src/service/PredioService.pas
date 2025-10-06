@@ -3,7 +3,7 @@ unit PredioService;
 interface
 
 uses
-PredioModel, PredioRepository;
+PredioModel, PredioRepository, Data.DB;
 
 Type
   TPredioService = class
@@ -12,6 +12,7 @@ Type
   public
   procedure AdicionarPredio(APredioConfig: TPredioConfig);
   constructor Create;
+  function ListarPredio: TDataSet;
 end;
 
 implementation
@@ -26,6 +27,11 @@ end;
 constructor TPredioService.Create;
 begin
 FRepository := TPredioRepository.Create;
+end;
+
+function TPredioService.ListarPredio: TDataSet;
+begin
+
 end;
 
 end.

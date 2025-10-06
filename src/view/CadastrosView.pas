@@ -126,7 +126,7 @@ type
     BtnAtualizarPredio: TSpeedButton;
     Label47: TLabel;
     Panel19: TPanel;
-    DBGrid2: TDBGrid;
+    DBGridPredio: TDBGrid;
     SearchBox2: TSearchBox;
     ComboBoxSituacao: TComboBox;
     Panel3: TPanel;
@@ -192,6 +192,7 @@ type
     procedure edtPesquisarChange(Sender: TObject);
     procedure BtnFiltrarEmpresaClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure PageControl1Change(Sender: TObject);
   private
     { Private declarations }
   public
@@ -390,6 +391,15 @@ begin
  DataSEmpresa.DataSet := Controller.PesquisarEmpresa(edtPesquisar.Text);
  DbGrid1.DataSource := DataSEmpresa;
 
+end;
+
+procedure TFormCadastro.PageControl1Change(Sender: TObject);
+var
+Controller: TPredioController;
+begin
+Controller := TPredioController.Create;
+DataSEmpresa.DataSet := Controller.ListarPredio;
+DbGridPredio.DataSource := DataSEmpresa;
 end;
 
 procedure TFormCadastro.SpeedButton3Click(Sender: TObject);

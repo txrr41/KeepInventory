@@ -3,13 +3,14 @@ unit PredioRepository;
 interface
 
 uses
-PredioModel, DB, FireDAC.Comp.Client;
+PredioModel, DB, FireDAC.Comp.Client, Data.DB;
 
 Type
 TPredioRepository = class
 private
 public
 procedure AdicionarPredio(PrModel: TPredioConfig);
+function ListarPredio: TDataSet;
 end;
 
 
@@ -43,6 +44,22 @@ begin
   finally
     Q.Free;
   end;
+end;
+
+function TPredioRepository.ListarPredio: TDataSet;
+var
+Q: TFDQuery;
+begin
+Q := TFDQuery.Create(nil);
+try
+  Q.Connection := DataModule2.FDConnection;
+  Q.Sql.Text := 'SELECT * FROM predios WHERE ativo = true ORDER BY id ';
+  Q.Open;
+
+  Result := Q;
+finally
+
+end;
 end;
 
 end.

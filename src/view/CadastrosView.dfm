@@ -54,6 +54,7 @@ object FormCadastro: TFormCadastro
       TabHeight = 45
       TabOrder = 0
       TabWidth = 207
+      OnChange = PageControl1Change
       object TabSheet1: TTabSheet
         ParentCustomHint = False
         Caption = 'Empresa'
@@ -1394,7 +1395,7 @@ object FormCadastro: TFormCadastro
             Color = clMenu
             ParentBackground = False
             TabOrder = 2
-            object DBGrid2: TDBGrid
+            object DBGridPredio: TDBGrid
               Left = 12
               Top = 16
               Width = 897

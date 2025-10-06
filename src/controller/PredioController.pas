@@ -3,7 +3,7 @@ unit PredioController;
 interface
 
 uses
-PredioDto, PredioModel, PredioService;
+PredioDto, PredioModel, PredioService, Data.DB;
 
 type
 TPredioController = class
@@ -12,6 +12,7 @@ FService: TPredioService;
 public
   procedure AdicionarPredio (APredioDTO: GPredioDTO);
   function DtoForModel(APredioDTO: GPredioDTO): TPredioConfig;
+  function ListarPredio: TDataSet;
   constructor Create;
 end;
 
@@ -51,6 +52,11 @@ begin
     PrModel.Id := APredioDTO.FId;
 
     Result := PrModel;
+end;
+
+function TPredioController.ListarPredio: TDataSet;
+begin
+Result := FService.ListarPredio
 end;
 
 end.
