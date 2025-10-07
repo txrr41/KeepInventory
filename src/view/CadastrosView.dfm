@@ -44,7 +44,7 @@ object FormCadastro: TFormCadastro
       Top = 72
       Width = 1398
       Height = 785
-      ActivePage = TabSheet1
+      ActivePage = TabSheet2
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -1027,23 +1027,25 @@ object FormCadastro: TFormCadastro
                 'Pr'#243'prio'
                 'Cedido')
             end
-            object Button1: TButton
-              Left = 1221
-              Top = 88
-              Width = 116
+            object BtnEnviarPredio: TButton
+              Left = 1201
+              Top = 70
+              Width = 147
               Height = 33
-              Caption = 'Button1'
+              Caption = 'Enviar'
               TabOrder = 9
-              OnClick = Button1Click
+              Visible = False
+              OnClick = BtnEnviarPredioClick
             end
-            object Button2: TButton
-              Left = 1221
-              Top = 40
-              Width = 116
-              Height = 33
-              Caption = 'Button2'
+            object BtnConfirmarEdPredio: TButton
+              Left = 1201
+              Top = 69
+              Width = 147
+              Height = 35
+              Caption = 'Confirmar Altera'#231#227'o'
               TabOrder = 10
-              OnClick = Button2Click
+              Visible = False
+              OnClick = BtnConfirmarEdPredioClick
             end
           end
           object Panel13: TPanel
@@ -1268,6 +1270,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = BtnFiltrarPredioClick
                 ExplicitTop = 16
               end
               object Label41: TLabel
@@ -1413,6 +1416,7 @@ object FormCadastro: TFormCadastro
               Width = 897
               Height = 393
               BorderStyle = bsNone
+              Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
               TabOrder = 0
               TitleFont.Charset = DEFAULT_CHARSET
               TitleFont.Color = clWindowText
@@ -1490,7 +1494,7 @@ object FormCadastro: TFormCadastro
                 end>
             end
           end
-          object SearchBox2: TSearchBox
+          object edtPesquisarPredio: TSearchBox
             Left = 76
             Top = 39
             Width = 385
@@ -1503,6 +1507,8 @@ object FormCadastro: TFormCadastro
             TabOrder = 3
             Text = 'Pesquisar'
             TextHint = 'Pesquisar'
+            Visible = False
+            OnChange = edtPesquisarPredioChange
           end
         end
       end

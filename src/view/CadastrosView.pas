@@ -127,7 +127,7 @@ type
     Label47: TLabel;
     Panel19: TPanel;
     DBGridPredio: TDBGrid;
-    SearchBox2: TSearchBox;
+    edtPesquisarPredio: TSearchBox;
     ComboBoxSituacao: TComboBox;
     Panel3: TPanel;
     Shape17: TShape;
@@ -179,8 +179,8 @@ type
     BtnEnviar: TButton;
     DataSEmpresa: TDataSource;
     BtnConfirmarEd: TButton;
-    Button1: TButton;
-    Button2: TButton;
+    BtnEnviarPredio: TButton;
+    BtnConfirmarEdPredio: TButton;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
@@ -192,14 +192,16 @@ type
     procedure BtnExcluirEmpresaClick(Sender: TObject);
     procedure edtPesquisarChange(Sender: TObject);
     procedure BtnFiltrarEmpresaClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure BtnEnviarPredioClick(Sender: TObject);
     procedure BtnAtualizarPredioClick(Sender: TObject);
     procedure AtualizarTabelaP;
     procedure AtualizarTabelaE;
     procedure PageControl1Change(Sender: TObject);
     procedure BtnEditarPredioClick(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure BtnConfirmarEdPredioClick(Sender: TObject);
     procedure BtnExcluirPredioClick(Sender: TObject);
+    procedure edtPesquisarPredioChange(Sender: TObject);
+    procedure BtnFiltrarPredioClick(Sender: TObject);
 
 
   private
@@ -250,6 +252,7 @@ procedure TFormCadastro.BtnAdicionarPredioClick(Sender: TObject);
 begin
 if PanelAddPredio.Visible = False then begin
   PanelAddPredio.Visible := True;
+  BtnEnviarPredio.Visible := True;
 end else  begin
   PanelAddPredio.Visible := False;
 end;
@@ -311,6 +314,7 @@ Controller: TPredioController;
 Dto: GPredioDTO;
 begin
 PanelAddPredio.Visible := True;
+BtnConfirmarEdPredio.Visible := True;
 
 try
 
@@ -386,7 +390,12 @@ begin
 edtPesquisar.Visible := True;
 end;
 
-procedure TFormCadastro.Button1Click(Sender: TObject);
+procedure TFormCadastro.BtnFiltrarPredioClick(Sender: TObject);
+begin
+edtPesquisarPredio.Visible := True;
+end;
+
+procedure TFormCadastro.BtnEnviarPredioClick(Sender: TObject);
 var
 Dto : GPredioDTO;
 
@@ -409,7 +418,17 @@ Dto.FBairro := EdtBairroPredio.Text;
 ControllerPredio.AdicionarPredio(Dto);
 
 
-PanelAddEmpresa.Visible := False;
+EdtNamePredio.Text := '';
+ComboBoxSituacao.Text := '';
+EdtTelefonePredio.Text := '';
+EdtCepPredio.Text := '';
+EditRuaPredio.Text := '';
+EdtCidadePredio.Text := '';
+EdtEstadoPredio.Text := '';
+EdtNumeroPredio.Text := '';
+EdtBairroPredio.Text := '';
+
+PanelAddPredio.Visible := False;
 
 finally
 
@@ -417,7 +436,7 @@ end;
 
 end;
 
-procedure TFormCadastro.Button2Click(Sender: TObject);
+procedure TFormCadastro.BtnConfirmarEdPredioClick(Sender: TObject);
 var
 Dto: GPredioDTO;
 
@@ -487,11 +506,18 @@ end;
 
 procedure TFormCadastro.PageControl1Change(Sender: TObject);
 begin
+
 if PageControl1.ActivePage = TabSheet1 then begin
   AtualizarTabelaE;
 end else if PageControl1.ActivePage = TabSheet2 then
 AtualizarTabelaP;
 
+end;
+
+procedure TFormCadastro.edtPesquisarPredioChange(Sender: TObject);
+begin
+DataSEmpresa.DataSet := ControllerPredio.PesquisarPredio(edtPesquisarPredio.Text);
+DBGridPredio.DataSource := DataSEmpresa;
 end;
 
 procedure TFormCadastro.BtnExcluirEmpresaClick(Sender: TObject);

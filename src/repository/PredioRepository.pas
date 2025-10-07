@@ -3,7 +3,7 @@ unit PredioRepository;
 interface
 
 uses
-PredioModel, DB, FireDAC.Comp.Client, Data.DB;
+PredioModel, DB, FireDAC.Comp.Client, Data.DB, System.SysUtils;
 
 Type
 TPredioRepository = class
@@ -13,6 +13,7 @@ procedure AdicionarPredio(PrModel: TPredioConfig);
 procedure EditarPredio (APredioConfig: TPredioConfig);
 procedure ExcluirPredio (AId: Integer);
 function ListarPredio: TDataSet;
+function PesquisarPredio (const aSearch: String): TDataSet;
 end;
 
  var
@@ -106,6 +107,33 @@ try
 finally
 
 end;
+end;
+
+function TPredioRepository.PesquisarPredio(const aSearch: String): TDataSet;
+var
+  Q: TFDQuery;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text :=
+      'SELECT id, nome, situacao, telefone, cep, ' +
+      '       rua, numero, bairro, cidade, estado ' +
+      'FROM predios ' +
+      'WHERE ativo = true ' +
+      '  AND (nome ILIKE :search ' +
+      '       OR estado ILIKE :search ' +
+      '       OR situacao ILIKE :search ' +
+      '       OR cidade ILIKE :search ' +
+      '       OR bairro ILIKE :search) ' +
+      'ORDER BY id';
+    Q.ParamByName('search').AsString := '%' + Trim(aSearch) + '%';
+    Q.Open;
+    Result := Q;
+  except
+    Q.Free;
+    raise;
+  end;
 end;
 
 end.

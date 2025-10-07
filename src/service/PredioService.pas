@@ -14,6 +14,7 @@ Type
   procedure EditarPredio (APredioConfig: TPredioConfig);
   procedure ExcluirPredio (AId: Integer);
   function ListarPredio: TDataSet;
+  function PesquisarPredio (const aSearch: String): TDataSet;
   destructor destroy; override;
 end;
 
@@ -51,6 +52,11 @@ end;
 function TPredioService.ListarPredio: TDataSet;
 begin
    Result := FRepository.ListarPredio;
+end;
+
+function TPredioService.PesquisarPredio(const aSearch: String): TDataSet;
+begin
+Result := FRepository.PesquisarPredio(aSearch);
 end;
 
 end.

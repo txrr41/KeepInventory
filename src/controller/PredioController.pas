@@ -13,6 +13,7 @@ public
   procedure AdicionarPredio (APredioDTO: GPredioDTO);
   procedure EditarPredio (APredioDTO: GPredioDTO);
   procedure ExcluirPredio (AId: Integer);
+  function PesquisarPredio (const aSearch: String): TDataSet;
   function DtoForModel(APredioDTO: GPredioDTO): TPredioConfig;
   function ListarPredio: TDataSet;
   destructor destroy; override;
@@ -79,6 +80,11 @@ end;
 function TPredioController.ListarPredio: TDataSet;
 begin
 Result := PService.ListarPredio
+end;
+
+function TPredioController.PesquisarPredio(const aSearch: String): TDataSet;
+begin
+    result := PService.PesquisarPredio(aSearch);
 end;
 
 end.
