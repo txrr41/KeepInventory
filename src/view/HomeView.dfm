@@ -2,8 +2,8 @@ object FormHome: TFormHome
   Left = 0
   Top = 0
   Caption = 'FormHome'
-  ClientHeight = 846
-  ClientWidth = 1442
+  ClientHeight = 809
+  ClientWidth = 1427
   Color = clSkyBlue
   DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
@@ -306,7 +306,7 @@ object FormHome: TFormHome
       end
       object Image8: TImage
         Left = 11
-        Top = 774
+        Top = 750
         Width = 32
         Height = 29
         Picture.Data = {

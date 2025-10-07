@@ -44,7 +44,7 @@ object FormCadastro: TFormCadastro
       Top = 72
       Width = 1398
       Height = 785
-      ActivePage = TabSheet2
+      ActivePage = TabSheet3
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -1902,7 +1902,7 @@ object FormCadastro: TFormCadastro
             Color = clMenu
             ParentBackground = False
             TabOrder = 1
-            object DBGrid3: TDBGrid
+            object DBGridSalas: TDBGrid
               Left = 12
               Top = 14
               Width = 897
@@ -1914,6 +1914,48 @@ object FormCadastro: TFormCadastro
               TitleFont.Height = -15
               TitleFont.Name = 'Segoe UI'
               TitleFont.Style = []
+              Columns = <
+                item
+                  Expanded = False
+                  FieldName = 'id'
+                  Title.Caption = '     ID'
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'nome'
+                  Title.Caption = '      Nome'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'nome_fantasia'
+                  Title.Caption = '      Predio'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'situacao'
+                  Title.Caption = '     Situa'#231#227'o'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'tipo'
+                  Title.Caption = '       Tipo'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'observacao'
+                  Title.Caption = '                    Observa'#231#227'o'
+                  Width = 250
+                  Visible = True
+                end>
             end
           end
           object SearchBox3: TSearchBox
@@ -2046,6 +2088,15 @@ object FormCadastro: TFormCadastro
               Width = 121
               Height = 28
               TabOrder = 4
+            end
+            object Button1: TButton
+              Left = 1121
+              Top = 72
+              Width = 149
+              Height = 38
+              Caption = 'Button1'
+              TabOrder = 5
+              OnClick = Button1Click
             end
           end
         end

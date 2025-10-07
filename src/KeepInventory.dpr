@@ -30,7 +30,12 @@ uses
   PredioService in 'service\PredioService.pas',
   PredioRepository in 'repository\PredioRepository.pas',
   PredioModel in 'model\PredioModel.pas',
-  PredioDTO in 'dto\PredioDTO.pas';
+  PredioDTO in 'dto\PredioDTO.pas',
+  SalaController in 'controller\SalaController.pas',
+  SalaRepository in 'repository\SalaRepository.pas',
+  SalaService in 'service\SalaService.pas',
+  SalaModel in 'model\SalaModel.pas',
+  SalaDTO in 'dto\SalaDTO.pas';
 
 {$R *.res}
 

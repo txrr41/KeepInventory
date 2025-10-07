@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController;
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController
+  ,SalaDTO, SalaController;
 
 type
   TFormCadastro = class(TForm)
@@ -163,7 +164,7 @@ type
     BtnAtualizarSala: TSpeedButton;
     Label68: TLabel;
     Panel26: TPanel;
-    DBGrid3: TDBGrid;
+    DBGridSalas: TDBGrid;
     SearchBox3: TSearchBox;
     PanelAddSala: TPanel;
     Label27: TLabel;
@@ -181,6 +182,7 @@ type
     BtnConfirmarEd: TButton;
     BtnEnviarPredio: TButton;
     BtnConfirmarEdPredio: TButton;
+    Button1: TButton;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
@@ -202,6 +204,9 @@ type
     procedure BtnExcluirPredioClick(Sender: TObject);
     procedure edtPesquisarPredioChange(Sender: TObject);
     procedure BtnFiltrarPredioClick(Sender: TObject);
+    procedure PopularComboBox;
+    procedure Button1Click(Sender: TObject);
+
 
 
   private
@@ -264,6 +269,8 @@ procedure TFormCadastro.BtnAdicionarSalaClick(Sender: TObject);
 begin
 if PanelAddSala.Visible = False then begin
   PanelAddSala.Visible := True;
+  PopularComboBox;
+
 end else  begin
   PanelAddSala.Visible := False;
 end;
@@ -395,6 +402,32 @@ begin
 edtPesquisarPredio.Visible := True;
 end;
 
+procedure TFormCadastro.Button1Click(Sender: TObject);
+var
+Dto: TSalaDTO;
+begin
+ try
+   Dto.FNome := EditNameSala.Text;
+   Dto.FPredio := ComboBox2.Text;
+   Dto.FSituacao := EdtSituacaoSala.Text;
+   Dto.FTipo := EdtTipoSala.Text;
+   Dto.FObservacao := EdtObs.Text;
+
+   FSalaController.AdicionarSala(Dto);
+
+    EditNameSala.Text := '';
+    ComboBox2.Text := '';
+    EdtSituacaoSala.Text := '';
+    EdtTipoSala.Text := '';
+    EdtObs.Text := '';
+
+    PanelAddSala.Visible := False;
+
+ finally
+
+ end;
+end;
+
 procedure TFormCadastro.BtnEnviarPredioClick(Sender: TObject);
 var
 Dto : GPredioDTO;
@@ -512,6 +545,11 @@ if PageControl1.ActivePage = TabSheet1 then begin
 end else if PageControl1.ActivePage = TabSheet2 then
 AtualizarTabelaP;
 
+end;
+
+procedure TFormCadastro.PopularComboBox;
+begin
+    FSalaController.PopularComboBox(ComboBox2);
 end;
 
 procedure TFormCadastro.edtPesquisarPredioChange(Sender: TObject);
