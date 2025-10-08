@@ -5,7 +5,7 @@ interface
 Type
  TSalaDTO = record
   FNome: String;
-  FPredio: String;
+  FIdPredio: Integer;
   FSituacao: String;
   FObservacao: String;
   FTipo: String;

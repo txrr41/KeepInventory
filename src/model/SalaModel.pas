@@ -6,13 +6,13 @@ Type
 TSalaConfig = class
   private
   FNome: String;
-  FPredio: String;
+  FIdPredio: Integer;
   FSituacao: String;
   FObservacao: String;
   FTipo: String;
   FId: Integer;
   public
-  property Predio: string read FPredio write FPredio;
+  property IdPredio: integer read FIdPredio write FIdPredio;
   property Nome: string read FNome write FNome;
   property Situacao: string read FSituacao write FSituacao;
   property Observacao: string read FObservacao write FObservacao;

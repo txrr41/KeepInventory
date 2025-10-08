@@ -206,7 +206,9 @@ type
     procedure BtnFiltrarPredioClick(Sender: TObject);
     procedure PopularComboBox;
     procedure Button1Click(Sender: TObject);
-
+    procedure AtualizarTabelaS;
+    constructor Create (AComponent: TComponent);
+    procedure BtnAtualizarSalaClick(Sender: TObject);
 
 
   private
@@ -238,6 +240,12 @@ begin
 Controller := TPredioController.Create;
 DataSEmpresa.DataSet := Controller.ListarPredio;
 DbGridPredio.DataSource := DataSEmpresa;
+end;
+
+procedure TFormCadastro.AtualizarTabelaS;
+begin
+DataSEmpresa.DataSet := FSalaController.ListarSala;
+DbGridSalas.DataSource := DataSEmpresa;
 end;
 
 procedure TFormCadastro.BtnAdicionarEmpresaClick(Sender: TObject);
@@ -285,6 +293,11 @@ end;
 procedure TFormCadastro.BtnAtualizarPredioClick(Sender: TObject);
 begin
     AtualizarTabelaP;
+end;
+
+procedure TFormCadastro.BtnAtualizarSalaClick(Sender: TObject);
+begin
+AtualizarTabelaS;
 end;
 
 procedure TFormCadastro.BtnEditarEmpresaClick(Sender: TObject);
@@ -404,28 +417,42 @@ end;
 
 procedure TFormCadastro.Button1Click(Sender: TObject);
 var
-Dto: TSalaDTO;
+  Dto: TSalaDTO;
+  SelectedID: Integer;
 begin
- try
-   Dto.FNome := EditNameSala.Text;
-   Dto.FPredio := ComboBox2.Text;
-   Dto.FSituacao := EdtSituacaoSala.Text;
-   Dto.FTipo := EdtTipoSala.Text;
-   Dto.FObservacao := EdtObs.Text;
 
-   FSalaController.AdicionarSala(Dto);
+  try
+
+    if ComboBox2.ItemIndex >= 0 then
+    begin
+      SelectedID := Integer(NativeInt(ComboBox2.Items.Objects[ComboBox2.ItemIndex]));
+      Dto.FIdPredio := SelectedID;
+
+    end
+    else
+    begin
+      raise Exception.Create('Por favor, selecione um Prédio.');
+    end;
+
+
+    Dto.FNome := EditNameSala.Text;
+    Dto.FSituacao := EdtSituacaoSala.Text;
+    Dto.FTipo := EdtTipoSala.Text;
+    Dto.FObservacao := EdtObs.Text;
+
+    FSalaController.AdicionarSala(Dto);
 
     EditNameSala.Text := '';
-    ComboBox2.Text := '';
+    ComboBox2.ItemIndex := -1;
     EdtSituacaoSala.Text := '';
     EdtTipoSala.Text := '';
     EdtObs.Text := '';
 
     PanelAddSala.Visible := False;
-
- finally
-
- end;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao salvar: ' + E.Message);
+  end;
 end;
 
 procedure TFormCadastro.BtnEnviarPredioClick(Sender: TObject);
@@ -526,6 +553,12 @@ Dto.FId := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
 Result := Dto;
 end;
 
+constructor TFormCadastro.Create(AComponent: TComponent);
+begin
+inherited Create(AComponent);
+SalaController.FSalaController := TSalaController.Create;
+end;
+
 procedure TFormCadastro.edtPesquisarChange(Sender: TObject);
 var
 
@@ -542,10 +575,14 @@ begin
 
 if PageControl1.ActivePage = TabSheet1 then begin
   AtualizarTabelaE;
-end else if PageControl1.ActivePage = TabSheet2 then
+end else if PageControl1.ActivePage = TabSheet2 then begin
 AtualizarTabelaP;
 
+end else if PageControl1.ActivePage = TabSheet3 then
+AtualizarTabelaS
 end;
+
+
 
 procedure TFormCadastro.PopularComboBox;
 begin

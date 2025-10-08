@@ -1875,6 +1875,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = BtnAtualizarSalaClick
                 ExplicitTop = 16
               end
               object Label68: TLabel
@@ -1930,7 +1931,7 @@ object FormCadastro: TFormCadastro
                 end
                 item
                   Expanded = False
-                  FieldName = 'nome_fantasia'
+                  FieldName = 'nome_predio'
                   Title.Caption = '      Predio'
                   Width = 100
                   Visible = True

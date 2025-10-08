@@ -3,13 +3,14 @@ unit SalaController;
 interface
 
 uses
-SalaModel, SalaDTO, SalaService, System.SysUtils, Vcl.StdCtrls, System.Classes;
+SalaModel, SalaDTO, SalaService, System.SysUtils, Vcl.StdCtrls, System.Classes, DATA.DB;
 
 type
 TSalaController = class
 public
 procedure PopularComboBox (AComboBox: TComboBox);
 procedure AdicionarSala (ASalaDTO: TSalaDTO);
+function ListarSala: TDataSet;
 function DtoForModel(ASalaDTO: TSalaDTO): TSalaConfig;
 end;
 
@@ -38,24 +39,30 @@ begin
 
     SalaModel.Nome := ASalaDTO.FNome;
     SalaModel.Situacao := ASalaDTO.FSituacao;
-    SalaModel.Predio := ASalaDTO.FPredio;
-    SalaModel.Situacao := ASalaDTO.FObservacao;
+    SalaModel.IdPredio := ASalaDTO.FIdPredio;
+    SalaModel.Tipo := ASalaDTO.FTipo;
     SalaModel.Observacao:= ASalaDTO.FObservacao;
     SalaModel.Id := ASalaDTO.FId;
 
     Result := SalaModel;
 end;
-procedure TSalaController.PopularComboBox(AComboBox: TComboBox);
-var
-  Nomes: TStringList;
+function TSalaController.ListarSala: TDataSet;
 begin
-  Nomes := FSalaService.ObterNomesPredios;
-  try
-    AComboBox.Items.Clear;
-    AComboBox.Items.AddStrings(Nomes);
-  finally
-    Nomes.Free;
-  end;
+ result := FSalaService.ListarSala;
 end;
 
+procedure TSalaController.PopularComboBox(AComboBox: TComboBox);
+var
+  NomesComIDs: TStringList;
+begin
+
+  NomesComIDs := FSalaService.ObterNomesPredios;
+  try
+    AComboBox.Items.Clear;
+    AComboBox.Items.Assign(NomesComIDs);
+  finally
+
+    NomesComIDs.Free;
+  end;
+end;
 end.
