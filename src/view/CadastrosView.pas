@@ -209,6 +209,7 @@ type
     procedure AtualizarTabelaS;
     constructor Create (AComponent: TComponent);
     procedure BtnAtualizarSalaClick(Sender: TObject);
+    procedure BtnExcluirSalaClick(Sender: TObject);
 
 
   private
@@ -405,6 +406,21 @@ if MessageDlg('O Predio ' + Predio + ' sera excluido, deseja continuar?', mtConf
 end;
 
 
+procedure TFormCadastro.BtnExcluirSalaClick(Sender: TObject);
+var
+IdSala: Integer;
+Sala: String;
+begin
+Sala := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;
+if MessageDlg('A Sala ' + Sala + ' sera excluida, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    IdSala := DBGridSalas.DataSource.DataSet.FieldByName('id').AsInteger;
+
+    FSalaController.ExcluirSala(IdSala);
+
+    AtualizarTabelaS;
+end;
+
+
 procedure TFormCadastro.BtnFiltrarEmpresaClick(Sender: TObject);
 begin
 edtPesquisar.Visible := True;
@@ -441,6 +457,7 @@ begin
     Dto.FObservacao := EdtObs.Text;
 
     FSalaController.AdicionarSala(Dto);
+    AtualizarTabelaS;
 
     EditNameSala.Text := '';
     ComboBox2.ItemIndex := -1;

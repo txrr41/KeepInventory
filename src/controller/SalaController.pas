@@ -10,6 +10,7 @@ TSalaController = class
 public
 procedure PopularComboBox (AComboBox: TComboBox);
 procedure AdicionarSala (ASalaDTO: TSalaDTO);
+procedure ExcluirSala (AId: Integer);
 function ListarSala: TDataSet;
 function DtoForModel(ASalaDTO: TSalaDTO): TSalaConfig;
 end;
@@ -46,6 +47,11 @@ begin
 
     Result := SalaModel;
 end;
+procedure TSalaController.ExcluirSala(AId: Integer);
+begin
+FSalaService.ExcluirSala(AId);
+end;
+
 function TSalaController.ListarSala: TDataSet;
 begin
  result := FSalaService.ListarSala;

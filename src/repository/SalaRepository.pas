@@ -9,6 +9,7 @@ Type
 TSalaRepository = class
 public
 procedure AdicionarSala (ASalaModel: TSalaConfig);
+procedure ExcluirSala (AId: Integer);
 function ListarNomesPredios: TStringList;
 function ListarSala: TDataSet;
 
@@ -49,6 +50,22 @@ begin
   end;
 end;
 
+procedure TSalaRepository.ExcluirSala(AId: Integer);
+var
+ Q: TFDQuery;
+begin
+ Q := TFDQuery.Create(nil);
+ try
+   Q.Connection := DataModule2.FDConnection;
+   Q.SQL.Text := 'UPDATE salas SET ativo = false WHERE id = :id';
+   Q.ParamByName('id').AsInteger := AId;
+   Q.ExecSQL;
+   Q.Close;
+ finally
+  Q.Free;
+ end;
+end;
+
 function TSalaRepository.ListarNomesPredios: TStringList;
 var
   Query: TFDQuery;
@@ -85,15 +102,16 @@ begin
   Query.SQL.Text :=
     'SELECT ' +
     '  s.id, ' +
-    '  s.nome AS nome, ' +        // <-- ALIAS para nome da sala
-    '  p.nome AS nome_predio, ' +      // <-- ALIAS para nome do prédio
+    '  s.nome AS nome, ' +
+    '  p.nome AS nome_predio, ' +
     '  s.situacao, ' +
     '  s.tipo, ' +
     '  s.observacao, ' +
     '  s.fk_id_predios ' +
     'FROM salas s ' +
     'INNER JOIN predios p ON s.fk_id_predios = p.id ' +
-    'ORDER BY s.nome';
+     'WHERE s.ativo = true ' +
+    'ORDER BY s.id';
 
   Query.Open;
   Result := Query;

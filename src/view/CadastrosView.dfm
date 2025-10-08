@@ -1705,6 +1705,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = BtnExcluirSalaClick
                 ExplicitTop = 16
               end
               object Label60: TLabel

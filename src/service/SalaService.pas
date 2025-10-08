@@ -9,6 +9,7 @@ Type
 TSalaService = class
 public
 procedure AdicionarSala (ASalaModel: TSalaConfig);
+procedure ExcluirSala (AId: Integer);
 Function ObterNomesPredios: TStringList;
 function ListarSala: TDataSet;
 end;
@@ -26,6 +27,11 @@ implementation
 procedure TSalaService.AdicionarSala(ASalaModel: TSalaConfig);
 begin
     FSalaRepository.AdicionarSala(ASalaModel);
+end;
+
+procedure TSalaService.ExcluirSala(AId: Integer);
+begin
+FSalaRepository.ExcluirSala(AId);
 end;
 
 function TSalaService.ListarSala: TDataSet;
