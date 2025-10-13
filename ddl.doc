@@ -93,7 +93,7 @@ CREATE SEQUENCE public.usuarios_id_seq
 	MAXVALUE 2147483647
 	START 1
 	CACHE 1
-	NO CYCLE;-- public.bens definição
+	NO CYCLE;-- public.bens definiÃ§Ã£o
 
 -- Drop table
 
@@ -111,7 +111,7 @@ CREATE TABLE public.bens (
 );
 
 
--- public.empresas definição
+-- public.empresas definiÃ§Ã£o
 
 -- Drop table
 
@@ -122,18 +122,19 @@ CREATE TABLE public.empresas (
 	cnpj varchar NULL,
 	nome_fantasia varchar NULL,
 	razao_social varchar(30) NOT NULL,
-	telefone varchar(11) NOT NULL,
+	telefone varchar NOT NULL,
 	cep varchar NOT NULL,
 	rua varchar NOT NULL,
 	numero int4 NOT NULL,
 	bairro varchar NOT NULL,
 	cidade varchar NOT NULL,
 	estado varchar NOT NULL,
+	ativo bool DEFAULT true NOT NULL,
 	CONSTRAINT empresas_pkey PRIMARY KEY (id)
 );
 
 
--- public.logs definição
+-- public.logs definiÃ§Ã£o
 
 -- Drop table
 
@@ -149,7 +150,7 @@ CREATE TABLE public.logs (
 );
 
 
--- public.permissoes definição
+-- public.permissoes definiÃ§Ã£o
 
 -- Drop table
 
@@ -162,7 +163,7 @@ CREATE TABLE public.permissoes (
 );
 
 
--- public.usuarios definição
+-- public.usuarios definiÃ§Ã£o
 
 -- Drop table
 
@@ -176,7 +177,7 @@ CREATE TABLE public.usuarios (
 );
 
 
--- public.emprestimos definição
+-- public.emprestimos definiÃ§Ã£o
 
 -- Drop table
 
@@ -195,7 +196,7 @@ CREATE TABLE public.emprestimos (
 );
 
 
--- public.permissoes_usuarios definição
+-- public.permissoes_usuarios definiÃ§Ã£o
 
 -- Drop table
 
@@ -211,7 +212,7 @@ CREATE TABLE public.permissoes_usuarios (
 );
 
 
--- public.predios definição
+-- public.predios definiÃ§Ã£o
 
 -- Drop table
 
@@ -222,13 +223,20 @@ CREATE TABLE public.predios (
 	fk_id_empresas int4 NULL,
 	rua varchar NULL,
 	numero int4 NULL,
-	complemento varchar NULL,
+	cep varchar NOT NULL,
+	telefone varchar NULL,
+	nome varchar NOT NULL,
+	situacao varchar NOT NULL,
+	ativo bool DEFAULT true NOT NULL,
+	bairro varchar NOT NULL,
+	estado varchar NOT NULL,
+	cidade varchar NOT NULL,
 	CONSTRAINT predios_pkey PRIMARY KEY (id),
 	CONSTRAINT predios_fk_id_empresas_fkey FOREIGN KEY (fk_id_empresas) REFERENCES public.empresas(id)
 );
 
 
--- public.salas definição
+-- public.salas definiÃ§Ã£o
 
 -- Drop table
 
@@ -238,12 +246,16 @@ CREATE TABLE public.salas (
 	id serial4 NOT NULL,
 	fk_id_predios int4 NULL,
 	nome varchar NULL,
+	situacao varchar(11) NOT NULL,
+	tipo varchar(11) NOT NULL,
+	observacao varchar(40) NULL,
+	ativo bool DEFAULT true NOT NULL,
 	CONSTRAINT salas_pkey PRIMARY KEY (id),
 	CONSTRAINT salas_fk_id_predios_fkey FOREIGN KEY (fk_id_predios) REFERENCES public.predios(id)
 );
 
 
--- public.movimentacoes definição
+-- public.movimentacoes definiÃ§Ã£o
 
 -- Drop table
 
