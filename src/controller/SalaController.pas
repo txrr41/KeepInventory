@@ -11,6 +11,8 @@ public
 procedure PopularComboBox (AComboBox: TComboBox);
 procedure AdicionarSala (ASalaDTO: TSalaDTO);
 procedure ExcluirSala (AId: Integer);
+procedure EditarSala (ASalaDTO: TSalaDTO);
+function PesquisarSala (const aSearch: String): TDataSet;
 function ListarSala: TDataSet;
 function DtoForModel(ASalaDTO: TSalaDTO): TSalaConfig;
 end;
@@ -47,6 +49,14 @@ begin
 
     Result := SalaModel;
 end;
+procedure TSalaController.EditarSala(ASalaDTO: TSalaDTO);
+var
+SalaModel: TSalaConfig;
+begin
+   SalaModel := DtoForModel(ASalaDto);
+   FSalaService.EditarSala(SalaModel);
+end;
+
 procedure TSalaController.ExcluirSala(AId: Integer);
 begin
 FSalaService.ExcluirSala(AId);
@@ -55,6 +65,11 @@ end;
 function TSalaController.ListarSala: TDataSet;
 begin
  result := FSalaService.ListarSala;
+end;
+
+function TSalaController.PesquisarSala(const aSearch: String): TDataSet;
+begin
+ result := FSalaService.PesquisarSala(aSearch);
 end;
 
 procedure TSalaController.PopularComboBox(AComboBox: TComboBox);

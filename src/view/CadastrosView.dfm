@@ -1659,6 +1659,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = BtnEditarSalaClick
                 ExplicitTop = 16
               end
               object Label59: TLabel
@@ -1960,7 +1961,7 @@ object FormCadastro: TFormCadastro
                 end>
             end
           end
-          object SearchBox3: TSearchBox
+          object EdtPesquisarSala: TSearchBox
             Left = 76
             Top = 39
             Width = 385
@@ -1971,8 +1972,8 @@ object FormCadastro: TFormCadastro
             Ctl3D = True
             ParentCtl3D = False
             TabOrder = 2
-            Text = 'Pesquisar'
             TextHint = 'Pesquisar'
+            OnChange = EdtPesquisarSalaChange
           end
           object PanelAddSala: TPanel
             Left = 1
@@ -1985,6 +1986,7 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 3
             Visible = False
+            ExplicitLeft = 2
             object Label27: TLabel
               Left = 168
               Top = 51
@@ -2091,14 +2093,25 @@ object FormCadastro: TFormCadastro
               Height = 28
               TabOrder = 4
             end
-            object Button1: TButton
-              Left = 1121
-              Top = 72
-              Width = 149
-              Height = 38
-              Caption = 'Button1'
+            object BtnEnviarSala: TButton
+              Left = 1188
+              Top = 79
+              Width = 162
+              Height = 32
+              Caption = 'Enviar'
               TabOrder = 5
-              OnClick = Button1Click
+              Visible = False
+              OnClick = BtnEnviarSalaClick
+            end
+            object BtnConfirmarEdtSala: TButton
+              Left = 1188
+              Top = 75
+              Width = 162
+              Height = 34
+              Caption = 'Confirmar Altera'#231#227'o'
+              TabOrder = 6
+              Visible = False
+              OnClick = BtnConfirmarEdtSalaClick
             end
           end
         end

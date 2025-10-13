@@ -10,8 +10,10 @@ TSalaRepository = class
 public
 procedure AdicionarSala (ASalaModel: TSalaConfig);
 procedure ExcluirSala (AId: Integer);
+procedure EditarSala (ASalaModel: TSalaConfig);
 function ListarNomesPredios: TStringList;
 function ListarSala: TDataSet;
+function PesquisarSala (const aSearch: String): TDataSet;
 
 end;
 
@@ -48,6 +50,29 @@ begin
   finally
     Q.Free;
   end;
+end;
+
+procedure TSalaRepository.EditarSala(ASalaModel: TSalaConfig);
+var
+Q: TFDQuery;
+begin
+Q := TFDQuery.Create(nil);
+try
+  Q.Connection := DataModule2.FDConnection;
+  Q.SQL.Text := 'UPDATE salas SET nome = :Nome, situacao = :situacao, Tipo = :tipo, fk_id_predios = :fk_id_predios, observacao = :observacao WHERE id = :Id';
+  Q.ParamByName('Nome').AsString := ASalaModel.Nome;
+  Q.ParamByName('Situacao').AsString := ASalaModel.Situacao;
+  Q.ParamByName('tipo').AsString := ASalaModel.Tipo;
+  Q.ParamByName('observacao').AsString := ASalaModel.Observacao;
+  Q.ParamByName('fk_id_predios').AsInteger := ASalaModel.IdPredio;
+  Q.ParamByName('Id').AsInteger := ASalaModel.Id;
+
+  Q.ExecSQL;
+  Q.Close;
+
+finally
+  Q.Free;
+end;
 end;
 
 procedure TSalaRepository.ExcluirSala(AId: Integer);
@@ -116,8 +141,32 @@ begin
   Query.Open;
   Result := Query;
 end;
+function TSalaRepository.PesquisarSala(const aSearch: String): TDataSet;
+var
+  Q: TFDQuery;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text :=
+      'SELECT id, nome, situacao, fk_id_predios, tipo, ' +
+      '       observacao ' +
+      'FROM salas ' +
+      'WHERE ativo = true ' +
+      '  AND (nome ILIKE :search ' +
+      '       OR situacao ILIKE :search ' +
+      '       OR fk_id_predios::text ILIKE :search ' +
+      '       OR tipo ILIKE :search) ' +
+      'ORDER BY id';
+    Q.ParamByName('search').AsString := '%' + Trim(aSearch) + '%';
+    Q.Open;
+    Result := Q;
+  except
+    Q.Free;
+    raise;
+  end;
+end;
 { TSalaRepository }
-
 
 
 end.

@@ -165,7 +165,7 @@ type
     Label68: TLabel;
     Panel26: TPanel;
     DBGridSalas: TDBGrid;
-    SearchBox3: TSearchBox;
+    EdtPesquisarSala: TSearchBox;
     PanelAddSala: TPanel;
     Label27: TLabel;
     Label48: TLabel;
@@ -182,7 +182,8 @@ type
     BtnConfirmarEd: TButton;
     BtnEnviarPredio: TButton;
     BtnConfirmarEdPredio: TButton;
-    Button1: TButton;
+    BtnEnviarSala: TButton;
+    BtnConfirmarEdtSala: TButton;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
@@ -205,11 +206,14 @@ type
     procedure edtPesquisarPredioChange(Sender: TObject);
     procedure BtnFiltrarPredioClick(Sender: TObject);
     procedure PopularComboBox;
-    procedure Button1Click(Sender: TObject);
+    procedure BtnEnviarSalaClick(Sender: TObject);
     procedure AtualizarTabelaS;
     constructor Create (AComponent: TComponent);
     procedure BtnAtualizarSalaClick(Sender: TObject);
     procedure BtnExcluirSalaClick(Sender: TObject);
+    procedure BtnEditarSalaClick(Sender: TObject);
+    procedure BtnConfirmarEdtSalaClick(Sender: TObject);
+    procedure EdtPesquisarSalaChange(Sender: TObject);
 
 
   private
@@ -278,6 +282,7 @@ procedure TFormCadastro.BtnAdicionarSalaClick(Sender: TObject);
 begin
 if PanelAddSala.Visible = False then begin
   PanelAddSala.Visible := True;
+  BtnEnviarSala.Visible := True;
   PopularComboBox;
 
 end else  begin
@@ -351,6 +356,29 @@ EdtCepPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('cep').AsString
 
 
 finally
+
+end;
+
+end;
+
+procedure TFormCadastro.BtnEditarSalaClick(Sender: TObject);
+var
+Dto: TSalaDTO;
+begin
+BtnConfirmarEdtSala.Visible := True;
+ PanelAddSala.Visible := True;
+try
+
+    EditNameSala.Text := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;
+    ComboBox2.Text := DBGridSalas.DataSource.DataSet.FieldByName('nome_predio').AsString;
+    PopularComboBox;
+    EdtSituacaoSala.Text := DBGridSalas.DataSource.DataSet.FieldByName('situacao').AsString;
+    EdtTipoSala.Text :=  DBGridSalas.DataSource.DataSet.FieldByName('tipo').AsString;
+    EdtObs.Text := DBGridSalas.DataSource.DataSet.FieldByName('observacao').AsString;
+
+finally
+
+
 
 end;
 
@@ -431,7 +459,7 @@ begin
 edtPesquisarPredio.Visible := True;
 end;
 
-procedure TFormCadastro.Button1Click(Sender: TObject);
+procedure TFormCadastro.BtnEnviarSalaClick(Sender: TObject);
 var
   Dto: TSalaDTO;
   SelectedID: Integer;
@@ -470,6 +498,24 @@ begin
     on E: Exception do
       ShowMessage('Erro ao salvar: ' + E.Message);
   end;
+end;
+
+procedure TFormCadastro.BtnConfirmarEdtSalaClick(Sender: TObject);
+var
+Dto: TSalaDTO;
+SelectedID: Integer;
+begin
+    SelectedID := Integer(NativeInt(ComboBox2.Items.Objects[ComboBox2.ItemIndex]));
+    Dto.FIdPredio := SelectedID;
+    Dto.FNome := EditNameSala.Text;
+    Dto.FSituacao := EdtSituacaoSala.Text;
+    Dto.FTipo := EdtTipoSala.Text;
+    Dto.FObservacao := EdtObs.Text;
+    Dto.FId := DBGridSalas.DataSource.DataSet.FieldByName('id').AsInteger;
+
+    FSalaController.EditarSala(Dto);
+
+    PanelAddSala.Visible := False;
 end;
 
 procedure TFormCadastro.BtnEnviarPredioClick(Sender: TObject);
@@ -604,6 +650,12 @@ end;
 procedure TFormCadastro.PopularComboBox;
 begin
     FSalaController.PopularComboBox(ComboBox2);
+end;
+
+procedure TFormCadastro.EdtPesquisarSalaChange(Sender: TObject);
+begin
+  DataSEmpresa.DataSet := FSalaController.PesquisarSala(edtPesquisarSala.Text);
+  DBGridPredio.DataSource := DataSEmpresa;
 end;
 
 procedure TFormCadastro.edtPesquisarPredioChange(Sender: TObject);

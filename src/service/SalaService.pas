@@ -10,6 +10,8 @@ TSalaService = class
 public
 procedure AdicionarSala (ASalaModel: TSalaConfig);
 procedure ExcluirSala (AId: Integer);
+procedure EditarSala (ASalaModel: TSalaConfig);
+function PesquisarSala (const aSearch: String): TDataSet;
 Function ObterNomesPredios: TStringList;
 function ListarSala: TDataSet;
 end;
@@ -29,6 +31,11 @@ begin
     FSalaRepository.AdicionarSala(ASalaModel);
 end;
 
+procedure TSalaService.EditarSala(ASalaModel: TSalaConfig);
+begin
+FSalaRepository.EditarSala(ASalaModel);
+end;
+
 procedure TSalaService.ExcluirSala(AId: Integer);
 begin
 FSalaRepository.ExcluirSala(AId);
@@ -43,6 +50,11 @@ function TSalaService.ObterNomesPredios: TStringList;
 
 begin
   Result := FSalaRepository.ListarNomesPredios;
+end;
+
+function TSalaService.PesquisarSala(const aSearch: String): TDataSet;
+begin
+result := FSalaRepository.PesquisarSala(aSearch);
 end;
 
 end.
