@@ -184,6 +184,55 @@ type
     BtnConfirmarEdPredio: TButton;
     BtnEnviarSala: TButton;
     BtnConfirmarEdtSala: TButton;
+    Panel12: TPanel;
+    Shape25: TShape;
+    Shape26: TShape;
+    Shape27: TShape;
+    Panel27: TPanel;
+    Panel28: TPanel;
+    Shape28: TShape;
+    Label51: TLabel;
+    SpeedButton1: TSpeedButton;
+    Panel29: TPanel;
+    Label52: TLabel;
+    Label53: TLabel;
+    Shape29: TShape;
+    SpeedButton2: TSpeedButton;
+    Label54: TLabel;
+    Panel30: TPanel;
+    Shape30: TShape;
+    SpeedButton3: TSpeedButton;
+    Label69: TLabel;
+    Panel31: TPanel;
+    Label70: TLabel;
+    Shape31: TShape;
+    SpeedButton4: TSpeedButton;
+    Label71: TLabel;
+    Panel32: TPanel;
+    Label72: TLabel;
+    Label73: TLabel;
+    Label74: TLabel;
+    Label75: TLabel;
+    Label76: TLabel;
+    Shape32: TShape;
+    SpeedButton5: TSpeedButton;
+    Label77: TLabel;
+    Panel33: TPanel;
+    DBGridPatrimonio: TDBGrid;
+    SearchBox1: TSearchBox;
+    Panel34: TPanel;
+    Label78: TLabel;
+    Label79: TLabel;
+    Label80: TLabel;
+    Label81: TLabel;
+    Label82: TLabel;
+    ComboBox1: TComboBox;
+    ComboBox3: TComboBox;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Button1: TButton;
+    Button2: TButton;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
@@ -209,7 +258,7 @@ type
     procedure BtnEnviarSalaClick(Sender: TObject);
     procedure AtualizarTabelaS;
     constructor Create (AComponent: TComponent);
-    procedure BtnAtualizarSalaClick(Sender: TObject);
+    procedure BtnAtualizarSalaClic(Sender: TObject);
     procedure BtnExcluirSalaClick(Sender: TObject);
     procedure BtnEditarSalaClick(Sender: TObject);
     procedure BtnConfirmarEdtSalaClick(Sender: TObject);
@@ -301,7 +350,7 @@ begin
     AtualizarTabelaP;
 end;
 
-procedure TFormCadastro.BtnAtualizarSalaClick(Sender: TObject);
+procedure TFormCadastro.BtnAtualizarSalaClic(Sender: TObject);
 begin
 AtualizarTabelaS;
 end;
@@ -313,6 +362,7 @@ Dto: TEmpresaDTO;
 begin
 PanelAddEmpresa.Visible := True;
 BtnEnviar.Visible := False;
+BtnConfirmarEd.Visible :=  True;
 try
 
 EditFantasia.Text := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
@@ -515,6 +565,12 @@ begin
 
     FSalaController.EditarSala(Dto);
 
+     EditNameSala.Text := '';
+    ComboBox2.ItemIndex := -1;
+    EdtSituacaoSala.Text := '';
+    EdtTipoSala.Text := '';
+    EdtObs.Text := '';
+
     PanelAddSala.Visible := False;
 end;
 
@@ -579,6 +635,16 @@ ControllerPredio.EditarPredio(Dto);
 
 AtualizarTabelaP;
 
+EdtNamePredio.Text := '';
+ComboBoxSituacao.Text := '';
+EdtTelefonePredio.Text := '';
+EdtCepPredio.Text := '';
+EditRuaPredio.Text := '';
+EdtCidadePredio.Text := '';
+EdtEstadoPredio.Text := '';
+EdtNumeroPredio.Text := '';
+EdtBairroPredio.Text := '';
+
 PanelAddPredio.Visible := False;
 
 
@@ -592,9 +658,19 @@ Dto: TEmpresaDTO;
 begin
 Controller := TEmpresaController.Create;
 EmpModel := Controller.DtoForModel(CarregarObjeto);
-PanelAddEmpresa.Visible := False;
-Controller.EditarEmpresa(CarregarObjeto);
 
+Controller.EditarEmpresa(CarregarObjeto);
+EditFantasia.Text := '';
+EditRazao.Text := '';
+EditCnpj.Text := '';
+EditTelefone.Text := '';
+EditCep.Text := '';
+EditRua.Text := '';
+EditCidade.Text := '';
+EditEstado.Text := '';
+EditNumero.Text := '';
+EditBairro.Text := '';
+PanelAddEmpresa.Visible := False;
 end;
 
 function TFormCadastro.CarregarObjeto : TEmpresaDTO;

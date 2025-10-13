@@ -1,6 +1,7 @@
 object FormCadastro: TFormCadastro
   Left = 0
   Top = 0
+  ActiveControl = DBGridPatrimonio
   Caption = 'FormCadastro'
   ClientHeight = 845
   ClientWidth = 1380
@@ -44,7 +45,7 @@ object FormCadastro: TFormCadastro
       Top = 72
       Width = 1398
       Height = 785
-      ActivePage = TabSheet3
+      ActivePage = TabSheet4
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -1519,7 +1520,7 @@ object FormCadastro: TFormCadastro
           Left = 3
           Top = -7
           Width = 1387
-          Height = 737
+          Height = 738
           Caption = 'Panel10'
           Color = clGradientInactiveCaption
           ParentBackground = False
@@ -1877,7 +1878,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
-                OnClick = BtnAtualizarSalaClick
+                OnClick = BtnAtualizarSalaClic
                 ExplicitTop = 16
               end
               object Label68: TLabel
@@ -1977,7 +1978,7 @@ object FormCadastro: TFormCadastro
           end
           object PanelAddSala: TPanel
             Left = 1
-            Top = 566
+            Top = 567
             Width = 1385
             Height = 170
             Align = alBottom
@@ -1987,6 +1988,7 @@ object FormCadastro: TFormCadastro
             TabOrder = 3
             Visible = False
             ExplicitLeft = 2
+            ExplicitTop = 566
             object Label27: TLabel
               Left = 168
               Top = 51
@@ -2119,6 +2121,600 @@ object FormCadastro: TFormCadastro
       object TabSheet4: TTabSheet
         Caption = 'Patrimonio'
         ImageIndex = 3
+        object Panel12: TPanel
+          Left = 3
+          Top = -8
+          Width = 1387
+          Height = 738
+          Caption = 'Panel10'
+          Color = clGradientInactiveCaption
+          ParentBackground = False
+          TabOrder = 0
+          object Shape25: TShape
+            Left = 664
+            Top = 264
+            Width = 65
+            Height = 65
+          end
+          object Shape26: TShape
+            Left = 1064
+            Top = 101
+            Width = 233
+            Height = 448
+            Pen.Style = psClear
+          end
+          object Shape27: TShape
+            Left = 76
+            Top = 100
+            Width = 949
+            Height = 449
+            Pen.Style = psClear
+          end
+          object Panel27: TPanel
+            Left = 1076
+            Top = 112
+            Width = 209
+            Height = 424
+            BevelOuter = bvNone
+            Color = clMenu
+            ParentBackground = False
+            TabOrder = 0
+            object Panel28: TPanel
+              Left = 24
+              Top = 24
+              Width = 161
+              Height = 41
+              BevelOuter = bvNone
+              Caption = 'Panel5'
+              ParentBackground = False
+              TabOrder = 0
+              object Shape28: TShape
+                Left = 0
+                Top = 0
+                Width = 161
+                Height = 41
+                Align = alClient
+                Brush.Color = 16741948
+                Pen.Style = psInsideFrame
+                Shape = stRoundRect
+                ExplicitLeft = 24
+                ExplicitTop = 16
+                ExplicitWidth = 65
+                ExplicitHeight = 65
+              end
+              object Label51: TLabel
+                Left = 47
+                Top = 10
+                Width = 64
+                Height = 20
+                Caption = 'Adicionar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+              object SpeedButton1: TSpeedButton
+                Left = 0
+                Top = 0
+                Width = 161
+                Height = 41
+                Align = alClient
+                Flat = True
+                ExplicitTop = 8
+                ExplicitHeight = 33
+              end
+            end
+            object Panel29: TPanel
+              Left = 24
+              Top = 102
+              Width = 161
+              Height = 41
+              BevelOuter = bvNone
+              Caption = 'Panel5'
+              ParentBackground = False
+              TabOrder = 1
+              object Label52: TLabel
+                Left = 60
+                Top = 9
+                Width = 39
+                Height = 20
+                Caption = 'Editar'
+                Color = clWhite
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentColor = False
+                ParentFont = False
+              end
+              object Label53: TLabel
+                Left = 102
+                Top = 21
+                Width = 59
+                Height = 20
+                Caption = 'Atualizar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Shape29: TShape
+                Left = 0
+                Top = 0
+                Width = 161
+                Height = 41
+                Align = alClient
+                Brush.Color = 16741948
+                Pen.Style = psInsideFrame
+                Shape = stRoundRect
+                ExplicitLeft = 24
+                ExplicitTop = 16
+                ExplicitWidth = 65
+                ExplicitHeight = 65
+              end
+              object SpeedButton2: TSpeedButton
+                Left = 0
+                Top = 0
+                Width = 161
+                Height = 41
+                Align = alClient
+                Flat = True
+                ExplicitTop = 16
+              end
+              object Label54: TLabel
+                Left = 59
+                Top = 11
+                Width = 39
+                Height = 20
+                Caption = 'Editar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+            end
+            object Panel30: TPanel
+              Left = 24
+              Top = 181
+              Width = 161
+              Height = 41
+              BevelOuter = bvNone
+              Caption = 'Panel5'
+              ParentBackground = False
+              TabOrder = 2
+              object Shape30: TShape
+                Left = 0
+                Top = 0
+                Width = 161
+                Height = 41
+                Align = alClient
+                Brush.Color = 16741948
+                Pen.Style = psInsideFrame
+                Shape = stRoundRect
+                ExplicitLeft = 24
+                ExplicitTop = 16
+                ExplicitWidth = 65
+                ExplicitHeight = 65
+              end
+              object SpeedButton3: TSpeedButton
+                Left = 0
+                Top = 0
+                Width = 161
+                Height = 41
+                Align = alClient
+                Flat = True
+                ExplicitTop = 16
+              end
+              object Label69: TLabel
+                Left = 59
+                Top = 11
+                Width = 43
+                Height = 20
+                Caption = 'Excluir'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+            end
+            object Panel31: TPanel
+              Left = 24
+              Top = 344
+              Width = 161
+              Height = 41
+              BevelOuter = bvNone
+              Caption = 'Panel5'
+              ParentBackground = False
+              TabOrder = 3
+              object Label70: TLabel
+                Left = 57
+                Top = 18
+                Width = 59
+                Height = 20
+                Caption = 'Atualizar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Shape31: TShape
+                Left = 0
+                Top = 0
+                Width = 161
+                Height = 41
+                Align = alClient
+                Brush.Color = 16741948
+                Pen.Style = psInsideFrame
+                Shape = stRoundRect
+                ExplicitLeft = 24
+                ExplicitTop = 16
+                ExplicitWidth = 65
+                ExplicitHeight = 65
+              end
+              object SpeedButton4: TSpeedButton
+                Left = 0
+                Top = 0
+                Width = 161
+                Height = 41
+                Align = alClient
+                Flat = True
+                ExplicitTop = 16
+              end
+              object Label71: TLabel
+                Left = 60
+                Top = 10
+                Width = 38
+                Height = 20
+                Caption = 'Filtrar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+            end
+            object Panel32: TPanel
+              Left = 24
+              Top = 260
+              Width = 161
+              Height = 41
+              BevelOuter = bvNone
+              Caption = 'Panel5'
+              ParentBackground = False
+              TabOrder = 4
+              object Label72: TLabel
+                Left = 49
+                Top = 10
+                Width = 59
+                Height = 20
+                Caption = 'Atualizar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Label73: TLabel
+                Left = 65
+                Top = 21
+                Width = 59
+                Height = 20
+                Caption = 'Atualizar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Label74: TLabel
+                Left = 73
+                Top = 21
+                Width = 59
+                Height = 20
+                Caption = 'Atualizar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Label75: TLabel
+                Left = 89
+                Top = 21
+                Width = 59
+                Height = 20
+                Caption = 'Atualizar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Label76: TLabel
+                Left = 97
+                Top = 21
+                Width = 59
+                Height = 20
+                Caption = 'Atualizar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+              object Shape32: TShape
+                Left = 0
+                Top = 0
+                Width = 161
+                Height = 41
+                Align = alClient
+                Brush.Color = 16741948
+                Pen.Style = psInsideFrame
+                Shape = stRoundRect
+                ExplicitLeft = 24
+                ExplicitTop = 16
+                ExplicitWidth = 65
+                ExplicitHeight = 65
+              end
+              object SpeedButton5: TSpeedButton
+                Left = 0
+                Top = 0
+                Width = 161
+                Height = 41
+                Align = alClient
+                Flat = True
+                ExplicitTop = 16
+              end
+              object Label77: TLabel
+                Left = 52
+                Top = 10
+                Width = 59
+                Height = 20
+                Caption = 'Atualizar'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWhite
+                Font.Height = -15
+                Font.Name = 'Segoe UI'
+                Font.Style = []
+                ParentFont = False
+              end
+            end
+          end
+          object Panel33: TPanel
+            Left = 88
+            Top = 112
+            Width = 921
+            Height = 424
+            BevelOuter = bvNone
+            Caption = 'Panel2'
+            Color = clMenu
+            ParentBackground = False
+            TabOrder = 1
+            object DBGridPatrimonio: TDBGrid
+              Left = 12
+              Top = 14
+              Width = 897
+              Height = 393
+              BorderStyle = bsNone
+              TabOrder = 0
+              TitleFont.Charset = DEFAULT_CHARSET
+              TitleFont.Color = clWindowText
+              TitleFont.Height = -15
+              TitleFont.Name = 'Segoe UI'
+              TitleFont.Style = []
+              Columns = <
+                item
+                  Expanded = False
+                  FieldName = 'id'
+                  Title.Caption = '     ID'
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'nome'
+                  Title.Caption = '      Nome'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'nome_predio'
+                  Title.Caption = '      Predio'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'situacao'
+                  Title.Caption = '     Situa'#231#227'o'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'tipo'
+                  Title.Caption = '       Tipo'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'observacao'
+                  Title.Caption = '                    Observa'#231#227'o'
+                  Width = 250
+                  Visible = True
+                end>
+            end
+          end
+          object SearchBox1: TSearchBox
+            Left = 76
+            Top = 39
+            Width = 385
+            Height = 28
+            Cursor = crIBeam
+            BevelOuter = bvNone
+            BorderStyle = bsNone
+            Ctl3D = True
+            ParentCtl3D = False
+            TabOrder = 2
+            TextHint = 'Pesquisar'
+          end
+          object Panel34: TPanel
+            Left = 1
+            Top = 567
+            Width = 1385
+            Height = 170
+            Align = alBottom
+            BevelOuter = bvNone
+            Color = clMenu
+            ParentBackground = False
+            TabOrder = 3
+            Visible = False
+            ExplicitLeft = 2
+            object Label78: TLabel
+              Left = 168
+              Top = 51
+              Width = 34
+              Height = 15
+              Caption = 'Pr'#233'dio'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label79: TLabel
+              Left = 319
+              Top = 51
+              Width = 45
+              Height = 15
+              Caption = 'Situa'#231#227'o'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label80: TLabel
+              Left = 27
+              Top = 51
+              Width = 33
+              Height = 15
+              Caption = 'Nome'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label81: TLabel
+              Left = 611
+              Top = 51
+              Width = 62
+              Height = 15
+              Caption = 'Observa'#231#227'o'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label82: TLabel
+              Left = 471
+              Top = 51
+              Width = 24
+              Height = 15
+              Caption = 'Tipo'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object ComboBox1: TComboBox
+              Left = 319
+              Top = 72
+              Width = 132
+              Height = 28
+              TabOrder = 0
+              Items.Strings = (
+                'Alugado'
+                'Ativo'
+                'Inativo'
+                'Em reforma'
+                '')
+            end
+            object ComboBox3: TComboBox
+              Left = 168
+              Top = 72
+              Width = 132
+              Height = 28
+              TabOrder = 1
+            end
+            object Edit1: TEdit
+              Left = 27
+              Top = 72
+              Width = 121
+              Height = 28
+              TabOrder = 2
+            end
+            object Edit2: TEdit
+              Left = 611
+              Top = 72
+              Width = 121
+              Height = 28
+              TabOrder = 3
+            end
+            object Edit3: TEdit
+              Left = 471
+              Top = 72
+              Width = 121
+              Height = 28
+              TabOrder = 4
+            end
+            object Button1: TButton
+              Left = 1188
+              Top = 79
+              Width = 162
+              Height = 32
+              Caption = 'Enviar'
+              TabOrder = 5
+              Visible = False
+            end
+            object Button2: TButton
+              Left = 1188
+              Top = 75
+              Width = 162
+              Height = 34
+              Caption = 'Confirmar Altera'#231#227'o'
+              TabOrder = 6
+              Visible = False
+              OnClick = BtnConfirmarEdtSalaClick
+            end
+          end
+        end
       end
     end
     object Panel1: TPanel
