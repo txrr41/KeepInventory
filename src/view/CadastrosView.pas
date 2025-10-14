@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
   Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController
-  ,SalaDTO, SalaController;
+  ,SalaDTO, SalaController, PatrimonioDTO, PatrimonioController;
 
 type
   TFormCadastro = class(TForm)
@@ -192,7 +192,7 @@ type
     Panel28: TPanel;
     Shape28: TShape;
     Label51: TLabel;
-    SpeedButton1: TSpeedButton;
+    BtnAdicionarPatrimonio: TSpeedButton;
     Panel29: TPanel;
     Label52: TLabel;
     Label53: TLabel;
@@ -221,18 +221,27 @@ type
     DBGridPatrimonio: TDBGrid;
     SearchBox1: TSearchBox;
     Panel34: TPanel;
-    Label78: TLabel;
     Label79: TLabel;
     Label80: TLabel;
-    Label81: TLabel;
     Label82: TLabel;
-    ComboBox1: TComboBox;
-    ComboBox3: TComboBox;
-    Edit1: TEdit;
-    Edit2: TEdit;
-    Edit3: TEdit;
+    CBSituacaoPatri: TComboBox;
+    EditNomePatri: TEdit;
+    EdtTipoPatri: TEdit;
     Button1: TButton;
     Button2: TButton;
+    EdtVAQPatri: TMaskEdit;
+    EdtQuantiPatri: TEdit;
+    Label78: TLabel;
+    EdtNS: TEdit;
+    Label83: TLabel;
+    EdtModelo: TEdit;
+    Label84: TLabel;
+    EdtVAPatri: TMaskEdit;
+    Label81: TLabel;
+    Label85: TLabel;
+    EdtDAPatri: TMaskEdit;
+    Label86: TLabel;
+    ComboBoxPatrimonio: TComboBox;
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
@@ -263,9 +272,21 @@ type
     procedure BtnEditarSalaClick(Sender: TObject);
     procedure BtnConfirmarEdtSalaClick(Sender: TObject);
     procedure EdtPesquisarSalaChange(Sender: TObject);
+    procedure BtnAdicionarPatrimonioClick(Sender: TObject);
+    procedure AtualizarTabelaPatri;
 
 
   private
+    procedure AtualizarTabelaPatrimonio;
+    procedure BtnAtualizarPatrimonioClick(Sender: TObject);
+    procedure BtnConfirmarEdPatrimonioClick(Sender: TObject);
+    procedure BtnEditarPatrimonioClick(Sender: TObject);
+    procedure BtnEnviarPatrimonioClick(Sender: TObject);
+    procedure BtnExcluirPatrimonioClick(Sender: TObject);
+    procedure BtnFiltrarPatrimonioClick(Sender: TObject);
+    procedure LimparCamposPatrimonio;
+    procedure PopularComboBoxSalas;
+    procedure SearchBox1Change(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -277,6 +298,184 @@ var
 implementation
 
 {$R *.dfm}
+
+
+procedure TFormCadastro.AtualizarTabelaPatrimonio;
+begin
+  DataSEmpresa.DataSet := FPatrimonioController.ListarPatrimonio;
+  DBGridPatrimonio.DataSource := DataSEmpresa;
+end;
+
+// 3. Botão Adicionar Patrimônio
+procedure TFormCadastro.BtnAdicionarPatrimonioClick(Sender: TObject);
+begin
+  if Panel34.Visible = False then begin
+    Panel34.Visible := True;
+    Button1.Visible := True;  // BtnEnviarPatrimonio
+    PopularComboBoxSalas;
+  end else begin
+    Panel34.Visible := False;
+  end;
+end;
+
+// 4. Popular ComboBox com Salas
+procedure TFormCadastro.PopularComboBoxSalas;
+begin
+  FPatrimonioController.PopularComboBox(ComboBoxPatrimonio);  // ComboBox de Salas
+end;
+
+// 5. Botão Enviar (Adicionar) Patrimônio
+procedure TFormCadastro.BtnEnviarPatrimonioClick(Sender: TObject);
+var
+  Dto: TPatrimonioDTO;
+  SelectedID: Integer;
+begin
+  try
+    // Validar seleção de Sala
+    if ComboBoxPatrimonio.ItemIndex >= 0 then
+    begin
+      SelectedID := Integer(NativeInt(ComboBoxPatrimonio.Items.Objects[ComboBoxPatrimonio.ItemIndex]));
+      Dto.FIdSala := SelectedID;
+    end
+    else
+    begin
+      raise Exception.Create('Por favor, selecione uma Sala.');
+    end;
+
+    // Preencher DTO
+    Dto.FNome := EditNomePatri.Text;  // EdtNomePatrimonio
+    Dto.FTipo := EdtTipoPatri.Text;  // EdtTipoPatrimonio
+    Dto.FSituacao := CBSituacaoPatri.Text;  // CmbSituacaoPatrimonio
+    Dto.FModelo := EdtModelo.Text;  // EdtModelo - VOCÊ PRECISA ADICIONAR ESTE CAMPO
+    Dto.FValorAquisicao := StrToFloatDef(EdtVAQPatri.Text, 0);  // ADICIONAR CAMPO
+    Dto.FValorAtual := StrToFloatDef(EdtVAPatri.Text, 0);  // ADICIONAR CAMPO
+    Dto.FQuantidade := StrToIntDef(EdtQuantiPatri.Text, 0);  // ADICIONAR CAMPO
+    Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);  // ADICIONAR CAMPO
+    Dto.FNumeroSerie := EdtNS.Text;  // ADICIONAR CAMPO
+
+    // Adicionar no banco
+    FPatrimonioController.AdicionarPatrimonio(Dto);
+    AtualizarTabelaPatrimonio;
+
+    // Limpar campos
+    LimparCamposPatrimonio;
+    Panel34.Visible := False;
+
+    ShowMessage('Patrimônio adicionado com sucesso!');
+  except
+    on E: Exception do
+      ShowMessage('Erro ao salvar: ' + E.Message);
+  end;
+end;
+
+// 6. Botão Editar Patrimônio
+procedure TFormCadastro.BtnEditarPatrimonioClick(Sender: TObject);
+begin
+  Button2.Visible := True;  // BtnConfirmarEdPatrimonio
+  Button1.Visible := False; // BtnEnviarPatrimonio
+  Panel34.Visible := True;
+
+  try
+    EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
+    EdtTipoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString;
+    CBSituacaoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('situacao').AsString;
+    EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
+    EdtVAQPatri.Text := FormatFloat('0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsFloat);
+    EdtVAPatri.Text := FormatFloat('0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsFloat);
+    EdtQuantiPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('quantidade').AsString;
+    EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
+    EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
+    ComboBoxPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;
+
+    PopularComboBoxSalas;
+  finally
+  end;
+end;
+
+// 7. Confirmar Edição
+procedure TFormCadastro.BtnConfirmarEdPatrimonioClick(Sender: TObject);
+var
+  Dto: TPatrimonioDTO;
+  SelectedID: Integer;
+begin
+  try
+    SelectedID := Integer(NativeInt(ComboBoxPatrimonio.Items.Objects[ComboBoxPatrimonio.ItemIndex]));
+    Dto.FIdSala := SelectedID;
+
+    Dto.FNome := EditNomePatri.Text;
+    Dto.FTipo := EdtTipoPatri.Text;
+    Dto.FSituacao := CBSituacaoPatri.Text;
+    Dto.FModelo := EdtModelo.Text;
+    Dto.FValorAquisicao := StrToFloatDef(EdtVAQPatri.Text, 0);
+    Dto.FValorAtual := StrToFloatDef(EdtVAPatri.Text, 0);
+    Dto.FQuantidade := StrToIntDef(EdtQuantiPatri.Text, 0);
+    Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
+    Dto.FNumeroSerie := EdtNS.Text;
+    Dto.FId := DBGridPatrimonio.DataSource.DataSet.FieldByName('id').AsInteger;
+
+    FPatrimonioController.EditarPatrimonio(Dto);
+    AtualizarTabelaPatrimonio;
+
+    LimparCamposPatrimonio;
+    Panel34.Visible := False;
+
+    ShowMessage('Patrimônio atualizado com sucesso!');
+  except
+    on E: Exception do
+      ShowMessage('Erro ao editar: ' + E.Message);
+  end;
+end;
+
+// 8. Excluir Patrimônio
+procedure TFormCadastro.BtnExcluirPatrimonioClick(Sender: TObject);
+var
+  IdPatrimonio: Integer;
+  Patrimonio: String;
+begin
+  Patrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
+  if MessageDlg('O Patrimônio ' + Patrimonio + ' será excluído, deseja continuar?',
+                mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    IdPatrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('id').AsInteger;
+    FPatrimonioController.ExcluirPatrimonio(IdPatrimonio);
+    AtualizarTabelaPatrimonio;
+    ShowMessage('Patrimônio excluído com sucesso!');
+  end;
+end;
+
+// 9. Pesquisar Patrimônio
+procedure TFormCadastro.SearchBox1Change(Sender: TObject);
+begin
+  DataSEmpresa.DataSet := FPatrimonioController.PesquisarPatrimonio(SearchBox1.Text);
+  DBGridPatrimonio.DataSource := DataSEmpresa;
+end;
+
+// 10. Botão Atualizar
+procedure TFormCadastro.BtnAtualizarPatrimonioClick(Sender: TObject);
+begin
+  AtualizarTabelaPatrimonio;
+end;
+
+// 11. Botão Filtrar
+procedure TFormCadastro.BtnFiltrarPatrimonioClick(Sender: TObject);
+begin
+  SearchBox1.Visible := True;
+end;
+
+// 12. Limpar Campos
+procedure TFormCadastro.LimparCamposPatrimonio;
+begin
+  EditNomePatri.Text := '';
+  EdtTipoSala.Text := '';
+  EdtModelo.Text := '';
+  ComboBoxPatrimonio.ItemIndex := -1;
+  CBSituacaoPatri.ItemIndex := -1;
+  EdtVAQPatri.Text := '';
+  EdtVAPatri.Text := '';
+  EdtQuantiPatri.Text := '';
+  EdtNS.Text := '';
+  EdtDAPatri.Text := DateToStr(Now);
+end;
 
 procedure TFormCadastro.AtualizarTabelaE;
 var
@@ -314,6 +513,7 @@ end;
 
 
 end;
+
 
 procedure TFormCadastro.BtnAdicionarPredioClick(Sender: TObject);
 begin
@@ -580,8 +780,6 @@ Dto : GPredioDTO;
 
 begin
 
-
-
 try
 
 Dto.FNome := EdtNamePredio.Text;
@@ -700,28 +898,25 @@ end;
 
 procedure TFormCadastro.edtPesquisarChange(Sender: TObject);
 var
-
 Controller: TEmpresaController;
 begin
  Controller := TEmpresaController.Create;
  DataSEmpresa.DataSet := Controller.PesquisarEmpresa(edtPesquisar.Text);
  DbGrid1.DataSource := DataSEmpresa;
-
 end;
 
 procedure TFormCadastro.PageControl1Change(Sender: TObject);
 begin
 
 if PageControl1.ActivePage = TabSheet1 then begin
-  AtualizarTabelaE;
+AtualizarTabelaE;
 end else if PageControl1.ActivePage = TabSheet2 then begin
 AtualizarTabelaP;
-
-end else if PageControl1.ActivePage = TabSheet3 then
+end else if PageControl1.ActivePage = TabSheet3 then begin
 AtualizarTabelaS
+end else if PageControl1.ActivePage = TabSheet4 then
+AtualizarTabelaPatri
 end;
-
-
 
 procedure TFormCadastro.PopularComboBox;
 begin

@@ -100,7 +100,7 @@ begin
   Query := TFDQuery.Create(nil);
   try
     Query.Connection := DataModule2.FDConnection;
-    Query.SQL.Text := 'SELECT id, nome FROM predios ORDER BY nome';
+    Query.SQL.Text := 'SELECT id, nome FROM predios WHERE ativo = true ORDER BY nome';
     Query.Open;
 
     while not Query.Eof do

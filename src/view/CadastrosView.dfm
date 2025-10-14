@@ -1987,8 +1987,6 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 3
             Visible = False
-            ExplicitLeft = 2
-            ExplicitTop = 566
             object Label27: TLabel
               Left = 168
               Top = 51
@@ -2096,18 +2094,18 @@ object FormCadastro: TFormCadastro
               TabOrder = 4
             end
             object BtnEnviarSala: TButton
-              Left = 1188
-              Top = 79
+              Left = 1196
+              Top = 68
               Width = 162
-              Height = 32
+              Height = 35
               Caption = 'Enviar'
               TabOrder = 5
               Visible = False
               OnClick = BtnEnviarSalaClick
             end
             object BtnConfirmarEdtSala: TButton
-              Left = 1188
-              Top = 75
+              Left = 1196
+              Top = 67
               Width = 162
               Height = 34
               Caption = 'Confirmar Altera'#231#227'o'
@@ -2195,13 +2193,14 @@ object FormCadastro: TFormCadastro
                 Font.Style = []
                 ParentFont = False
               end
-              object SpeedButton1: TSpeedButton
+              object BtnAdicionarPatrimonio: TSpeedButton
                 Left = 0
                 Top = 0
                 Width = 161
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = BtnAdicionarPatrimonioClick
                 ExplicitTop = 8
                 ExplicitHeight = 33
               end
@@ -2587,23 +2586,9 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 3
             Visible = False
-            ExplicitLeft = 2
-            object Label78: TLabel
-              Left = 168
-              Top = 51
-              Width = 34
-              Height = 15
-              Caption = 'Pr'#233'dio'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
             object Label79: TLabel
               Left = 319
-              Top = 51
+              Top = 35
               Width = 45
               Height = 15
               Caption = 'Situa'#231#227'o'
@@ -2616,7 +2601,7 @@ object FormCadastro: TFormCadastro
             end
             object Label80: TLabel
               Left = 27
-              Top = 51
+              Top = 35
               Width = 33
               Height = 15
               Caption = 'Nome'
@@ -2627,22 +2612,9 @@ object FormCadastro: TFormCadastro
               Font.Style = []
               ParentFont = False
             end
-            object Label81: TLabel
-              Left = 611
-              Top = 51
-              Width = 62
-              Height = 15
-              Caption = 'Observa'#231#227'o'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
             object Label82: TLabel
-              Left = 471
-              Top = 51
+              Left = 175
+              Top = 35
               Width = 24
               Height = 15
               Caption = 'Tipo'
@@ -2653,9 +2625,87 @@ object FormCadastro: TFormCadastro
               Font.Style = []
               ParentFont = False
             end
-            object ComboBox1: TComboBox
+            object Label78: TLabel
+              Left = 735
+              Top = 35
+              Width = 62
+              Height = 15
+              Caption = 'Quantidade'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label83: TLabel
+              Left = 887
+              Top = 35
+              Width = 87
+              Height = 15
+              Caption = 'N'#250'mero de s'#233'rie'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label84: TLabel
+              Left = 27
+              Top = 91
+              Width = 41
+              Height = 15
+              Caption = 'Modelo'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label81: TLabel
+              Left = 475
+              Top = 35
+              Width = 95
+              Height = 15
+              Caption = 'Valor de aquisi'#231#227'o'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label85: TLabel
+              Left = 597
+              Top = 35
+              Width = 55
+              Height = 15
+              Caption = 'Valor atual'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label86: TLabel
+              Left = 175
+              Top = 91
+              Width = 93
+              Height = 15
+              Caption = 'Data de aquisi'#231#227'o'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object CBSituacaoPatri: TComboBox
               Left = 319
-              Top = 72
+              Top = 56
               Width = 132
               Height = 28
               TabOrder = 0
@@ -2666,33 +2716,19 @@ object FormCadastro: TFormCadastro
                 'Em reforma'
                 '')
             end
-            object ComboBox3: TComboBox
-              Left = 168
-              Top = 72
-              Width = 132
+            object EditNomePatri: TEdit
+              Left = 27
+              Top = 56
+              Width = 121
               Height = 28
               TabOrder = 1
             end
-            object Edit1: TEdit
-              Left = 27
-              Top = 72
+            object EdtTipoPatri: TEdit
+              Left = 175
+              Top = 56
               Width = 121
               Height = 28
               TabOrder = 2
-            end
-            object Edit2: TEdit
-              Left = 611
-              Top = 72
-              Width = 121
-              Height = 28
-              TabOrder = 3
-            end
-            object Edit3: TEdit
-              Left = 471
-              Top = 72
-              Width = 121
-              Height = 28
-              TabOrder = 4
             end
             object Button1: TButton
               Left = 1188
@@ -2700,7 +2736,7 @@ object FormCadastro: TFormCadastro
               Width = 162
               Height = 32
               Caption = 'Enviar'
-              TabOrder = 5
+              TabOrder = 3
               Visible = False
             end
             object Button2: TButton
@@ -2709,9 +2745,68 @@ object FormCadastro: TFormCadastro
               Width = 162
               Height = 34
               Caption = 'Confirmar Altera'#231#227'o'
-              TabOrder = 6
+              TabOrder = 4
               Visible = False
               OnClick = BtnConfirmarEdtSalaClick
+            end
+            object EdtVAQPatri: TMaskEdit
+              Left = 475
+              Top = 56
+              Width = 102
+              Height = 28
+              EditMask = 'R$999,999.99;1;_'
+              MaxLength = 12
+              TabOrder = 5
+              Text = 'R$   ,   .  '
+            end
+            object EdtQuantiPatri: TEdit
+              Left = 735
+              Top = 56
+              Width = 121
+              Height = 28
+              TabOrder = 6
+            end
+            object EdtNS: TEdit
+              Left = 887
+              Top = 56
+              Width = 121
+              Height = 28
+              TabOrder = 7
+            end
+            object EdtModelo: TEdit
+              Left = 27
+              Top = 112
+              Width = 121
+              Height = 28
+              TabOrder = 8
+            end
+            object EdtVAPatri: TMaskEdit
+              Left = 597
+              Top = 56
+              Width = 111
+              Height = 28
+              EditMask = 'R$999,999.99;1;_'
+              MaxLength = 12
+              TabOrder = 9
+              Text = 'R$   ,   .  '
+            end
+            object EdtDAPatri: TMaskEdit
+              Left = 175
+              Top = 112
+              Width = 120
+              Height = 28
+              EditMask = '!99/99/0000;1;_'
+              MaxLength = 10
+              TabOrder = 10
+              Text = '  /  /    '
+            end
+            object ComboBoxPatrimonio: TComboBox
+              Left = 319
+              Top = 112
+              Width = 145
+              Height = 28
+              TabOrder = 11
+              Text = 'ComboBoxPatrimonio'
             end
           end
         end

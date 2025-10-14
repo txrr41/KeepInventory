@@ -174,6 +174,11 @@
         <DCCReference Include="service\SalaService.pas"/>
         <DCCReference Include="model\SalaModel.pas"/>
         <DCCReference Include="dto\SalaDTO.pas"/>
+        <DCCReference Include="model\PatrimonioModel.pas"/>
+        <DCCReference Include="dto\PatrimonioDTO.pas"/>
+        <DCCReference Include="controller\PatrimonioController.pas"/>
+        <DCCReference Include="service\PatrimonioService.pas"/>
+        <DCCReference Include="repository\PatrimonioRepository.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

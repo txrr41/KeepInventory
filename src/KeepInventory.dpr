@@ -35,7 +35,12 @@ uses
   SalaRepository in 'repository\SalaRepository.pas',
   SalaService in 'service\SalaService.pas',
   SalaModel in 'model\SalaModel.pas',
-  SalaDTO in 'dto\SalaDTO.pas';
+  SalaDTO in 'dto\SalaDTO.pas',
+  PatrimonioModel in 'model\PatrimonioModel.pas',
+  PatrimonioDTO in 'dto\PatrimonioDTO.pas',
+  PatrimonioController in 'controller\PatrimonioController.pas',
+  PatrimonioService in 'service\PatrimonioService.pas',
+  PatrimonioRepository in 'repository\PatrimonioRepository.pas';
 
 {$R *.res}
 
