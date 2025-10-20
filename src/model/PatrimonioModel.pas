@@ -9,8 +9,8 @@ TPatrimonioConfig = class
   FTipo: String;
   FSituacao: String;
   FModelo: String;
-  FValorAquisicao: Double;
-  FValorAtual: Double;
+  FValorAquisicao: Currency;
+  FValorAtual: Currency;
   FQuantidade: Integer;
   FDataAquisicao: TDate;
   FNumeroSerie: String;
@@ -23,8 +23,8 @@ TPatrimonioConfig = class
   property Tipo: String read FTipo write FTipo;
   property Situacao: String read FSituacao write FSituacao;
   property Modelo: String read FModelo write FModelo;
-  property ValorAquisicao: Double read FValorAquisicao write FValorAquisicao;
-  property ValorAtual: Double read FValorAtual write FValorAtual;
+  property ValorAquisicao: Currency read FValorAquisicao write FValorAquisicao;
+  property ValorAtual: Currency read FValorAtual write FValorAtual;
   property Quantidade: Integer read FQuantidade write FQuantidade;
   property DataAquisicao: TDate read FDataAquisicao write FDataAquisicao;
   property NumeroSerie: String read FNumeroSerie write FNumeroSerie;

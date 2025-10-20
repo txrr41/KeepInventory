@@ -1,7 +1,7 @@
 object FormCadastro: TFormCadastro
   Left = 0
   Top = 0
-  ActiveControl = DBGridPatrimonio
+  ActiveControl = DBGrid1
   Caption = 'FormCadastro'
   ClientHeight = 845
   ClientWidth = 1380
@@ -9,7 +9,7 @@ object FormCadastro: TFormCadastro
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
-  Font.Name = 'Segoe UI'
+  Font.Name = 'B '
   Font.Style = []
   TextHeight = 15
   object PanelCadastro: TPanel
@@ -45,7 +45,7 @@ object FormCadastro: TFormCadastro
       Top = 72
       Width = 1398
       Height = 785
-      ActivePage = TabSheet4
+      ActivePage = TabSheet1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -1023,8 +1023,6 @@ object FormCadastro: TFormCadastro
               TabOrder = 8
               Items.Strings = (
                 'Alugado'
-                'Ativo'
-                'Inativo'
                 'Pr'#243'prio'
                 'Cedido')
             end
@@ -2060,8 +2058,6 @@ object FormCadastro: TFormCadastro
               TabOrder = 0
               Items.Strings = (
                 'Alugado'
-                'Ativo'
-                'Inativo'
                 'Em reforma'
                 '')
             end
@@ -2555,9 +2551,50 @@ object FormCadastro: TFormCadastro
                 end
                 item
                   Expanded = False
-                  FieldName = 'observacao'
-                  Title.Caption = '                    Observa'#231#227'o'
-                  Width = 250
+                  FieldName = 'valor_aquisicao'
+                  Title.Caption = '   Valor de Aquisi'#231#227'o'
+                  Width = 150
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'valor_atual'
+                  Title.Caption = '   Valor Atual'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'quantidade'
+                  Title.Caption = '  Quantidade'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'numero_serie'
+                  Title.Caption = '  N'#250'mero de S'#233'rie'
+                  Width = 130
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'modelo'
+                  Title.Caption = '     Modelo'
+                  Width = 100
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'data_aquisicao'
+                  Title.Caption = '  Data de Aquisi'#231#227'o'
+                  Width = 140
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'fk_id_salas'
+                  Title.Caption = 'Sala'
                   Visible = True
                 end>
             end
@@ -2586,6 +2623,7 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 3
             Visible = False
+            ExplicitLeft = 2
             object Label79: TLabel
               Left = 319
               Top = 35
@@ -2692,10 +2730,23 @@ object FormCadastro: TFormCadastro
             end
             object Label86: TLabel
               Left = 175
-              Top = 91
+              Top = 90
               Width = 93
               Height = 15
               Caption = 'Data de aquisi'#231#227'o'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label87: TLabel
+              Left = 319
+              Top = 91
+              Width = 21
+              Height = 15
+              Caption = 'Sala'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
@@ -2711,8 +2762,6 @@ object FormCadastro: TFormCadastro
               TabOrder = 0
               Items.Strings = (
                 'Alugado'
-                'Ativo'
-                'Inativo'
                 'Em reforma'
                 '')
             end
@@ -2730,24 +2779,15 @@ object FormCadastro: TFormCadastro
               Height = 28
               TabOrder = 2
             end
-            object Button1: TButton
-              Left = 1188
-              Top = 79
+            object BtnEnviarPatrimonio: TButton
+              Left = 1159
+              Top = 71
               Width = 162
               Height = 32
               Caption = 'Enviar'
               TabOrder = 3
               Visible = False
-            end
-            object Button2: TButton
-              Left = 1188
-              Top = 75
-              Width = 162
-              Height = 34
-              Caption = 'Confirmar Altera'#231#227'o'
-              TabOrder = 4
-              Visible = False
-              OnClick = BtnConfirmarEdtSalaClick
+              OnClick = Button1Click
             end
             object EdtVAQPatri: TMaskEdit
               Left = 475
@@ -2756,7 +2796,7 @@ object FormCadastro: TFormCadastro
               Height = 28
               EditMask = 'R$999,999.99;1;_'
               MaxLength = 12
-              TabOrder = 5
+              TabOrder = 4
               Text = 'R$   ,   .  '
             end
             object EdtQuantiPatri: TEdit
@@ -2764,21 +2804,21 @@ object FormCadastro: TFormCadastro
               Top = 56
               Width = 121
               Height = 28
-              TabOrder = 6
+              TabOrder = 5
             end
             object EdtNS: TEdit
               Left = 887
               Top = 56
               Width = 121
               Height = 28
-              TabOrder = 7
+              TabOrder = 6
             end
             object EdtModelo: TEdit
               Left = 27
               Top = 112
               Width = 121
               Height = 28
-              TabOrder = 8
+              TabOrder = 7
             end
             object EdtVAPatri: TMaskEdit
               Left = 597
@@ -2787,7 +2827,7 @@ object FormCadastro: TFormCadastro
               Height = 28
               EditMask = 'R$999,999.99;1;_'
               MaxLength = 12
-              TabOrder = 9
+              TabOrder = 8
               Text = 'R$   ,   .  '
             end
             object EdtDAPatri: TMaskEdit
@@ -2797,16 +2837,25 @@ object FormCadastro: TFormCadastro
               Height = 28
               EditMask = '!99/99/0000;1;_'
               MaxLength = 10
-              TabOrder = 10
+              TabOrder = 9
               Text = '  /  /    '
             end
             object ComboBoxPatrimonio: TComboBox
               Left = 319
               Top = 112
-              Width = 145
+              Width = 132
               Height = 28
+              TabOrder = 10
+            end
+            object BtnConfirmarEdPatri: TButton
+              Left = 1159
+              Top = 73
+              Width = 162
+              Height = 32
+              Caption = 'Confirmar Altera'#231#227'o'
               TabOrder = 11
-              Text = 'ComboBoxPatrimonio'
+              Visible = False
+              OnClick = BtnConfirmarEdPatriClick
             end
           end
         end

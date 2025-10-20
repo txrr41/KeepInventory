@@ -2,7 +2,7 @@ object FormHome: TFormHome
   Left = 0
   Top = 0
   Caption = 'FormHome'
-  ClientHeight = 809
+  ClientHeight = 807
   ClientWidth = 1427
   Color = clSkyBlue
   DoubleBuffered = True

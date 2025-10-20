@@ -5,12 +5,14 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
-  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask, EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController
-  ,SalaDTO, SalaController, PatrimonioDTO, PatrimonioController;
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask,
+  EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController,
+  SalaDTO, SalaController, PatrimonioDTO, PatrimonioController,
+  AuditoriaController, AuditoriaModel; // ADICIONADO
 
 type
   TFormCadastro = class(TForm)
-    PanelCadastro: TPanel;
+   PanelCadastro: TPanel;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
@@ -227,8 +229,7 @@ type
     CBSituacaoPatri: TComboBox;
     EditNomePatri: TEdit;
     EdtTipoPatri: TEdit;
-    Button1: TButton;
-    Button2: TButton;
+    BtnEnviarPatrimonio: TButton;
     EdtVAQPatri: TMaskEdit;
     EdtQuantiPatri: TEdit;
     Label78: TLabel;
@@ -242,6 +243,9 @@ type
     EdtDAPatri: TMaskEdit;
     Label86: TLabel;
     ComboBoxPatrimonio: TComboBox;
+    BtnConfirmarEdPatri: TButton;
+    Label87: TLabel;
+   public
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure BtnAdicionarPredioClick(Sender: TObject);
     procedure BtnAdicionarSalaClick(Sender: TObject);
@@ -273,23 +277,23 @@ type
     procedure BtnConfirmarEdtSalaClick(Sender: TObject);
     procedure EdtPesquisarSalaChange(Sender: TObject);
     procedure BtnAdicionarPatrimonioClick(Sender: TObject);
-    procedure AtualizarTabelaPatri;
+    procedure Button1Click(Sender: TObject);
+    procedure BtnConfirmarEdPatriClick(Sender: TObject);
+    constructor Create(AComponent: TComponent; const UsuarioLogado: String); reintroduce;
 
-
-  private
+ private
+  FLogController: TLogController; // ADICIONADO
+    FUsuarioLogado: String; // ADICIONADO
+    procedure RegistrarLog(const Mensagem: String); // ADICIONADO
     procedure AtualizarTabelaPatrimonio;
     procedure BtnAtualizarPatrimonioClick(Sender: TObject);
-    procedure BtnConfirmarEdPatrimonioClick(Sender: TObject);
     procedure BtnEditarPatrimonioClick(Sender: TObject);
-    procedure BtnEnviarPatrimonioClick(Sender: TObject);
     procedure BtnExcluirPatrimonioClick(Sender: TObject);
     procedure BtnFiltrarPatrimonioClick(Sender: TObject);
     procedure LimparCamposPatrimonio;
     procedure PopularComboBoxSalas;
     procedure SearchBox1Change(Sender: TObject);
     { Private declarations }
-  public
-    { Public declarations }
   end;
 
 var
@@ -299,39 +303,414 @@ implementation
 
 {$R *.dfm}
 
-
-procedure TFormCadastro.AtualizarTabelaPatrimonio;
+// ============================================================================
+// MÉTODO PARA REGISTRAR LOG
+// ============================================================================
+procedure TFormCadastro.RegistrarLog(const Mensagem: String);
+var
+  UsuarioLog: TUserLog;
+  DataHora: TDateTime;
 begin
-  DataSEmpresa.DataSet := FPatrimonioController.ListarPatrimonio;
-  DBGridPatrimonio.DataSource := DataSEmpresa;
-end;
-
-// 3. Botão Adicionar Patrimônio
-procedure TFormCadastro.BtnAdicionarPatrimonioClick(Sender: TObject);
-begin
-  if Panel34.Visible = False then begin
-    Panel34.Visible := True;
-    Button1.Visible := True;  // BtnEnviarPatrimonio
-    PopularComboBoxSalas;
-  end else begin
-    Panel34.Visible := False;
+  try
+    UsuarioLog := TUserLog.Create;
+    try
+      UsuarioLog.UserName := FUsuarioLogado;
+      DataHora := Now;
+      UsuarioLog.Date := DataHora;
+      UsuarioLog.Msg := Mensagem;
+      FLogController.RegAuditoria(UsuarioLog);
+    finally
+      UsuarioLog.Free;
+    end;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao registrar log: ' + E.Message);
   end;
 end;
 
-// 4. Popular ComboBox com Salas
-procedure TFormCadastro.PopularComboBoxSalas;
+// ============================================================================
+// CONSTRUCTOR E DESTRUCTOR
+// ============================================================================
+constructor TFormCadastro.Create(AComponent: TComponent; const UsuarioLogado: String);
 begin
-  FPatrimonioController.PopularComboBox(ComboBoxPatrimonio);  // ComboBox de Salas
+  inherited Create(AComponent);
+  FUsuarioLogado := UsuarioLogado;
+  FLogController := TLogController.Create;
+  FSalaController := TSalaController.Create;
+  FPatrimonioController := TPatrimonioController.Create;
+  RegistrarLog('Acessou o módulo de Cadastros');
 end;
 
-// 5. Botão Enviar (Adicionar) Patrimônio
-procedure TFormCadastro.BtnEnviarPatrimonioClick(Sender: TObject);
+
+
+// ============================================================================
+// EMPRESA - CRUD COM LOG
+// ============================================================================
+
+procedure TFormCadastro.BtnEnviarClick(Sender: TObject);
+var
+  Controller: TEmpresaController;
+  Dto: TEmpresaDTO;
+begin
+  Controller := TEmpresaController.Create;
+  try
+    dto := CarregarObjeto;
+    Controller.AdicionarEmpresa(dto);
+
+    // LOG: Cadastrou empresa
+    RegistrarLog('Cadastrou empresa - ' + EditFantasia.Text + ' (CNPJ: ' + EditCnpj.Text + ')');
+
+    ShowMessage('Empresa adicionada com sucesso!');
+    PanelAddEmpresa.Visible := False;
+
+    // Limpar campos
+    EditFantasia.Text := '';
+    EditRazao.Text := '';
+    EditCnpj.Text := '';
+    EditTelefone.Text := '';
+    EditCep.Text := '';
+    EditRua.Text := '';
+    EditCidade.Text := '';
+    EditEstado.Text := '';
+    EditNumero.Text := '';
+    EditBairro.Text := '';
+
+    AtualizarTabelaE;
+  finally
+    Controller.Free;
+  end;
+end;
+
+procedure TFormCadastro.BtnConfirmarEdClick(Sender: TObject);
+var
+  EmpModel: TEmpresaConfig;
+  Controller: TEmpresaController;
+  Dto: TEmpresaDTO;
+  NomeEmpresa: String;
+begin
+  Controller := TEmpresaController.Create;
+  try
+    NomeEmpresa := EditFantasia.Text;
+    EmpModel := Controller.DtoForModel(CarregarObjeto);
+    Controller.EditarEmpresa(CarregarObjeto);
+
+    // LOG: Alterou empresa
+    RegistrarLog('Alterou empresa - ' + NomeEmpresa + ' (ID: ' + IntToStr(DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger) + ')');
+
+    // Limpar campos
+    EditFantasia.Text := '';
+    EditRazao.Text := '';
+    EditCnpj.Text := '';
+    EditTelefone.Text := '';
+    EditCep.Text := '';
+    EditRua.Text := '';
+    EditCidade.Text := '';
+    EditEstado.Text := '';
+    EditNumero.Text := '';
+    EditBairro.Text := '';
+    PanelAddEmpresa.Visible := False;
+
+    AtualizarTabelaE;
+    ShowMessage('Empresa atualizada com sucesso!');
+  finally
+    Controller.Free;
+  end;
+end;
+
+procedure TFormCadastro.BtnExcluirEmpresaClick(Sender: TObject);
+var
+  IdUser: Integer;
+  Controller: TEmpresaController;
+  Emp: String;
+begin
+  Emp := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
+  if MessageDlg('A Empresa ' + Emp + ' será excluída, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    IdUser := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
+    Controller := TEmpresaController.Create;
+    try
+      Controller.ExcluirEmpresa(IdUser);
+
+      // LOG: Excluiu empresa
+      RegistrarLog('Excluiu empresa - ' + Emp + ' (ID: ' + IntToStr(IdUser) + ')');
+
+      AtualizarTabelaE;
+      ShowMessage('Empresa excluída com sucesso!');
+    finally
+      Controller.Free;
+    end;
+  end;
+end;
+
+procedure TFormCadastro.edtPesquisarChange(Sender: TObject);
+var
+  Controller: TEmpresaController;
+begin
+  Controller := TEmpresaController.Create;
+  try
+    DataSEmpresa.DataSet := Controller.PesquisarEmpresa(edtPesquisar.Text);
+    DbGrid1.DataSource := DataSEmpresa;
+
+    // LOG: Pesquisou empresa
+    if edtPesquisar.Text <> '' then
+      RegistrarLog('Pesquisou empresa - Termo: "' + edtPesquisar.Text + '"');
+  finally
+    Controller.Free;
+  end;
+end;
+
+procedure TFormCadastro.BtnAtualizarEmpresaClick(Sender: TObject);
+begin
+  AtualizarTabelaE;
+  RegistrarLog('Atualizou lista de empresas');
+end;
+
+// ============================================================================
+// PRÉDIO - CRUD COM LOG
+// ============================================================================
+
+procedure TFormCadastro.BtnEnviarPredioClick(Sender: TObject);
+var
+  Dto: GPredioDTO;
+begin
+  try
+    Dto.FNome := EdtNamePredio.Text;
+    Dto.FSituacao := ComboBoxSituacao.Text;
+    Dto.FTelefone := EdtTelefonePredio.Text;
+    Dto.FCep := EdtCepPredio.Text;
+    Dto.FRua := EditRuaPredio.Text;
+    Dto.FCidade := EdtCidadePredio.Text;
+    Dto.FEstado := EdtEstadoPredio.Text;
+    Dto.FNumero := StrToInt(EdtNumeroPredio.Text);
+    Dto.FBairro := EdtBairroPredio.Text;
+
+    ControllerPredio.AdicionarPredio(Dto);
+
+    // LOG: Cadastrou prédio
+    RegistrarLog('Cadastrou prédio - ' + EdtNamePredio.Text + ' (' + EdtCidadePredio.Text + ')');
+
+    // Limpar campos
+    EdtNamePredio.Text := '';
+    ComboBoxSituacao.Text := '';
+    EdtTelefonePredio.Text := '';
+    EdtCepPredio.Text := '';
+    EditRuaPredio.Text := '';
+    EdtCidadePredio.Text := '';
+    EdtEstadoPredio.Text := '';
+    EdtNumeroPredio.Text := '';
+    EdtBairroPredio.Text := '';
+
+    PanelAddPredio.Visible := False;
+    AtualizarTabelaP;
+    ShowMessage('Prédio adicionado com sucesso!');
+  finally
+  end;
+end;
+
+procedure TFormCadastro.BtnConfirmarEdPredioClick(Sender: TObject);
+var
+  Dto: GPredioDTO;
+  NomePredio: String;
+  IdPredio: Integer;
+begin
+  NomePredio := EdtNamePredio.Text;
+  IdPredio := DBGridPredio.DataSource.DataSet.FieldByName('id').AsInteger;
+
+  Dto.FNome := EdtNamePredio.Text;
+  Dto.FSituacao := ComboBoxSituacao.Text;
+  Dto.FTelefone := EdtTelefonePredio.Text;
+  Dto.FCep := EdtCepPredio.Text;
+  Dto.FRua := EditRuaPredio.Text;
+  Dto.FCidade := EdtCidadePredio.Text;
+  Dto.FEstado := EdtEstadoPredio.Text;
+  Dto.FNumero := StrToInt(EdtNumeroPredio.Text);
+  Dto.FBairro := EdtBairroPredio.Text;
+  Dto.FId := IdPredio;
+
+  ControllerPredio.EditarPredio(Dto);
+
+  // LOG: Alterou prédio
+  RegistrarLog('Alterou prédio - ' + NomePredio + ' (ID: ' + IntToStr(IdPredio) + ')');
+
+  AtualizarTabelaP;
+
+  // Limpar campos
+  EdtNamePredio.Text := '';
+  ComboBoxSituacao.Text := '';
+  EdtTelefonePredio.Text := '';
+  EdtCepPredio.Text := '';
+  EditRuaPredio.Text := '';
+  EdtCidadePredio.Text := '';
+  EdtEstadoPredio.Text := '';
+  EdtNumeroPredio.Text := '';
+  EdtBairroPredio.Text := '';
+
+  PanelAddPredio.Visible := False;
+  ShowMessage('Prédio atualizado com sucesso!');
+end;
+
+procedure TFormCadastro.BtnExcluirPredioClick(Sender: TObject);
+var
+  IdPredio: Integer;
+  Predio: String;
+begin
+  Predio := DBGridPredio.DataSource.DataSet.FieldByName('nome').AsString;
+  if MessageDlg('O Prédio ' + Predio + ' será excluído, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    IdPredio := DBGridPredio.DataSource.DataSet.FieldByName('id').AsInteger;
+    ControllerPredio.ExcluirPredio(IdPredio);
+
+    // LOG: Excluiu prédio
+    RegistrarLog('Excluiu prédio - ' + Predio + ' (ID: ' + IntToStr(IdPredio) + ')');
+
+    AtualizarTabelaP;
+    ShowMessage('Prédio excluído com sucesso!');
+  end;
+end;
+
+procedure TFormCadastro.edtPesquisarPredioChange(Sender: TObject);
+begin
+  DataSEmpresa.DataSet := ControllerPredio.PesquisarPredio(edtPesquisarPredio.Text);
+  DBGridPredio.DataSource := DataSEmpresa;
+
+  // LOG: Pesquisou prédio
+  if edtPesquisarPredio.Text <> '' then
+    RegistrarLog('Pesquisou prédio - Termo: "' + edtPesquisarPredio.Text + '"');
+end;
+
+procedure TFormCadastro.BtnAtualizarPredioClick(Sender: TObject);
+begin
+  AtualizarTabelaP;
+  RegistrarLog('Atualizou lista de prédios');
+end;
+
+// ============================================================================
+// SALA - CRUD COM LOG
+// ============================================================================
+
+procedure TFormCadastro.BtnEnviarSalaClick(Sender: TObject);
+var
+  Dto: TSalaDTO;
+  SelectedID: Integer;
+begin
+  try
+    if ComboBox2.ItemIndex >= 0 then
+    begin
+      SelectedID := Integer(NativeInt(ComboBox2.Items.Objects[ComboBox2.ItemIndex]));
+      Dto.FIdPredio := SelectedID;
+    end
+    else
+    begin
+      raise Exception.Create('Por favor, selecione um Prédio.');
+    end;
+
+    Dto.FNome := EditNameSala.Text;
+    Dto.FSituacao := EdtSituacaoSala.Text;
+    Dto.FTipo := EdtTipoSala.Text;
+    Dto.FObservacao := EdtObs.Text;
+
+    FSalaController.AdicionarSala(Dto);
+
+    // LOG: Cadastrou sala
+    RegistrarLog('Cadastrou sala - ' + EditNameSala.Text + ' (Tipo: ' + EdtTipoSala.Text + ')');
+
+    AtualizarTabelaS;
+
+    // Limpar campos
+    EditNameSala.Text := '';
+    ComboBox2.ItemIndex := -1;
+    EdtSituacaoSala.Text := '';
+    EdtTipoSala.Text := '';
+    EdtObs.Text := '';
+
+    PanelAddSala.Visible := False;
+    ShowMessage('Sala adicionada com sucesso!');
+  except
+    on E: Exception do
+      ShowMessage('Erro ao salvar: ' + E.Message);
+  end;
+end;
+
+procedure TFormCadastro.BtnConfirmarEdtSalaClick(Sender: TObject);
+var
+  Dto: TSalaDTO;
+  SelectedID: Integer;
+  NomeSala: String;
+  IdSala: Integer;
+begin
+  NomeSala := EditNameSala.Text;
+  IdSala := DBGridSalas.DataSource.DataSet.FieldByName('id').AsInteger;
+
+  SelectedID := Integer(NativeInt(ComboBox2.Items.Objects[ComboBox2.ItemIndex]));
+  Dto.FIdPredio := SelectedID;
+  Dto.FNome := EditNameSala.Text;
+  Dto.FSituacao := EdtSituacaoSala.Text;
+  Dto.FTipo := EdtTipoSala.Text;
+  Dto.FObservacao := EdtObs.Text;
+  Dto.FId := IdSala;
+
+  FSalaController.EditarSala(Dto);
+
+  // LOG: Alterou sala
+  RegistrarLog('Alterou sala - ' + NomeSala + ' (ID: ' + IntToStr(IdSala) + ')');
+
+  // Limpar campos
+  EditNameSala.Text := '';
+  ComboBox2.ItemIndex := -1;
+  EdtSituacaoSala.Text := '';
+  EdtTipoSala.Text := '';
+  EdtObs.Text := '';
+
+  PanelAddSala.Visible := False;
+  AtualizarTabelaS;
+  ShowMessage('Sala atualizada com sucesso!');
+end;
+
+procedure TFormCadastro.BtnExcluirSalaClick(Sender: TObject);
+var
+  IdSala: Integer;
+  Sala: String;
+begin
+  Sala := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;
+  if MessageDlg('A Sala ' + Sala + ' será excluída, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    IdSala := DBGridSalas.DataSource.DataSet.FieldByName('id').AsInteger;
+    FSalaController.ExcluirSala(IdSala);
+
+    // LOG: Excluiu sala
+    RegistrarLog('Excluiu sala - ' + Sala + ' (ID: ' + IntToStr(IdSala) + ')');
+
+    AtualizarTabelaS;
+    ShowMessage('Sala excluída com sucesso!');
+  end;
+end;
+
+procedure TFormCadastro.EdtPesquisarSalaChange(Sender: TObject);
+begin
+  DataSEmpresa.DataSet := FSalaController.PesquisarSala(edtPesquisarSala.Text);
+  DBGridSalas.DataSource := DataSEmpresa;
+
+  // LOG: Pesquisou sala
+  if edtPesquisarSala.Text <> '' then
+    RegistrarLog('Pesquisou sala - Termo: "' + edtPesquisarSala.Text + '"');
+end;
+
+procedure TFormCadastro.BtnAtualizarSalaClic(Sender: TObject);
+begin
+  AtualizarTabelaS;
+  RegistrarLog('Atualizou lista de salas');
+end;
+
+// ============================================================================
+// PATRIMÔNIO - CRUD COM LOG
+// ============================================================================
+
+procedure TFormCadastro.Button1Click(Sender: TObject);
 var
   Dto: TPatrimonioDTO;
   SelectedID: Integer;
 begin
   try
-    // Validar seleção de Sala
     if ComboBoxPatrimonio.ItemIndex >= 0 then
     begin
       SelectedID := Integer(NativeInt(ComboBoxPatrimonio.Items.Objects[ComboBoxPatrimonio.ItemIndex]));
@@ -342,22 +721,22 @@ begin
       raise Exception.Create('Por favor, selecione uma Sala.');
     end;
 
-    // Preencher DTO
-    Dto.FNome := EditNomePatri.Text;  // EdtNomePatrimonio
-    Dto.FTipo := EdtTipoPatri.Text;  // EdtTipoPatrimonio
-    Dto.FSituacao := CBSituacaoPatri.Text;  // CmbSituacaoPatrimonio
-    Dto.FModelo := EdtModelo.Text;  // EdtModelo - VOCÊ PRECISA ADICIONAR ESTE CAMPO
-    Dto.FValorAquisicao := StrToFloatDef(EdtVAQPatri.Text, 0);  // ADICIONAR CAMPO
-    Dto.FValorAtual := StrToFloatDef(EdtVAPatri.Text, 0);  // ADICIONAR CAMPO
-    Dto.FQuantidade := StrToIntDef(EdtQuantiPatri.Text, 0);  // ADICIONAR CAMPO
-    Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);  // ADICIONAR CAMPO
-    Dto.FNumeroSerie := EdtNS.Text;  // ADICIONAR CAMPO
+    Dto.FNome := EditNomePatri.Text;
+    Dto.FTipo := EdtTipoPatri.Text;
+    Dto.FSituacao := CBSituacaoPatri.Text;
+    Dto.FModelo := EdtModelo.Text;
+    Dto.FValorAquisicao := StrToFloatDef(EdtVAQPatri.Text, 0);
+    Dto.FValorAtual := StrToFloatDef(EdtVAPatri.Text, 0);
+    Dto.FQuantidade := StrToIntDef(EdtQuantiPatri.Text, 0);
+    Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
+    Dto.FNumeroSerie := EdtNS.Text;
 
-    // Adicionar no banco
     FPatrimonioController.AdicionarPatrimonio(Dto);
-    AtualizarTabelaPatrimonio;
 
-    // Limpar campos
+    // LOG: Cadastrou patrimônio
+    RegistrarLog('Cadastrou patrimônio - ' + EditNomePatri.Text + ' (NS: ' + EdtNS.Text + ')');
+
+    AtualizarTabelaPatrimonio;
     LimparCamposPatrimonio;
     Panel34.Visible := False;
 
@@ -368,11 +747,303 @@ begin
   end;
 end;
 
-// 6. Botão Editar Patrimônio
+procedure TFormCadastro.BtnConfirmarEdPatriClick(Sender: TObject);
+var
+  Dto: TPatrimonioDTO;
+  SelectedID: Integer;
+  NomePatri: String;
+  IdPatri: Integer;
+begin
+  try
+    NomePatri := EditNomePatri.Text;
+    IdPatri := DBGridPatrimonio.DataSource.DataSet.FieldByName('id').AsInteger;
+
+    SelectedID := Integer(NativeInt(ComboBoxPatrimonio.Items.Objects[ComboBoxPatrimonio.ItemIndex]));
+    Dto.FIdSala := SelectedID;
+    Dto.FNome := EditNomePatri.Text;
+    Dto.FTipo := EdtTipoPatri.Text;
+    Dto.FSituacao := CBSituacaoPatri.Text;
+    Dto.FModelo := EdtModelo.Text;
+    Dto.FValorAquisicao := StrToCurrDef(EdtVAQPatri.Text, 0);
+    Dto.FValorAtual := StrToCurrDef(EdtVAPatri.Text, 0);
+    Dto.FQuantidade := StrToIntDef(EdtQuantiPatri.Text, 0);
+    Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
+    Dto.FNumeroSerie := EdtNS.Text;
+    Dto.FId := IdPatri;
+
+    FPatrimonioController.EditarPatrimonio(Dto);
+
+    // LOG: Alterou patrimônio
+    RegistrarLog('Alterou patrimônio - ' + NomePatri + ' (ID: ' + IntToStr(IdPatri) + ')');
+
+    AtualizarTabelaPatrimonio;
+    LimparCamposPatrimonio;
+    Panel34.Visible := False;
+
+    ShowMessage('Patrimônio atualizado com sucesso!');
+  except
+    on E: Exception do
+      ShowMessage('Erro ao editar: ' + E.Message);
+  end;
+end;
+
+procedure TFormCadastro.BtnExcluirPatrimonioClick(Sender: TObject);
+var
+  IdPatrimonio: Integer;
+  Patrimonio: String;
+begin
+  Patrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
+  if MessageDlg('O Patrimônio ' + Patrimonio + ' será excluído, deseja continuar?',
+                mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    IdPatrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('id').AsInteger;
+    FPatrimonioController.ExcluirPatrimonio(IdPatrimonio);
+
+    // LOG: Excluiu patrimônio
+    RegistrarLog('Excluiu patrimônio - ' + Patrimonio + ' (ID: ' + IntToStr(IdPatrimonio) + ')');
+
+    AtualizarTabelaPatrimonio;
+    ShowMessage('Patrimônio excluído com sucesso!');
+  end;
+end;
+
+procedure TFormCadastro.SearchBox1Change(Sender: TObject);
+begin
+  DataSEmpresa.DataSet := FPatrimonioController.PesquisarPatrimonio(SearchBox1.Text);
+  DBGridPatrimonio.DataSource := DataSEmpresa;
+
+  // LOG: Pesquisou patrimônio
+  if SearchBox1.Text <> '' then
+    RegistrarLog('Pesquisou patrimônio - Termo: "' + SearchBox1.Text + '"');
+end;
+
+procedure TFormCadastro.BtnAtualizarPatrimonioClick(Sender: TObject);
+begin
+  AtualizarTabelaPatrimonio;
+  RegistrarLog('Atualizou lista de patrimônios');
+end;
+
+// ============================================================================
+// MÉTODOS AUXILIARES (mantidos como estão)
+// ============================================================================
+
+procedure TFormCadastro.AtualizarTabelaE;
+var
+  Controller: TEmpresaController;
+begin
+  Controller := TEmpresaController.Create;
+  try
+    DataSEmpresa.DataSet := Controller.ListarEmpresa;
+    DbGrid1.DataSource := DataSEmpresa;
+  finally
+    Controller.Free;
+  end;
+end;
+
+procedure TFormCadastro.AtualizarTabelaP;
+var
+  Controller: TPredioController;
+begin
+  Controller := TPredioController.Create;
+  try
+    DataSEmpresa.DataSet := Controller.ListarPredio;
+    DbGridPredio.DataSource := DataSEmpresa;
+  finally
+    Controller.Free;
+  end;
+end;
+
+procedure TFormCadastro.AtualizarTabelaS;
+begin
+  DataSEmpresa.DataSet := FSalaController.ListarSala;
+  DbGridSalas.DataSource := DataSEmpresa;
+end;
+
+procedure TFormCadastro.AtualizarTabelaPatrimonio;
+begin
+  DataSEmpresa.DataSet := FPatrimonioController.ListarPatrimonio;
+  DBGridPatrimonio.DataSource := DataSEmpresa;
+end;
+
+procedure TFormCadastro.LimparCamposPatrimonio;
+begin
+  EditNomePatri.Text := '';
+  EdtTipoPatri.Text := '';
+  EdtModelo.Text := '';
+  ComboBoxPatrimonio.ItemIndex := -1;
+  CBSituacaoPatri.ItemIndex := -1;
+  EdtVAQPatri.Text := '';
+  EdtVAPatri.Text := '';
+  EdtQuantiPatri.Text := '';
+  EdtNS.Text := '';
+  EdtDAPatri.Text := DateToStr(Now);
+end;
+
+function TFormCadastro.CarregarObjeto: TEmpresaDTO;
+var
+  Dto: TEmpresaDTO;
+begin
+  Dto.FNomeFan := EditFantasia.Text;
+  Dto.FRazao := EditRazao.Text;
+  Dto.FCnpj := EditCnpj.Text;
+  Dto.FTelefone := EditTelefone.Text;
+  Dto.FCep := EditCep.Text;
+  Dto.FRua := EditRua.Text;
+  Dto.FCidade := EditCidade.Text;
+  Dto.FEstado := EditEstado.Text;
+  Dto.FNumero := StrToInt(EditNumero.Text);
+  Dto.FBairro := EditBairro.Text;
+  Dto.FId := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
+  Result := Dto;
+end;
+
+constructor TFormCadastro.Create(AComponent: TComponent);
+begin
+
+end;
+
+procedure TFormCadastro.PopularComboBox;
+begin
+  FSalaController.PopularComboBox(ComboBox2);
+end;
+
+procedure TFormCadastro.PopularComboBoxSalas;
+begin
+  FPatrimonioController.PopularComboBox(ComboBoxPatrimonio);
+end;
+
+procedure TFormCadastro.PageControl1Change(Sender: TObject);
+begin
+  if PageControl1.ActivePage = TabSheet1 then
+  begin
+    AtualizarTabelaE;
+    RegistrarLog('Acessou aba Empresas');
+  end
+  else if PageControl1.ActivePage = TabSheet2 then
+  begin
+    AtualizarTabelaP;
+    RegistrarLog('Acessou aba Prédios');
+  end
+  else if PageControl1.ActivePage = TabSheet3 then
+  begin
+    AtualizarTabelaS;
+    RegistrarLog('Acessou aba Salas');
+  end
+  else if PageControl1.ActivePage = TabSheet4 then
+  begin
+    AtualizarTabelaPatrimonio;
+    RegistrarLog('Acessou aba Patrimônios');
+  end;
+end;
+
+// Eventos de botões (mantidos)
+procedure TFormCadastro.BtnAdicionarEmpresaClick(Sender: TObject);
+begin
+  BtnConfirmarEd.Visible := False;
+  BtnEnviar.Visible := True;
+  if PanelAddEmpresa.Visible = False then
+    PanelAddEmpresa.Visible := True
+  else
+    PanelAddEmpresa.Visible := False;
+end;
+
+procedure TFormCadastro.BtnAdicionarPredioClick(Sender: TObject);
+begin
+  if PanelAddPredio.Visible = False then
+  begin
+    PanelAddPredio.Visible := True;
+    BtnEnviarPredio.Visible := True;
+  end
+  else
+    PanelAddPredio.Visible := False;
+end;
+
+procedure TFormCadastro.BtnAdicionarSalaClick(Sender: TObject);
+begin
+  if PanelAddSala.Visible = False then
+  begin
+    PanelAddSala.Visible := True;
+    BtnEnviarSala.Visible := True;
+    PopularComboBox;
+  end
+  else
+    PanelAddSala.Visible := False;
+end;
+
+procedure TFormCadastro.BtnAdicionarPatrimonioClick(Sender: TObject);
+begin
+  if Panel34.Visible = False then
+  begin
+    Panel34.Visible := True;
+    BtnEnviarPatrimonio.Visible := True;
+    PopularComboBoxSalas;
+  end
+  else
+    Panel34.Visible := False;
+end;
+
+procedure TFormCadastro.BtnEditarEmpresaClick(Sender: TObject);
+begin
+  PanelAddEmpresa.Visible := True;
+  BtnEnviar.Visible := False;
+  BtnConfirmarEd.Visible := True;
+
+  try
+    EditFantasia.Text := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
+    EditRazao.Text := DBGrid1.DataSource.DataSet.FieldByName('razao_social').AsString;
+    EditBairro.Text := DBGrid1.DataSource.DataSet.FieldByName('bairro').AsString;
+    EditRua.Text := DBGrid1.DataSource.DataSet.FieldByName('rua').AsString;
+    EditCnpj.Text := DBGrid1.DataSource.DataSet.FieldByName('cnpj').AsString;
+    EditTelefone.Text := DBGrid1.DataSource.DataSet.FieldByName('telefone').AsString;
+    EditNumero.Text := DBGrid1.DataSource.DataSet.FieldByName('numero').AsString;
+    EditEstado.Text := DBGrid1.DataSource.DataSet.FieldByName('estado').AsString;
+    EditCidade.Text := DBGrid1.DataSource.DataSet.FieldByName('cidade').AsString;
+    EditCep.Text := DBGrid1.DataSource.DataSet.FieldByName('cep').AsString;
+  finally
+  end;
+end;
+
+procedure TFormCadastro.BtnEditarPredioClick(Sender: TObject);
+begin
+  PanelAddPredio.Visible := True;
+  BtnConfirmarEdPredio.Visible := True;
+  BtnEnviarPredio.Visible := False;
+
+  try
+    EdtNamePredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('nome').AsString;
+    ComboBoxSituacao.Text := DBGridPredio.DataSource.DataSet.FieldByName('situacao').AsString;
+    EdtBairroPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('bairro').AsString;
+    EditRuaPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('rua').AsString;
+    EdtTelefonePredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('telefone').AsString;
+    EdtNumeroPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('numero').AsString;
+    EdtEstadoPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('estado').AsString;
+    EdtCidadePredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('cidade').AsString;
+    EdtCepPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('cep').AsString;
+  finally
+  end;
+end;
+
+procedure TFormCadastro.BtnEditarSalaClick(Sender: TObject);
+begin
+  BtnConfirmarEdtSala.Visible := True;
+  BtnEnviarSala.Visible := False;
+  PanelAddSala.Visible := True;
+
+  try
+    EditNameSala.Text := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;
+    ComboBox2.Text := DBGridSalas.DataSource.DataSet.FieldByName('nome_predio').AsString;
+    PopularComboBox;
+    EdtSituacaoSala.Text := DBGridSalas.DataSource.DataSet.FieldByName('situacao').AsString;
+    EdtTipoSala.Text := DBGridSalas.DataSource.DataSet.FieldByName('tipo').AsString;
+    EdtObs.Text := DBGridSalas.DataSource.DataSet.FieldByName('observacao').AsString;
+  finally
+  end;
+end;
+
 procedure TFormCadastro.BtnEditarPatrimonioClick(Sender: TObject);
 begin
-  Button2.Visible := True;  // BtnConfirmarEdPatrimonio
-  Button1.Visible := False; // BtnEnviarPatrimonio
+  BtnConfirmarEdPatri.Visible := True;
+  BtnEnviarPatrimonio.Visible := False;
   Panel34.Visible := True;
 
   try
@@ -386,567 +1057,24 @@ begin
     EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
     EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
     ComboBoxPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;
-
     PopularComboBoxSalas;
   finally
   end;
 end;
 
-// 7. Confirmar Edição
-procedure TFormCadastro.BtnConfirmarEdPatrimonioClick(Sender: TObject);
-var
-  Dto: TPatrimonioDTO;
-  SelectedID: Integer;
-begin
-  try
-    SelectedID := Integer(NativeInt(ComboBoxPatrimonio.Items.Objects[ComboBoxPatrimonio.ItemIndex]));
-    Dto.FIdSala := SelectedID;
-
-    Dto.FNome := EditNomePatri.Text;
-    Dto.FTipo := EdtTipoPatri.Text;
-    Dto.FSituacao := CBSituacaoPatri.Text;
-    Dto.FModelo := EdtModelo.Text;
-    Dto.FValorAquisicao := StrToFloatDef(EdtVAQPatri.Text, 0);
-    Dto.FValorAtual := StrToFloatDef(EdtVAPatri.Text, 0);
-    Dto.FQuantidade := StrToIntDef(EdtQuantiPatri.Text, 0);
-    Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
-    Dto.FNumeroSerie := EdtNS.Text;
-    Dto.FId := DBGridPatrimonio.DataSource.DataSet.FieldByName('id').AsInteger;
-
-    FPatrimonioController.EditarPatrimonio(Dto);
-    AtualizarTabelaPatrimonio;
-
-    LimparCamposPatrimonio;
-    Panel34.Visible := False;
-
-    ShowMessage('Patrimônio atualizado com sucesso!');
-  except
-    on E: Exception do
-      ShowMessage('Erro ao editar: ' + E.Message);
-  end;
-end;
-
-// 8. Excluir Patrimônio
-procedure TFormCadastro.BtnExcluirPatrimonioClick(Sender: TObject);
-var
-  IdPatrimonio: Integer;
-  Patrimonio: String;
-begin
-  Patrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
-  if MessageDlg('O Patrimônio ' + Patrimonio + ' será excluído, deseja continuar?',
-                mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-  begin
-    IdPatrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('id').AsInteger;
-    FPatrimonioController.ExcluirPatrimonio(IdPatrimonio);
-    AtualizarTabelaPatrimonio;
-    ShowMessage('Patrimônio excluído com sucesso!');
-  end;
-end;
-
-// 9. Pesquisar Patrimônio
-procedure TFormCadastro.SearchBox1Change(Sender: TObject);
-begin
-  DataSEmpresa.DataSet := FPatrimonioController.PesquisarPatrimonio(SearchBox1.Text);
-  DBGridPatrimonio.DataSource := DataSEmpresa;
-end;
-
-// 10. Botão Atualizar
-procedure TFormCadastro.BtnAtualizarPatrimonioClick(Sender: TObject);
-begin
-  AtualizarTabelaPatrimonio;
-end;
-
-// 11. Botão Filtrar
-procedure TFormCadastro.BtnFiltrarPatrimonioClick(Sender: TObject);
-begin
-  SearchBox1.Visible := True;
-end;
-
-// 12. Limpar Campos
-procedure TFormCadastro.LimparCamposPatrimonio;
-begin
-  EditNomePatri.Text := '';
-  EdtTipoSala.Text := '';
-  EdtModelo.Text := '';
-  ComboBoxPatrimonio.ItemIndex := -1;
-  CBSituacaoPatri.ItemIndex := -1;
-  EdtVAQPatri.Text := '';
-  EdtVAPatri.Text := '';
-  EdtQuantiPatri.Text := '';
-  EdtNS.Text := '';
-  EdtDAPatri.Text := DateToStr(Now);
-end;
-
-procedure TFormCadastro.AtualizarTabelaE;
-var
-Controller: TEmpresaController;
-begin
-Controller := TEmpresaController.Create;
-DataSEmpresa.DataSet := Controller.ListarEmpresa;
-DbGrid1.DataSource := DataSEmpresa;
-
-end;
-
-procedure TFormCadastro.AtualizarTabelaP;
-var Controller: TPredioController;
-begin
-Controller := TPredioController.Create;
-DataSEmpresa.DataSet := Controller.ListarPredio;
-DbGridPredio.DataSource := DataSEmpresa;
-end;
-
-procedure TFormCadastro.AtualizarTabelaS;
-begin
-DataSEmpresa.DataSet := FSalaController.ListarSala;
-DbGridSalas.DataSource := DataSEmpresa;
-end;
-
-procedure TFormCadastro.BtnAdicionarEmpresaClick(Sender: TObject);
-begin
-BtnConfirmarEd.Visible := False;
-BtnEnviar.Visible := True;
-if PanelAddEmpresa.Visible = False then begin
-  PanelAddEmpresa.Visible := True;
-end else  begin
-  PanelAddEmpresa.Visible := False;
-end;
-
-
-end;
-
-
-procedure TFormCadastro.BtnAdicionarPredioClick(Sender: TObject);
-begin
-if PanelAddPredio.Visible = False then begin
-  PanelAddPredio.Visible := True;
-  BtnEnviarPredio.Visible := True;
-end else  begin
-  PanelAddPredio.Visible := False;
-end;
-
-
-end;
-
-procedure TFormCadastro.BtnAdicionarSalaClick(Sender: TObject);
-begin
-if PanelAddSala.Visible = False then begin
-  PanelAddSala.Visible := True;
-  BtnEnviarSala.Visible := True;
-  PopularComboBox;
-
-end else  begin
-  PanelAddSala.Visible := False;
-end;
-
-
-end;
-procedure TFormCadastro.BtnAtualizarEmpresaClick(Sender: TObject);
-begin
-   AtualizarTabelaE;
-end;
-
-procedure TFormCadastro.BtnAtualizarPredioClick(Sender: TObject);
-begin
-    AtualizarTabelaP;
-end;
-
-procedure TFormCadastro.BtnAtualizarSalaClic(Sender: TObject);
-begin
-AtualizarTabelaS;
-end;
-
-procedure TFormCadastro.BtnEditarEmpresaClick(Sender: TObject);
-var
-Controller: TEmpresaController;
-Dto: TEmpresaDTO;
-begin
-PanelAddEmpresa.Visible := True;
-BtnEnviar.Visible := False;
-BtnConfirmarEd.Visible :=  True;
-try
-
-EditFantasia.Text := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
-EditRazao.Text := DBGrid1.DataSource.DataSet.FieldByName('razao_social').AsString;
-EditBairro.Text := DBGrid1.DataSource.DataSet.FieldByName('bairro').AsString;
-EditRua.Text := DBGrid1.DataSource.DataSet.FieldByName('rua').AsString;
-EditCnpj.Text := DBGrid1.DataSource.DataSet.FieldByName('cnpj').AsString;
-EditTelefone.Text := DBGrid1.DataSource.DataSet.FieldByName('telefone').AsString;
-EditNumero.Text := DBGrid1.DataSource.DataSet.FieldByName('numero').AsString;
-EditEstado.Text := DBGrid1.DataSource.DataSet.FieldByName('estado').AsString;
-EditCidade.Text := DBGrid1.DataSource.DataSet.FieldByName('cidade').AsString;
-EditCep.Text := DBGrid1.DataSource.DataSet.FieldByName('cep').AsString;
-
-
-finally
-
-end;
-
-end;
-
-
-procedure TFormCadastro.BtnEditarPredioClick(Sender: TObject);
-var
-Controller: TPredioController;
-Dto: GPredioDTO;
-begin
-PanelAddPredio.Visible := True;
-BtnConfirmarEdPredio.Visible := True;
-
-try
-
-EdtNamePredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('nome').AsString;
-ComboBoxSituacao.Text := DBGridPredio.DataSource.DataSet.FieldByName('situacao').AsString;
-EdtBairroPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('bairro').AsString;
-EditRuaPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('rua').AsString;
-EdtTelefonePredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('telefone').AsString;
-EdtNumeroPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('numero').AsString;
-EdtEstadoPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('estado').AsString;
-EdtCidadePredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('cidade').AsString;
-EdtCepPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('cep').AsString;
-
-
-finally
-
-end;
-
-end;
-
-procedure TFormCadastro.BtnEditarSalaClick(Sender: TObject);
-var
-Dto: TSalaDTO;
-begin
-BtnConfirmarEdtSala.Visible := True;
- PanelAddSala.Visible := True;
-try
-
-    EditNameSala.Text := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;
-    ComboBox2.Text := DBGridSalas.DataSource.DataSet.FieldByName('nome_predio').AsString;
-    PopularComboBox;
-    EdtSituacaoSala.Text := DBGridSalas.DataSource.DataSet.FieldByName('situacao').AsString;
-    EdtTipoSala.Text :=  DBGridSalas.DataSource.DataSet.FieldByName('tipo').AsString;
-    EdtObs.Text := DBGridSalas.DataSource.DataSet.FieldByName('observacao').AsString;
-
-finally
-
-
-
-end;
-
-end;
-
-procedure TFormCadastro.BtnEnviarClick(Sender: TObject);
-var
-Controller: TEmpresaController;
-Dto: TEmpresaDTO;
-begin
-Controller := TEmpresaController.Create;
-try
-
-dto := CarregarObjeto;
-Controller.AdicionarEmpresa(dto);
-
-ShowMessage('Cliente Adicionado');
-
-PanelAddEmpresa.Visible := False;
-
-EditFantasia.Text := '';
-EditRazao.Text := '';
-EditCnpj.Text := '';
-EditTelefone.Text := '';
-EditCep.Text := '';
-EditRua.Text := '';
-EditCidade.Text := '';
-EditEstado.Text := '';
-EditNumero.Text := '';
-EditBairro.Text := '';
-
-finally
-Controller.Free;
-end;
-
-
-end;
-
-
-
-procedure TFormCadastro.BtnExcluirPredioClick(Sender: TObject);
-var
-IdPredio: Integer;
-Predio: String;
-begin
-Predio := DBGridPredio.DataSource.DataSet.FieldByName('nome').AsString;
-if MessageDlg('O Predio ' + Predio + ' sera excluido, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    IdPredio := DBGridPredio.DataSource.DataSet.FieldByName('id').AsInteger;
-
-    ControllerPredio.ExcluirPredio(IdPredio);
-
-    AtualizarTabelaP;
-end;
-
-
-procedure TFormCadastro.BtnExcluirSalaClick(Sender: TObject);
-var
-IdSala: Integer;
-Sala: String;
-begin
-Sala := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;
-if MessageDlg('A Sala ' + Sala + ' sera excluida, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    IdSala := DBGridSalas.DataSource.DataSet.FieldByName('id').AsInteger;
-
-    FSalaController.ExcluirSala(IdSala);
-
-    AtualizarTabelaS;
-end;
-
-
 procedure TFormCadastro.BtnFiltrarEmpresaClick(Sender: TObject);
 begin
-edtPesquisar.Visible := True;
+  edtPesquisar.Visible := True;
 end;
 
 procedure TFormCadastro.BtnFiltrarPredioClick(Sender: TObject);
 begin
-edtPesquisarPredio.Visible := True;
+  edtPesquisarPredio.Visible := True;
 end;
 
-procedure TFormCadastro.BtnEnviarSalaClick(Sender: TObject);
-var
-  Dto: TSalaDTO;
-  SelectedID: Integer;
+procedure TFormCadastro.BtnFiltrarPatrimonioClick(Sender: TObject);
 begin
-
-  try
-
-    if ComboBox2.ItemIndex >= 0 then
-    begin
-      SelectedID := Integer(NativeInt(ComboBox2.Items.Objects[ComboBox2.ItemIndex]));
-      Dto.FIdPredio := SelectedID;
-
-    end
-    else
-    begin
-      raise Exception.Create('Por favor, selecione um Prédio.');
-    end;
-
-
-    Dto.FNome := EditNameSala.Text;
-    Dto.FSituacao := EdtSituacaoSala.Text;
-    Dto.FTipo := EdtTipoSala.Text;
-    Dto.FObservacao := EdtObs.Text;
-
-    FSalaController.AdicionarSala(Dto);
-    AtualizarTabelaS;
-
-    EditNameSala.Text := '';
-    ComboBox2.ItemIndex := -1;
-    EdtSituacaoSala.Text := '';
-    EdtTipoSala.Text := '';
-    EdtObs.Text := '';
-
-    PanelAddSala.Visible := False;
-  except
-    on E: Exception do
-      ShowMessage('Erro ao salvar: ' + E.Message);
-  end;
+  SearchBox1.Visible := True;
 end;
-
-procedure TFormCadastro.BtnConfirmarEdtSalaClick(Sender: TObject);
-var
-Dto: TSalaDTO;
-SelectedID: Integer;
-begin
-    SelectedID := Integer(NativeInt(ComboBox2.Items.Objects[ComboBox2.ItemIndex]));
-    Dto.FIdPredio := SelectedID;
-    Dto.FNome := EditNameSala.Text;
-    Dto.FSituacao := EdtSituacaoSala.Text;
-    Dto.FTipo := EdtTipoSala.Text;
-    Dto.FObservacao := EdtObs.Text;
-    Dto.FId := DBGridSalas.DataSource.DataSet.FieldByName('id').AsInteger;
-
-    FSalaController.EditarSala(Dto);
-
-     EditNameSala.Text := '';
-    ComboBox2.ItemIndex := -1;
-    EdtSituacaoSala.Text := '';
-    EdtTipoSala.Text := '';
-    EdtObs.Text := '';
-
-    PanelAddSala.Visible := False;
-end;
-
-procedure TFormCadastro.BtnEnviarPredioClick(Sender: TObject);
-var
-Dto : GPredioDTO;
-
-begin
-
-try
-
-Dto.FNome := EdtNamePredio.Text;
-Dto.FSituacao := ComboBoxSituacao.Text;
-Dto.FTelefone:= EdtTelefonePredio.Text;
-Dto.FCep := EdtCepPredio.Text;
-Dto.FRua:= EditRuaPredio.Text;
-Dto.FCidade := EdtCidadePredio.Text;
-Dto.FEstado := EdtEstadoPredio.Text;
-Dto.FNumero := StrToInt (EdtNumeroPredio.Text);
-Dto.FBairro := EdtBairroPredio.Text;
-
-ControllerPredio.AdicionarPredio(Dto);
-
-
-EdtNamePredio.Text := '';
-ComboBoxSituacao.Text := '';
-EdtTelefonePredio.Text := '';
-EdtCepPredio.Text := '';
-EditRuaPredio.Text := '';
-EdtCidadePredio.Text := '';
-EdtEstadoPredio.Text := '';
-EdtNumeroPredio.Text := '';
-EdtBairroPredio.Text := '';
-
-PanelAddPredio.Visible := False;
-
-finally
-
-end;
-
-end;
-
-procedure TFormCadastro.BtnConfirmarEdPredioClick(Sender: TObject);
-var
-Dto: GPredioDTO;
-
-begin
-Dto.FNome := EdtNamePredio.Text;
-Dto.FSituacao := ComboBoxSituacao.Text;
-Dto.FTelefone:= EdtTelefonePredio.Text;
-Dto.FCep := EdtCepPredio.Text;
-Dto.FRua:= EditRuaPredio.Text;
-Dto.FCidade := EdtCidadePredio.Text;
-Dto.FEstado := EdtEstadoPredio.Text;
-Dto.FNumero := StrToInt (EdtNumeroPredio.Text);
-Dto.FBairro := EdtBairroPredio.Text;
-Dto.FId := DBGridPredio.DataSource.DataSet.FieldByName('id').AsInteger;
-
-ControllerPredio.EditarPredio(Dto);
-
-AtualizarTabelaP;
-
-EdtNamePredio.Text := '';
-ComboBoxSituacao.Text := '';
-EdtTelefonePredio.Text := '';
-EdtCepPredio.Text := '';
-EditRuaPredio.Text := '';
-EdtCidadePredio.Text := '';
-EdtEstadoPredio.Text := '';
-EdtNumeroPredio.Text := '';
-EdtBairroPredio.Text := '';
-
-PanelAddPredio.Visible := False;
-
-
-end;
-
-procedure TFormCadastro.BtnConfirmarEdClick(Sender: TObject);
-var
-EmpModel: TEmpresaConfig;
-Controller: TEmpresaController;
-Dto: TEmpresaDTO;
-begin
-Controller := TEmpresaController.Create;
-EmpModel := Controller.DtoForModel(CarregarObjeto);
-
-Controller.EditarEmpresa(CarregarObjeto);
-EditFantasia.Text := '';
-EditRazao.Text := '';
-EditCnpj.Text := '';
-EditTelefone.Text := '';
-EditCep.Text := '';
-EditRua.Text := '';
-EditCidade.Text := '';
-EditEstado.Text := '';
-EditNumero.Text := '';
-EditBairro.Text := '';
-PanelAddEmpresa.Visible := False;
-end;
-
-function TFormCadastro.CarregarObjeto : TEmpresaDTO;
-var
-Dto: TEmpresaDTO;
-begin
-
-Dto.FNomeFan := EditFantasia.Text;
-Dto.FRazao := EditRazao.Text;
-Dto.FCnpj := EditCnpj.Text;
-Dto.FTelefone:= EditTelefone.Text;
-Dto.FCep := EditCep.Text;
-Dto.FRua:= EditRua.Text;
-Dto.FCidade := EditCidade.Text;
-Dto.FEstado := EditEstado.Text;
-Dto.FNumero := StrToInt (EditNumero.Text);
-Dto.FBairro := EditBairro.Text;
-Dto.FId := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
-Result := Dto;
-end;
-
-constructor TFormCadastro.Create(AComponent: TComponent);
-begin
-inherited Create(AComponent);
-SalaController.FSalaController := TSalaController.Create;
-end;
-
-procedure TFormCadastro.edtPesquisarChange(Sender: TObject);
-var
-Controller: TEmpresaController;
-begin
- Controller := TEmpresaController.Create;
- DataSEmpresa.DataSet := Controller.PesquisarEmpresa(edtPesquisar.Text);
- DbGrid1.DataSource := DataSEmpresa;
-end;
-
-procedure TFormCadastro.PageControl1Change(Sender: TObject);
-begin
-
-if PageControl1.ActivePage = TabSheet1 then begin
-AtualizarTabelaE;
-end else if PageControl1.ActivePage = TabSheet2 then begin
-AtualizarTabelaP;
-end else if PageControl1.ActivePage = TabSheet3 then begin
-AtualizarTabelaS
-end else if PageControl1.ActivePage = TabSheet4 then
-AtualizarTabelaPatri
-end;
-
-procedure TFormCadastro.PopularComboBox;
-begin
-    FSalaController.PopularComboBox(ComboBox2);
-end;
-
-procedure TFormCadastro.EdtPesquisarSalaChange(Sender: TObject);
-begin
-  DataSEmpresa.DataSet := FSalaController.PesquisarSala(edtPesquisarSala.Text);
-  DBGridPredio.DataSource := DataSEmpresa;
-end;
-
-procedure TFormCadastro.edtPesquisarPredioChange(Sender: TObject);
-begin
-DataSEmpresa.DataSet := ControllerPredio.PesquisarPredio(edtPesquisarPredio.Text);
-DBGridPredio.DataSource := DataSEmpresa;
-end;
-
-procedure TFormCadastro.BtnExcluirEmpresaClick(Sender: TObject);
-var
-IdUser: Integer;
-Controller: TEmpresaController;
-Emp: String;
-begin
-Emp := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
-if MessageDlg('A Empresa ' + Emp + ' sera excluida, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    IdUser := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
-    Controller := TEmpresaController.Create;
-    Controller.ExcluirEmpresa(IdUser);
-end;
-
 
 end.

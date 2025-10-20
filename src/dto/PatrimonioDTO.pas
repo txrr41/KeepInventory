@@ -8,8 +8,8 @@ Type
   FTipo: String;
   FSituacao: String;
   FModelo: String;
-  FValorAquisicao: Double;
-  FValorAtual: Double;
+  FValorAquisicao: Currency;
+  FValorAtual: Currency;
   FQuantidade: Integer;
   FDataAquisicao: TDate;
   FNumeroSerie: String;
