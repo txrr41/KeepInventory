@@ -1,6 +1,6 @@
 object FormCadastro: TFormCadastro
-  Left = 0
-  Top = 0
+  Left = 266
+  Top = 104
   ActiveControl = DBGrid1
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -16,7 +16,7 @@ object FormCadastro: TFormCadastro
   Font.Height = -12
   Font.Name = 'B '
   Font.Style = []
-  Position = poDesktopCenter
+  Position = poDesigned
   TextHeight = 15
   object PanelCadastro: TPanel
     Left = -8
@@ -1035,7 +1035,7 @@ object FormCadastro: TFormCadastro
             end
             object BtnEnviarPredio: TButton
               Left = 1201
-              Top = 86
+              Top = 70
               Width = 147
               Height = 33
               Caption = 'Enviar'
@@ -1045,7 +1045,7 @@ object FormCadastro: TFormCadastro
             end
             object BtnConfirmarEdPredio: TButton
               Left = 1201
-              Top = 37
+              Top = 69
               Width = 147
               Height = 35
               Caption = 'Confirmar Altera'#231#227'o'
@@ -2109,7 +2109,7 @@ object FormCadastro: TFormCadastro
             end
             object BtnConfirmarEdtSala: TButton
               Left = 1188
-              Top = 28
+              Top = 84
               Width = 162
               Height = 34
               Caption = 'Confirmar Altera'#231#227'o'
