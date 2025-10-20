@@ -2,15 +2,21 @@ object FormCadastro: TFormCadastro
   Left = 0
   Top = 0
   ActiveControl = DBGrid1
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
   Caption = 'FormCadastro'
-  ClientHeight = 845
-  ClientWidth = 1380
+  ClientHeight = 806
+  ClientWidth = 1348
   Color = clBtnFace
+  Constraints.MaxHeight = 845
+  Constraints.MaxWidth = 1364
+  Constraints.MinHeight = 845
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'B '
   Font.Style = []
+  Position = poDesktopCenter
   TextHeight = 15
   object PanelCadastro: TPanel
     Left = -8
@@ -103,6 +109,7 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 0
             Visible = False
+            ExplicitLeft = 2
             object Label15: TLabel
               Left = 24
               Top = 19
@@ -323,7 +330,7 @@ object FormCadastro: TFormCadastro
             end
             object BtnConfirmarEd: TButton
               Left = 1195
-              Top = 56
+              Top = 53
               Width = 151
               Height = 38
               Caption = 'Confirmar altera'#231#227'o'
@@ -1028,7 +1035,7 @@ object FormCadastro: TFormCadastro
             end
             object BtnEnviarPredio: TButton
               Left = 1201
-              Top = 70
+              Top = 86
               Width = 147
               Height = 33
               Caption = 'Enviar'
@@ -1038,7 +1045,7 @@ object FormCadastro: TFormCadastro
             end
             object BtnConfirmarEdPredio: TButton
               Left = 1201
-              Top = 69
+              Top = 37
               Width = 147
               Height = 35
               Caption = 'Confirmar Altera'#231#227'o'
@@ -1765,6 +1772,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = BtnFiltrarSalaClick
                 ExplicitTop = 16
               end
               object Label62: TLabel
@@ -1876,7 +1884,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
-                OnClick = BtnAtualizarSalaClic
+                OnClick = BtnAtualizarSalaClick
                 ExplicitTop = 16
               end
               object Label68: TLabel
@@ -2090,8 +2098,8 @@ object FormCadastro: TFormCadastro
               TabOrder = 4
             end
             object BtnEnviarSala: TButton
-              Left = 1196
-              Top = 68
+              Left = 1188
+              Top = 84
               Width = 162
               Height = 35
               Caption = 'Enviar'
@@ -2100,8 +2108,8 @@ object FormCadastro: TFormCadastro
               OnClick = BtnEnviarSalaClick
             end
             object BtnConfirmarEdtSala: TButton
-              Left = 1196
-              Top = 67
+              Left = 1188
+              Top = 28
               Width = 162
               Height = 34
               Caption = 'Confirmar Altera'#231#227'o'
@@ -2116,7 +2124,7 @@ object FormCadastro: TFormCadastro
         Caption = 'Patrimonio'
         ImageIndex = 3
         object Panel12: TPanel
-          Left = 3
+          Left = 9
           Top = -8
           Width = 1387
           Height = 738
@@ -2259,6 +2267,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = SpeedButton2Click
                 ExplicitTop = 16
               end
               object Label54: TLabel
@@ -2305,6 +2314,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = SpeedButton3Click
                 ExplicitTop = 16
               end
               object Label69: TLabel
@@ -2364,6 +2374,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = SpeedButton4Click
                 ExplicitTop = 16
               end
               object Label71: TLabel
@@ -2475,6 +2486,7 @@ object FormCadastro: TFormCadastro
                 Height = 41
                 Align = alClient
                 Flat = True
+                OnClick = SpeedButton5Click
                 ExplicitTop = 16
               end
               object Label77: TLabel
@@ -2611,6 +2623,7 @@ object FormCadastro: TFormCadastro
             ParentCtl3D = False
             TabOrder = 2
             TextHint = 'Pesquisar'
+            OnChange = SearchBox1Change
           end
           object Panel34: TPanel
             Left = 1
@@ -2623,7 +2636,6 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 3
             Visible = False
-            ExplicitLeft = 2
             object Label79: TLabel
               Left = 319
               Top = 35
@@ -2787,7 +2799,7 @@ object FormCadastro: TFormCadastro
               Caption = 'Enviar'
               TabOrder = 3
               Visible = False
-              OnClick = Button1Click
+              OnClick = BtnEnviarPatrimonioClick
             end
             object EdtVAQPatri: TMaskEdit
               Left = 475

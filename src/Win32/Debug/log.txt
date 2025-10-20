@@ -222,3 +222,132 @@
 18/10/2025 01:35:57 Usuário: ney - Realizou o login
 18/10/2025 01:42:02 Usuário: ney - Realizou o login
 19/10/2025 21:32:56 Usuário: ney - Realizou o login
+20/10/2025 13:42:32 Usuário: suporte1 - Realizou o login
+20/10/2025 13:42:36 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 13:42:48 Usuário: suporte1 - Realizou o login
+20/10/2025 13:42:49 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 13:43:21 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 13:43:46 Usuário: suporte1 - Realizou o login
+20/10/2025 13:43:47 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 13:44:29 Usuário: suporte1 - Realizou o login
+20/10/2025 13:44:41 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 13:45:27 Usuário: suporte1 - Realizou o login
+20/10/2025 13:46:05 Usuário: suporte1 - Realizou o login
+20/10/2025 13:46:27 Usuário: suporte1 - Realizou o login
+20/10/2025 13:46:40 Usuário: suporte1 - Realizou o login
+20/10/2025 13:48:31 Usuário: suporte1 - Realizou o login
+20/10/2025 13:48:49 Usuário: suporte1 - Realizou o login
+20/10/2025 13:49:56 Usuário: suporte1 - Realizou o login
+20/10/2025 13:50:16 Usuário: suporte1 - Realizou o login
+20/10/2025 13:50:44 Usuário: suporte1 - Realizou o login
+20/10/2025 13:52:14 Usuário: suporte1 - Realizou o login
+20/10/2025 13:56:07 Usuário: suporte1 - Realizou o login
+20/10/2025 13:57:36 Usuário: suporte1 - Realizou o login
+20/10/2025 13:59:02 Usuário: suporte1 - Realizou o login
+20/10/2025 14:03:02 Usuário: suporte1 - Realizou o login
+20/10/2025 14:04:49 Usuário: suporte1 - Realizou o login
+20/10/2025 14:13:45 Usuário: suporte1 - Realizou o login
+20/10/2025 14:16:22 Usuário: suporte1 - Realizou o login
+20/10/2025 14:24:09 Usuário: suporte1 - Realizou o login
+20/10/2025 14:30:18 Usuário: suporte1 - Realizou o login
+20/10/2025 14:30:19 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 14:30:21 Usuário:  - Acessou aba Salas
+20/10/2025 14:30:22 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:30:22 Usuário:  - Acessou aba Salas
+20/10/2025 14:30:38 Usuário:  - Cadastrou sala - wdadwda (Tipo: )
+20/10/2025 14:33:19 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:44:34 Usuário: suporte1 - Realizou o login
+20/10/2025 14:45:38 Usuário: suporte1 - Realizou o login
+20/10/2025 14:45:40 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 14:45:40 Usuário:  - Acessou aba Salas
+20/10/2025 14:45:41 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:46:27 Usuário:  - Cadastrou patrimônio -  (NS: 3232)
+20/10/2025 14:46:36 Usuário:  - Pesquisou patrimônio - Termo: "a"
+20/10/2025 14:46:39 Usuário:  - Pesquisou patrimônio - Termo: "aa"
+20/10/2025 14:46:40 Usuário:  - Pesquisou patrimônio - Termo: "a"
+20/10/2025 14:46:47 Usuário:  - Excluiu patrimônio -  (ID: 1)
+20/10/2025 14:46:49 Usuário:  - Atualizou lista de patrimônios
+20/10/2025 14:46:51 Usuário:  - Acessou aba Salas
+20/10/2025 14:46:52 Usuário:  - Acessou aba Prédios
+20/10/2025 14:46:53 Usuário:  - Acessou aba Empresas
+20/10/2025 14:46:53 Usuário:  - Acessou aba Prédios
+20/10/2025 14:46:54 Usuário:  - Acessou aba Salas
+20/10/2025 14:46:54 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:46:55 Usuário:  - Acessou aba Salas
+20/10/2025 14:46:55 Usuário:  - Acessou aba Prédios
+20/10/2025 14:46:55 Usuário:  - Acessou aba Salas
+20/10/2025 14:46:56 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:46:56 Usuário:  - Acessou aba Prédios
+20/10/2025 14:46:57 Usuário:  - Acessou aba Salas
+20/10/2025 14:46:59 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:00 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:00 Usuário:  - Acessou aba Empresas
+20/10/2025 14:47:01 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:01 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:01 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:02 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:02 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:02 Usuário:  - Acessou aba Empresas
+20/10/2025 14:47:02 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:02 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:03 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:03 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:03 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:04 Usuário:  - Acessou aba Empresas
+20/10/2025 14:47:04 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:04 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:04 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:05 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:05 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:05 Usuário:  - Acessou aba Empresas
+20/10/2025 14:47:05 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:06 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:06 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:06 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:07 Usuário:  - Acessou aba Empresas
+20/10/2025 14:47:07 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:08 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:08 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:08 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:08 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:09 Usuário:  - Acessou aba Empresas
+20/10/2025 14:47:09 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:10 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:10 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:10 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:10 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:11 Usuário:  - Acessou aba Empresas
+20/10/2025 14:47:11 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:11 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:11 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:12 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:12 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:13 Usuário:  - Acessou aba Empresas
+20/10/2025 14:47:13 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:13 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:13 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:13 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:14 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:14 Usuário:  - Acessou aba Empresas
+20/10/2025 14:47:14 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:14 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:15 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:15 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:15 Usuário:  - Acessou aba Empresas
+20/10/2025 14:47:16 Usuário:  - Acessou aba Prédios
+20/10/2025 14:47:16 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:16 Usuário:  - Acessou aba Patrimônios
+20/10/2025 14:47:16 Usuário:  - Acessou aba Salas
+20/10/2025 14:47:16 Usuário:  - Acessou aba Empresas
+20/10/2025 14:54:37 Usuário: suporte1 - Realizou o login
+20/10/2025 14:54:41 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 14:55:48 Usuário: suporte1 - Realizou o login
+20/10/2025 14:55:51 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 14:59:03 Usuário: suporte1 - Realizou o login
+20/10/2025 14:59:10 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 14:59:11 Usuário:  - Acessou aba Salas
+20/10/2025 14:59:12 Usuário:  - Acessou aba Patrimônios
+20/10/2025 15:24:58 Usuário: suporte1 - Realizou o login
+20/10/2025 15:25:00 Usuário:  - Acessou o módulo de Cadastros
+20/10/2025 15:25:01 Usuário:  - Acessou aba Salas
+20/10/2025 15:25:02 Usuário:  - Acessou aba Patrimônios

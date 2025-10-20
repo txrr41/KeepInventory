@@ -64,20 +64,18 @@ end;
 
 
 procedure TFormHome.Image3Click(Sender: TObject);
-var
-Cad: TFormCadastro;
-Controller: TEmpresaController;
-DataS: TDataSource;
+var Cad: TFormCadastro;
+    Controller: TEmpresaController;
+    DataS: TDataSource;
 begin
-Cad := TFormCadastro.Create(Self.Panel3);
-Cad.Parent := Self.Panel3;
-Cad.Align := alClient;
-Cad.BorderStyle := bsNone;
-Cad.Show;
-Controller := TEmpresaController.Create;
-Cad.DataSEmpresa.DataSet := Controller.ListarEmpresa;
-Cad.DbGrid1.DataSource := Cad.DataSEmpresa;
-
+  Cad := TFormCadastro.Create(Self.Panel3,'');
+  Cad.Parent := Self.Panel3;
+  Cad.Align := alClient;
+  Cad.BorderStyle := bsNone;
+  Cad.Show;
+  Controller := TEmpresaController.Create;
+  Cad.DataSEmpresa.DataSet := Controller.ListarEmpresa;
+  Cad.DbGrid1.DataSource := Cad.DataSEmpresa;
 end;
 
 procedure TFormHome.Image8Click(Sender: TObject);
