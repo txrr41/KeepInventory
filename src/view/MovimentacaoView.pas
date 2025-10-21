@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.WinXCtrls, Vcl.WinXCalendars,
-  Vcl.Buttons;
+  Vcl.Buttons, Vcl.NumberBox;
 
 type
   TForm4 = class(TForm)
@@ -31,7 +31,7 @@ type
     DBGrid1: TDBGrid;
     SpeedButton1: TSpeedButton;
     Shape2: TShape;
-    SpeedButton2: TSpeedButton;
+    BtnLimparFIltroMovi: TSpeedButton;
     Panel9: TPanel;
     Panel10: TPanel;
     Panel11: TPanel;
@@ -44,6 +44,19 @@ type
     Label7: TLabel;
     Label8: TLabel;
     Label9: TLabel;
+    PanelAddMovi: TPanel;
+    CbDestinoMovi: TComboBox;
+    CbItemMovi: TComboBox;
+    Label10: TLabel;
+    Label11: TLabel;
+    EdtQuantidade: TNumberBox;
+    Label12: TLabel;
+    CbStatusMovi: TComboBox;
+    Label13: TLabel;
+    BtnAdicionarMovi: TSpeedButton;
+    BtnEditarMovi: TSpeedButton;
+    BtnExcluirMovi: TSpeedButton;
+    BtnAtualizarMovi: TSpeedButton;
   private
     { Private declarations }
   public

@@ -20,7 +20,6 @@ object Form4: TForm4
     Color = clGradientActiveCaption
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 8
     object Label1: TLabel
       Left = 16
       Top = 24
@@ -35,17 +34,25 @@ object Form4: TForm4
       ParentFont = False
     end
     object Panel2: TPanel
+      AlignWithMargins = True
       Left = 16
-      Top = 170
+      Top = 156
       Width = 1345
-      Height = 527
+      Height = 525
+      Margins.Left = 15
+      Margins.Top = 155
+      Margins.Right = 12
+      Margins.Bottom = 9
+      Align = alClient
       Caption = 'Panel2'
       Color = clWhite
       ParentBackground = False
       TabOrder = 0
+      ExplicitTop = 153
+      ExplicitHeight = 515
       object Panel3: TPanel
         Left = 1012
-        Top = 22
+        Top = 19
         Width = 256
         Height = 485
         BevelOuter = bvNone
@@ -94,6 +101,17 @@ object Form4: TForm4
               Font.Style = []
               ParentFont = False
             end
+            object BtnAdicionarMovi: TSpeedButton
+              Left = 0
+              Top = 0
+              Width = 185
+              Height = 41
+              Align = alClient
+              Flat = True
+              ExplicitLeft = 8
+              ExplicitWidth = 23
+              ExplicitHeight = 22
+            end
           end
           object Panel10: TPanel
             Left = 23
@@ -129,6 +147,17 @@ object Form4: TForm4
               Font.Name = 'Segoe UI'
               Font.Style = []
               ParentFont = False
+            end
+            object BtnEditarMovi: TSpeedButton
+              Left = 0
+              Top = 0
+              Width = 185
+              Height = 41
+              Align = alClient
+              Flat = True
+              ExplicitLeft = 8
+              ExplicitWidth = 23
+              ExplicitHeight = 22
             end
           end
           object Panel11: TPanel
@@ -166,6 +195,17 @@ object Form4: TForm4
               Font.Style = []
               ParentFont = False
             end
+            object BtnExcluirMovi: TSpeedButton
+              Left = 0
+              Top = 0
+              Width = 185
+              Height = 41
+              Align = alClient
+              Flat = True
+              ExplicitLeft = 8
+              ExplicitWidth = 23
+              ExplicitHeight = 22
+            end
           end
           object Panel12: TPanel
             Left = 23
@@ -202,12 +242,23 @@ object Form4: TForm4
               Font.Style = []
               ParentFont = False
             end
+            object BtnAtualizarMovi: TSpeedButton
+              Left = 0
+              Top = 0
+              Width = 185
+              Height = 41
+              Align = alClient
+              Flat = True
+              ExplicitLeft = 8
+              ExplicitWidth = 23
+              ExplicitHeight = 22
+            end
           end
         end
       end
       object Panel5: TPanel
-        Left = 32
-        Top = 23
+        Left = 16
+        Top = 20
         Width = 898
         Height = 485
         BevelOuter = bvNone
@@ -223,7 +274,7 @@ object Form4: TForm4
           TabOrder = 0
           object DBGrid1: TDBGrid
             Left = 0
-            Top = 0
+            Top = -1
             Width = 865
             Height = 457
             BorderStyle = bsNone
@@ -239,9 +290,10 @@ object Form4: TForm4
     end
     object Panel1: TPanel
       Left = 16
-      Top = 64
+      Top = 56
       Width = 1345
       Height = 81
+      Margins.Top = 111
       Caption = 'Pesquisar'
       Color = clWhite
       ParentBackground = False
@@ -250,7 +302,7 @@ object Form4: TForm4
         Left = 16
         Top = 6
         Width = 17
-        Height = 13
+        Height = 15
         Caption = 'De:'
       end
       object Label3: TLabel
@@ -350,7 +402,7 @@ object Form4: TForm4
           Font.Style = []
           ParentFont = False
         end
-        object SpeedButton2: TSpeedButton
+        object BtnLimparFIltroMovi: TSpeedButton
           Left = 0
           Top = 0
           Width = 137
@@ -388,8 +440,8 @@ object Form4: TForm4
         TextHint = 'select a date'
       end
       object CalendarPicker2: TCalendarPicker
-        Left = 146
-        Top = 26
+        Left = 142
+        Top = 27
         Width = 120
         Height = 32
         CalendarHeaderInfo.DaysOfWeekFont.Charset = DEFAULT_CHARSET
@@ -411,6 +463,78 @@ object Form4: TForm4
         ParentFont = False
         TabOrder = 4
         TextHint = 'select a date'
+      end
+    end
+    object PanelAddMovi: TPanel
+      AlignWithMargins = True
+      Left = 16
+      Top = 693
+      Width = 1345
+      Height = 127
+      Margins.Left = 15
+      Margins.Right = 12
+      Margins.Bottom = 1
+      Align = alBottom
+      TabOrder = 2
+      ExplicitTop = 695
+      object Label10: TLabel
+        Left = 40
+        Top = 35
+        Width = 24
+        Height = 15
+        Caption = 'Item'
+      end
+      object Label11: TLabel
+        Left = 176
+        Top = 35
+        Width = 40
+        Height = 15
+        Caption = 'Destino'
+      end
+      object Label12: TLabel
+        Left = 320
+        Top = 35
+        Width = 62
+        Height = 15
+        Caption = 'Quantidade'
+      end
+      object Label13: TLabel
+        Left = 432
+        Top = 35
+        Width = 32
+        Height = 15
+        Caption = 'Status'
+      end
+      object CbDestinoMovi: TComboBox
+        Left = 176
+        Top = 56
+        Width = 113
+        Height = 23
+        Style = csDropDownList
+        TabOrder = 0
+      end
+      object CbItemMovi: TComboBox
+        Left = 40
+        Top = 56
+        Width = 113
+        Height = 23
+        Style = csDropDownList
+        TabOrder = 1
+      end
+      object EdtQuantidade: TNumberBox
+        Left = 320
+        Top = 56
+        Width = 89
+        Height = 23
+        TabOrder = 2
+      end
+      object CbStatusMovi: TComboBox
+        Left = 432
+        Top = 56
+        Width = 113
+        Height = 23
+        Style = csDropDownList
+        TabOrder = 3
       end
     end
   end

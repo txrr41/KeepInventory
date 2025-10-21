@@ -40,7 +40,8 @@ uses
   PatrimonioDTO in 'dto\PatrimonioDTO.pas',
   PatrimonioController in 'controller\PatrimonioController.pas',
   PatrimonioService in 'service\PatrimonioService.pas',
-  PatrimonioRepository in 'repository\PatrimonioRepository.pas';
+  PatrimonioRepository in 'repository\PatrimonioRepository.pas',
+  MovimentacaoView in 'view\MovimentacaoView.pas' {Form4};
 
 {$R *.res}
 
@@ -51,5 +52,6 @@ begin
   Application.CreateForm(TFormConnection, FormConnection);
   Application.CreateForm(TFormLogin, FormLogin);
   Application.CreateForm(TFormHome, FormHome);
+  Application.CreateForm(TForm4, Form4);
   Application.Run;
 end.
