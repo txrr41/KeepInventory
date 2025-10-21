@@ -32,11 +32,19 @@ begin
 end;
 
 function TLoginService.SalvarLogin(const ALoginConfig: TLoginConfig): boolean ;
+var
+  Repo: TLoginRepository;
+  UserID: Integer;
 begin
-result := false;
-  if FRepository.UsuarioExiste(ALoginConfig.User, ALoginConfig.Senha) then
-    result := True;
-end;
+  Repo := TLoginRepository.Create;
+  try
+    Result := Repo.UsuarioExiste(ALoginConfig.User, ALoginConfig.Senha, UserID);
 
+    if Result then
+      ALoginConfig.ID := UserID; // armazenar no model
+  finally
+    Repo.Free;
+  end;
+end;
 end.
 

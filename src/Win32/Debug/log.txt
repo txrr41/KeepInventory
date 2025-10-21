@@ -367,3 +367,31 @@
 20/10/2025 15:44:12 Usuário:  - Acessou aba Prédios
 20/10/2025 15:44:12 Usuário:  - Acessou aba Salas
 20/10/2025 15:44:13 Usuário:  - Acessou aba Patrimônios
+21/10/2025 15:16:21 Usuário: suporte1 - Realizou o login
+21/10/2025 15:17:24 Usuário: suporte1 - Realizou o login
+21/10/2025 15:17:26 Usuário:  - Acessou o módulo de Cadastros
+21/10/2025 15:21:21 Usuário: suporte1 - Realizou o login
+21/10/2025 15:21:47 Usuário:  - Acessou o módulo de Cadastros
+21/10/2025 15:21:54 Usuário:  - Acessou aba Patrimônios
+21/10/2025 15:21:55 Usuário:  - Acessou aba Salas
+21/10/2025 15:21:56 Usuário:  - Acessou aba Prédios
+21/10/2025 15:21:56 Usuário:  - Acessou aba Salas
+21/10/2025 15:27:50 Usuário: suporte1 - Realizou o login
+21/10/2025 15:28:39 Usuário:  - Acessou o módulo de Cadastros
+21/10/2025 15:28:40 Usuário:  - Acessou aba Patrimônios
+21/10/2025 15:29:30 Usuário:  - Cadastrou patrimônio - wdw (NS: 222)
+21/10/2025 15:31:29 Usuário: suporte1 - Realizou o login
+21/10/2025 15:33:08 Usuário: suporte1 - Realizou o login
+21/10/2025 15:35:00 Usuário: suporte1 - Realizou o login
+21/10/2025 15:56:36 Usuário: suporte1 - Realizou o login
+21/10/2025 15:57:04 Usuário: suporte1 - Realizou o login
+21/10/2025 16:05:06 Usuário: suporte1 - Realizou o login
+21/10/2025 16:26:05 Usuário: suporte1 - Realizou o login
+21/10/2025 16:28:41 Usuário: suporte1 - Realizou o login
+21/10/2025 16:30:22 Usuário: suporte1 - Realizou o login
+21/10/2025 16:33:22 Usuário: suporte1 - Realizou o login
+21/10/2025 16:38:04 Usuário: suporte1 - Realizou o login
+21/10/2025 16:39:28 Usuário: suporte1 - Realizou o login
+21/10/2025 16:49:59 Usuário: suporte1 - Realizou o login
+21/10/2025 17:04:28 Usuário: suporte1 - Realizou o login
+21/10/2025 17:23:53 Usuário: suporte1 - Realizou o login

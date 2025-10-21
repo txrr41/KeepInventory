@@ -1,7 +1,7 @@
-object Form4: TForm4
+object FormMovimentacoes: TFormMovimentacoes
   Left = 0
   Top = 0
-  Caption = 'Form4'
+  Caption = 'FormMovimentacoes'
   ClientHeight = 822
   ClientWidth = 1374
   Color = clBtnFace
@@ -36,26 +36,25 @@ object Form4: TForm4
     object Panel2: TPanel
       AlignWithMargins = True
       Left = 16
-      Top = 156
+      Top = 153
       Width = 1345
-      Height = 525
+      Height = 515
       Margins.Left = 15
       Margins.Top = 155
       Margins.Right = 12
       Margins.Bottom = 9
-      Align = alClient
       Caption = 'Panel2'
       Color = clWhite
       ParentBackground = False
       TabOrder = 0
-      ExplicitTop = 153
-      ExplicitHeight = 515
       object Panel3: TPanel
         Left = 1012
         Top = 19
         Width = 256
         Height = 485
         BevelOuter = bvNone
+        Color = clMenu
+        ParentBackground = False
         TabOrder = 0
         object Panel4: TPanel
           Left = 16
@@ -108,6 +107,7 @@ object Form4: TForm4
               Height = 41
               Align = alClient
               Flat = True
+              OnClick = BtnAdicionarMoviClick
               ExplicitLeft = 8
               ExplicitWidth = 23
               ExplicitHeight = 22
@@ -155,6 +155,7 @@ object Form4: TForm4
               Height = 41
               Align = alClient
               Flat = True
+              OnClick = BtnEditarMoviClick
               ExplicitLeft = 8
               ExplicitWidth = 23
               ExplicitHeight = 22
@@ -202,6 +203,7 @@ object Form4: TForm4
               Height = 41
               Align = alClient
               Flat = True
+              OnClick = BtnExcluirMoviClick
               ExplicitLeft = 8
               ExplicitWidth = 23
               ExplicitHeight = 22
@@ -249,6 +251,7 @@ object Form4: TForm4
               Height = 41
               Align = alClient
               Flat = True
+              OnClick = BtnAtualizarMoviClick
               ExplicitLeft = 8
               ExplicitWidth = 23
               ExplicitHeight = 22
@@ -258,33 +261,93 @@ object Form4: TForm4
       end
       object Panel5: TPanel
         Left = 16
-        Top = 20
+        Top = 12
         Width = 898
         Height = 485
         BevelOuter = bvNone
+        Color = clMenu
+        ParentBackground = False
         TabOrder = 1
-        object Panel8: TPanel
-          Left = 16
-          Top = 13
+        object DBGrid1: TDBGrid
+          Left = 17
+          Top = 15
           Width = 865
-          Height = 457
-          BevelOuter = bvNone
-          Color = clWhite
-          ParentBackground = False
+          Height = 454
+          BorderStyle = bsNone
           TabOrder = 0
-          object DBGrid1: TDBGrid
-            Left = 0
-            Top = -1
-            Width = 865
-            Height = 457
-            BorderStyle = bsNone
-            TabOrder = 0
-            TitleFont.Charset = DEFAULT_CHARSET
-            TitleFont.Color = clWindowText
-            TitleFont.Height = -12
-            TitleFont.Name = 'Segoe UI'
-            TitleFont.Style = []
-          end
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -12
+          TitleFont.Name = 'Segoe UI'
+          TitleFont.Style = []
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'id'
+              Title.Caption = '      ID'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'fk_id_usuarios'
+              Title.Caption = '  Usu'#225'rio'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'fk_id_bens'
+              Title.Caption = '    Item'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'fk_id_origem'
+              Title.Caption = '  Origem'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'fk_id_destino'
+              Title.Caption = '  Destino'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = []
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'data_movimentacao'
+              Title.Caption = '      Data'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -13
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = []
+              Width = 80
+              Visible = True
+            end>
         end
       end
     end
@@ -319,6 +382,7 @@ object Form4: TForm4
         Height = 31
         TabOrder = 0
         TextHint = 'Pesquisar'
+        OnChange = SearchBox1Change
       end
       object Panel6: TPanel
         Left = 960
@@ -468,15 +532,16 @@ object Form4: TForm4
     object PanelAddMovi: TPanel
       AlignWithMargins = True
       Left = 16
-      Top = 693
+      Top = 680
       Width = 1345
       Height = 127
       Margins.Left = 15
       Margins.Right = 12
       Margins.Bottom = 1
-      Align = alBottom
+      Color = clWhite
+      ParentBackground = False
       TabOrder = 2
-      ExplicitTop = 695
+      Visible = False
       object Label10: TLabel
         Left = 40
         Top = 35
@@ -485,57 +550,98 @@ object Form4: TForm4
         Caption = 'Item'
       end
       object Label11: TLabel
-        Left = 176
+        Left = 315
         Top = 35
         Width = 40
         Height = 15
         Caption = 'Destino'
       end
       object Label12: TLabel
-        Left = 320
+        Left = 449
         Top = 35
         Width = 62
         Height = 15
         Caption = 'Quantidade'
       end
       object Label13: TLabel
-        Left = 432
+        Left = 560
         Top = 35
         Width = 32
         Height = 15
         Caption = 'Status'
       end
-      object CbDestinoMovi: TComboBox
-        Left = 176
-        Top = 56
-        Width = 113
-        Height = 23
-        Style = csDropDownList
-        TabOrder = 0
+      object Label14: TLabel
+        Left = 180
+        Top = 35
+        Width = 40
+        Height = 15
+        Caption = 'Origem'
       end
       object CbItemMovi: TComboBox
         Left = 40
         Top = 56
         Width = 113
         Height = 23
-        Style = csDropDownList
-        TabOrder = 1
+        TabOrder = 0
       end
       object EdtQuantidade: TNumberBox
-        Left = 320
+        Left = 449
         Top = 56
         Width = 89
         Height = 23
-        TabOrder = 2
+        TabOrder = 1
       end
       object CbStatusMovi: TComboBox
-        Left = 432
+        Left = 560
         Top = 56
         Width = 113
         Height = 23
         Style = csDropDownList
+        TabOrder = 2
+        Items.Strings = (
+          'Conclu'#237'do'
+          'Cancelado'
+          'Pendente')
+      end
+      object CbDestinoMovi: TComboBox
+        Left = 315
+        Top = 56
+        Width = 113
+        Height = 23
         TabOrder = 3
       end
+      object CbOrigemMovi: TComboBox
+        Left = 180
+        Top = 56
+        Width = 113
+        Height = 23
+        Style = csDropDownList
+        TabOrder = 4
+      end
+      object Button1: TButton
+        Left = 1144
+        Top = 49
+        Width = 124
+        Height = 33
+        Caption = 'Enviar'
+        TabOrder = 5
+        Visible = False
+        OnClick = Button1Click
+      end
+      object Button2: TButton
+        Left = 1144
+        Top = 48
+        Width = 124
+        Height = 33
+        Caption = 'Confirmar Altera'#231#227'o'
+        TabOrder = 6
+        Visible = False
+        OnClick = Button2Click
+      end
     end
+  end
+  object DataSource1: TDataSource
+    Left = 936
+    Top = 24
   end
 end

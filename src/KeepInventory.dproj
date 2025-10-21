@@ -180,9 +180,14 @@
         <DCCReference Include="service\PatrimonioService.pas"/>
         <DCCReference Include="repository\PatrimonioRepository.pas"/>
         <DCCReference Include="view\MovimentacaoView.pas">
-            <Form>Form4</Form>
+            <Form>FormMovimentacoes</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="dto\MovimentacaoDto.pas"/>
+        <DCCReference Include="model\MovimentacaoModel.pas"/>
+        <DCCReference Include="repository\MovimentacaoRepository.pas"/>
+        <DCCReference Include="service\MovimentacaoService.pas"/>
+        <DCCReference Include="controller\MovimentacaoController.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

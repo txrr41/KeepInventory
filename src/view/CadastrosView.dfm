@@ -1,7 +1,7 @@
 object FormCadastro: TFormCadastro
   Left = 266
   Top = 104
-  ActiveControl = DBGrid1
+  ActiveControl = DBGridSalas
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'FormCadastro'
@@ -51,7 +51,7 @@ object FormCadastro: TFormCadastro
       Top = 72
       Width = 1398
       Height = 785
-      ActivePage = TabSheet1
+      ActivePage = TabSheet3
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -109,7 +109,6 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 0
             Visible = False
-            ExplicitLeft = 2
             object Label15: TLabel
               Left = 24
               Top = 19
@@ -1522,8 +1521,8 @@ object FormCadastro: TFormCadastro
         Caption = 'Sala'
         ImageIndex = 2
         object Panel3: TPanel
-          Left = 3
-          Top = -7
+          Left = 7
+          Top = 0
           Width = 1387
           Height = 738
           Caption = 'Panel10'
@@ -2082,6 +2081,7 @@ object FormCadastro: TFormCadastro
               Width = 121
               Height = 28
               TabOrder = 2
+              OnChange = EditNameSalaChange
             end
             object EdtObs: TEdit
               Left = 611

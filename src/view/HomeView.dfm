@@ -188,6 +188,7 @@ object FormHome: TFormHome
           20323220323120432032322031392E3838323831332032322E38383238313320
           3139203234203139205A222F3E3C2F7376673E}
         Stretch = True
+        OnClick = Image5Click
       end
       object Image1: TImage
         Left = 9

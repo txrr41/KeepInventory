@@ -245,6 +245,7 @@ type
     ComboBoxPatrimonio: TComboBox;
     BtnConfirmarEdPatri: TButton;
     Label87: TLabel;
+public
     procedure PageControl1Change(Sender: TObject);
     procedure BtnEnviarClick(Sender: TObject);
     procedure BtnConfirmarEdClick(Sender: TObject);
@@ -278,29 +279,14 @@ type
     procedure SpeedButton5Click(Sender: TObject);
     procedure SpeedButton4Click(Sender: TObject);
     procedure SearchBox1Change(Sender: TObject);
-   public
-
-
-
-
+    procedure EditNameSalaChange(Sender: TObject);
+    procedure ComboBox2Change(Sender: TObject);
     function  CarregarObjeto : TEmpresaDTO;
-
-
-
     procedure AtualizarTabelaP;
     procedure AtualizarTabelaE;
-
-
     procedure PopularComboBox;
-
     procedure AtualizarTabelaS;
-
-
-
-
-
     constructor Create(AComponent: TComponent; const UsuarioLogado: String);
-
  private
   FLogController: TLogController; // ADICIONADO
     FUsuarioLogado: String; // ADICIONADO
@@ -361,6 +347,11 @@ begin
 end;
 
 
+
+procedure TFormCadastro.EditNameSalaChange(Sender: TObject);
+begin
+
+end;
 
 // ============================================================================
 // EMPRESA - CRUD COM LOG
@@ -1009,6 +1000,11 @@ begin
   Dto.FBairro := EditBairro.Text;
   Dto.FId := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
   Result := Dto;
+end;
+
+procedure TFormCadastro.ComboBox2Change(Sender: TObject);
+begin
+
 end;
 
 procedure TFormCadastro.PageControl1Change(Sender: TObject);

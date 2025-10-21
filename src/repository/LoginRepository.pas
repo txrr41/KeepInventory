@@ -3,36 +3,39 @@ unit LoginRepository;
 interface
 
 uses
-  FireDAC.Comp.Client, System.SysUtils, DB;
+  FireDAC.Comp.Client, System.SysUtils, DB, Unit1;
 
 type
   TLoginRepository = class
   public
-    function UsuarioExiste(const ALogin, ASenha: string): Boolean;
+    function UsuarioExiste(const ALogin, ASenha: string; out AUserID: Integer): Boolean;
   end;
 
 implementation
 
-{ TLoginRepository }
-
-function TLoginRepository.UsuarioExiste(const ALogin, ASenha: string): Boolean;
+function TLoginRepository.UsuarioExiste(const ALogin, ASenha: string; out AUserID: Integer): Boolean;
 var
   Qry: TFDQuery;
 begin
   Result := False;
+  AUserID := -1;
 
   Qry := TFDQuery.Create(nil);
   try
     Qry.Connection := DataModule2.FDConnection;
     Qry.SQL.Text :=
-    'SELECT 1 FROM usuarios WHERE nome = :nome AND senha = :senha';
+      'SELECT id FROM usuarios WHERE nome = :nome AND senha = :senha';
+
     Qry.ParamByName('nome').AsString := ALogin;
     Qry.ParamByName('senha').AsString := ASenha;
 
     Qry.Open;
 
-    // se a consulta trouxe pelo menos 1 registro, o usuário existe
-    Result := not Qry.IsEmpty;
+    if not Qry.IsEmpty then
+    begin
+      Result := True;
+      AUserID := Qry.FieldByName('id').AsInteger;
+    end;
   finally
     Qry.Free;
   end;

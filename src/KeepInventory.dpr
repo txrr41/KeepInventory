@@ -41,7 +41,12 @@ uses
   PatrimonioController in 'controller\PatrimonioController.pas',
   PatrimonioService in 'service\PatrimonioService.pas',
   PatrimonioRepository in 'repository\PatrimonioRepository.pas',
-  MovimentacaoView in 'view\MovimentacaoView.pas' {Form4};
+  MovimentacaoView in 'view\MovimentacaoView.pas' {FormMovimentacoes},
+  MovimentacaoDto in 'dto\MovimentacaoDto.pas',
+  MovimentacaoModel in 'model\MovimentacaoModel.pas',
+  MovimentacaoRepository in 'repository\MovimentacaoRepository.pas',
+  MovimentacaoService in 'service\MovimentacaoService.pas',
+  MovimentacaoController in 'controller\MovimentacaoController.pas';
 
 {$R *.res}
 
@@ -52,6 +57,6 @@ begin
   Application.CreateForm(TFormConnection, FormConnection);
   Application.CreateForm(TFormLogin, FormLogin);
   Application.CreateForm(TFormHome, FormHome);
-  Application.CreateForm(TForm4, Form4);
+  Application.CreateForm(TFormMovimentacoes, FormMovimentacoes);
   Application.Run;
 end.

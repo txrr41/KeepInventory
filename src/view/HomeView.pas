@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Skia, Vcl.StdCtrls,
-  Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB;
+  Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, MovimentacaoView;
 
 type
   TFormHome = class(TForm)
@@ -31,6 +31,7 @@ type
     procedure Image1Click(Sender: TObject);
     procedure Image3Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);
+    procedure Image5Click(Sender: TObject);
 
   private
    ActiveForm: TForm;
@@ -76,6 +77,17 @@ begin
   Controller := TEmpresaController.Create;
   Cad.DataSEmpresa.DataSet := Controller.ListarEmpresa;
   Cad.DbGrid1.DataSource := Cad.DataSEmpresa;
+end;
+
+procedure TFormHome.Image5Click(Sender: TObject);
+var Movi: TFormMovimentacoes;
+begin
+  Movi := TFormMovimentacoes.Create(Self.Panel3);
+  Movi.Parent := Self.Panel3;
+  Movi.Align := AlClient;
+  Movi.BorderStyle := bsNone;
+  Movi.Show;
+
 end;
 
 procedure TFormHome.Image8Click(Sender: TObject);
