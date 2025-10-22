@@ -3,7 +3,7 @@ unit LoginRepository;
 interface
 
 uses
-  FireDAC.Comp.Client, System.SysUtils, DB, Unit1;
+  FireDAC.Comp.Client, System.SysUtils, DB, GlobalUserDTO;
 
 type
   TLoginRepository = class
@@ -34,7 +34,7 @@ begin
     if not Qry.IsEmpty then
     begin
       Result := True;
-      AUserID := Qry.FieldByName('id').AsInteger;
+      TGlobal.FUserID := Qry.FieldByName('id').AsInteger;
     end;
   finally
     Qry.Free;

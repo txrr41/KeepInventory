@@ -188,6 +188,7 @@
         <DCCReference Include="repository\MovimentacaoRepository.pas"/>
         <DCCReference Include="service\MovimentacaoService.pas"/>
         <DCCReference Include="controller\MovimentacaoController.pas"/>
+        <DCCReference Include="dto\GlobalUserDTO.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

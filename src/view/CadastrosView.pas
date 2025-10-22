@@ -245,11 +245,10 @@ type
     ComboBoxPatrimonio: TComboBox;
     BtnConfirmarEdPatri: TButton;
     Label87: TLabel;
-public
     procedure PageControl1Change(Sender: TObject);
     procedure BtnEnviarClick(Sender: TObject);
     procedure BtnConfirmarEdClick(Sender: TObject);
-    procedure BtnAdicionarEmpresaClick(Sender: TObject);
+
     procedure BtnEditarEmpresaClick(Sender: TObject);
     procedure BtnExcluirEmpresaClick(Sender: TObject);
     procedure BtnAtualizarEmpresaClick(Sender: TObject);
@@ -280,13 +279,13 @@ public
     procedure SpeedButton4Click(Sender: TObject);
     procedure SearchBox1Change(Sender: TObject);
     procedure EditNameSalaChange(Sender: TObject);
-    procedure ComboBox2Change(Sender: TObject);
     function  CarregarObjeto : TEmpresaDTO;
     procedure AtualizarTabelaP;
     procedure AtualizarTabelaE;
     procedure PopularComboBox;
     procedure AtualizarTabelaS;
     constructor Create(AComponent: TComponent; const UsuarioLogado: String);
+    procedure BtnAdicionarEmpresaClick(Sender: TObject);
  private
   FLogController: TLogController; // ADICIONADO
     FUsuarioLogado: String; // ADICIONADO
@@ -401,10 +400,7 @@ begin
   finally
     Controller.Free;
   end;
-
 end;
-
-
 
 procedure TFormCadastro.BtnEnviarPatrimonioClick(Sender: TObject);
 var
@@ -603,6 +599,10 @@ end;
 
 
 
+
+
+
+
 procedure TFormCadastro.BtnConfirmarEdClick(Sender: TObject);
 var
   EmpModel: TEmpresaConfig;
@@ -639,8 +639,6 @@ begin
   end;
 
 end;
-
-
 
 procedure TFormCadastro.BtnConfirmarEdPatriClick(Sender: TObject);
 var
@@ -1002,11 +1000,6 @@ begin
   Result := Dto;
 end;
 
-procedure TFormCadastro.ComboBox2Change(Sender: TObject);
-begin
-
-end;
-
 procedure TFormCadastro.PageControl1Change(Sender: TObject);
 begin
   if PageControl1.ActivePage = TabSheet1 then
@@ -1048,19 +1041,20 @@ end;
 
 
 
+
+
+
+
+
 procedure TFormCadastro.BtnAdicionarEmpresaClick(Sender: TObject);
 begin
-  BtnConfirmarEd.Visible := False;
+ BtnConfirmarEd.Visible := False;
   BtnEnviar.Visible := True;
   if PanelAddEmpresa.Visible = False then
     PanelAddEmpresa.Visible := True
   else
     PanelAddEmpresa.Visible := False;
 end;
-
-
-
-
 
 procedure TFormCadastro.BtnAdicionarPatrimonioClick(Sender: TObject);
 begin

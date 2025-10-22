@@ -46,7 +46,8 @@ uses
   MovimentacaoModel in 'model\MovimentacaoModel.pas',
   MovimentacaoRepository in 'repository\MovimentacaoRepository.pas',
   MovimentacaoService in 'service\MovimentacaoService.pas',
-  MovimentacaoController in 'controller\MovimentacaoController.pas';
+  MovimentacaoController in 'controller\MovimentacaoController.pas',
+  GlobalUserDTO in 'dto\GlobalUserDTO.pas';
 
 {$R *.res}
 

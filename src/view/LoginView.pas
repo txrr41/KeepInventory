@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls, math,
   Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons, LoginController, LoginModel, HomeView, AuditoriaModel, AuditoriaController,
-  Vcl.Menus;
+  Vcl.Menus, GlobalUserDTO;
 
 type
   TFormLogin = class(TForm)
@@ -88,7 +88,7 @@ end;
 
 procedure TFormLogin.Image2Click(Sender: TObject);
 begin
-self.close;
+Application.Terminate;
 end;
 
 procedure TFormLogin.SpeedButton1Click(Sender: TObject);
@@ -115,6 +115,7 @@ try
   UsuarioExiste := Controller.SalvarLogin(Login);
 
   if UsuarioExiste = True then begin
+  ShowMessage('O ID É' + intToStr(Login.Id));
     UsuarioLog := TUserLog.Create;
     UsuarioLog.UserName := EditUserLogin.Text;
     DataHora := Now;

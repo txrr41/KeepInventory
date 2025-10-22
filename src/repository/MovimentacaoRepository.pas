@@ -63,7 +63,7 @@ begin
     Q.Connection := DataModule2.FDConnection;
     Q.SQL.Text :=
       'UPDATE movimentacoes SET ' +
-      'fk_id_bens = :fk_id_bens, ' +
+      'fk_id_patrimonios = :fk_id_patrimonios, ' +
       'fk_id_origem = :fk_id_origem, ' +
       'fk_id_destino = :fk_id_destino, ' +
       'quantidade = :quantidade, ' +
@@ -72,7 +72,7 @@ begin
       'data_movimentacao = :data_movimentacao ' +
       'WHERE id = :id';
 
-    Q.ParamByName('fk_id_bens').AsInteger := AMovimentacaoModel.IdPatrimonio;
+    Q.ParamByName('fk_id_patrimonios').AsInteger := AMovimentacaoModel.IdPatrimonio;
     Q.ParamByName('fk_id_origem').AsInteger := AMovimentacaoModel.IdOrigem;
     Q.ParamByName('fk_id_destino').AsInteger := AMovimentacaoModel.IdDestino;
     Q.ParamByName('quantidade').AsInteger := AMovimentacaoModel.Quantidade;
@@ -111,27 +111,25 @@ begin
   Query := TFDQuery.Create(nil);
   Query.Connection := DataModule2.FDConnection;
 
-  Query.SQL.Text :=
-    'SELECT ' +
-    '  m.id, ' +
-    '  m.data_movimentacao, ' +
-    '  u.nome AS usuario, ' +
-    '  p.nome AS bens, ' +
-    '  so.nome AS sala_origem, ' +
-    '  sd.nome AS sala_destino, ' +
-    '  m.quantidade, ' +
-    '  m.status, ' +
-    '  m.fk_id_patrimonio, ' +
-    '  m.fk_id_origem, ' +
-    '  m.fk_id_destino, ' +
-    '  m.fk_id_usuarios ' +
-    'FROM movimentacoes m ' +
-    'INNER JOIN usuarios u ON m.fk_id_usuarios = u.id ' +
-    'INNER JOIN patrimonios p ON m.fk_id_bens = p.id ' +
-    'INNER JOIN salas so ON m.fk_id_origem = so.id ' +
-    'INNER JOIN salas sd ON m.fk_id_destino = sd.id ' +
-    'WHERE m.ativo = true ' +
-    'ORDER BY m.data_movimentacao DESC, m.id DESC';
+Query.SQL.Text :=
+  'SELECT ' +
+  '  m.id, ' +
+  '  m.data_movimentacao, ' +
+  '  u.nome AS usuario, ' +              // ? MOSTRA O NOME
+  '  p.nome AS patrimonio, ' +            // ? MOSTRA O NOME
+  '  so.nome AS sala_origem, ' +          // ? MOSTRA O NOME
+  '  sd.nome AS sala_destino, ' +         // ? MOSTRA O NOME
+  '  m.quantidade, ' +
+  '  m.status, ' +
+  '  m.fk_id_patrimonios, ' +             // ? SALVA O ID (oculto)
+  '  m.fk_id_origem, ' +                  // ? SALVA O ID (oculto)
+  '  m.fk_id_destino, ' +                 // ? SALVA O ID (oculto)
+  '  m.fk_id_usuarios ' +                 // ? SALVA O ID (oculto)
+  'FROM movimentacoes m ' +
+  'INNER JOIN usuarios u ON m.fk_id_usuarios = u.id ' +
+  'INNER JOIN patrimonios p ON m.fk_id_patrimonios = p.id ' +
+  'INNER JOIN salas so ON m.fk_id_origem = so.id ' +
+  'INNER JOIN salas sd ON m.fk_id_destino = sd.id ';
 
   Query.Open;
   Result := Query;
@@ -150,18 +148,18 @@ begin
       '  m.id, ' +
       '  m.data_movimentacao, ' +
       '  u.nome AS usuario, ' +
-      '  p.nome AS bens, ' +
+      '  p.nome AS patrimonio, ' +
       '  so.nome AS sala_origem, ' +
       '  sd.nome AS sala_destino, ' +
       '  m.quantidade, ' +
       '  m.status, ' +
-      '  m.fk_id_patrimonio, ' +
+      '  m.fk_id_patrimonios, ' +
       '  m.fk_id_origem, ' +
       '  m.fk_id_destino, ' +
       '  m.fk_id_usuarios ' +
       'FROM movimentacoes m ' +
       'INNER JOIN usuarios u ON m.fk_id_usuarios = u.id ' +
-      'INNER JOIN patrimonios p ON m.fk_id_bens = p.id ' +
+      'INNER JOIN patrimonios p ON m.fk_id_patrimonios = p.id ' +
       'INNER JOIN salas so ON m.fk_id_origem = so.id ' +
       'INNER JOIN salas sd ON m.fk_id_destino = sd.id ' +
       'WHERE m.ativo = true ' +
@@ -218,7 +216,7 @@ begin
       end;
     end;
   finally
-
+    Query.Free;
   end;
 end;
 

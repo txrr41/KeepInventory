@@ -55,8 +55,8 @@ begin
 
    if Panel1.Width = 49 then begin
 
-   Panel1.Width := 177;
-   end else if Panel1.Width = 177 then begin
+   Panel1.Width := 200;
+   end else if Panel1.Width = 200 then begin
 
    Panel1.Width := 49;
    end;

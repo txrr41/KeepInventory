@@ -35,6 +35,9 @@ object FormHome: TFormHome
         Top = 118
         Width = 32
         Height = 29
+        Hint = 'Home'
+        ParentCustomHint = False
+        ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C73766720786D6C6E733D22687474703A2F
           2F7777772E77332E6F72672F323030302F73766722202076696577426F783D22
@@ -49,6 +52,7 @@ object FormHome: TFormHome
           2E34333735204C2032352031342E34333735204C203235203236204C20323020
           3236204C203230203136204C203132203136204C203132203236204C20372032
           36204C20372031342E34333735205A222F3E3C2F7376673E}
+        ShowHint = True
         Stretch = True
       end
       object Image3: TImage
@@ -56,6 +60,9 @@ object FormHome: TFormHome
         Top = 182
         Width = 31
         Height = 31
+        Hint = 'Cadastros'
+        ParentCustomHint = False
+        ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C73766720786D6C6E733D22687474703A2F
           2F7777772E77332E6F72672F323030302F73766722202076696577426F783D22
@@ -73,6 +80,7 @@ object FormHome: TFormHome
           35203137204C203135203232204C203137203232204C203137203137204C2032
           32203137204C203232203135204C203137203135204C203137203130205A222F
           3E3C2F7376673E}
+        ShowHint = True
         Stretch = True
         OnClick = Image3Click
       end
@@ -81,6 +89,9 @@ object FormHome: TFormHome
         Top = 246
         Width = 32
         Height = 29
+        Hint = 'Itens'
+        ParentCustomHint = False
+        ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C73766720786D6C6E733D22687474703A2F
           2F7777772E77332E6F72672F323030302F73766722202076696577426F783D22
@@ -102,13 +113,17 @@ object FormHome: TFormHome
           2E39363837352031332031322E393337352031332031322E3930363235203133
           20432031322E3837352031332031322E38343337352031332031322E38313235
           203133205A222F3E3C2F7376673E}
+        ShowHint = True
         Stretch = True
       end
       object Image6: TImage
-        Left = 9
-        Top = 374
+        Left = 11
+        Top = 375
         Width = 32
         Height = 29
+        Hint = 'Usu'#225'rios'
+        ParentCustomHint = False
+        ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C73766720786D6C6E733D22687474703A2F
           2F7777772E77332E6F72672F323030302F73766722202076696577426F783D22
@@ -129,6 +144,7 @@ object FormHome: TFormHome
           20313620432031332E3232363536332031362031312031332E37373334333820
           3131203131204320313120382E3232363536332031332E323236353633203620
           31362036205A222F3E3C2F7376673E}
+        ShowHint = True
         Stretch = True
       end
       object Image5: TImage
@@ -136,6 +152,8 @@ object FormHome: TFormHome
         Top = 310
         Width = 32
         Height = 29
+        Hint = 'Movimenta'#231#245'es'
+        ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C73766720786D6C6E733D22687474703A2F
           2F7777772E77332E6F72672F323030302F73766722202076696577426F783D22
@@ -187,6 +205,7 @@ object FormHome: TFormHome
           3420323320432032322E3838323831332032332032322032322E313137313838
           20323220323120432032322031392E3838323831332032322E38383238313320
           3139203234203139205A222F3E3C2F7376673E}
+        ShowHint = True
         Stretch = True
         OnClick = Image5Click
       end
@@ -207,10 +226,13 @@ object FormHome: TFormHome
         OnClick = Image1Click
       end
       object Image7: TImage
-        Left = 9
+        Left = 11
         Top = 438
         Width = 32
         Height = 29
+        Hint = 'Relatorios'
+        ParentCustomHint = False
+        ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C73766720786D6C6E733D22687474703A2F
           2F7777772E77332E6F72672F323030302F73766722202076696577426F783D22
@@ -225,6 +247,7 @@ object FormHome: TFormHome
           203131203139204C203231203139204C203231203137205A204D203131203231
           204C203131203233204C203231203233204C203231203231205A222F3E3C2F73
           76673E}
+        ShowHint = True
         Stretch = True
       end
       object Label1: TLabel
@@ -256,9 +279,9 @@ object FormHome: TFormHome
       object Label3: TLabel
         Left = 56
         Top = 310
-        Width = 113
+        Width = 139
         Height = 28
-        Caption = 'Emprestimos'
+        Caption = 'Movimenta'#231#245'es'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -20
@@ -327,7 +350,7 @@ object FormHome: TFormHome
       end
       object Label7: TLabel
         Left = 56
-        Top = 703
+        Top = 750
         Width = 33
         Height = 28
         Caption = 'Sair'
@@ -361,6 +384,9 @@ object FormHome: TFormHome
       Color = clWhite
       ParentBackground = False
       TabOrder = 1
+      ExplicitLeft = 108
+      ExplicitTop = 439
+      ExplicitWidth = 1380
     end
   end
 end

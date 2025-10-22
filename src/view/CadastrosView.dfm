@@ -1,7 +1,7 @@
 object FormCadastro: TFormCadastro
   Left = 266
   Top = 104
-  ActiveControl = DBGridSalas
+  ActiveControl = DBGrid1
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'FormCadastro'
@@ -51,7 +51,7 @@ object FormCadastro: TFormCadastro
       Top = 72
       Width = 1398
       Height = 785
-      ActivePage = TabSheet3
+      ActivePage = TabSheet1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -1992,6 +1992,7 @@ object FormCadastro: TFormCadastro
             ParentBackground = False
             TabOrder = 3
             Visible = False
+            ExplicitLeft = 2
             object Label27: TLabel
               Left = 168
               Top = 51
@@ -2109,7 +2110,7 @@ object FormCadastro: TFormCadastro
             end
             object BtnConfirmarEdtSala: TButton
               Left = 1188
-              Top = 84
+              Top = 44
               Width = 162
               Height = 34
               Caption = 'Confirmar Altera'#231#227'o'

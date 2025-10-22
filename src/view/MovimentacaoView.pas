@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.WinXCtrls, Vcl.WinXCalendars,
   Vcl.Buttons, Vcl.NumberBox, MovimentacaoController, MovimentacaoDTO, LoginModel,
-  FireDAC.Comp.Client, FireDAC.Stan.Param;
+  FireDAC.Comp.Client, FireDAC.Stan.Param, GlobalUserDTO;
 
 type
   TFormMovimentacoes = class(TForm)
@@ -47,8 +47,6 @@ type
     CbItemMovi: TComboBox;
     Label10: TLabel;
     Label11: TLabel;
-    EdtQuantidade: TNumberBox;
-    Label12: TLabel;
     CbStatusMovi: TComboBox;
     Label13: TLabel;
     BtnAdicionarMovi: TSpeedButton;
@@ -73,12 +71,13 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     FMovimentacaoController: TMovimentacaoController;
     FIdMovimentacaoSelecionada: Integer;
-    FIdUsuarioLogado: Integer; // Você deve setar isso com o ID do usuário logado
     procedure CarregarGrid;
     procedure LimparCampos;
+    procedure ConfigurarGrid;
     procedure PreencherCamposComGrid;
     function ValidarCampos: Boolean;
     function ObterIdDoComboBox(AComboBox: TComboBox): Integer;
@@ -95,31 +94,11 @@ implementation
 {$R *.dfm}
 
 procedure TFormMovimentacoes.FormCreate(Sender: TObject);
-var login: TLoginConfig;
+
 begin
   FMovimentacaoController := TMovimentacaoController.Create;
   FIdMovimentacaoSelecionada := 0;
-
-  // Aqui você deve pegar o ID do usuário logado do seu sistema de autenticação
-  login := TloginConfig.Create;
-  FIdUsuarioLogado := login.Id;  // ALTERE ISSO! Exemplo: GlobalUserID ou similar
-
-  // Popular ComboBoxes
-
-
-
-
-  // Popular ComboBox de Status
-  CbStatusMovi.Items.Clear;
-  CbStatusMovi.Items.Add('Pendente');
-  CbStatusMovi.Items.Add('Em Trânsito');
-  CbStatusMovi.Items.Add('Concluído');
-  CbStatusMovi.Items.Add('Cancelado');
-
-  // Carregar Grid
   CarregarGrid;
-
-  // Limpar campos
   LimparCampos;
 end;
 
@@ -131,46 +110,43 @@ begin
   FMovimentacaoController.Free;
 end;
 
+procedure TFormMovimentacoes.FormShow(Sender: TObject);
+begin
+CarregarGrid;
+end;
+
 procedure TFormMovimentacoes.CarregarGrid;
 var
   DataSet: TDataSet;
 begin
   try
-    // Libera dataset anterior se existir
-    if Assigned(DataSource1.DataSet) then
-    begin
-      DataSource1.DataSet.Close;
-      DataSource1.DataSet.Free;
-    end;
+    DataSource1.DataSet := FMovimentacaoController.ListarMovimentacoes;
+    DbGrid1.DataSource := DataSource1;
 
-    // Carrega novos dados
-    DataSet := FMovimentacaoController.ListarMovimentacoes;
-    DataSource1.DataSet := DataSet;
+    DBGrid1.Columns[0].Font.Size := 11;
+    DBGrid1.Columns[1].Font.Size := 11;
+    DBGrid1.Columns[2].Font.Size := 11;
+    DBGrid1.Columns[3].Font.Size := 11;
+    DBGrid1.Columns[4].Font.Size := 11;
+    DBGrid1.Columns[5].Font.Size := 11;
 
-    // Configurar colunas do grid
-    if Assigned(DataSet) and (DataSet.Active) then
-    begin
-      DBGrid1.Columns[0].Title.Caption := 'ID';
-      DBGrid1.Columns[1].Title.Caption := 'Data/Hora';
-      DBGrid1.Columns[2].Title.Caption := 'Usuário';
-      DBGrid1.Columns[3].Title.Caption := 'Patrimônio';
-      DBGrid1.Columns[4].Title.Caption := 'Origem';
-      DBGrid1.Columns[5].Title.Caption := 'Destino';
-      DBGrid1.Columns[6].Title.Caption := 'Quantidade';
-      DBGrid1.Columns[7].Title.Caption := 'Status';
-    end;
   except
     on E: Exception do
       ShowMessage('Erro ao carregar movimentações: ' + E.Message);
   end;
 end;
 
+procedure TFormMovimentacoes.ConfigurarGrid;
+begin
+end;
+
+
 procedure TFormMovimentacoes.LimparCampos;
 begin
   CbItemMovi.ItemIndex := -1;
   CbOrigemMovi.ItemIndex := -1;
   CbDestinoMovi.ItemIndex := -1;
-  EdtQuantidade.Value := 0;
+
   CbStatusMovi.ItemIndex := -1;
   FIdMovimentacaoSelecionada := 0;
 
@@ -215,14 +191,6 @@ begin
     Exit;
   end;
 
-  if EdtQuantidade.Value <= 0 then
-  begin
-    ShowMessage('A quantidade deve ser maior que zero!');
-    EdtQuantidade.SetFocus;
-    Result := False;
-    Exit;
-  end;
-
   if CbStatusMovi.ItemIndex = -1 then
   begin
     ShowMessage('Selecione o status da movimentação!');
@@ -255,10 +223,10 @@ procedure TFormMovimentacoes.BtnEditarMoviClick(Sender: TObject);
 begin
     PanelAddMovi.Visible := True;
     Button2.Visible := True;
-    CbItemMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('nome').AsString;
+    CbItemMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('fk_id_patrimonios').AsString;
     CbStatusMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('status').AsString;
-    CbDestinoMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('nome').AsString;
-    CbOrigemMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('nome').AsString;
+    CbDestinoMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('fk_id_destino').AsString;
+    CbOrigemMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('fk_id_origem').AsString;
     PopularComboBox;
 end;
 
@@ -345,54 +313,7 @@ begin
 end;
 
 procedure TFormMovimentacoes.PreencherCamposComGrid;
-var
-  IdPatrimonio, IdOrigem, IdDestino: Integer;
-  i: Integer;
 begin
-  if not Assigned(DataSource1.DataSet) or DataSource1.DataSet.IsEmpty then
-    Exit;
-
-  try
-    IdPatrimonio := DataSource1.DataSet.FieldByName('fk_id_patrimonio').AsInteger;
-    IdOrigem := DataSource1.DataSet.FieldByName('fk_id_origem').AsInteger;
-    IdDestino := DataSource1.DataSet.FieldByName('fk_id_destino').AsInteger;
-
-    // Selecionar patrimônio no combo
-    for i := 0 to CbItemMovi.Items.Count - 1 do
-    begin
-      if Integer(CbItemMovi.Items.Objects[i]) = IdPatrimonio then
-      begin
-        CbItemMovi.ItemIndex := i;
-        Break;
-      end;
-    end;
-
-    // Selecionar origem no combo
-    for i := 0 to CbOrigemMovi.Items.Count - 1 do
-    begin
-      if Integer(CbOrigemMovi.Items.Objects[i]) = IdOrigem then
-      begin
-        CbOrigemMovi.ItemIndex := i;
-        Break;
-      end;
-    end;
-
-    // Selecionar destino no combo
-    for i := 0 to CbDestinoMovi.Items.Count - 1 do
-    begin
-      if Integer(CbDestinoMovi.Items.Objects[i]) = IdDestino then
-      begin
-        CbDestinoMovi.ItemIndex := i;
-        Break;
-      end;
-    end;
-
-    EdtQuantidade.Value := DataSource1.DataSet.FieldByName('quantidade').AsInteger;
-    CbStatusMovi.Text := DataSource1.DataSet.FieldByName('status').AsString;
-  except
-    on E: Exception do
-      ShowMessage('Erro ao preencher campos: ' + E.Message);
-  end;
 end;
 
 procedure TFormMovimentacoes.BtnLimparFIltroMoviClick(Sender: TObject);
@@ -416,9 +337,8 @@ begin
     MovimentacaoDTO.FIdPatrimonio := ObterIdDoComboBox(CbItemMovi);
     MovimentacaoDTO.FIdOrigem := ObterIdDoComboBox(CbOrigemMovi);
     MovimentacaoDTO.FIdDestino := ObterIdDoComboBox(CbDestinoMovi);
-    MovimentacaoDTO.FQuantidade := Trunc(EdtQuantidade.Value);
     MovimentacaoDTO.FStatus := CbStatusMovi.Text;
-    MovimentacaoDTO.FIdUsuario := FIdUsuarioLogado;
+    MovimentacaoDTO.FIdUsuario := TGlobal.FUserID;
     MovimentacaoDTO.FDataMovimentacao := Now;
 
     FMovimentacaoController.AdicionarMovimentacao(MovimentacaoDTO);
@@ -453,9 +373,8 @@ begin
     MovimentacaoDTO.FIdPatrimonio := ObterIdDoComboBox(CbItemMovi);
     MovimentacaoDTO.FIdOrigem := ObterIdDoComboBox(CbOrigemMovi);
     MovimentacaoDTO.FIdDestino := ObterIdDoComboBox(CbDestinoMovi);
-    MovimentacaoDTO.FQuantidade := Trunc(EdtQuantidade.Value);
     MovimentacaoDTO.FStatus := CbStatusMovi.Text;
-    MovimentacaoDTO.FIdUsuario := FIdUsuarioLogado;
+    MovimentacaoDTO.FIdUsuario := TGlobal.FUserID;
     MovimentacaoDTO.FDataMovimentacao := Now;
 
     FMovimentacaoController.EditarMovimentacao(MovimentacaoDTO);

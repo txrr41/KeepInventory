@@ -10,6 +10,8 @@ object FormMovimentacoes: TFormMovimentacoes
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnCreate = FormCreate
+  OnShow = FormShow
   TextHeight = 15
   object PanelMoviment: TPanel
     Left = 0
@@ -269,11 +271,17 @@ object FormMovimentacoes: TFormMovimentacoes
         ParentBackground = False
         TabOrder = 1
         object DBGrid1: TDBGrid
-          Left = 17
-          Top = 15
+          Left = 16
+          Top = 20
           Width = 865
-          Height = 454
+          Height = 445
           BorderStyle = bsNone
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
@@ -287,65 +295,69 @@ object FormMovimentacoes: TFormMovimentacoes
               Title.Caption = '      ID'
               Title.Font.Charset = DEFAULT_CHARSET
               Title.Font.Color = clWindowText
-              Title.Font.Height = -13
+              Title.Font.Height = -15
               Title.Font.Name = 'Segoe UI'
               Title.Font.Style = []
               Visible = True
             end
             item
               Expanded = False
-              FieldName = 'fk_id_usuarios'
-              Title.Caption = '  Usu'#225'rio'
+              FieldName = 'usuario'
+              Title.Caption = '        Usu'#225'rio'
               Title.Font.Charset = DEFAULT_CHARSET
               Title.Font.Color = clWindowText
-              Title.Font.Height = -13
+              Title.Font.Height = -15
               Title.Font.Name = 'Segoe UI'
               Title.Font.Style = []
+              Width = 120
               Visible = True
             end
             item
               Expanded = False
-              FieldName = 'fk_id_bens'
-              Title.Caption = '    Item'
+              FieldName = 'patrimonio'
+              Title.Caption = '          Item'
               Title.Font.Charset = DEFAULT_CHARSET
               Title.Font.Color = clWindowText
-              Title.Font.Height = -13
+              Title.Font.Height = -15
               Title.Font.Name = 'Segoe UI'
               Title.Font.Style = []
+              Width = 120
               Visible = True
             end
             item
               Expanded = False
-              FieldName = 'fk_id_origem'
-              Title.Caption = '  Origem'
+              FieldName = 'sala_origem'
+              Title.Caption = '        Origem'
               Title.Font.Charset = DEFAULT_CHARSET
               Title.Font.Color = clWindowText
-              Title.Font.Height = -13
+              Title.Font.Height = -15
               Title.Font.Name = 'Segoe UI'
               Title.Font.Style = []
+              Width = 120
               Visible = True
             end
             item
               Expanded = False
-              FieldName = 'fk_id_destino'
-              Title.Caption = '  Destino'
+              FieldName = 'sala_destino'
+              Title.Caption = '       Destino'
               Title.Font.Charset = DEFAULT_CHARSET
               Title.Font.Color = clWindowText
-              Title.Font.Height = -13
+              Title.Font.Height = -15
               Title.Font.Name = 'Segoe UI'
               Title.Font.Style = []
+              Width = 120
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'data_movimentacao'
-              Title.Caption = '      Data'
+              Title.Caption = '         Data'
               Title.Font.Charset = DEFAULT_CHARSET
               Title.Font.Color = clWindowText
-              Title.Font.Height = -13
+              Title.Font.Height = -15
               Title.Font.Name = 'Segoe UI'
               Title.Font.Style = []
-              Width = 80
+              Width = 120
               Visible = True
             end>
         end
@@ -377,7 +389,7 @@ object FormMovimentacoes: TFormMovimentacoes
       end
       object SearchBox1: TSearchBox
         Left = 291
-        Top = 26
+        Top = 32
         Width = 639
         Height = 31
         TabOrder = 0
@@ -556,15 +568,8 @@ object FormMovimentacoes: TFormMovimentacoes
         Height = 15
         Caption = 'Destino'
       end
-      object Label12: TLabel
-        Left = 449
-        Top = 35
-        Width = 62
-        Height = 15
-        Caption = 'Quantidade'
-      end
       object Label13: TLabel
-        Left = 560
+        Left = 456
         Top = 35
         Width = 32
         Height = 15
@@ -584,20 +589,12 @@ object FormMovimentacoes: TFormMovimentacoes
         Height = 23
         TabOrder = 0
       end
-      object EdtQuantidade: TNumberBox
-        Left = 449
-        Top = 56
-        Width = 89
-        Height = 23
-        TabOrder = 1
-      end
       object CbStatusMovi: TComboBox
-        Left = 560
+        Left = 456
         Top = 56
         Width = 113
         Height = 23
-        Style = csDropDownList
-        TabOrder = 2
+        TabOrder = 1
         Items.Strings = (
           'Conclu'#237'do'
           'Cancelado'
@@ -608,15 +605,14 @@ object FormMovimentacoes: TFormMovimentacoes
         Top = 56
         Width = 113
         Height = 23
-        TabOrder = 3
+        TabOrder = 2
       end
       object CbOrigemMovi: TComboBox
         Left = 180
         Top = 56
         Width = 113
         Height = 23
-        Style = csDropDownList
-        TabOrder = 4
+        TabOrder = 3
       end
       object Button1: TButton
         Left = 1144
@@ -624,24 +620,24 @@ object FormMovimentacoes: TFormMovimentacoes
         Width = 124
         Height = 33
         Caption = 'Enviar'
-        TabOrder = 5
+        TabOrder = 4
         Visible = False
         OnClick = Button1Click
       end
       object Button2: TButton
         Left = 1144
-        Top = 48
+        Top = 50
         Width = 124
         Height = 33
         Caption = 'Confirmar Altera'#231#227'o'
-        TabOrder = 6
+        TabOrder = 5
         Visible = False
         OnClick = Button2Click
       end
     end
   end
   object DataSource1: TDataSource
-    Left = 936
-    Top = 24
+    Left = 992
+    Top = 8
   end
 end
