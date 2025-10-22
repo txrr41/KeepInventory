@@ -473,3 +473,19 @@
 22/10/2025 17:04:41 Usuário:  - Acessou o módulo de Cadastros
 22/10/2025 17:07:39 Usuário:  - Acessou o módulo de Cadastros
 22/10/2025 17:07:40 Usuário:  - Acessou aba Patrimônios
+22/10/2025 17:14:03 Usuário: suporte1 - Realizou o login
+22/10/2025 17:25:07 Usuário:  - Acessou o módulo de Cadastros
+22/10/2025 17:25:09 Usuário:  - Acessou aba Prédios
+22/10/2025 17:25:10 Usuário:  - Acessou aba Salas
+22/10/2025 17:25:11 Usuário:  - Acessou aba Patrimônios
+22/10/2025 17:25:12 Usuário:  - Acessou aba Salas
+22/10/2025 17:25:12 Usuário:  - Acessou aba Prédios
+22/10/2025 17:25:12 Usuário:  - Acessou aba Empresas
+22/10/2025 17:25:13 Usuário:  - Acessou aba Prédios
+22/10/2025 17:25:13 Usuário:  - Acessou aba Salas
+22/10/2025 17:25:13 Usuário:  - Acessou aba Patrimônios
+22/10/2025 17:25:14 Usuário:  - Acessou aba Salas
+22/10/2025 17:25:15 Usuário:  - Acessou aba Prédios
+22/10/2025 17:25:15 Usuário:  - Acessou aba Salas
+22/10/2025 17:25:16 Usuário:  - Acessou aba Patrimônios
+22/10/2025 17:25:17 Usuário:  - Acessou aba Salas
