@@ -60,6 +60,10 @@ type
     Button1: TButton;
     Button2: TButton;
     Label14: TLabel;
+    Panel8: TPanel;
+    Shape7: TShape;
+    Label12: TLabel;
+    SpeedButton: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure BtnAdicionarMoviClick(Sender: TObject);
     procedure BtnEditarMoviClick(Sender: TObject);

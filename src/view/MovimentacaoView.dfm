@@ -51,7 +51,7 @@ object FormMovimentacoes: TFormMovimentacoes
       TabOrder = 0
       object Panel3: TPanel
         Left = 1012
-        Top = 19
+        Top = 12
         Width = 256
         Height = 485
         BevelOuter = bvNone
@@ -60,9 +60,9 @@ object FormMovimentacoes: TFormMovimentacoes
         TabOrder = 0
         object Panel4: TPanel
           Left = 16
-          Top = 13
+          Top = 20
           Width = 225
-          Height = 457
+          Height = 445
           BevelOuter = bvNone
           Color = clWhite
           ParentBackground = False
@@ -229,9 +229,7 @@ object FormMovimentacoes: TFormMovimentacoes
               Align = alClient
               Brush.Color = 16741948
               Shape = stRoundRect
-              ExplicitLeft = 32
-              ExplicitWidth = 65
-              ExplicitHeight = 65
+              ExplicitTop = 24
             end
             object Label9: TLabel
               Left = 61
@@ -254,7 +252,51 @@ object FormMovimentacoes: TFormMovimentacoes
               Align = alClient
               Flat = True
               OnClick = BtnAtualizarMoviClick
-              ExplicitLeft = 8
+              ExplicitTop = 24
+            end
+          end
+          object Panel8: TPanel
+            Left = 23
+            Top = 352
+            Width = 185
+            Height = 41
+            BevelOuter = bvNone
+            Caption = 'Panel9'
+            Color = clWhite
+            ParentBackground = False
+            TabOrder = 4
+            object Shape7: TShape
+              Left = 0
+              Top = 0
+              Width = 185
+              Height = 41
+              Align = alClient
+              Brush.Color = 16741948
+              Shape = stRoundRect
+              ExplicitTop = 24
+            end
+            object Label12: TLabel
+              Left = 56
+              Top = 11
+              Width = 73
+              Height = 20
+              Caption = 'Pend'#234'ncias'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -15
+              Font.Name = 'Segoe UI'
+              Font.Style = []
+              ParentFont = False
+            end
+            object SpeedButton: TSpeedButton
+              Left = 0
+              Top = 0
+              Width = 185
+              Height = 41
+              Align = alClient
+              Flat = True
+              ExplicitLeft = 120
+              ExplicitTop = 16
               ExplicitWidth = 23
               ExplicitHeight = 22
             end
@@ -391,7 +433,7 @@ object FormMovimentacoes: TFormMovimentacoes
         Left = 291
         Top = 32
         Width = 639
-        Height = 31
+        Height = 23
         TabOrder = 0
         TextHint = 'Pesquisar'
         OnChange = SearchBox1Change
