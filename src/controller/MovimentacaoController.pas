@@ -17,6 +17,7 @@ type
     function PesquisarMovimentacao(const aSearch: String): TDataSet;
     function ListarMovimentacoes: TDataSet;
     function DtoForModel(AMovimentacaoDTO: TMovimentacaoDTO): TMovimentacaoConfig;
+    procedure PopularComboBoxSalasDoPatrimonio(AComboBox: TComboBox; AIdPatrimonio: Integer);
   end;
 
 var
@@ -109,6 +110,23 @@ begin
   try
     AComboBox.Items.Clear;
     AComboBox.Items.Assign(NomesComIDs);
+  finally
+    NomesComIDs.Free;
+  end;
+end;
+
+procedure TMovimentacaoController.PopularComboBoxSalasDoPatrimonio(
+  AComboBox: TComboBox; AIdPatrimonio: Integer);
+var
+  NomesComIDs: TStringList;
+begin
+  NomesComIDs := FMovimentacaoService.ObterSalasDoPatrimonio(AIdPatrimonio);
+  try
+    AComboBox.Items.Clear;
+    AComboBox.Items.Assign(NomesComIDs);
+
+    if AComboBox.Items.Count > 0 then
+      AComboBox.ItemIndex := 0;
   finally
     NomesComIDs.Free;
   end;

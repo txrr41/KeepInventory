@@ -179,8 +179,8 @@
         <DCCReference Include="controller\PatrimonioController.pas"/>
         <DCCReference Include="service\PatrimonioService.pas"/>
         <DCCReference Include="repository\PatrimonioRepository.pas"/>
-        <DCCReference Include="view\MovimentacaoView.pas">
-            <Form>FormMovimentacoes</Form>
+        <DCCReference Include="view\PedidoMoviView.pas">
+            <Form>FormPedidoMovi</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="dto\MovimentacaoDto.pas"/>

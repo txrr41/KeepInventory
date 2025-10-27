@@ -115,7 +115,6 @@ try
   UsuarioExiste := Controller.SalvarLogin(Login);
 
   if UsuarioExiste = True then begin
-  ShowMessage('O ID É' + intToStr(Login.Id));
     UsuarioLog := TUserLog.Create;
     UsuarioLog.UserName := EditUserLogin.Text;
     DataHora := Now;

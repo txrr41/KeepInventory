@@ -1,7 +1,7 @@
-object FormMovimentacoes: TFormMovimentacoes
+object FormPedidoMovi: TFormPedidoMovi
   Left = 0
   Top = 0
-  Caption = 'FormMovimentacoes'
+  Caption = 'FormPedidoMovi'
   ClientHeight = 822
   ClientWidth = 1374
   Color = clBtnFace
@@ -25,9 +25,9 @@ object FormMovimentacoes: TFormMovimentacoes
     object Label1: TLabel
       Left = 16
       Top = 24
-      Width = 122
+      Width = 210
       Height = 20
-      Caption = 'MOVIMENTA'#199#213'ES'
+      Caption = 'PEDIDOS DE MOVIMENTA'#199#213'ES'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowFrame
       Font.Height = -15
@@ -39,7 +39,7 @@ object FormMovimentacoes: TFormMovimentacoes
       AlignWithMargins = True
       Left = 16
       Top = 153
-      Width = 1345
+      Width = 1042
       Height = 515
       Margins.Left = 15
       Margins.Top = 155
@@ -49,274 +49,20 @@ object FormMovimentacoes: TFormMovimentacoes
       Color = clWhite
       ParentBackground = False
       TabOrder = 0
-      object Panel3: TPanel
-        Left = 1012
-        Top = 12
-        Width = 256
-        Height = 485
+      object Panel5: TPanel
+        Left = 16
+        Top = 17
+        Width = 1009
+        Height = 480
         BevelOuter = bvNone
         Color = clMenu
         ParentBackground = False
         TabOrder = 0
-        object Panel4: TPanel
-          Left = 16
-          Top = 20
-          Width = 225
-          Height = 445
-          BevelOuter = bvNone
-          Color = clWhite
-          ParentBackground = False
-          TabOrder = 0
-          object Panel9: TPanel
-            Left = 23
-            Top = 34
-            Width = 185
-            Height = 41
-            BevelOuter = bvNone
-            Caption = 'Panel9'
-            Color = clWhite
-            ParentBackground = False
-            TabOrder = 0
-            object Shape3: TShape
-              Left = 0
-              Top = 0
-              Width = 185
-              Height = 41
-              Align = alClient
-              Brush.Color = 16741948
-              Shape = stRoundRect
-              ExplicitLeft = 32
-              ExplicitWidth = 65
-              ExplicitHeight = 65
-            end
-            object Label6: TLabel
-              Left = 61
-              Top = 11
-              Width = 64
-              Height = 20
-              Caption = 'Adicionar'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWhite
-              Font.Height = -15
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object BtnAdicionarMovi: TSpeedButton
-              Left = 0
-              Top = 0
-              Width = 185
-              Height = 41
-              Align = alClient
-              Flat = True
-              OnClick = BtnAdicionarMoviClick
-              ExplicitLeft = 8
-              ExplicitWidth = 23
-              ExplicitHeight = 22
-            end
-          end
-          object Panel10: TPanel
-            Left = 23
-            Top = 113
-            Width = 185
-            Height = 41
-            BevelOuter = bvNone
-            Caption = 'Panel9'
-            Color = clWhite
-            ParentBackground = False
-            TabOrder = 1
-            object Shape4: TShape
-              Left = 0
-              Top = 0
-              Width = 185
-              Height = 41
-              Align = alClient
-              Brush.Color = 16741948
-              Shape = stRoundRect
-              ExplicitLeft = 32
-              ExplicitWidth = 65
-              ExplicitHeight = 65
-            end
-            object Label7: TLabel
-              Left = 75
-              Top = 11
-              Width = 39
-              Height = 20
-              Caption = 'Editar'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWhite
-              Font.Height = -15
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object BtnEditarMovi: TSpeedButton
-              Left = 0
-              Top = 0
-              Width = 185
-              Height = 41
-              Align = alClient
-              Flat = True
-              OnClick = BtnEditarMoviClick
-              ExplicitLeft = 8
-              ExplicitWidth = 23
-              ExplicitHeight = 22
-            end
-          end
-          object Panel11: TPanel
-            Left = 23
-            Top = 193
-            Width = 185
-            Height = 41
-            BevelOuter = bvNone
-            Caption = 'Panel9'
-            Color = clWhite
-            ParentBackground = False
-            TabOrder = 2
-            object Shape5: TShape
-              Left = 0
-              Top = 0
-              Width = 185
-              Height = 41
-              Align = alClient
-              Brush.Color = 16741948
-              Shape = stRoundRect
-              ExplicitLeft = 32
-              ExplicitWidth = 65
-              ExplicitHeight = 65
-            end
-            object Label8: TLabel
-              Left = 71
-              Top = 11
-              Width = 43
-              Height = 20
-              Caption = 'Excluir'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWhite
-              Font.Height = -15
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object BtnExcluirMovi: TSpeedButton
-              Left = 0
-              Top = 0
-              Width = 185
-              Height = 41
-              Align = alClient
-              Flat = True
-              OnClick = BtnExcluirMoviClick
-              ExplicitLeft = 8
-              ExplicitWidth = 23
-              ExplicitHeight = 22
-            end
-          end
-          object Panel12: TPanel
-            Left = 23
-            Top = 272
-            Width = 185
-            Height = 41
-            BevelOuter = bvNone
-            Caption = 'Panel9'
-            Color = clWhite
-            ParentBackground = False
-            TabOrder = 3
-            object Shape6: TShape
-              Left = 0
-              Top = 0
-              Width = 185
-              Height = 41
-              Align = alClient
-              Brush.Color = 16741948
-              Shape = stRoundRect
-              ExplicitTop = 24
-            end
-            object Label9: TLabel
-              Left = 61
-              Top = 11
-              Width = 59
-              Height = 20
-              Caption = 'Atualizar'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWhite
-              Font.Height = -15
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object BtnAtualizarMovi: TSpeedButton
-              Left = 0
-              Top = 0
-              Width = 185
-              Height = 41
-              Align = alClient
-              Flat = True
-              OnClick = BtnAtualizarMoviClick
-              ExplicitTop = 24
-            end
-          end
-          object Panel8: TPanel
-            Left = 23
-            Top = 352
-            Width = 185
-            Height = 41
-            BevelOuter = bvNone
-            Caption = 'Panel9'
-            Color = clWhite
-            ParentBackground = False
-            TabOrder = 4
-            object Shape7: TShape
-              Left = 0
-              Top = 0
-              Width = 185
-              Height = 41
-              Align = alClient
-              Brush.Color = 16741948
-              Shape = stRoundRect
-              ExplicitTop = 24
-            end
-            object Label12: TLabel
-              Left = 56
-              Top = 11
-              Width = 73
-              Height = 20
-              Caption = 'Pend'#234'ncias'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWhite
-              Font.Height = -15
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
-            object SpeedButton: TSpeedButton
-              Left = 0
-              Top = 0
-              Width = 185
-              Height = 41
-              Align = alClient
-              Flat = True
-              ExplicitLeft = 120
-              ExplicitTop = 16
-              ExplicitWidth = 23
-              ExplicitHeight = 22
-            end
-          end
-        end
-      end
-      object Panel5: TPanel
-        Left = 16
-        Top = 12
-        Width = 898
-        Height = 485
-        BevelOuter = bvNone
-        Color = clMenu
-        ParentBackground = False
-        TabOrder = 1
         object DBGrid1: TDBGrid
           Left = 16
-          Top = 20
-          Width = 865
-          Height = 445
+          Top = 16
+          Width = 977
+          Height = 449
           BorderStyle = bsNone
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -400,6 +146,18 @@ object FormMovimentacoes: TFormMovimentacoes
               Title.Font.Name = 'Segoe UI'
               Title.Font.Style = []
               Width = 120
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'status'
+              Title.Caption = '      Status'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -16
+              Title.Font.Name = 'Segoe UI'
+              Title.Font.Style = []
+              Width = 100
               Visible = True
             end>
         end
@@ -527,9 +285,7 @@ object FormMovimentacoes: TFormMovimentacoes
           Height = 33
           Align = alClient
           Flat = True
-          ExplicitLeft = 8
-          ExplicitWidth = 23
-          ExplicitHeight = 22
+          ExplicitLeft = -8
         end
       end
       object CalendarPicker1: TCalendarPicker
@@ -610,13 +366,6 @@ object FormMovimentacoes: TFormMovimentacoes
         Height = 15
         Caption = 'Destino'
       end
-      object Label13: TLabel
-        Left = 456
-        Top = 35
-        Width = 32
-        Height = 15
-        Caption = 'Status'
-      end
       object Label14: TLabel
         Left = 180
         Top = 35
@@ -630,31 +379,21 @@ object FormMovimentacoes: TFormMovimentacoes
         Width = 113
         Height = 23
         TabOrder = 0
-      end
-      object CbStatusMovi: TComboBox
-        Left = 456
-        Top = 56
-        Width = 113
-        Height = 23
-        TabOrder = 1
-        Items.Strings = (
-          'Conclu'#237'do'
-          'Cancelado'
-          'Pendente')
+        OnChange = CbItemMoviChange
       end
       object CbDestinoMovi: TComboBox
         Left = 315
         Top = 56
         Width = 113
         Height = 23
-        TabOrder = 2
+        TabOrder = 1
       end
       object CbOrigemMovi: TComboBox
         Left = 180
         Top = 56
         Width = 113
         Height = 23
-        TabOrder = 3
+        TabOrder = 2
       end
       object Button1: TButton
         Left = 1144
@@ -662,7 +401,7 @@ object FormMovimentacoes: TFormMovimentacoes
         Width = 124
         Height = 33
         Caption = 'Enviar'
-        TabOrder = 4
+        TabOrder = 3
         Visible = False
         OnClick = Button1Click
       end
@@ -672,9 +411,217 @@ object FormMovimentacoes: TFormMovimentacoes
         Width = 124
         Height = 33
         Caption = 'Confirmar Altera'#231#227'o'
-        TabOrder = 5
+        TabOrder = 4
         Visible = False
         OnClick = Button2Click
+      end
+    end
+    object Panel3: TPanel
+      Left = 1102
+      Top = 153
+      Width = 256
+      Height = 515
+      BevelOuter = bvNone
+      Color = clWhite
+      ParentBackground = False
+      TabOrder = 3
+      object Panel4: TPanel
+        Left = 16
+        Top = 17
+        Width = 225
+        Height = 480
+        BevelOuter = bvNone
+        Color = clMenu
+        ParentBackground = False
+        TabOrder = 0
+        object Panel9: TPanel
+          Left = 23
+          Top = 34
+          Width = 185
+          Height = 41
+          BevelOuter = bvNone
+          Caption = 'Panel9'
+          Color = clWhite
+          ParentBackground = False
+          TabOrder = 0
+          object Shape3: TShape
+            Left = 0
+            Top = 0
+            Width = 185
+            Height = 41
+            Align = alClient
+            Brush.Color = 16741948
+            Shape = stRoundRect
+            ExplicitLeft = 32
+            ExplicitWidth = 65
+            ExplicitHeight = 65
+          end
+          object Label6: TLabel
+            Left = 61
+            Top = 11
+            Width = 64
+            Height = 20
+            Caption = 'Adicionar'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWhite
+            Font.Height = -15
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object BtnAdicionarMovi: TSpeedButton
+            Left = 0
+            Top = 0
+            Width = 185
+            Height = 41
+            Align = alClient
+            Flat = True
+            OnClick = BtnAdicionarMoviClick
+            ExplicitLeft = 8
+            ExplicitWidth = 23
+            ExplicitHeight = 22
+          end
+        end
+        object Panel10: TPanel
+          Left = 23
+          Top = 113
+          Width = 185
+          Height = 41
+          BevelOuter = bvNone
+          Caption = 'Panel9'
+          Color = clWhite
+          ParentBackground = False
+          TabOrder = 1
+          object Shape4: TShape
+            Left = 0
+            Top = 0
+            Width = 185
+            Height = 41
+            Align = alClient
+            Brush.Color = 16741948
+            Shape = stRoundRect
+            ExplicitLeft = 32
+            ExplicitWidth = 65
+            ExplicitHeight = 65
+          end
+          object Label7: TLabel
+            Left = 75
+            Top = 11
+            Width = 39
+            Height = 20
+            Caption = 'Editar'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWhite
+            Font.Height = -15
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object BtnEditarMovi: TSpeedButton
+            Left = 0
+            Top = 0
+            Width = 185
+            Height = 41
+            Align = alClient
+            Flat = True
+            OnClick = BtnEditarMoviClick
+            ExplicitLeft = 8
+            ExplicitWidth = 23
+            ExplicitHeight = 22
+          end
+        end
+        object Panel11: TPanel
+          Left = 23
+          Top = 193
+          Width = 185
+          Height = 41
+          BevelOuter = bvNone
+          Caption = 'Panel9'
+          Color = clWhite
+          ParentBackground = False
+          TabOrder = 2
+          object Shape5: TShape
+            Left = 0
+            Top = 0
+            Width = 185
+            Height = 41
+            Align = alClient
+            Brush.Color = 16741948
+            Shape = stRoundRect
+            ExplicitLeft = 32
+            ExplicitWidth = 65
+            ExplicitHeight = 65
+          end
+          object Label8: TLabel
+            Left = 71
+            Top = 11
+            Width = 43
+            Height = 20
+            Caption = 'Excluir'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWhite
+            Font.Height = -15
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object BtnExcluirMovi: TSpeedButton
+            Left = 0
+            Top = 0
+            Width = 185
+            Height = 41
+            Align = alClient
+            Flat = True
+            OnClick = BtnExcluirMoviClick
+            ExplicitLeft = 8
+            ExplicitWidth = 23
+            ExplicitHeight = 22
+          end
+        end
+        object Panel12: TPanel
+          Left = 23
+          Top = 272
+          Width = 185
+          Height = 41
+          BevelOuter = bvNone
+          Caption = 'Panel9'
+          Color = clWhite
+          ParentBackground = False
+          TabOrder = 3
+          object Shape6: TShape
+            Left = 0
+            Top = 0
+            Width = 185
+            Height = 41
+            Align = alClient
+            Brush.Color = 16741948
+            Shape = stRoundRect
+            ExplicitTop = 24
+          end
+          object Label9: TLabel
+            Left = 61
+            Top = 11
+            Width = 59
+            Height = 20
+            Caption = 'Atualizar'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWhite
+            Font.Height = -15
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+          end
+          object BtnAtualizarMovi: TSpeedButton
+            Left = 0
+            Top = 0
+            Width = 185
+            Height = 41
+            Align = alClient
+            Flat = True
+            OnClick = BtnAtualizarMoviClick
+            ExplicitTop = 24
+          end
+        end
       end
     end
   end

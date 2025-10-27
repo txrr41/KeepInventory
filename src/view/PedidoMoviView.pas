@@ -1,4 +1,4 @@
-unit MovimentacaoView;
+unit PedidoMoviView;
 
 interface
 
@@ -10,7 +10,7 @@ uses
   FireDAC.Comp.Client, FireDAC.Stan.Param, GlobalUserDTO;
 
 type
-  TFormMovimentacoes = class(TForm)
+  TFormPedidoMovi = class(TForm)
     PanelMoviment: TPanel;
     Panel2: TPanel;
     Label1: TLabel;
@@ -25,34 +25,14 @@ type
     CalendarPicker1: TCalendarPicker;
     CalendarPicker2: TCalendarPicker;
     Shape1: TShape;
-    Panel3: TPanel;
-    Panel4: TPanel;
     Panel5: TPanel;
     SpeedButton1: TSpeedButton;
     Shape2: TShape;
     BtnLimparFIltroMovi: TSpeedButton;
-    Panel9: TPanel;
-    Panel10: TPanel;
-    Panel11: TPanel;
-    Panel12: TPanel;
-    Shape4: TShape;
-    Shape5: TShape;
-    Shape6: TShape;
-    Shape3: TShape;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
     PanelAddMovi: TPanel;
     CbItemMovi: TComboBox;
     Label10: TLabel;
     Label11: TLabel;
-    CbStatusMovi: TComboBox;
-    Label13: TLabel;
-    BtnAdicionarMovi: TSpeedButton;
-    BtnEditarMovi: TSpeedButton;
-    BtnExcluirMovi: TSpeedButton;
-    BtnAtualizarMovi: TSpeedButton;
     CbDestinoMovi: TComboBox;
     CbOrigemMovi: TComboBox;
     DataSource1: TDataSource;
@@ -60,10 +40,24 @@ type
     Button1: TButton;
     Button2: TButton;
     Label14: TLabel;
-    Panel8: TPanel;
-    Shape7: TShape;
-    Label12: TLabel;
-    SpeedButton: TSpeedButton;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel9: TPanel;
+    Shape3: TShape;
+    Label6: TLabel;
+    BtnAdicionarMovi: TSpeedButton;
+    Panel10: TPanel;
+    Shape4: TShape;
+    Label7: TLabel;
+    BtnEditarMovi: TSpeedButton;
+    Panel11: TPanel;
+    Shape5: TShape;
+    Label8: TLabel;
+    BtnExcluirMovi: TSpeedButton;
+    Panel12: TPanel;
+    Shape6: TShape;
+    Label9: TLabel;
+    BtnAtualizarMovi: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure BtnAdicionarMoviClick(Sender: TObject);
     procedure BtnEditarMoviClick(Sender: TObject);
@@ -76,9 +70,11 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure CbItemMoviChange(Sender: TObject);
   private
     FMovimentacaoController: TMovimentacaoController;
     FIdMovimentacaoSelecionada: Integer;
+    function ExtrairID(const ATexto: String): Integer;
     procedure CarregarGrid;
     procedure LimparCampos;
     procedure ConfigurarGrid;
@@ -91,13 +87,13 @@ type
   end;
 
 var
-  FormMovimentacoes: TFormMovimentacoes;
+  FormPedidoMovi: TFormPedidoMovi;
 
 implementation
 
 {$R *.dfm}
 
-procedure TFormMovimentacoes.FormCreate(Sender: TObject);
+procedure TFormPedidoMovi.FormCreate(Sender: TObject);
 
 begin
   FMovimentacaoController := TMovimentacaoController.Create;
@@ -106,7 +102,7 @@ begin
   LimparCampos;
 end;
 
-procedure TFormMovimentacoes.FormDestroy(Sender: TObject);
+procedure TFormPedidoMovi.FormDestroy(Sender: TObject);
 begin
   if Assigned(DataSource1.DataSet) then
     DataSource1.DataSet.Free;
@@ -114,12 +110,12 @@ begin
   FMovimentacaoController.Free;
 end;
 
-procedure TFormMovimentacoes.FormShow(Sender: TObject);
+procedure TFormPedidoMovi.FormShow(Sender: TObject);
 begin
 CarregarGrid;
 end;
 
-procedure TFormMovimentacoes.CarregarGrid;
+procedure TFormPedidoMovi.CarregarGrid;
 var
   DataSet: TDataSet;
 begin
@@ -140,18 +136,33 @@ begin
   end;
 end;
 
-procedure TFormMovimentacoes.ConfigurarGrid;
+procedure TFormPedidoMovi.CbItemMoviChange(Sender: TObject);
+var
+  IdPatrimonio: Integer;
+begin
+  if CbItemMovi.ItemIndex = -1 then Exit;
+
+  IdPatrimonio := Integer(CbItemMovi.Items.Objects[CbItemMovi.ItemIndex]);
+
+  // Origem: sala atual do item
+  FMovimentacaoController.PopularComboBoxSalasDoPatrimonio(CbOrigemMovi, IdPatrimonio);
+
+  // Destino: todas as salas possíveis
+  FMovimentacaoController.PopularComboBoxSalas(CbDestinoMovi);
+  end;
+
+
+
+procedure TFormPedidoMovi.ConfigurarGrid;
 begin
 end;
 
 
-procedure TFormMovimentacoes.LimparCampos;
+procedure TFormPedidoMovi.LimparCampos;
 begin
   CbItemMovi.ItemIndex := -1;
   CbOrigemMovi.ItemIndex := -1;
   CbDestinoMovi.ItemIndex := -1;
-
-  CbStatusMovi.ItemIndex := -1;
   FIdMovimentacaoSelecionada := 0;
 
   BtnAdicionarMovi.Enabled := True;
@@ -159,7 +170,7 @@ begin
   BtnExcluirMovi.Enabled := False;
 end;
 
-function TFormMovimentacoes.ValidarCampos: Boolean;
+function TFormPedidoMovi.ValidarCampos: Boolean;
 begin
   Result := True;
 
@@ -194,24 +205,16 @@ begin
     Result := False;
     Exit;
   end;
-
-  if CbStatusMovi.ItemIndex = -1 then
-  begin
-    ShowMessage('Selecione o status da movimentação!');
-    CbStatusMovi.SetFocus;
-    Result := False;
-    Exit;
-  end;
 end;
 
-function TFormMovimentacoes.ObterIdDoComboBox(AComboBox: TComboBox): Integer;
+function TFormPedidoMovi.ObterIdDoComboBox(AComboBox: TComboBox): Integer;
 begin
   Result := 0;
   if (AComboBox.ItemIndex >= 0) and (AComboBox.ItemIndex < AComboBox.Items.Count) then
     Result := Integer(AComboBox.Items.Objects[AComboBox.ItemIndex]);
 end;
 
-procedure TFormMovimentacoes.BtnAdicionarMoviClick(Sender: TObject);
+procedure TFormPedidoMovi.BtnAdicionarMoviClick(Sender: TObject);
 begin
   if PanelAddMovi.Visible = False then
   begin
@@ -223,19 +226,18 @@ begin
     PanelAddMovi.Visible := False;
 end;
 
-procedure TFormMovimentacoes.BtnEditarMoviClick(Sender: TObject);
+procedure TFormPedidoMovi.BtnEditarMoviClick(Sender: TObject);
 begin
     PanelAddMovi.Visible := True;
     Button2.Visible := True;
     CbItemMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('fk_id_patrimonios').AsString;
-    CbStatusMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('status').AsString;
     CbDestinoMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('fk_id_destino').AsString;
     CbOrigemMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('fk_id_origem').AsString;
     PopularComboBox;
 end;
 
 
-procedure TFormMovimentacoes.BtnExcluirMoviClick(Sender: TObject);
+procedure TFormPedidoMovi.BtnExcluirMoviClick(Sender: TObject);
 begin
   if FIdMovimentacaoSelecionada = 0 then
   begin
@@ -258,14 +260,14 @@ begin
   end;
 end;
 
-procedure TFormMovimentacoes.BtnAtualizarMoviClick(Sender: TObject);
+procedure TFormPedidoMovi.BtnAtualizarMoviClick(Sender: TObject);
 begin
   CarregarGrid;
   LimparCampos;
   ShowMessage('Grid atualizado!');
 end;
 
-procedure TFormMovimentacoes.SearchBox1Change(Sender: TObject);
+procedure TFormPedidoMovi.SearchBox1Change(Sender: TObject);
 var
   DataSet: TDataSet;
 begin
@@ -288,7 +290,7 @@ begin
   end;
 end;
 
-procedure TFormMovimentacoes.DBGrid1CellClick(Column: TColumn);
+procedure TFormPedidoMovi.DBGrid1CellClick(Column: TColumn);
 begin
   if not Assigned(DataSource1.DataSet) or DataSource1.DataSet.IsEmpty then
     Exit;
@@ -309,18 +311,35 @@ begin
   end;
 end;
 
-procedure TFormMovimentacoes.PopularComboBox;
+function TFormPedidoMovi.ExtrairID(const ATexto: String): Integer;
+var
+  Posicao: Integer;
+  IdStr: String;
+begin
+  // Assumindo formato "ID|Nome" no ComboBox
+  Posicao := Pos('|', ATexto);
+  if Posicao > 0 then
+  begin
+    IdStr := Copy(ATexto, 1, Posicao - 1);
+    Result := StrToIntDef(IdStr, 0);
+  end
+  else
+    Result := 0;
+end;
+
+
+procedure TFormPedidoMovi.PopularComboBox;
 begin
  FMovimentacaoController.PopularComboBoxPatrimonios(CbItemMovi);
  FMovimentacaoController.PopularComboBoxSalas(CbOrigemMovi);
  FMovimentacaoController.PopularComboBoxSalas(CbDestinoMovi);
 end;
 
-procedure TFormMovimentacoes.PreencherCamposComGrid;
+procedure TFormPedidoMovi.PreencherCamposComGrid;
 begin
 end;
 
-procedure TFormMovimentacoes.BtnLimparFIltroMoviClick(Sender: TObject);
+procedure TFormPedidoMovi.BtnLimparFIltroMoviClick(Sender: TObject);
 begin
   SearchBox1.Text := '';
   CalendarPicker1.Date := 0;
@@ -329,7 +348,7 @@ begin
   LimparCampos;
 end;
 
-procedure TFormMovimentacoes.Button1Click(Sender: TObject);
+procedure TFormPedidoMovi.Button1Click(Sender: TObject);
 var
   MovimentacaoDTO: TMovimentacaoDTO;
 begin
@@ -338,10 +357,9 @@ begin
 
   try
     MovimentacaoDTO.FId := 0;
-    MovimentacaoDTO.FIdPatrimonio := ObterIdDoComboBox(CbItemMovi);
-    MovimentacaoDTO.FIdOrigem := ObterIdDoComboBox(CbOrigemMovi);
+    MovimentacaoDTO.FIdPatrimonio := Integer(CbItemMovi.Items.Objects[cbItemMovi.ItemIndex]);;
+    MovimentacaoDTO.FIdOrigem := Integer(CbOrigemMovi.Items.Objects[CbOrigemMovi.ItemIndex]);
     MovimentacaoDTO.FIdDestino := ObterIdDoComboBox(CbDestinoMovi);
-    MovimentacaoDTO.FStatus := CbStatusMovi.Text;
     MovimentacaoDTO.FIdUsuario := TGlobal.FUserID;
     MovimentacaoDTO.FDataMovimentacao := Now;
 
@@ -355,7 +373,7 @@ begin
       ShowMessage('Erro ao adicionar movimentação: ' + E.Message);
   end;
 end;
-procedure TFormMovimentacoes.Button2Click(Sender: TObject);
+procedure TFormPedidoMovi.Button2Click(Sender: TObject);
 var
   MovimentacaoDTO: TMovimentacaoDTO;
 begin
@@ -377,7 +395,6 @@ begin
     MovimentacaoDTO.FIdPatrimonio := ObterIdDoComboBox(CbItemMovi);
     MovimentacaoDTO.FIdOrigem := ObterIdDoComboBox(CbOrigemMovi);
     MovimentacaoDTO.FIdDestino := ObterIdDoComboBox(CbDestinoMovi);
-    MovimentacaoDTO.FStatus := CbStatusMovi.Text;
     MovimentacaoDTO.FIdUsuario := TGlobal.FUserID;
     MovimentacaoDTO.FDataMovimentacao := Now;
 

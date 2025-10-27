@@ -384,9 +384,6 @@ object FormHome: TFormHome
       Color = clWhite
       ParentBackground = False
       TabOrder = 1
-      ExplicitLeft = 108
-      ExplicitTop = 439
-      ExplicitWidth = 1380
     end
   end
 end

@@ -40,6 +40,7 @@ object FormLogin: TFormLogin
       Padding.Bottom = 100
       ParentBackground = False
       TabOrder = 0
+      ExplicitLeft = 6
       DesignSize = (
         456
         719)
@@ -243,6 +244,12 @@ object FormLogin: TFormLogin
           Height = 15
           Anchors = []
           Caption = 'Entrar'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
         end
       end
     end

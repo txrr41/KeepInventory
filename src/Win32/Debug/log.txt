@@ -489,3 +489,43 @@
 22/10/2025 17:25:15 Usuário:  - Acessou aba Salas
 22/10/2025 17:25:16 Usuário:  - Acessou aba Patrimônios
 22/10/2025 17:25:17 Usuário:  - Acessou aba Salas
+27/10/2025 13:57:31 Usuário: suporte1 - Realizou o login
+27/10/2025 14:00:59 Usuário: suporte1 - Realizou o login
+27/10/2025 14:24:20 Usuário: suporte1 - Realizou o login
+27/10/2025 14:28:31 Usuário: suporte1 - Realizou o login
+27/10/2025 14:31:45 Usuário: suporte1 - Realizou o login
+27/10/2025 14:33:14 Usuário: suporte1 - Realizou o login
+27/10/2025 14:33:27 Usuário:  - Acessou o módulo de Cadastros
+27/10/2025 14:33:29 Usuário:  - Acessou aba Patrimônios
+27/10/2025 14:33:42 Usuário:  - Acessou aba Salas
+27/10/2025 14:33:53 Usuário:  - Acessou aba Patrimônios
+27/10/2025 14:34:27 Usuário:  - Cadastrou patrimônio - Cad (NS: 312321)
+27/10/2025 14:37:49 Usuário: suporte1 - Realizou o login
+27/10/2025 14:49:00 Usuário: suporte1 - Realizou o login
+27/10/2025 14:53:39 Usuário: suporte1 - Realizou o login
+27/10/2025 14:56:46 Usuário: suporte1 - Realizou o login
+27/10/2025 14:57:00 Usuário:  - Acessou o módulo de Cadastros
+27/10/2025 14:57:03 Usuário:  - Acessou aba Patrimônios
+27/10/2025 14:57:31 Usuário:  - Acessou o módulo de Cadastros
+27/10/2025 14:57:33 Usuário:  - Acessou aba Salas
+27/10/2025 14:57:50 Usuário:  - Acessou o módulo de Cadastros
+27/10/2025 14:57:53 Usuário:  - Acessou aba Salas
+27/10/2025 14:57:58 Usuário:  - Acessou aba Patrimônios
+27/10/2025 15:01:10 Usuário: suporte1 - Realizou o login
+27/10/2025 15:25:04 Usuário: suporte1 - Realizou o login
+27/10/2025 15:30:50 Usuário: suporte1 - Realizou o login
+27/10/2025 15:37:25 Usuário: suporte1 - Realizou o login
+27/10/2025 15:39:17 Usuário:  - Acessou o módulo de Cadastros
+27/10/2025 15:39:18 Usuário:  - Acessou aba Patrimônios
+27/10/2025 15:46:45 Usuário: suporte1 - Realizou o login
+27/10/2025 15:53:31 Usuário: suporte1 - Realizou o login
+27/10/2025 15:56:46 Usuário: suporte1 - Realizou o login
+27/10/2025 15:57:57 Usuário: suporte1 - Realizou o login
+27/10/2025 15:59:18 Usuário: suporte1 - Realizou o login
+27/10/2025 16:03:52 Usuário: suporte1 - Realizou o login
+27/10/2025 16:23:34 Usuário: suporte1 - Realizou o login
+27/10/2025 16:23:46 Usuário:  - Acessou o módulo de Cadastros
+27/10/2025 16:24:40 Usuário:  - Acessou o módulo de Cadastros
+27/10/2025 16:24:44 Usuário:  - Acessou o módulo de Cadastros
+27/10/2025 17:05:13 Usuário: suporte1 - Realizou o login
+27/10/2025 17:05:16 Usuário:  - Acessou o módulo de Cadastros

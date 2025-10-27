@@ -15,6 +15,7 @@ type
     function ObterNomesPatrimonios: TStringList;
     function ObterNomesSalas: TStringList;
     function ListarMovimentacoes: TDataSet;
+    function ObterSalasDoPatrimonio(AIdPatrimonio: Integer): TStringList;
   end;
 
 var
@@ -54,6 +55,12 @@ end;
 function TMovimentacaoService.ObterNomesSalas: TStringList;
 begin
   Result := FMovimentacaoRepository.ListarSalas;
+end;
+
+function TMovimentacaoService.ObterSalasDoPatrimonio(
+  AIdPatrimonio: Integer): TStringList;
+begin
+Result := FMovimentacaoRepository.ListarSalasDoPatrimonio(AIdPatrimonio);
 end;
 
 function TMovimentacaoService.PesquisarMovimentacao(
