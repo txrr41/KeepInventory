@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.WinXCtrls, Vcl.WinXCalendars,
-  Vcl.Buttons, Vcl.NumberBox, MovimentacaoController, MovimentacaoDTO, LoginModel,
+  Vcl.Buttons, Vcl.NumberBox, PedidoMoviCOntroller, MovimentacaoDTO, LoginModel,
   FireDAC.Comp.Client, FireDAC.Stan.Param, GlobalUserDTO;
 
 type
@@ -72,7 +72,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure CbItemMoviChange(Sender: TObject);
   private
-    FMovimentacaoController: TMovimentacaoController;
+    FPedidoMoviController: TPedidoMoviController;
     FIdMovimentacaoSelecionada: Integer;
     function ExtrairID(const ATexto: String): Integer;
     procedure CarregarGrid;
@@ -96,7 +96,7 @@ implementation
 procedure TFormPedidoMovi.FormCreate(Sender: TObject);
 
 begin
-  FMovimentacaoController := TMovimentacaoController.Create;
+  FPedidoMoviController := FPedidoMoviController.Create;
   FIdMovimentacaoSelecionada := 0;
   CarregarGrid;
   LimparCampos;
@@ -107,7 +107,7 @@ begin
   if Assigned(DataSource1.DataSet) then
     DataSource1.DataSet.Free;
 
-  FMovimentacaoController.Free;
+  FPedidoMoviController.Free;
 end;
 
 procedure TFormPedidoMovi.FormShow(Sender: TObject);
@@ -120,7 +120,7 @@ var
   DataSet: TDataSet;
 begin
   try
-    DataSource1.DataSet := FMovimentacaoController.ListarMovimentacoes;
+    DataSource1.DataSet := FPedidoMoviController.ListarMovimentacoes;
     DbGrid1.DataSource := DataSource1;
 
     DBGrid1.Columns[0].Font.Size := 11;
@@ -145,10 +145,11 @@ begin
   IdPatrimonio := Integer(CbItemMovi.Items.Objects[CbItemMovi.ItemIndex]);
 
   // Origem: sala atual do item
-  FMovimentacaoController.PopularComboBoxSalasDoPatrimonio(CbOrigemMovi, IdPatrimonio);
+
+  FPedidoMoviController.PopularComboBoxSalasDoPatrimonio(CbOrigemMovi, IdPatrimonio);
 
   // Destino: todas as salas possíveis
-  FMovimentacaoController.PopularComboBoxSalas(CbDestinoMovi);
+  FPedidoMoviController.PopularComboBoxSalas(CbDestinoMovi);
   end;
 
 
@@ -250,7 +251,7 @@ begin
     Exit;
 
   try
-    FMovimentacaoController.ExcluirMovimentacao(FIdMovimentacaoSelecionada);
+    FPedidoMoviController.ExcluirMovimentacao(FIdMovimentacaoSelecionada);
     ShowMessage('Movimentação excluída com sucesso!');
     CarregarGrid;
     LimparCampos;
@@ -279,9 +280,9 @@ begin
     end;
 
     if Trim(SearchBox1.Text) = '' then
-      DataSet := FMovimentacaoController.ListarMovimentacoes
+      DataSet := FPedidoMoviController.ListarMovimentacoes
     else
-      DataSet := FMovimentacaoController.PesquisarMovimentacao(SearchBox1.Text);
+      DataSet := FPedidoMoviController.PesquisarMovimentacao(SearchBox1.Text);
 
     DataSource1.DataSet := DataSet;
   except
@@ -330,9 +331,9 @@ end;
 
 procedure TFormPedidoMovi.PopularComboBox;
 begin
- FMovimentacaoController.PopularComboBoxPatrimonios(CbItemMovi);
- FMovimentacaoController.PopularComboBoxSalas(CbOrigemMovi);
- FMovimentacaoController.PopularComboBoxSalas(CbDestinoMovi);
+ FPedidoMoviController.PopularComboBoxPatrimonios(CbItemMovi);
+ FPedidoMoviController.PopularComboBoxSalas(CbOrigemMovi);
+ FPedidoMoviController.PopularComboBoxSalas(CbDestinoMovi);
 end;
 
 procedure TFormPedidoMovi.PreencherCamposComGrid;
@@ -363,7 +364,7 @@ begin
     MovimentacaoDTO.FIdUsuario := TGlobal.FUserID;
     MovimentacaoDTO.FDataMovimentacao := Now;
 
-    FMovimentacaoController.AdicionarMovimentacao(MovimentacaoDTO);
+    FPedidoMoviController.AdicionarMovimentacao(MovimentacaoDTO);
 
     ShowMessage('Movimentação cadastrada com sucesso!');
     CarregarGrid;
@@ -398,7 +399,7 @@ begin
     MovimentacaoDTO.FIdUsuario := TGlobal.FUserID;
     MovimentacaoDTO.FDataMovimentacao := Now;
 
-    FMovimentacaoController.EditarMovimentacao(MovimentacaoDTO);
+    FPedidoMoviController.EditarMovimentacao(MovimentacaoDTO);
 
     ShowMessage('Movimentação atualizada com sucesso!');
     CarregarGrid;

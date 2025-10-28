@@ -1,7 +1,7 @@
-object Form4: TForm4
+object FormMovi: TFormMovi
   Left = 0
   Top = 0
-  Caption = 'Form4'
+  Caption = 'FormMovi'
   ClientHeight = 822
   ClientWidth = 1374
   Color = clBtnFace
@@ -20,7 +20,6 @@ object Form4: TForm4
     Color = clGradientActiveCaption
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = -8
     object Label7: TLabel
       Left = 24
       Top = 16
@@ -56,17 +55,17 @@ object Form4: TForm4
         TitleFont.Style = []
       end
       object PanelPendencias: TPanel
-        Left = 360
-        Top = 118
-        Width = 433
-        Height = 331
+        Left = 152
+        Top = 4
+        Width = 753
+        Height = 501
         Caption = 'PanelPendencias'
         Color = clGradientActiveCaption
         ParentBackground = False
         TabOrder = 1
         Visible = False
         object Image1: TImage
-          Left = 400
+          Left = 696
           Top = 8
           Width = 25
           Height = 26
@@ -105,6 +104,7 @@ object Form4: TForm4
             3620393738202D3432203135202D3837203132202D313332202D397A222F3E0A
             3C2F673E0A3C2F7376673E0A}
           Stretch = True
+          OnClick = Image1Click
         end
         object Label8: TLabel
           Left = 16
@@ -119,42 +119,155 @@ object Form4: TForm4
           Font.Style = []
           ParentFont = False
         end
+        object Panel9: TPanel
+          Left = 16
+          Top = 40
+          Width = 721
+          Height = 369
+          BevelOuter = bvNone
+          Caption = 'Panel9'
+          TabOrder = 0
+          object DBGridMovi: TDBGrid
+            Left = 8
+            Top = 10
+            Width = 705
+            Height = 363
+            BorderStyle = bsNone
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+            ParentFont = False
+            ReadOnly = True
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -12
+            TitleFont.Name = 'Segoe UI'
+            TitleFont.Style = []
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'id'
+                Title.Caption = '      ID'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -15
+                Title.Font.Name = 'Segoe UI'
+                Title.Font.Style = []
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'usuario'
+                Title.Caption = '        Usu'#225'rio'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -15
+                Title.Font.Name = 'Segoe UI'
+                Title.Font.Style = []
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'patrimonio'
+                Title.Caption = '          Item'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -15
+                Title.Font.Name = 'Segoe UI'
+                Title.Font.Style = []
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'sala_origem'
+                Title.Caption = '        Origem'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -15
+                Title.Font.Name = 'Segoe UI'
+                Title.Font.Style = []
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'sala_destino'
+                Title.Caption = '       Destino'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -15
+                Title.Font.Name = 'Segoe UI'
+                Title.Font.Style = []
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'data_movimentacao'
+                Title.Caption = '         Data'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -15
+                Title.Font.Name = 'Segoe UI'
+                Title.Font.Style = []
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'status'
+                Title.Caption = '      Status'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -16
+                Title.Font.Name = 'Segoe UI'
+                Title.Font.Style = []
+                Width = 100
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Acoes'
+                Title.Font.Charset = DEFAULT_CHARSET
+                Title.Font.Color = clWindowText
+                Title.Font.Height = -15
+                Title.Font.Name = 'Segoe UI'
+                Title.Font.Style = []
+                Width = 160
+                Visible = True
+              end>
+          end
+        end
         object Panel10: TPanel
-          Left = 64
-          Top = 256
-          Width = 129
+          Left = 176
+          Top = 432
+          Width = 177
           Height = 41
           BevelOuter = bvNone
           Caption = 'Panel10'
           Color = clGradientActiveCaption
           ParentBackground = False
-          TabOrder = 0
+          TabOrder = 1
           object Shape5: TShape
             Left = 0
             Top = 0
-            Width = 129
+            Width = 177
             Height = 41
             Align = alClient
-            Brush.Color = 16741948
+            Brush.Color = clGreen
             Shape = stRoundRect
-            ExplicitLeft = 40
-            ExplicitTop = 8
+            ExplicitLeft = 32
             ExplicitWidth = 65
             ExplicitHeight = 65
           end
-          object SpeedButton1: TSpeedButton
-            Left = 0
-            Top = 0
-            Width = 129
-            Height = 41
-            Align = alClient
-            ExplicitLeft = 88
-            ExplicitTop = 8
-            ExplicitWidth = 23
-            ExplicitHeight = 22
-          end
           object Label5: TLabel
-            Left = 48
+            Left = 70
             Top = 12
             Width = 40
             Height = 17
@@ -166,44 +279,45 @@ object Form4: TForm4
             Font.Style = []
             ParentFont = False
           end
-        end
-        object Panel11: TPanel
-          Left = 232
-          Top = 256
-          Width = 129
-          Height = 41
-          BevelOuter = bvNone
-          Caption = 'Panel10'
-          Color = clGradientActiveCaption
-          ParentBackground = False
-          TabOrder = 1
-          object Shape6: TShape
+          object SpeedButton1: TSpeedButton
             Left = 0
             Top = 0
-            Width = 129
+            Width = 177
             Height = 41
             Align = alClient
-            Brush.Color = clRed
-            Shape = stRoundRect
-            ExplicitLeft = 40
-            ExplicitTop = 8
-            ExplicitWidth = 65
-            ExplicitHeight = 65
-          end
-          object SpeedButton5: TSpeedButton
-            Left = 0
-            Top = 0
-            Width = 129
-            Height = 41
-            Align = alClient
+            Flat = True
+            OnClick = SpeedButton1Click
             ExplicitLeft = 88
             ExplicitTop = 8
             ExplicitWidth = 23
             ExplicitHeight = 22
           end
+        end
+        object Panel11: TPanel
+          Left = 392
+          Top = 432
+          Width = 177
+          Height = 41
+          BevelOuter = bvNone
+          Caption = 'Panel10'
+          Color = clGradientActiveCaption
+          ParentBackground = False
+          TabOrder = 2
+          object Shape6: TShape
+            Left = 0
+            Top = 0
+            Width = 177
+            Height = 41
+            Align = alClient
+            Brush.Color = clRed
+            Shape = stRoundRect
+            ExplicitLeft = 32
+            ExplicitWidth = 65
+            ExplicitHeight = 65
+          end
           object Label6: TLabel
-            Left = 42
-            Top = 12
+            Left = 63
+            Top = 11
             Width = 46
             Height = 17
             Caption = 'Recusar'
@@ -214,22 +328,18 @@ object Form4: TForm4
             Font.Style = []
             ParentFont = False
           end
-        end
-        object Panel9: TPanel
-          Left = 16
-          Top = 40
-          Width = 401
-          Height = 201
-          BevelOuter = bvNone
-          Caption = 'Panel9'
-          TabOrder = 2
-          object CheckListBox1: TCheckListBox
-            Left = 8
-            Top = 8
-            Width = 385
-            Height = 185
-            ItemHeight = 17
-            TabOrder = 0
+          object SpeedButton2: TSpeedButton
+            Left = 0
+            Top = 0
+            Width = 177
+            Height = 41
+            Align = alClient
+            Flat = True
+            OnClick = BtnPendenciasClick
+            ExplicitLeft = 88
+            ExplicitTop = 8
+            ExplicitWidth = 23
+            ExplicitHeight = 22
           end
         end
       end
@@ -292,6 +402,7 @@ object Form4: TForm4
             Width = 161
             Height = 41
             Align = alClient
+            Flat = True
             ExplicitLeft = 88
             ExplicitTop = 8
             ExplicitWidth = 23
@@ -326,6 +437,7 @@ object Form4: TForm4
             Width = 161
             Height = 41
             Align = alClient
+            Flat = True
             ExplicitLeft = 88
             ExplicitTop = 8
             ExplicitWidth = 23
@@ -373,6 +485,7 @@ object Form4: TForm4
             Width = 161
             Height = 41
             Align = alClient
+            Flat = True
             OnClick = BtnPendenciasClick
             ExplicitLeft = 88
             ExplicitTop = 8
@@ -434,7 +547,7 @@ object Form4: TForm4
             Width = 161
             Height = 41
             Align = alClient
-            OnClick = BtnAddMoviClick
+            Flat = True
             ExplicitLeft = 88
             ExplicitTop = 8
             ExplicitWidth = 23
@@ -451,5 +564,9 @@ object Form4: TForm4
       TabOrder = 2
       TextHint = 'Pesquisar'
     end
+  end
+  object DataSource1: TDataSource
+    Left = 992
+    Top = 32
   end
 end

@@ -4,71 +4,89 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
-  Vcl.DBGrids, Vcl.Buttons, Vcl.StdCtrls, Vcl.WinXCtrls, Vcl.CheckLst, PedidoMoviView,
-  Vcl.Skia;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.WinXCtrls,
+  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Skia, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.Client, FireDAC.Stan.Param, PedidoMoviController, PendenciaController, MovimentacaoModel;
 
 type
-  TForm4 = class(TForm)
+  TFormMovi = class(TForm)
     Panel1: TPanel;
+    Label7: TLabel;
     Panel2: TPanel;
-    Panel3: TPanel;
     DBGrid1: TDBGrid;
+    PanelPendencias: TPanel;
+    Image1: TImage;
+    Label8: TLabel;
+    Panel9: TPanel;
+    DBGridMovi: TDBGrid;
+    Panel3: TPanel;
     Panel4: TPanel;
     Panel6: TPanel;
-    Panel7: TPanel;
-    Panel8: TPanel;
     Shape1: TShape;
-    Shape2: TShape;
-    Shape4: TShape;
-    BtnPesquisarMovi: TSpeedButton;
-    BtnPendencias: TSpeedButton;
     Label2: TLabel;
-    SearchBox1: TSearchBox;
     BtnExcluirMovi: TSpeedButton;
-    Panel5: TPanel;
-    Label1: TLabel;
-    Shape3: TShape;
+    Panel7: TPanel;
+    Shape2: TShape;
+    BtnPesquisarMovi: TSpeedButton;
     Label3: TLabel;
+    Panel8: TPanel;
+    Shape4: TShape;
+    BtnPendencias: TSpeedButton;
     Label4: TLabel;
+    Panel5: TPanel;
+    Shape3: TShape;
+    Label1: TLabel;
     BtnAddMovi: TSpeedButton;
-    PanelPendencias: TPanel;
+    SearchBox1: TSearchBox;
+    DataSource1: TDataSource;
     Panel10: TPanel;
-    Shape5: TShape;
-    SpeedButton1: TSpeedButton;
-    Label5: TLabel;
     Panel11: TPanel;
+    Shape5: TShape;
     Shape6: TShape;
-    SpeedButton5: TSpeedButton;
+    Label5: TLabel;
     Label6: TLabel;
-    Panel9: TPanel;
-    CheckListBox1: TCheckListBox;
-    Image1: TImage;
-    Label7: TLabel;
-    Label8: TLabel;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
     procedure BtnPendenciasClick(Sender: TObject);
-    procedure BtnAddMoviClick(Sender: TObject);
-  private
+    procedure Image1Click(Sender: TObject);
+    procedure AtualizarGrid;
+    procedure SpeedButton1Click(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
   end;
 
 var
-  Form4: TForm4;
+  FormMovi: TFormMovi;
 
 implementation
 
 {$R *.dfm}
 
-procedure TForm4.BtnAddMoviClick(Sender: TObject);
+
+procedure TFormMovi.AtualizarGrid;
 begin
-    FormPedidoMovi.ShowModal;
+ DataSource1.DataSet := FPedidoMoviController.ListarMovimentacoes;
+    DbGridMovi.DataSource := DataSource1;
 end;
 
-procedure TForm4.BtnPendenciasClick(Sender: TObject);
+procedure TFormMovi.BtnPendenciasClick(Sender: TObject);
 begin
-  PanelPendencias.Visible := True;
+PanelPendencias.Visible := True;
+AtualizarGrid;
+end;
+
+
+procedure TFormMovi.Image1Click(Sender: TObject);
+begin
+PanelPendencias.Visible := False;
+end;
+
+procedure TFormMovi.SpeedButton1Click(Sender: TObject);
+var
+Ids: Integer;
+begin
+Ids := DataSource1.DataSet.FieldByName('id').AsInteger;
+  FPendenciaController.AlterarStatus(Ids);
 end;
 
 end.

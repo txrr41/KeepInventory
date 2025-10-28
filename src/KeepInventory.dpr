@@ -46,8 +46,12 @@ uses
   MovimentacaoModel in 'model\MovimentacaoModel.pas',
   MovimentacaoRepository in 'repository\MovimentacaoRepository.pas',
   MovimentacaoService in 'service\MovimentacaoService.pas',
-  MovimentacaoController in 'controller\MovimentacaoController.pas',
-  GlobalUserDTO in 'dto\GlobalUserDTO.pas';
+  PedidoMoviController in 'controller\PedidoMoviController.pas',
+  GlobalUserDTO in 'dto\GlobalUserDTO.pas',
+  MovimentacoesView in 'view\MovimentacoesView.pas' {FormMovi},
+  PendenciaController in 'controller\PendenciaController.pas',
+  PendenciaService in 'service\PendenciaService.pas',
+  PendenciaRepository in 'repository\PendenciaRepository.pas';
 
 {$R *.res}
 
@@ -59,5 +63,6 @@ begin
   Application.CreateForm(TFormLogin, FormLogin);
   Application.CreateForm(TFormHome, FormHome);
   Application.CreateForm(TFormPedidoMovi, FormPedidoMovi);
+  Application.CreateForm(TFormMovi, FormMovi);
   Application.Run;
 end.

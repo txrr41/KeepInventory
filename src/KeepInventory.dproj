@@ -187,8 +187,15 @@
         <DCCReference Include="model\MovimentacaoModel.pas"/>
         <DCCReference Include="repository\MovimentacaoRepository.pas"/>
         <DCCReference Include="service\MovimentacaoService.pas"/>
-        <DCCReference Include="controller\MovimentacaoController.pas"/>
+        <DCCReference Include="controller\PedidoMoviController.pas"/>
         <DCCReference Include="dto\GlobalUserDTO.pas"/>
+        <DCCReference Include="view\MovimentacoesView.pas">
+            <Form>FormMovi</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="controller\PendenciaController.pas"/>
+        <DCCReference Include="service\PendenciaService.pas"/>
+        <DCCReference Include="repository\PendenciaRepository.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

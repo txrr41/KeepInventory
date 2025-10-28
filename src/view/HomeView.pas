@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Skia, Vcl.StdCtrls,
-  Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, PedidoMoviView;
+  Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, PedidoMoviView, MovimentacoesView;
 
 type
   TFormHome = class(TForm)
@@ -28,10 +28,12 @@ type
     Label8: TLabel;
     Panel2: TPanel;
     Panel3: TPanel;
+    Image9: TImage;
     procedure Image1Click(Sender: TObject);
     procedure Image3Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);
     procedure Image5Click(Sender: TObject);
+    procedure Image9Click(Sender: TObject);
 
   private
    ActiveForm: TForm;
@@ -95,4 +97,14 @@ begin
 Halt;
 end;
 
+procedure TFormHome.Image9Click(Sender: TObject);
+var Movi: TFormMovi;
+begin
+  Movi := TFormMovi.Create(Self.Panel3);
+  Movi.Parent := Self.Panel3;
+  Movi.Align := AlClient;
+  Movi.BorderStyle := bsNone;
+  Movi.Show;
+
+end;
 end.

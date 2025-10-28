@@ -529,3 +529,41 @@
 27/10/2025 16:24:44 Usuário:  - Acessou o módulo de Cadastros
 27/10/2025 17:05:13 Usuário: suporte1 - Realizou o login
 27/10/2025 17:05:16 Usuário:  - Acessou o módulo de Cadastros
+28/10/2025 14:01:36 Usuário: suporte1 - Realizou o login
+28/10/2025 14:03:28 Usuário: suporte1 - Realizou o login
+28/10/2025 14:13:03 Usuário: suporte1 - Realizou o login
+28/10/2025 14:13:46 Usuário: suporte1 - Realizou o login
+28/10/2025 14:14:27 Usuário: suporte1 - Realizou o login
+28/10/2025 14:15:28 Usuário: suporte1 - Realizou o login
+28/10/2025 14:16:21 Usuário: suporte1 - Realizou o login
+28/10/2025 14:17:28 Usuário: suporte1 - Realizou o login
+28/10/2025 14:22:57 Usuário: suporte1 - Realizou o login
+28/10/2025 14:26:18 Usuário: suporte1 - Realizou o login
+28/10/2025 14:26:21 Usuário:  - Acessou o módulo de Cadastros
+28/10/2025 14:26:21 Usuário:  - Acessou aba Patrimônios
+28/10/2025 14:27:36 Usuário: suporte1 - Realizou o login
+28/10/2025 14:28:21 Usuário: suporte1 - Realizou o login
+28/10/2025 14:35:36 Usuário: suporte1 - Realizou o login
+28/10/2025 14:37:03 Usuário: suporte1 - Realizou o login
+28/10/2025 15:24:12 Usuário: suporte1 - Realizou o login
+28/10/2025 15:26:35 Usuário: suporte1 - Realizou o login
+28/10/2025 15:28:36 Usuário: suporte1 - Realizou o login
+28/10/2025 15:31:22 Usuário: suporte1 - Realizou o login
+28/10/2025 15:32:32 Usuário: suporte1 - Realizou o login
+28/10/2025 15:37:16 Usuário: suporte1 - Realizou o login
+28/10/2025 15:42:47 Usuário: suporte1 - Realizou o login
+28/10/2025 15:48:15 Usuário: suporte1 - Realizou o login
+28/10/2025 15:49:39 Usuário: suporte1 - Realizou o login
+28/10/2025 15:54:41 Usuário: suporte1 - Realizou o login
+28/10/2025 15:58:57 Usuário: suporte1 - Realizou o login
+28/10/2025 16:05:40 Usuário: suporte1 - Realizou o login
+28/10/2025 16:07:25 Usuário: suporte1 - Realizou o login
+28/10/2025 16:08:52 Usuário: suporte1 - Realizou o login
+28/10/2025 16:11:06 Usuário: suporte1 - Realizou o login
+28/10/2025 16:12:14 Usuário: suporte1 - Realizou o login
+28/10/2025 16:14:07 Usuário: suporte1 - Realizou o login
+28/10/2025 16:21:35 Usuário: suporte1 - Realizou o login
+28/10/2025 16:22:06 Usuário: suporte1 - Realizou o login
+28/10/2025 17:24:26 Usuário: suporte1 - Realizou o login
+28/10/2025 17:25:01 Usuário: suporte1 - Realizou o login
+28/10/2025 17:25:38 Usuário: suporte1 - Realizou o login
