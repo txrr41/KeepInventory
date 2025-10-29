@@ -50,6 +50,7 @@ type
     procedure Image1Click(Sender: TObject);
     procedure AtualizarGrid;
     procedure SpeedButton1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -76,6 +77,12 @@ AtualizarGrid;
 end;
 
 
+procedure TFormMovi.FormCreate(Sender: TObject);
+begin
+  FPedidoMoviController := TPedidoMoviController.Create;
+  FPendenciaController := TPendenciaController.Create;
+end;
+
 procedure TFormMovi.Image1Click(Sender: TObject);
 begin
 PanelPendencias.Visible := False;
@@ -83,10 +90,21 @@ end;
 
 procedure TFormMovi.SpeedButton1Click(Sender: TObject);
 var
-Ids: Integer;
+  Ids: Integer;
 begin
-Ids := DataSource1.DataSet.FieldByName('id').AsInteger;
-  FPendenciaController.AlterarStatus(Ids);
+  if not Assigned(DataSource1.DataSet) or DataSource1.DataSet.IsEmpty then
+  begin
+    ShowMessage('Nenhum registro selecionado!');
+    Exit;
+  end;
+
+  Ids := DataSource1.DataSet.FieldByName('id').AsInteger;
+
+  if Assigned(FPendenciaController) then
+    FPendenciaController.AlterarStatus(Ids);
+
+  // Atualiza o grid após alterar o status
+  AtualizarGrid;
 end;
 
 end.
