@@ -196,6 +196,7 @@
         <DCCReference Include="controller\PendenciaController.pas"/>
         <DCCReference Include="service\PendenciaService.pas"/>
         <DCCReference Include="repository\PendenciaRepository.pas"/>
+        <DCCReference Include="service\PatrimonioImportacaoCSV.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

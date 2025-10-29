@@ -3,14 +3,14 @@ object FormCadastro: TFormCadastro
   Top = 104
   ActiveControl = DBGrid1
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsDialog
+  BorderStyle = bsSingle
   Caption = 'FormCadastro'
-  ClientHeight = 806
+  ClientHeight = 872
   ClientWidth = 1348
   Color = clBtnFace
-  Constraints.MaxHeight = 845
-  Constraints.MaxWidth = 1364
-  Constraints.MinHeight = 845
+  Constraints.MaxHeight = 911
+  Constraints.MaxWidth = 1390
+  Constraints.MinHeight = 911
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
@@ -20,9 +20,10 @@ object FormCadastro: TFormCadastro
   TextHeight = 15
   object PanelCadastro: TPanel
     Left = -8
-    Top = 0
+    Top = -1
     Width = 1390
     Height = 857
+    Color = cl3DLight
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
@@ -32,12 +33,12 @@ object FormCadastro: TFormCadastro
     ParentFont = False
     TabOrder = 0
     object Label1: TLabel
-      Left = 615
+      Left = 33
       Top = 17
-      Width = 159
+      Width = 201
       Height = 42
-      Caption = 'Cadastros'
-      Color = clWhite
+      Caption = 'CADASTROS'
+      Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
       Font.Height = -32
@@ -48,9 +49,9 @@ object FormCadastro: TFormCadastro
     end
     object PageControl1: TPageControl
       Left = -10
-      Top = 72
+      Top = 65
       Width = 1398
-      Height = 785
+      Height = 806
       ActivePage = TabSheet1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -58,7 +59,7 @@ object FormCadastro: TFormCadastro
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      TabHeight = 45
+      TabHeight = 50
       TabOrder = 0
       TabWidth = 207
       OnChange = PageControl1Change
@@ -66,6 +67,8 @@ object FormCadastro: TFormCadastro
         ParentCustomHint = False
         Caption = 'Empresa'
         DoubleBuffered = False
+        Constraints.MaxHeight = 900
+        Constraints.MinWidth = 900
         ParentDoubleBuffered = False
         ParentShowHint = False
         ShowHint = False
@@ -75,7 +78,7 @@ object FormCadastro: TFormCadastro
           Width = 1387
           Height = 746
           Caption = 'Panel10'
-          Color = clGradientInactiveCaption
+          Color = clActiveCaption
           ParentBackground = False
           TabOrder = 3
           object Shape6: TShape
@@ -85,27 +88,26 @@ object FormCadastro: TFormCadastro
             Height = 65
           end
           object Shape7: TShape
-            Left = 1064
-            Top = 103
+            Left = 1051
+            Top = 70
             Width = 233
             Height = 448
             Pen.Style = psClear
           end
           object Shape9: TShape
-            Left = 74
-            Top = 103
+            Left = 52
+            Top = 70
             Width = 946
             Height = 448
             Pen.Style = psClear
           end
           object PanelAddEmpresa: TPanel
-            Left = 1
-            Top = 575
-            Width = 1385
-            Height = 170
-            Align = alBottom
+            Left = 52
+            Top = 544
+            Width = 946
+            Height = 161
             BevelOuter = bvNone
-            Color = clMenu
+            Color = clWhite
             ParentBackground = False
             TabOrder = 0
             Visible = False
@@ -188,8 +190,8 @@ object FormCadastro: TFormCadastro
               ParentFont = False
             end
             object Label21: TLabel
-              Left = 868
-              Top = 19
+              Left = 24
+              Top = 74
               Width = 44
               Height = 15
               Caption = 'N'#250'mero'
@@ -201,8 +203,8 @@ object FormCadastro: TFormCadastro
               ParentFont = False
             end
             object Label22: TLabel
-              Left = 1009
-              Top = 19
+              Left = 168
+              Top = 74
               Width = 31
               Height = 15
               Caption = 'Bairro'
@@ -214,7 +216,7 @@ object FormCadastro: TFormCadastro
               ParentFont = False
             end
             object Label23: TLabel
-              Left = 24
+              Left = 308
               Top = 75
               Width = 37
               Height = 15
@@ -227,7 +229,7 @@ object FormCadastro: TFormCadastro
               ParentFont = False
             end
             object Label24: TLabel
-              Left = 168
+              Left = 450
               Top = 75
               Width = 35
               Height = 15
@@ -291,36 +293,36 @@ object FormCadastro: TFormCadastro
               Text = '     -   '
             end
             object EditNumero: TEdit
-              Left = 868
-              Top = 40
+              Left = 24
+              Top = 96
               Width = 121
               Height = 28
               TabOrder = 6
             end
             object EditBairro: TEdit
-              Left = 1009
-              Top = 40
+              Left = 168
+              Top = 96
               Width = 121
               Height = 28
               TabOrder = 7
             end
             object EditCidade: TEdit
-              Left = 24
+              Left = 309
               Top = 96
               Width = 121
               Height = 28
               TabOrder = 8
             end
             object EditEstado: TEdit
-              Left = 168
+              Left = 450
               Top = 96
               Width = 121
               Height = 28
               TabOrder = 9
             end
             object BtnEnviar: TButton
-              Left = 1195
-              Top = 57
+              Left = 627
+              Top = 89
               Width = 151
               Height = 37
               Caption = 'Enviar'
@@ -328,10 +330,10 @@ object FormCadastro: TFormCadastro
               OnClick = BtnEnviarClick
             end
             object BtnConfirmarEd: TButton
-              Left = 1195
-              Top = 53
+              Left = 627
+              Top = 93
               Width = 151
-              Height = 38
+              Height = 28
               Caption = 'Confirmar altera'#231#227'o'
               TabOrder = 11
               OnClick = BtnConfirmarEdClick
@@ -339,8 +341,8 @@ object FormCadastro: TFormCadastro
           end
         end
         object Panel2: TPanel
-          Left = 89
-          Top = 112
+          Left = 66
+          Top = 83
           Width = 921
           Height = 424
           BevelOuter = bvNone
@@ -432,12 +434,12 @@ object FormCadastro: TFormCadastro
           end
         end
         object Panel4: TPanel
-          Left = 1078
-          Top = 112
+          Left = 1066
+          Top = 82
           Width = 209
           Height = 424
           BevelOuter = bvNone
-          Color = clMenu
+          Color = clWhite
           ParentBackground = False
           TabOrder = 1
           object Panel5: TPanel
@@ -784,10 +786,10 @@ object FormCadastro: TFormCadastro
           end
         end
         object edtPesquisar: TSearchBox
-          Left = 77
-          Top = 40
+          Left = 55
+          Top = 16
           Width = 372
-          Height = 25
+          Height = 33
           Cursor = crIBeam
           BevelOuter = bvNone
           BorderStyle = bsNone
@@ -803,12 +805,12 @@ object FormCadastro: TFormCadastro
         Caption = 'Pr'#233'dio'
         ImageIndex = 1
         object Panel11: TPanel
-          Left = 3
+          Left = 7
           Top = 0
           Width = 1387
           Height = 737
           Caption = 'Panel10'
-          Color = clGradientInactiveCaption
+          Color = clActiveCaption
           ParentBackground = False
           TabOrder = 0
           object Shape8: TShape
@@ -818,27 +820,26 @@ object FormCadastro: TFormCadastro
             Height = 65
           end
           object Shape10: TShape
-            Left = 1064
-            Top = 101
+            Left = 1040
+            Top = 73
             Width = 233
             Height = 448
             Pen.Style = psClear
           end
           object Shape11: TShape
-            Left = 76
-            Top = 100
+            Left = 36
+            Top = 72
             Width = 949
             Height = 449
             Pen.Style = psClear
           end
           object PanelAddPredio: TPanel
-            Left = 1
-            Top = 566
-            Width = 1385
-            Height = 170
-            Align = alBottom
+            Left = 36
+            Top = 550
+            Width = 949
+            Height = 155
             BevelOuter = bvNone
-            Color = clMenu
+            Color = clWhite
             ParentBackground = False
             TabOrder = 0
             Visible = False
@@ -921,8 +922,8 @@ object FormCadastro: TFormCadastro
               ParentFont = False
             end
             object Label32: TLabel
-              Left = 887
-              Top = 19
+              Left = 26
+              Top = 74
               Width = 31
               Height = 15
               Caption = 'Bairro'
@@ -934,8 +935,8 @@ object FormCadastro: TFormCadastro
               ParentFont = False
             end
             object Label33: TLabel
-              Left = 1032
-              Top = 19
+              Left = 168
+              Top = 74
               Width = 37
               Height = 15
               Caption = 'Cidade'
@@ -947,7 +948,7 @@ object FormCadastro: TFormCadastro
               ParentFont = False
             end
             object Label34: TLabel
-              Left = 24
+              Left = 314
               Top = 74
               Width = 35
               Height = 15
@@ -1001,22 +1002,22 @@ object FormCadastro: TFormCadastro
               TabOrder = 4
             end
             object EdtBairroPredio: TEdit
-              Left = 875
-              Top = 40
+              Left = 24
+              Top = 95
               Width = 121
               Height = 28
               TabOrder = 5
             end
             object EdtCidadePredio: TEdit
-              Left = 1024
-              Top = 40
+              Left = 168
+              Top = 96
               Width = 121
               Height = 28
               TabOrder = 6
             end
             object EdtEstadoPredio: TEdit
-              Left = 24
-              Top = 96
+              Left = 314
+              Top = 95
               Width = 121
               Height = 28
               TabOrder = 7
@@ -1033,8 +1034,8 @@ object FormCadastro: TFormCadastro
                 'Cedido')
             end
             object BtnEnviarPredio: TButton
-              Left = 1201
-              Top = 70
+              Left = 489
+              Top = 94
               Width = 147
               Height = 33
               Caption = 'Enviar'
@@ -1043,8 +1044,8 @@ object FormCadastro: TFormCadastro
               OnClick = BtnEnviarPredioClick
             end
             object BtnConfirmarEdPredio: TButton
-              Left = 1201
-              Top = 69
+              Left = 489
+              Top = 93
               Width = 147
               Height = 35
               Caption = 'Confirmar Altera'#231#227'o'
@@ -1054,12 +1055,12 @@ object FormCadastro: TFormCadastro
             end
           end
           object Panel13: TPanel
-            Left = 1076
-            Top = 112
+            Left = 1052
+            Top = 84
             Width = 209
             Height = 424
             BevelOuter = bvNone
-            Color = clMenu
+            Color = clWhite
             ParentBackground = False
             TabOrder = 1
             object Panel14: TPanel
@@ -1406,8 +1407,8 @@ object FormCadastro: TFormCadastro
             end
           end
           object Panel19: TPanel
-            Left = 88
-            Top = 112
+            Left = 48
+            Top = 84
             Width = 921
             Height = 424
             BevelOuter = bvNone
@@ -1500,8 +1501,8 @@ object FormCadastro: TFormCadastro
             end
           end
           object edtPesquisarPredio: TSearchBox
-            Left = 76
-            Top = 39
+            Left = 36
+            Top = 23
             Width = 385
             Height = 28
             Cursor = crIBeam
@@ -1510,7 +1511,6 @@ object FormCadastro: TFormCadastro
             Ctl3D = True
             ParentCtl3D = False
             TabOrder = 3
-            Text = 'Pesquisar'
             TextHint = 'Pesquisar'
             Visible = False
             OnChange = edtPesquisarPredioChange
@@ -1526,7 +1526,7 @@ object FormCadastro: TFormCadastro
           Width = 1387
           Height = 738
           Caption = 'Panel10'
-          Color = clGradientInactiveCaption
+          Color = clActiveCaption
           ParentBackground = False
           TabOrder = 0
           object Shape17: TShape
@@ -1536,26 +1536,26 @@ object FormCadastro: TFormCadastro
             Height = 65
           end
           object Shape18: TShape
-            Left = 1064
-            Top = 101
+            Left = 1052
+            Top = 77
             Width = 233
             Height = 448
             Pen.Style = psClear
           end
           object Shape19: TShape
-            Left = 76
-            Top = 100
+            Left = 36
+            Top = 76
             Width = 949
             Height = 449
             Pen.Style = psClear
           end
           object Panel20: TPanel
-            Left = 1076
-            Top = 112
+            Left = 1065
+            Top = 87
             Width = 209
             Height = 424
             BevelOuter = bvNone
-            Color = clMenu
+            Color = clWhite
             ParentBackground = False
             TabOrder = 0
             object Panel21: TPanel
@@ -1902,8 +1902,8 @@ object FormCadastro: TFormCadastro
             end
           end
           object Panel26: TPanel
-            Left = 88
-            Top = 112
+            Left = 50
+            Top = 87
             Width = 921
             Height = 424
             BevelOuter = bvNone
@@ -1968,8 +1968,8 @@ object FormCadastro: TFormCadastro
             end
           end
           object EdtPesquisarSala: TSearchBox
-            Left = 76
-            Top = 39
+            Left = 36
+            Top = 23
             Width = 385
             Height = 28
             Cursor = crIBeam
@@ -1982,17 +1982,15 @@ object FormCadastro: TFormCadastro
             OnChange = EdtPesquisarSalaChange
           end
           object PanelAddSala: TPanel
-            Left = 1
-            Top = 567
-            Width = 1385
-            Height = 170
-            Align = alBottom
+            Left = 36
+            Top = 539
+            Width = 949
+            Height = 174
             BevelOuter = bvNone
-            Color = clMenu
+            Color = clWhite
             ParentBackground = False
             TabOrder = 3
             Visible = False
-            ExplicitLeft = 2
             object Label27: TLabel
               Left = 168
               Top = 51
@@ -2099,8 +2097,8 @@ object FormCadastro: TFormCadastro
               TabOrder = 4
             end
             object BtnEnviarSala: TButton
-              Left = 1188
-              Top = 84
+              Left = 773
+              Top = 68
               Width = 162
               Height = 35
               Caption = 'Enviar'
@@ -2109,8 +2107,8 @@ object FormCadastro: TFormCadastro
               OnClick = BtnEnviarSalaClick
             end
             object BtnConfirmarEdtSala: TButton
-              Left = 1188
-              Top = 44
+              Left = 773
+              Top = 68
               Width = 162
               Height = 34
               Caption = 'Confirmar Altera'#231#227'o'
@@ -2125,12 +2123,13 @@ object FormCadastro: TFormCadastro
         Caption = 'Patrimonio'
         ImageIndex = 3
         object Panel12: TPanel
-          Left = 9
+          Left = 3
           Top = -8
           Width = 1387
           Height = 738
+          BorderStyle = bsSingle
           Caption = 'Panel10'
-          Color = clGradientInactiveCaption
+          Color = clActiveCaption
           ParentBackground = False
           TabOrder = 0
           object Shape25: TShape
@@ -2140,26 +2139,26 @@ object FormCadastro: TFormCadastro
             Height = 65
           end
           object Shape26: TShape
-            Left = 1064
-            Top = 101
+            Left = 1052
+            Top = 72
             Width = 233
-            Height = 448
+            Height = 437
             Pen.Style = psClear
           end
           object Shape27: TShape
-            Left = 76
-            Top = 100
+            Left = 36
+            Top = 72
             Width = 949
-            Height = 449
+            Height = 439
             Pen.Style = psClear
           end
           object Panel27: TPanel
-            Left = 1076
-            Top = 112
+            Left = 1065
+            Top = 84
             Width = 209
-            Height = 424
+            Height = 413
             BevelOuter = bvNone
-            Color = clMenu
+            Color = clWhite
             ParentBackground = False
             TabOrder = 0
             object Panel28: TPanel
@@ -2506,17 +2505,17 @@ object FormCadastro: TFormCadastro
             end
           end
           object Panel33: TPanel
-            Left = 88
-            Top = 112
+            Left = 49
+            Top = 84
             Width = 921
-            Height = 424
+            Height = 413
             BevelOuter = bvNone
             Caption = 'Panel2'
             Color = clMenu
             ParentBackground = False
             TabOrder = 1
             object DBGridPatrimonio: TDBGrid
-              Left = 12
+              Left = 14
               Top = 14
               Width = 897
               Height = 393
@@ -2613,8 +2612,8 @@ object FormCadastro: TFormCadastro
             end
           end
           object SearchBox1: TSearchBox
-            Left = 76
-            Top = 39
+            Left = 36
+            Top = 22
             Width = 385
             Height = 28
             Cursor = crIBeam
@@ -2627,13 +2626,13 @@ object FormCadastro: TFormCadastro
             OnChange = SearchBox1Change
           end
           object Panel34: TPanel
-            Left = 1
-            Top = 567
-            Width = 1385
+            Left = 36
+            Top = 539
+            Width = 949
             Height = 170
-            Align = alBottom
+            Align = alCustom
             BevelOuter = bvNone
-            Color = clMenu
+            Color = clWhite
             ParentBackground = False
             TabOrder = 3
             Visible = False
@@ -2676,22 +2675,9 @@ object FormCadastro: TFormCadastro
               Font.Style = []
               ParentFont = False
             end
-            object Label78: TLabel
-              Left = 735
-              Top = 35
-              Width = 62
-              Height = 15
-              Caption = 'Quantidade'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Segoe UI'
-              Font.Style = []
-              ParentFont = False
-            end
             object Label83: TLabel
-              Left = 887
-              Top = 35
+              Left = 475
+              Top = 91
               Width = 87
               Height = 15
               Caption = 'N'#250'mero de s'#233'rie'
@@ -2793,8 +2779,8 @@ object FormCadastro: TFormCadastro
               TabOrder = 2
             end
             object BtnEnviarPatrimonio: TButton
-              Left = 1159
-              Top = 71
+              Left = 759
+              Top = 75
               Width = 162
               Height = 32
               Caption = 'Enviar'
@@ -2812,26 +2798,19 @@ object FormCadastro: TFormCadastro
               TabOrder = 4
               Text = 'R$   ,   .  '
             end
-            object EdtQuantiPatri: TEdit
-              Left = 735
-              Top = 56
+            object EdtNS: TEdit
+              Left = 475
+              Top = 112
               Width = 121
               Height = 28
               TabOrder = 5
-            end
-            object EdtNS: TEdit
-              Left = 887
-              Top = 56
-              Width = 121
-              Height = 28
-              TabOrder = 6
             end
             object EdtModelo: TEdit
               Left = 27
               Top = 112
               Width = 121
               Height = 28
-              TabOrder = 7
+              TabOrder = 6
             end
             object EdtVAPatri: TMaskEdit
               Left = 597
@@ -2840,7 +2819,7 @@ object FormCadastro: TFormCadastro
               Height = 28
               EditMask = 'R$999,999.99;1;_'
               MaxLength = 12
-              TabOrder = 8
+              TabOrder = 7
               Text = 'R$   ,   .  '
             end
             object EdtDAPatri: TMaskEdit
@@ -2850,7 +2829,7 @@ object FormCadastro: TFormCadastro
               Height = 28
               EditMask = '!99/99/0000;1;_'
               MaxLength = 10
-              TabOrder = 9
+              TabOrder = 8
               Text = '  /  /    '
             end
             object ComboBoxPatrimonio: TComboBox
@@ -2858,24 +2837,144 @@ object FormCadastro: TFormCadastro
               Top = 112
               Width = 132
               Height = 28
-              TabOrder = 10
+              TabOrder = 9
             end
             object BtnConfirmarEdPatri: TButton
-              Left = 1159
-              Top = 73
+              Left = 759
+              Top = 77
               Width = 162
               Height = 32
               Caption = 'Confirmar Altera'#231#227'o'
-              TabOrder = 11
+              TabOrder = 10
               Visible = False
               OnClick = BtnConfirmarEdPatriClick
+            end
+          end
+          object Panel35: TPanel
+            Left = 1052
+            Top = 539
+            Width = 233
+            Height = 170
+            BevelOuter = bvNone
+            Caption = 'Panel35'
+            Color = clWhite
+            ParentBackground = False
+            TabOrder = 4
+            object Panel36: TPanel
+              Left = 11
+              Top = 8
+              Width = 211
+              Height = 153
+              BevelOuter = bvNone
+              Color = clWhite
+              ParentBackground = False
+              TabOrder = 0
+              object Label89: TLabel
+                Left = 0
+                Top = 8
+                Width = 4
+                Height = 20
+              end
+              object Panel37: TPanel
+                Left = 24
+                Top = 32
+                Width = 161
+                Height = 41
+                BevelOuter = bvNone
+                Caption = 'Panel5'
+                ParentBackground = False
+                TabOrder = 0
+                object Shape33: TShape
+                  Left = 0
+                  Top = 0
+                  Width = 161
+                  Height = 41
+                  Align = alClient
+                  Brush.Color = 16741948
+                  Pen.Style = psInsideFrame
+                  Shape = stRoundRect
+                  ExplicitLeft = 24
+                  ExplicitTop = 16
+                  ExplicitWidth = 65
+                  ExplicitHeight = 65
+                end
+                object SpeedButton6: TSpeedButton
+                  Left = 138
+                  Top = 19
+                  Width = 23
+                  Height = 22
+                  OnClick = SpeedButton6Click
+                end
+                object Label88: TLabel
+                  Left = 37
+                  Top = 12
+                  Width = 86
+                  Height = 20
+                  Caption = 'Exportar CSV'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWhite
+                  Font.Height = -15
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  ParentFont = False
+                end
+              end
+              object Panel38: TPanel
+                Left = 24
+                Top = 91
+                Width = 161
+                Height = 41
+                BevelOuter = bvNone
+                Caption = 'Panel5'
+                ParentBackground = False
+                TabOrder = 1
+                object Shape34: TShape
+                  Left = 0
+                  Top = 0
+                  Width = 161
+                  Height = 41
+                  Align = alClient
+                  Brush.Color = 16741948
+                  Pen.Style = psInsideFrame
+                  Shape = stRoundRect
+                  ExplicitLeft = 24
+                  ExplicitTop = 16
+                  ExplicitWidth = 65
+                  ExplicitHeight = 65
+                end
+                object SpeedButton1: TSpeedButton
+                  Left = 0
+                  Top = 0
+                  Width = 161
+                  Height = 41
+                  Align = alClient
+                  OnClick = SpeedButton1Click
+                  ExplicitLeft = 138
+                  ExplicitTop = 19
+                  ExplicitWidth = 23
+                  ExplicitHeight = 22
+                end
+                object Label90: TLabel
+                  Left = 41
+                  Top = 10
+                  Width = 82
+                  Height = 20
+                  Caption = 'Modelo CSV'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWhite
+                  Font.Height = -15
+                  Font.Name = 'Segoe UI'
+                  Font.Style = []
+                  ParentFont = False
+                end
+              end
             end
           end
         end
       end
     end
     object Panel1: TPanel
-      Left = 0
+      Left = 472
       Top = 65
       Width = 1390
       Height = 1
@@ -2883,7 +2982,7 @@ object FormCadastro: TFormCadastro
     end
   end
   object DataSEmpresa: TDataSource
-    Left = 1005
+    Left = 1261
     Top = 140
   end
 end

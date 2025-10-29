@@ -4,7 +4,7 @@ interface
 
 uses
 PatrimonioModel, PatrimonioDTO, PatrimonioService, System.SysUtils,
-Vcl.StdCtrls, System.Classes, DATA.DB;
+Vcl.StdCtrls, System.Classes, DATA.DB, PatrimonioImportacaoCSV;
 
 type
 TPatrimonioController = class
@@ -16,12 +16,17 @@ public
   function PesquisarPatrimonio(const aSearch: String): TDataSet;
   function ListarPatrimonio: TDataSet;
   function DtoForModel(APatrimonioDTO: TPatrimonioDTO): TPatrimonioConfig;
+
+  // Novos métodos para importação CSV
+  function ImportarPatrimoniosCSV(const ArquivoCSV: string;
+    var TotalImportados, TotalErros: Integer; Erros: TStringList): Boolean;
 end;
 
 var
 FPatrimonioController: TPatrimonioController;
 
 implementation
+
 
 { TPatrimonioController }
 
@@ -87,6 +92,48 @@ begin
     AComboBox.Items.Assign(NomesComIDs);
   finally
     NomesComIDs.Free;
+  end;
+end;
+
+function TPatrimonioController.ImportarPatrimoniosCSV(const ArquivoCSV: string;
+  var TotalImportados, TotalErros: Integer; Erros: TStringList): Boolean;
+var
+  Importador: TPatrimonioImportacaoCSV;
+  Itens: TArray<TPatrimonioDTO>;
+begin
+  Result := False;
+  TotalImportados := 0;
+  TotalErros := 0;
+
+  Importador := TPatrimonioImportacaoCSV.Create;
+  try
+    // Lê e valida o CSV
+    if not Importador.LerCSV(ArquivoCSV, Itens) then
+    begin
+      Erros.AddStrings(Importador.Erros);
+      Exit;
+    end;
+
+    // Adiciona os erros de validação do CSV
+    if Importador.Erros.Count > 0 then
+    begin
+      Erros.AddStrings(Importador.Erros);
+      TotalErros := Importador.Erros.Count;
+    end;
+
+    // Se houver itens válidos, importa para o banco
+    if Length(Itens) > 0 then
+    begin
+      FPatrimonioService.ImportarPatrimonios(Itens, TotalImportados, TotalErros, Erros);
+      Result := True;
+    end
+    else if Erros.Count = 0 then
+    begin
+      Erros.Add('Nenhum item válido encontrado no arquivo CSV');
+    end;
+
+  finally
+    Importador.Free;
   end;
 end;
 

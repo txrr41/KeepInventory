@@ -15,6 +15,11 @@ public
   function ListarNomesSalas: TStringList;
   function ListarPatrimonio: TDataSet;
   function PesquisarPatrimonio(const aSearch: String): TDataSet;
+
+  // Novos métodos para importação
+  function NumeroSerieExiste(const NumeroSerie: string): Boolean;
+  procedure ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
+    var TotalImportados, TotalErros: Integer; Erros: TStringList);
 end;
 
 var
@@ -100,6 +105,95 @@ begin
     Q.ParamByName('id').AsInteger := AId;
     Q.ExecSQL;
     Q.Close;
+  finally
+    Q.Free;
+  end;
+end;
+
+function TPatrimonioRepository.NumeroSerieExiste(const NumeroSerie: string): Boolean;
+var
+  Q: TFDQuery;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text := 'SELECT COUNT(*) as Total FROM patrimonios WHERE numero_serie = :numero_serie';
+    Q.ParamByName('numero_serie').AsString := NumeroSerie;
+    Q.Open;
+    Result := Q.FieldByName('Total').AsInteger > 0;
+  finally
+    Q.Free;
+  end;
+end;
+
+procedure TPatrimonioRepository.ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
+  var TotalImportados, TotalErros: Integer; Erros: TStringList);
+var
+  Q: TFDQuery;
+  i: Integer;
+  Item: TPatrimonioDTO;
+begin
+  TotalImportados := 0;
+  TotalErros := 0;
+
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text :=
+      'INSERT INTO patrimonios (nome, tipo, situacao, modelo, valor_aquisicao, ' +
+      'valor_atual, quantidade, data_aquisicao, numero_serie, fk_id_salas) ' +
+      'VALUES (:nome, :tipo, :situacao, :modelo, :valor_aquisicao, ' +
+      ':valor_atual, :quantidade, :data_aquisicao, :numero_serie, :fk_id_salas)';
+
+    DataModule2.FDConnection.StartTransaction;
+    try
+      for i := 0 to High(Itens) do
+      begin
+        Item := Itens[i];
+
+        try
+          // Verifica se número de série já existe
+          if NumeroSerieExiste(Item.FNumeroSerie) then
+          begin
+            Erros.Add(Format('Item %d: Número de série %s já existe no sistema',
+              [i + 1, Item.FNumeroSerie]));
+            Inc(TotalErros);
+            Continue;
+          end;
+
+          Q.ParamByName('nome').AsString := Item.FNome;
+          Q.ParamByName('tipo').AsString := Item.FTipo;
+          Q.ParamByName('situacao').AsString := Item.FSituacao;
+          Q.ParamByName('modelo').AsString := Item.FModelo;
+          Q.ParamByName('valor_aquisicao').AsCurrency := Item.FValorAquisicao;
+          Q.ParamByName('valor_atual').AsCurrency := Item.FValorAtual;
+          Q.ParamByName('quantidade').AsInteger := Item.FQuantidade;
+          Q.ParamByName('data_aquisicao').AsDate := Item.FDataAquisicao;
+          Q.ParamByName('numero_serie').AsString := Item.FNumeroSerie;
+          Q.ParamByName('fk_id_salas').AsInteger := Item.FIdSala;
+
+          Q.ExecSQL;
+          Inc(TotalImportados);
+
+        except
+          on E: Exception do
+          begin
+            Erros.Add(Format('Item %d: Erro ao importar - %s', [i + 1, E.Message]));
+            Inc(TotalErros);
+          end;
+        end;
+      end;
+
+      DataModule2.FDConnection.Commit;
+
+    except
+      on E: Exception do
+      begin
+        DataModule2.FDConnection.Rollback;
+        Erros.Add('Erro geral na importação: ' + E.Message);
+        raise;
+      end;
+    end;
   finally
     Q.Free;
   end;

@@ -51,7 +51,8 @@ uses
   MovimentacoesView in 'view\MovimentacoesView.pas' {FormMovi},
   PendenciaController in 'controller\PendenciaController.pas',
   PendenciaService in 'service\PendenciaService.pas',
-  PendenciaRepository in 'repository\PendenciaRepository.pas';
+  PendenciaRepository in 'repository\PendenciaRepository.pas',
+  PatrimonioImportacaoCSV in 'service\PatrimonioImportacaoCSV.pas';
 
 {$R *.res}
 

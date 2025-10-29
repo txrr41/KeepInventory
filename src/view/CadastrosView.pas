@@ -1,4 +1,4 @@
-unit CadastrosView;
+Ôªøunit CadastrosView;
 
 interface
 
@@ -8,7 +8,7 @@ uses
   Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask,
   EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController,
   SalaDTO, SalaController, PatrimonioDTO, PatrimonioController,
-  AuditoriaController, AuditoriaModel; // ADICIONADO
+  AuditoriaController, AuditoriaModel, PatrimonioImportacaoCSV, Winapi.ShellAPI; // ADICIONADO
 
 type
   TFormCadastro = class(TForm)
@@ -231,8 +231,6 @@ type
     EdtTipoPatri: TEdit;
     BtnEnviarPatrimonio: TButton;
     EdtVAQPatri: TMaskEdit;
-    EdtQuantiPatri: TEdit;
-    Label78: TLabel;
     EdtNS: TEdit;
     Label83: TLabel;
     EdtModelo: TEdit;
@@ -245,6 +243,17 @@ type
     ComboBoxPatrimonio: TComboBox;
     BtnConfirmarEdPatri: TButton;
     Label87: TLabel;
+    Panel35: TPanel;
+    Panel36: TPanel;
+    Label89: TLabel;
+    Panel37: TPanel;
+    Shape33: TShape;
+    SpeedButton6: TSpeedButton;
+    Label88: TLabel;
+    Panel38: TPanel;
+    Shape34: TShape;
+    SpeedButton1: TSpeedButton;
+    Label90: TLabel;
     procedure PageControl1Change(Sender: TObject);
     procedure BtnEnviarClick(Sender: TObject);
     procedure BtnConfirmarEdClick(Sender: TObject);
@@ -286,6 +295,8 @@ type
     procedure AtualizarTabelaS;
     constructor Create(AComponent: TComponent; const UsuarioLogado: String);
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure SpeedButton6Click(Sender: TObject);
  private
   FLogController: TLogController; // ADICIONADO
     FUsuarioLogado: String; // ADICIONADO
@@ -308,7 +319,7 @@ implementation
 {$R *.dfm}
 
 // ============================================================================
-// M…TODO PARA REGISTRAR LOG
+// M√âTODO PARA REGISTRAR LOG
 // ============================================================================
 procedure TFormCadastro.RegistrarLog(const Mensagem: String);
 var
@@ -342,7 +353,7 @@ begin
   FLogController := TLogController.Create;
   FSalaController := TSalaController.Create;
   FPatrimonioController := TPatrimonioController.Create;
-  RegistrarLog('Acessou o mÛdulo de Cadastros');
+  RegistrarLog('Acessou o m√≥dulo de Cadastros');
 end;
 
 
@@ -365,7 +376,7 @@ end;
 
 
 // ============================================================================
-// PR…DIO - CRUD COM LOG
+// PR√âDIO - CRUD COM LOG
 // ============================================================================
 
 procedure TFormCadastro.BtnEnviarClick(Sender: TObject);
@@ -430,14 +441,14 @@ begin
 
     FPatrimonioController.AdicionarPatrimonio(Dto);
 
-    // LOG: Cadastrou patrimÙnio
-    RegistrarLog('Cadastrou patrimÙnio - ' + EditNomePatri.Text + ' (NS: ' + EdtNS.Text + ')');
+    // LOG: Cadastrou patrim√¥nio
+    RegistrarLog('Cadastrou patrim√¥nio - ' + EditNomePatri.Text + ' (NS: ' + EdtNS.Text + ')');
 
     AtualizarTabelaPatrimonio;
     LimparCamposPatrimonio;
     Panel34.Visible := False;
 
-    ShowMessage('PatrimÙnio adicionado com sucesso!');
+    ShowMessage('Patrim√¥nio adicionado com sucesso!');
   except
     on E: Exception do
       ShowMessage('Erro ao salvar: ' + E.Message);
@@ -462,8 +473,8 @@ begin
 
     ControllerPredio.AdicionarPredio(Dto);
 
-    // LOG: Cadastrou prÈdio
-    RegistrarLog('Cadastrou prÈdio - ' + EdtNamePredio.Text + ' (' + EdtCidadePredio.Text + ')');
+    // LOG: Cadastrou pr√©dio
+    RegistrarLog('Cadastrou pr√©dio - ' + EdtNamePredio.Text + ' (' + EdtCidadePredio.Text + ')');
 
     // Limpar campos
     EdtNamePredio.Text := '';
@@ -478,7 +489,7 @@ begin
 
     PanelAddPredio.Visible := False;
     AtualizarTabelaP;
-    ShowMessage('PrÈdio adicionado com sucesso!');
+    ShowMessage('Pr√©dio adicionado com sucesso!');
   finally
   end;
 
@@ -498,7 +509,7 @@ begin
     end
     else
     begin
-      raise Exception.Create('Por favor, selecione um PrÈdio.');
+      raise Exception.Create('Por favor, selecione um Pr√©dio.');
     end;
 
     Dto.FNome := EditNameSala.Text;
@@ -554,9 +565,9 @@ begin
   DataSEmpresa.DataSet := ControllerPredio.PesquisarPredio(edtPesquisarPredio.Text);
   DBGridPredio.DataSource := DataSEmpresa;
 
-  // LOG: Pesquisou prÈdio
+  // LOG: Pesquisou pr√©dio
   if edtPesquisarPredio.Text <> '' then
-    RegistrarLog('Pesquisou prÈdio - Termo: "' + edtPesquisarPredio.Text + '"');
+    RegistrarLog('Pesquisou pr√©dio - Termo: "' + edtPesquisarPredio.Text + '"');
 end;
 
 procedure TFormCadastro.EdtPesquisarSalaChange(Sender: TObject);
@@ -572,7 +583,7 @@ end;
 procedure TFormCadastro.BtnAtualizarPredioClick(Sender: TObject);
 begin
   AtualizarTabelaP;
-  RegistrarLog('Atualizou lista de prÈdios');
+  RegistrarLog('Atualizou lista de pr√©dios');
 end;
 
 procedure TFormCadastro.BtnAtualizarSalaClick(Sender: TObject);
@@ -594,7 +605,7 @@ end;
 
 
 // ============================================================================
-// PATRIM‘NIO - CRUD COM LOG
+// PATRIM√îNIO - CRUD COM LOG
 // ============================================================================
 
 
@@ -666,14 +677,14 @@ begin
 
     FPatrimonioController.EditarPatrimonio(Dto);
 
-    // LOG: Alterou patrimÙnio
-    RegistrarLog('Alterou patrimÙnio - ' + NomePatri + ' (ID: ' + IntToStr(IdPatri) + ')');
+    // LOG: Alterou patrim√¥nio
+    RegistrarLog('Alterou patrim√¥nio - ' + NomePatri + ' (ID: ' + IntToStr(IdPatri) + ')');
 
     AtualizarTabelaPatrimonio;
     LimparCamposPatrimonio;
     Panel34.Visible := False;
 
-    ShowMessage('PatrimÙnio atualizado com sucesso!');
+    ShowMessage('Patrim√¥nio atualizado com sucesso!');
   except
     on E: Exception do
       ShowMessage('Erro ao editar: ' + E.Message);
@@ -703,8 +714,8 @@ begin
 
   ControllerPredio.EditarPredio(Dto);
 
-  // LOG: Alterou prÈdio
-  RegistrarLog('Alterou prÈdio - ' + NomePredio + ' (ID: ' + IntToStr(IdPredio) + ')');
+  // LOG: Alterou pr√©dio
+  RegistrarLog('Alterou pr√©dio - ' + NomePredio + ' (ID: ' + IntToStr(IdPredio) + ')');
 
   AtualizarTabelaP;
 
@@ -720,7 +731,7 @@ begin
   EdtBairroPredio.Text := '';
 
   PanelAddPredio.Visible := False;
-  ShowMessage('PrÈdio atualizado com sucesso!');
+  ShowMessage('Pr√©dio atualizado com sucesso!');
 
 end;
 
@@ -767,7 +778,7 @@ var
   Emp: String;
 begin
   Emp := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
-  if MessageDlg('A Empresa ' + Emp + ' ser· excluÌda, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  if MessageDlg('A Empresa ' + Emp + ' ser√° exclu√≠da, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     IdUser := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
     Controller := TEmpresaController.Create;
@@ -778,7 +789,7 @@ begin
       RegistrarLog('Excluiu empresa - ' + Emp + ' (ID: ' + IntToStr(IdUser) + ')');
 
       AtualizarTabelaE;
-      ShowMessage('Empresa excluÌda com sucesso!');
+      ShowMessage('Empresa exclu√≠da com sucesso!');
     finally
       Controller.Free;
     end;
@@ -792,17 +803,17 @@ var
   Patrimonio: String;
 begin
   Patrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
-  if MessageDlg('O PatrimÙnio ' + Patrimonio + ' ser· excluÌdo, deseja continuar?',
+  if MessageDlg('O Patrim√¥nio ' + Patrimonio + ' ser√° exclu√≠do, deseja continuar?',
                 mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     IdPatrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('id').AsInteger;
     FPatrimonioController.ExcluirPatrimonio(IdPatrimonio);
 
-    // LOG: Excluiu patrimÙnio
-    RegistrarLog('Excluiu patrimÙnio - ' + Patrimonio + ' (ID: ' + IntToStr(IdPatrimonio) + ')');
+    // LOG: Excluiu patrim√¥nio
+    RegistrarLog('Excluiu patrim√¥nio - ' + Patrimonio + ' (ID: ' + IntToStr(IdPatrimonio) + ')');
 
     AtualizarTabelaPatrimonio;
-    ShowMessage('PatrimÙnio excluÌdo com sucesso!');
+    ShowMessage('Patrim√¥nio exclu√≠do com sucesso!');
   end;
 end;
 
@@ -812,16 +823,16 @@ var
   Predio: String;
 begin
   Predio := DBGridPredio.DataSource.DataSet.FieldByName('nome').AsString;
-  if MessageDlg('O PrÈdio ' + Predio + ' ser· excluÌdo, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  if MessageDlg('O Pr√©dio ' + Predio + ' ser√° exclu√≠do, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     IdPredio := DBGridPredio.DataSource.DataSet.FieldByName('id').AsInteger;
     ControllerPredio.ExcluirPredio(IdPredio);
 
-    // LOG: Excluiu prÈdio
-    RegistrarLog('Excluiu prÈdio - ' + Predio + ' (ID: ' + IntToStr(IdPredio) + ')');
+    // LOG: Excluiu pr√©dio
+    RegistrarLog('Excluiu pr√©dio - ' + Predio + ' (ID: ' + IntToStr(IdPredio) + ')');
 
     AtualizarTabelaP;
-    ShowMessage('PrÈdio excluÌdo com sucesso!');
+    ShowMessage('Pr√©dio exclu√≠do com sucesso!');
   end;
 
 end;
@@ -832,7 +843,7 @@ var
   Sala: String;
 begin
   Sala := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;
-  if MessageDlg('A Sala ' + Sala + ' ser· excluÌda, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  if MessageDlg('A Sala ' + Sala + ' ser√° exclu√≠da, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     IdSala := DBGridSalas.DataSource.DataSet.FieldByName('id').AsInteger;
     FSalaController.ExcluirSala(IdSala);
@@ -841,7 +852,7 @@ begin
     RegistrarLog('Excluiu sala - ' + Sala + ' (ID: ' + IntToStr(IdSala) + ')');
 
     AtualizarTabelaS;
-    ShowMessage('Sala excluÌda com sucesso!');
+    ShowMessage('Sala exclu√≠da com sucesso!');
   end;
 
 end;
@@ -853,9 +864,51 @@ begin
   DataSEmpresa.DataSet := FPatrimonioController.PesquisarPatrimonio(SearchBox1.Text);
   DBGridPatrimonio.DataSource := DataSEmpresa;
 
-  // LOG: Pesquisou patrimÙnio
+  // LOG: Pesquisou patrim√¥nio
   if SearchBox1.Text <> '' then
-    RegistrarLog('Pesquisou patrimÙnio - Termo: "' + SearchBox1.Text + '"');
+    RegistrarLog('Pesquisou patrim√¥nio - Termo: "' + SearchBox1.Text + '"');
+end;
+
+procedure TFormCadastro.SpeedButton1Click(Sender: TObject);
+var
+  SaveDialog: TSaveDialog;
+  CaminhoArquivo: string;
+begin
+  SaveDialog := TSaveDialog.Create(nil);
+  try
+    SaveDialog.Filter := 'Arquivos CSV (*.csv)|*.csv';
+    SaveDialog.DefaultExt := 'csv';
+    SaveDialog.FileName := 'modelo_importacao_patrimonio.csv';
+    SaveDialog.Title := 'Salvar Modelo CSV';
+    SaveDialog.InitialDir := ExtractFilePath(Application.ExeName);
+
+    if SaveDialog.Execute then
+    begin
+      try
+        CaminhoArquivo := SaveDialog.FileName;
+
+        // Gera o modelo CSV
+        TPatrimonioImportacaoCSV.GerarModeloCSV(CaminhoArquivo);
+
+        // Pergunta se quer abrir
+        if MessageDlg(
+          'Modelo CSV criado com sucesso!' + sLineBreak + sLineBreak +
+          'O arquivo cont√©m instru√ß√µes detalhadas e exemplos.' + sLineBreak + sLineBreak +
+          'IMPORTANTE: Consulte o ID das salas no sistema antes de preencher!' + sLineBreak + sLineBreak +
+          'Deseja abrir o arquivo agora?',
+          mtInformation, [mbYes, mbNo], 0) = mrYes then
+        begin
+          ShellExecute(0, 'open', PChar(CaminhoArquivo), nil, nil, SW_SHOW);
+        end;
+
+      except
+        on E: Exception do
+          ShowMessage('Erro ao gerar modelo CSV: ' + E.Message);
+      end;
+    end;
+  finally
+    SaveDialog.Free;
+  end;
 end;
 
 procedure TFormCadastro.SpeedButton2Click(Sender: TObject);
@@ -886,17 +939,17 @@ var
   Patrimonio: String;
 begin
   Patrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
-  if MessageDlg('O PatrimÙnio ' + Patrimonio + ' ser· excluÌdo, deseja continuar?',
+  if MessageDlg('O Patrim√¥nio ' + Patrimonio + ' ser√° exclu√≠do, deseja continuar?',
                 mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     IdPatrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('id').AsInteger;
     FPatrimonioController.ExcluirPatrimonio(IdPatrimonio);
 
-    // LOG: Excluiu patrimÙnio
-    RegistrarLog('Excluiu patrimÙnio - ' + Patrimonio + ' (ID: ' + IntToStr(IdPatrimonio) + ')');
+    // LOG: Excluiu patrim√¥nio
+    RegistrarLog('Excluiu patrim√¥nio - ' + Patrimonio + ' (ID: ' + IntToStr(IdPatrimonio) + ')');
 
     AtualizarTabelaPatrimonio;
-    ShowMessage('PatrimÙnio excluÌdo com sucesso!');
+    ShowMessage('Patrim√¥nio exclu√≠do com sucesso!');
   end;
 
 end;
@@ -909,7 +962,106 @@ end;
 procedure TFormCadastro.SpeedButton5Click(Sender: TObject);
 begin
   AtualizarTabelaPatrimonio;
-  RegistrarLog('Atualizou lista de patrimÙnios');
+  RegistrarLog('Atualizou lista de patrim√¥nios');
+end;
+
+procedure TFormCadastro.SpeedButton6Click(Sender: TObject);
+var
+  OpenDialog: TOpenDialog;
+  TotalImportados, TotalErros: Integer;
+  Erros: TStringList;
+  Mensagem: string;
+  LogPath: string;
+begin
+  OpenDialog := TOpenDialog.Create(nil);
+  Erros := TStringList.Create;
+  try
+    OpenDialog.Filter := 'Arquivos CSV (*.csv)|*.csv|Todos os arquivos (*.*)|*.*';
+    OpenDialog.Title := 'Selecione o arquivo CSV para importa√ß√£o';
+    OpenDialog.InitialDir := ExtractFilePath(Application.ExeName);
+
+    if OpenDialog.Execute then
+    begin
+      // Confirma√ß√£o antes de importar
+      if MessageDlg(
+        'Deseja importar os patrim√¥nios do arquivo?' + sLineBreak + sLineBreak +
+        OpenDialog.FileName + sLineBreak + sLineBreak +
+        'Esta opera√ß√£o pode levar alguns minutos dependendo do tamanho do arquivo.' + sLineBreak +
+        'Cada linha do CSV ser√° importada como um item individual.',
+        mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+        Exit;
+
+      Screen.Cursor := crHourGlass;
+      try
+        // Realiza a importa√ß√£o atrav√©s do Controller
+        if FPatrimonioController.ImportarPatrimoniosCSV(
+          OpenDialog.FileName, TotalImportados, TotalErros, Erros) then
+        begin
+          Mensagem := 'Importa√ß√£o conclu√≠da!' + sLineBreak + sLineBreak +
+                     Format('‚úì Itens importados com sucesso: %d', [TotalImportados]) + sLineBreak +
+                     Format('‚úó Erros encontrados: %d', [TotalErros]);
+
+          if TotalErros > 0 then
+          begin
+            // Salva log de erros
+            LogPath := ExtractFilePath(Application.ExeName) +
+                      'Logs\importacao_patrimonio_' +
+                      FormatDateTime('yyyymmdd_hhnnss', Now) + '.txt';
+
+            // Cria pasta Logs se n√£o existir
+            ForceDirectories(ExtractFilePath(LogPath));
+
+            // Adiciona cabe√ßalho ao log
+            Erros.Insert(0, '');
+            Erros.Insert(0, '====================================');
+            Erros.Insert(0, 'LOG DE ERROS - IMPORTA√á√ÉO CSV');
+            Erros.Insert(0, 'Data/Hora: ' + FormatDateTime('dd/mm/yyyy hh:nn:ss', Now));
+            Erros.Insert(0, 'Arquivo: ' + OpenDialog.FileName);
+            Erros.Insert(0, '====================================');
+            Erros.Add('');
+            Erros.Add('====================================');
+            Erros.Add(Format('Total de itens importados: %d', [TotalImportados]));
+            Erros.Add(Format('Total de erros: %d', [TotalErros]));
+            Erros.Add('====================================');
+
+            Erros.SaveToFile(LogPath);
+
+            Mensagem := Mensagem + sLineBreak + sLineBreak +
+                       'Um log detalhado dos erros foi salvo em:' + sLineBreak +
+                       LogPath + sLineBreak + sLineBreak +
+                       'Deseja visualizar o log agora?';
+
+            if MessageDlg(Mensagem, mtWarning, [mbYes, mbNo], 0) = mrYes then
+            begin
+              ShellExecute(0, 'open', PChar(LogPath), nil, nil, SW_SHOW);
+            end;
+          end
+          else
+          begin
+            ShowMessage(Mensagem);
+          end;
+
+          // Atualiza a grid/lista de patrim√¥nios
+          // Ajuste conforme seu c√≥digo de atualiza√ß√£o
+          AtualizarTabelaPatrimonio; // ou o nome do seu m√©todo de atualiza√ß√£o
+
+        end
+        else
+        begin
+          ShowMessage(
+            'Erro na importa√ß√£o. Verifique o arquivo e tente novamente.' + sLineBreak + sLineBreak +
+            'Erros encontrados:' + sLineBreak +
+            Erros.Text);
+        end;
+
+      finally
+        Screen.Cursor := crDefault;
+      end;
+    end;
+  finally
+    Erros.Free;
+    OpenDialog.Free;
+  end;
 end;
 
 procedure TFormCadastro.BtnAtualizarEmpresaClick(Sender: TObject);
@@ -921,13 +1073,13 @@ end;
 procedure TFormCadastro.BtnAtualizarPatrimonioClick(Sender: TObject);
 begin
   AtualizarTabelaPatrimonio;
-  RegistrarLog('Atualizou lista de patrimÙnios');
+  RegistrarLog('Atualizou lista de patrim√¥nios');
 end;
 
 
 
 // ============================================================================
-// M…TODOS AUXILIARES (mantidos como est„o)
+// M√âTODOS AUXILIARES (mantidos como est√£o)
 // ============================================================================
 
 procedure TFormCadastro.AtualizarTabelaE;
@@ -1010,7 +1162,7 @@ begin
   else if PageControl1.ActivePage = TabSheet2 then
   begin
     AtualizarTabelaP;
-    RegistrarLog('Acessou aba PrÈdios');
+    RegistrarLog('Acessou aba Pr√©dios');
   end
   else if PageControl1.ActivePage = TabSheet3 then
   begin
@@ -1020,7 +1172,7 @@ begin
   else if PageControl1.ActivePage = TabSheet4 then
   begin
     AtualizarTabelaPatrimonio;
-    RegistrarLog('Acessou aba PatrimÙnios');
+    RegistrarLog('Acessou aba Patrim√¥nios');
   end;
 end;
 
@@ -1034,7 +1186,7 @@ begin
   FPatrimonioController.PopularComboBox(ComboBoxPatrimonio);
 end;
 
-// Eventos de botıes (mantidos)
+// Eventos de bot√µes (mantidos)
 
 
 

@@ -14,6 +14,10 @@ public
   function PesquisarPatrimonio(const aSearch: String): TDataSet;
   function ObterNomesSalas: TStringList;
   function ListarPatrimonio: TDataSet;
+
+  // Novos métodos para importação
+  procedure ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
+    var TotalImportados, TotalErros: Integer; Erros: TStringList);
 end;
 
 var
@@ -51,6 +55,12 @@ end;
 function TPatrimonioService.PesquisarPatrimonio(const aSearch: String): TDataSet;
 begin
   Result := FPatrimonioRepository.PesquisarPatrimonio(aSearch);
+end;
+
+procedure TPatrimonioService.ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
+  var TotalImportados, TotalErros: Integer; Erros: TStringList);
+begin
+  FPatrimonioRepository.ImportarPatrimonios(Itens, TotalImportados, TotalErros, Erros);
 end;
 
 end.
