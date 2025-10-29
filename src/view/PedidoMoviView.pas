@@ -96,7 +96,7 @@ implementation
 procedure TFormPedidoMovi.FormCreate(Sender: TObject);
 
 begin
-  FPedidoMoviController := FPedidoMoviController.Create;
+  FPedidoMoviController := TPedidoMoviController.Create;
   FIdMovimentacaoSelecionada := 0;
   CarregarGrid;
   LimparCampos;

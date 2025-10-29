@@ -567,3 +567,24 @@
 28/10/2025 17:24:26 Usuário: suporte1 - Realizou o login
 28/10/2025 17:25:01 Usuário: suporte1 - Realizou o login
 28/10/2025 17:25:38 Usuário: suporte1 - Realizou o login
+29/10/2025 13:51:27 Usuário: suporte1 - Realizou o login
+29/10/2025 13:53:30 Usuário: suporte1 - Realizou o login
+29/10/2025 13:54:07 Usuário: suporte1 - Realizou o login
+29/10/2025 13:59:43 Usuário: suporte1 - Realizou o login
+29/10/2025 14:03:31 Usuário: suporte1 - Realizou o login
+29/10/2025 14:03:58 Usuário:  - Acessou o módulo de Cadastros
+29/10/2025 14:04:56 Usuário:  - Acessou o módulo de Cadastros
+29/10/2025 14:04:57 Usuário:  - Acessou aba Prédios
+29/10/2025 14:04:58 Usuário:  - Acessou aba Salas
+29/10/2025 14:05:00 Usuário:  - Acessou aba Patrimônios
+29/10/2025 14:05:33 Usuário:  - Acessou aba Salas
+29/10/2025 14:05:37 Usuário:  - Excluiu sala -  (ID: 17)
+29/10/2025 14:05:42 Usuário:  - Excluiu sala -  (ID: 19)
+29/10/2025 14:05:52 Usuário:  - Acessou o módulo de Cadastros
+29/10/2025 14:05:53 Usuário:  - Acessou aba Patrimônios
+29/10/2025 14:12:08 Usuário:  - Cadastrou patrimônio - Notebook (NS: )
+29/10/2025 14:17:58 Usuário:  - Acessou o módulo de Cadastros
+29/10/2025 14:17:59 Usuário:  - Acessou aba Patrimônios
+29/10/2025 14:30:19 Usuário: suporte1 - Realizou o login
+29/10/2025 14:30:27 Usuário:  - Acessou o módulo de Cadastros
+29/10/2025 14:30:28 Usuário:  - Acessou aba Patrimônios
