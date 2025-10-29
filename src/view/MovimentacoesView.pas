@@ -46,6 +46,7 @@ type
     Shape6: TShape;
     Label6: TLabel;
     BtnRecusarPendencia: TSpeedButton;
+    procedure FormCreate(Sender: TObject);
     procedure BtnPendenciasClick(Sender: TObject);
     procedure Image1Click(Sender: TObject);
     procedure AtualizarGridPendencias;
@@ -53,7 +54,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure BtnRecusarPendenciaClick(Sender: TObject);
     procedure AtualizarGrid;
-    procedure FormCreate(Sender: TObject);
+
     { Private declarations }
   public
     { Public declarations }
@@ -104,8 +105,9 @@ end;
 
 procedure TFormMovi.BtnAceitarPendenciaClick(Sender: TObject);
 var
-Ids: Integer;
+  Ids: Integer;
 begin
+
 Ids := DataSource1.DataSet.FieldByName('id').AsInteger;
   FPendenciaController.AlterarStatus(Ids);
   AtualizarGridPendencias;

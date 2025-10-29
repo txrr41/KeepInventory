@@ -116,8 +116,6 @@ CarregarGrid;
 end;
 
 procedure TFormPedidoMovi.CarregarGrid;
-var
-  DataSet: TDataSet;
 begin
   try
     DataSource1.DataSet := FPedidoMoviController.ListarMovimentacoes;
@@ -172,6 +170,9 @@ begin
 end;
 
 function TFormPedidoMovi.ValidarCampos: Boolean;
+var
+IdOrigem: Integer;
+IdDestino: Integer;
 begin
   Result := True;
 
@@ -199,7 +200,10 @@ begin
     Exit;
   end;
 
-  if CbOrigemMovi.ItemIndex = CbDestinoMovi.ItemIndex then
+  IdOrigem := ObterIdDoComboBox(CbOrigemMovi);
+  IdDestino := ObterIdDoComboBox(CbDestinoMovi);
+
+  if IdOrigem = IdDestino then
   begin
     ShowMessage('A sala de origem não pode ser igual à sala de destino!');
     CbDestinoMovi.SetFocus;

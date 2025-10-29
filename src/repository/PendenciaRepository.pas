@@ -3,7 +3,9 @@ unit PendenciaRepository;
 interface
 
 uses
+
 MovimentacaoModel, Data.DB, FireDAC.Comp.Client, DB;
+
 
 type
 TPendenciaRepository = class
@@ -81,7 +83,6 @@ Query.SQL.Text :=
 
   Query.Open;
   Result := Query;
-
 end;
 
 end.

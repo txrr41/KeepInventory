@@ -567,6 +567,7 @@
 28/10/2025 17:24:26 Usuário: suporte1 - Realizou o login
 28/10/2025 17:25:01 Usuário: suporte1 - Realizou o login
 28/10/2025 17:25:38 Usuário: suporte1 - Realizou o login
+<<<<<<< HEAD
 29/10/2025 13:51:27 Usuário: suporte1 - Realizou o login
 29/10/2025 13:53:30 Usuário: suporte1 - Realizou o login
 29/10/2025 13:54:07 Usuário: suporte1 - Realizou o login
@@ -588,3 +589,14 @@
 29/10/2025 14:30:19 Usuário: suporte1 - Realizou o login
 29/10/2025 14:30:27 Usuário:  - Acessou o módulo de Cadastros
 29/10/2025 14:30:28 Usuário:  - Acessou aba Patrimônios
+=======
+28/10/2025 20:49:48 Usuário: ney - Realizou o login
+28/10/2025 20:50:01 Usuário:  - Acessou o módulo de Cadastros
+28/10/2025 20:51:31 Usuário: ney - Realizou o login
+28/10/2025 20:56:47 Usuário: ney - Realizou o login
+28/10/2025 20:59:09 Usuário: ney - Realizou o login
+28/10/2025 21:03:46 Usuário: ney - Realizou o login
+28/10/2025 21:06:17 Usuário: ney - Realizou o login
+28/10/2025 21:09:37 Usuário: ney - Realizou o login
+28/10/2025 21:19:00 Usuário: ney - Realizou o login
+>>>>>>> 338eaca8797e6eb06b0031e55364028aecd122a6
