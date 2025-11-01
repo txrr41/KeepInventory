@@ -52,7 +52,9 @@ uses
   PendenciaController in 'controller\PendenciaController.pas',
   PendenciaService in 'service\PendenciaService.pas',
   PendenciaRepository in 'repository\PendenciaRepository.pas',
-  PatrimonioImportacaoCSV in 'service\PatrimonioImportacaoCSV.pas';
+  PatrimonioImportacaoCSV in 'service\PatrimonioImportacaoCSV.pas',
+  RegistroOcorrenciaView in 'view\RegistroOcorrenciaView.pas' {Form4},
+  AnaliseOcorrenciaView in 'view\AnaliseOcorrenciaView.pas' {Form5};
 
 {$R *.res}
 
@@ -65,5 +67,7 @@ begin
   Application.CreateForm(TFormHome, FormHome);
   Application.CreateForm(TFormPedidoMovi, FormPedidoMovi);
   Application.CreateForm(TFormMovi, FormMovi);
+  Application.CreateForm(TForm4, Form4);
+  Application.CreateForm(TForm5, Form5);
   Application.Run;
 end.

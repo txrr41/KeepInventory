@@ -197,6 +197,14 @@
         <DCCReference Include="service\PendenciaService.pas"/>
         <DCCReference Include="repository\PendenciaRepository.pas"/>
         <DCCReference Include="service\PatrimonioImportacaoCSV.pas"/>
+        <DCCReference Include="view\RegistroOcorrenciaView.pas">
+            <Form>Form4</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="view\AnaliseOcorrenciaView.pas">
+            <Form>Form5</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -414,7 +414,7 @@ object Form4: TForm4
       Left = 80
       Top = 193
       Width = 938
-      Height = 456
+      Height = 459
       BevelOuter = bvNone
       Caption = 'Panel2'
       Color = clMenu
@@ -438,7 +438,7 @@ object Form4: TForm4
       Left = 392
       Top = 214
       Width = 497
-      Height = 414
+      Height = 411
       Color = clWhite
       ParentBackground = False
       TabOrder = 3
