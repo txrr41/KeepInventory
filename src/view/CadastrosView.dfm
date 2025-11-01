@@ -1,7 +1,7 @@
 object FormCadastro: TFormCadastro
   Left = 266
   Top = 104
-  ActiveControl = DBGrid1
+  ActiveControl = DBGridPatrimonio
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'FormCadastro'
@@ -19,7 +19,7 @@ object FormCadastro: TFormCadastro
   Position = poDesigned
   TextHeight = 15
   object PanelCadastro: TPanel
-    Left = -8
+    Left = -24
     Top = -1
     Width = 1390
     Height = 857
@@ -52,7 +52,7 @@ object FormCadastro: TFormCadastro
       Top = 65
       Width = 1398
       Height = 806
-      ActivePage = TabSheet1
+      ActivePage = TabSheet4
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -1983,9 +1983,9 @@ object FormCadastro: TFormCadastro
           end
           object PanelAddSala: TPanel
             Left = 36
-            Top = 539
+            Top = 552
             Width = 949
-            Height = 174
+            Height = 153
             BevelOuter = bvNone
             Color = clWhite
             ParentBackground = False
@@ -2123,7 +2123,7 @@ object FormCadastro: TFormCadastro
         Caption = 'Patrimonio'
         ImageIndex = 3
         object Panel12: TPanel
-          Left = 3
+          Left = 7
           Top = -8
           Width = 1387
           Height = 738
@@ -2899,11 +2899,17 @@ object FormCadastro: TFormCadastro
                   ExplicitHeight = 65
                 end
                 object SpeedButton6: TSpeedButton
-                  Left = 138
-                  Top = 19
-                  Width = 23
-                  Height = 22
+                  Left = 0
+                  Top = 0
+                  Width = 161
+                  Height = 41
+                  Align = alClient
+                  Flat = True
                   OnClick = SpeedButton6Click
+                  ExplicitLeft = 138
+                  ExplicitTop = 19
+                  ExplicitWidth = 23
+                  ExplicitHeight = 22
                 end
                 object Label88: TLabel
                   Left = 37
@@ -2948,6 +2954,7 @@ object FormCadastro: TFormCadastro
                   Width = 161
                   Height = 41
                   Align = alClient
+                  Flat = True
                   OnClick = SpeedButton1Click
                   ExplicitLeft = 138
                   ExplicitTop = 19

@@ -435,7 +435,6 @@ begin
     Dto.FModelo := EdtModelo.Text;
     Dto.FValorAquisicao := StrToFloatDef(EdtVAQPatri.Text, 0);
     Dto.FValorAtual := StrToFloatDef(EdtVAPatri.Text, 0);
-    Dto.FQuantidade := StrToIntDef(EdtQuantiPatri.Text, 0);
     Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
     Dto.FNumeroSerie := EdtNS.Text;
 
@@ -670,7 +669,6 @@ begin
     Dto.FModelo := EdtModelo.Text;
     Dto.FValorAquisicao := StrToCurrDef(EdtVAQPatri.Text, 0);
     Dto.FValorAtual := StrToCurrDef(EdtVAPatri.Text, 0);
-    Dto.FQuantidade := StrToIntDef(EdtQuantiPatri.Text, 0);
     Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
     Dto.FNumeroSerie := EdtNS.Text;
     Dto.FId := IdPatri;
@@ -924,7 +922,6 @@ begin
     EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
     EdtVAQPatri.Text := FormatFloat('0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsFloat);
     EdtVAPatri.Text := FormatFloat('0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsFloat);
-    EdtQuantiPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('quantidade').AsString;
     EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
     EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
     ComboBoxPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;
@@ -1129,7 +1126,6 @@ begin
   CBSituacaoPatri.ItemIndex := -1;
   EdtVAQPatri.Text := '';
   EdtVAPatri.Text := '';
-  EdtQuantiPatri.Text := '';
   EdtNS.Text := '';
   EdtDAPatri.Text := DateToStr(Now);
 end;
@@ -1280,7 +1276,6 @@ begin
     EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
     EdtVAQPatri.Text := FormatFloat('0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsFloat);
     EdtVAPatri.Text := FormatFloat('0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsFloat);
-    EdtQuantiPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('quantidade').AsString;
     EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
     EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
     ComboBoxPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;
