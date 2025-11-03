@@ -53,8 +53,13 @@ uses
   PendenciaService in 'service\PendenciaService.pas',
   PendenciaRepository in 'repository\PendenciaRepository.pas',
   PatrimonioImportacaoCSV in 'service\PatrimonioImportacaoCSV.pas',
-  RegistroOcorrenciaView in 'view\RegistroOcorrenciaView.pas' {Form4},
-  AnaliseOcorrenciaView in 'view\AnaliseOcorrenciaView.pas' {Form5};
+  RegistroOcorrenciaView in 'view\RegistroOcorrenciaView.pas' {FormRegistrarOcorrencia},
+  AnaliseOcorrenciaView in 'view\AnaliseOcorrenciaView.pas' {Form5},
+  OcorrenciaRepository in 'repository\OcorrenciaRepository.pas',
+  OcorrenciaModel in 'model\OcorrenciaModel.pas',
+  OcorrenciaDTO in 'dto\OcorrenciaDTO.pas',
+  OcorrenciaService in 'service\OcorrenciaService.pas',
+  OcorrenciaController in 'controller\OcorrenciaController.pas';
 
 {$R *.res}
 
@@ -67,7 +72,7 @@ begin
   Application.CreateForm(TFormHome, FormHome);
   Application.CreateForm(TFormPedidoMovi, FormPedidoMovi);
   Application.CreateForm(TFormMovi, FormMovi);
-  Application.CreateForm(TForm4, Form4);
+  Application.CreateForm(TFormRegistrarOcorrencia, FormRegistrarOcorrencia);
   Application.CreateForm(TForm5, Form5);
   Application.Run;
 end.

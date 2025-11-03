@@ -1,7 +1,7 @@
-object Form5: TForm5
+object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
   Left = 0
   Top = 0
-  Caption = 'Form5'
+  Caption = 'FormAnaliseOcorrencia'
   ClientHeight = 872
   ClientWidth = 1374
   Color = clBtnFace
@@ -21,8 +21,6 @@ object Form5: TForm5
     Color = clActiveCaption
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 72
-    ExplicitTop = 8
     object Panel3: TPanel
       Left = 1
       Top = 1
@@ -32,7 +30,6 @@ object Form5: TForm5
       Color = clWhite
       ParentBackground = False
       TabOrder = 0
-      ExplicitLeft = 0
       object Label2: TLabel
         Left = 20
         Top = 273
@@ -111,7 +108,7 @@ object Form5: TForm5
           ParentFont = False
         end
       end
-      object ComboBox1: TComboBox
+      object CbGravidadeA: TComboBox
         Left = 20
         Top = 294
         Width = 113
@@ -205,20 +202,20 @@ object Form5: TForm5
         Left = 319
         Top = 294
         Width = 131
-        Height = 25
+        Height = 23
         EditMask = 'R$999,999.99;1;_'
         MaxLength = 12
         TabOrder = 5
         Text = 'R$   ,   .  '
       end
-      object NumberBox1: TNumberBox
+      object EdtDepreciacao: TNumberBox
         Left = 174
         Top = 294
         Width = 105
         Height = 23
         TabOrder = 6
       end
-      object MaskEdit1: TMaskEdit
+      object EdtNovoValorA: TMaskEdit
         Left = 486
         Top = 294
         Width = 102
@@ -228,14 +225,14 @@ object Form5: TForm5
         TabOrder = 7
         Text = 'R$   ,   .  '
       end
-      object ComboBox2: TComboBox
+      object CbResponsabilidadeA: TComboBox
         Left = 20
         Top = 355
         Width = 113
         Height = 23
         TabOrder = 8
       end
-      object CheckBox1: TCheckBox
+      object CheckBoxManutencao: TCheckBox
         Left = 20
         Top = 706
         Width = 139
@@ -243,7 +240,7 @@ object Form5: TForm5
         Caption = 'Requer Manuten'#231#227'o'
         TabOrder = 9
       end
-      object MaskEdit2: TMaskEdit
+      object EdCustoReparo: TMaskEdit
         Left = 174
         Top = 355
         Width = 102
@@ -263,9 +260,9 @@ object Form5: TForm5
         Color = 10066329
         ParentBackground = False
         TabOrder = 11
-        object DBGrid1: TDBGrid
+        object DBGridAnalise: TDBGrid
           Left = 1
-          Top = 1
+          Top = 0
           Width = 631
           Height = 404
           BorderStyle = bsNone
@@ -299,11 +296,13 @@ object Form5: TForm5
         ParentBackground = False
         TabOrder = 13
       end
-      object TMemo
+      object EdtValorAtualA: TMemo
         Left = 20
         Top = 100
         Width = 349
         Height = 153
+        Lines.Strings = (
+          'EdtValorAtualA')
         TabOrder = 14
       end
     end

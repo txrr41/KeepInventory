@@ -635,3 +635,17 @@
 30/10/2025 11:10:28 Usuário: ney - Realizou o login
 01/11/2025 00:25:32 Usuário: ney - Realizou o login
 01/11/2025 00:25:34 Usuário:  - Acessou o módulo de Cadastros
+01/11/2025 13:53:44 Usuário: ney - Realizou o login
+01/11/2025 14:09:48 Usuário: ney - Realizou o login
+01/11/2025 14:16:56 Usuário: ney - Realizou o login
+01/11/2025 14:19:31 Usuário: ney - Realizou o login
+01/11/2025 14:21:16 Usuário: ney - Realizou o login
+01/11/2025 14:27:20 Usuário: ney - Realizou o login
+01/11/2025 14:27:45 Usuário:  - Acessou o módulo de Cadastros
+01/11/2025 14:27:49 Usuário:  - Acessou aba Salas
+01/11/2025 14:27:50 Usuário:  - Acessou aba Patrimônios
+01/11/2025 15:04:59 Usuário: ney - Realizou o login
+01/11/2025 15:15:50 Usuário: ney - Realizou o login
+01/11/2025 15:19:40 Usuário: ney - Realizou o login
+01/11/2025 15:24:52 Usuário: ney - Realizou o login
+01/11/2025 15:29:05 Usuário: ney - Realizou o login

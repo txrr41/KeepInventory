@@ -240,7 +240,7 @@ object FormMovi: TFormMovi
   end
   object DbGridPendencias: TDBGrid
     Left = 72
-    Top = 154
+    Top = 148
     Width = 937
     Height = 511
     BorderStyle = bsNone

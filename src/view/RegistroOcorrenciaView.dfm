@@ -1,7 +1,7 @@
-object Form4: TForm4
+object FormRegistrarOcorrencia: TFormRegistrarOcorrencia
   Left = 0
   Top = 0
-  Caption = 'Form4'
+  Caption = 'FormRegistrarOcorrencia'
   ClientHeight = 872
   ClientWidth = 1374
   Color = clBtnFace
@@ -10,6 +10,8 @@ object Form4: TForm4
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -21,8 +23,6 @@ object Form4: TForm4
     Color = clActiveCaption
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = -8
-    ExplicitTop = 8
     object Shape26: TShape
       Left = 1105
       Top = 176
@@ -102,6 +102,7 @@ object Form4: TForm4
           Height = 41
           Align = alClient
           Flat = True
+          OnClick = BtnAdicionarPatrimonioClick
           ExplicitTop = 8
           ExplicitHeight = 33
         end
@@ -203,13 +204,14 @@ object Form4: TForm4
           ExplicitWidth = 65
           ExplicitHeight = 65
         end
-        object SpeedButton3: TSpeedButton
+        object BtnExcluir: TSpeedButton
           Left = 0
           Top = 0
           Width = 161
           Height = 41
           Align = alClient
           Flat = True
+          OnClick = BtnExcluirClick
           ExplicitTop = 16
         end
         object Label69: TLabel
@@ -380,6 +382,7 @@ object Form4: TForm4
           Height = 41
           Align = alClient
           Flat = True
+          OnClick = SpeedButton5Click
           ExplicitTop = 16
         end
         object Label77: TLabel
@@ -420,28 +423,86 @@ object Form4: TForm4
       Color = clMenu
       ParentBackground = False
       TabOrder = 2
-      object DBGrid1: TDBGrid
+      object DBGridMinhasOcorrencias: TDBGrid
         Left = 16
         Top = 16
         Width = 897
         Height = 425
         BorderStyle = bsNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
         TitleFont.Height = -12
         TitleFont.Name = 'Segoe UI'
         TitleFont.Style = []
+        OnCellClick = DBGridMinhasOcorrenciasCellClick
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'id'
+            Title.Caption = '       ID'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'usuario'
+            Title.Caption = '           Usu'#225'rio'
+            Width = 120
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'item'
+            Title.Caption = '              Item'
+            Width = 120
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'tipo_ocorrencia'
+            ReadOnly = True
+            Title.Caption = '              Tipo'
+            Width = 120
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'descricao'
+            Title.Caption = '                     Descri'#231#227'o'
+            Width = 189
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'data_ocorrencia'
+            Title.Caption = '                    Data'
+            Width = 150
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'status'
+            Title.Caption = '             Status'
+            Width = 120
+            Visible = True
+          end>
       end
     end
     object Panel3: TPanel
-      Left = 392
-      Top = 214
+      Left = 312
+      Top = 217
       Width = 497
       Height = 411
       Color = clWhite
       ParentBackground = False
       TabOrder = 3
+      Visible = False
       object Label2: TLabel
         Left = 32
         Top = 83
@@ -457,11 +518,17 @@ object Form4: TForm4
         Caption = 'Tipo'
       end
       object Label4: TLabel
-        Left = 32
+        Left = 25
         Top = 155
         Width = 90
         Height = 15
         Caption = 'O que aconteceu'
+      end
+      object SpeedButton2: TSpeedButton
+        Left = 240
+        Top = 192
+        Width = 23
+        Height = 22
       end
       object Panel4: TPanel
         Left = 0
@@ -484,26 +551,48 @@ object Form4: TForm4
           Font.Style = []
           ParentFont = False
         end
+        object Image1: TImage
+          Left = 456
+          Top = 8
+          Width = 30
+          Height = 29
+          Picture.Data = {
+            0954506E67496D61676589504E470D0A1A0A0000000D49484452000000200000
+            00200806000000737A7AF4000000097048597300000B1300000B1301009A9C18
+            0000010B4944415478DAED96310E02211045A1B7568F6062ED01F416969E424B
+            3D8FADAD7A002FA01EC078004B0D7E922DC86617E60F895840F233C58699C700
+            7FB1A6F0B015A002C43E3AE706D6DA574E81540E1B99B8455842732478288B8F
+            108ED001393662004F8D708126D0B5817892C5C708E720C7ACAB13B10E0C114E
+            D014BA339D0856EEE7DEA045DFDCD419A02198E2490016822D2E029042688A8B
+            015210DAE214401F04F4D116A7011A88F6F53226E3BAAAACB8D509A359792E40
+            B8E77E503E910550740BBA4E3BF4364AC7A40062572DC7B6A54694BCE75A0889
+            158B4D460391FA19D10EC742C47EC76A7B6520FEFA41B24658312B8F74628F1C
+            3B7107C24E147B94FE6A54800AF005B1D8E0214A97E72D0000000049454E44AE
+            426082}
+          Stretch = True
+        end
       end
-      object ComboBox1: TComboBox
+      object CbPatrimonio: TComboBox
         Left = 32
         Top = 104
         Width = 113
         Height = 23
         TabOrder = 1
       end
-      object ComboBox2: TComboBox
+      object CbTipoOcorrencia: TComboBox
         Left = 192
         Top = 104
         Width = 113
         Height = 23
         TabOrder = 2
       end
-      object TMemo
+      object MemoDescricao: TMemo
         Left = 25
         Top = 176
         Width = 451
         Height = 169
+        Lines.Strings = (
+          'MemoDescricao')
         TabOrder = 3
       end
       object Panel5: TPanel
@@ -530,13 +619,14 @@ object Form4: TForm4
           ExplicitWidth = 65
           ExplicitHeight = 65
         end
-        object SpeedButton2: TSpeedButton
+        object BtnRegistrar: TSpeedButton
           Left = 0
           Top = 0
           Width = 137
           Height = 33
           Align = alClient
           Flat = True
+          OnClick = BtnRegistrarClick
           ExplicitTop = 16
           ExplicitWidth = 161
           ExplicitHeight = 41
@@ -579,17 +669,6 @@ object Form4: TForm4
           ExplicitWidth = 65
           ExplicitHeight = 65
         end
-        object SpeedButton6: TSpeedButton
-          Left = 0
-          Top = 0
-          Width = 137
-          Height = 33
-          Align = alClient
-          Flat = True
-          ExplicitTop = 16
-          ExplicitWidth = 161
-          ExplicitHeight = 41
-        end
         object Label6: TLabel
           Left = 41
           Top = 6
@@ -603,7 +682,23 @@ object Form4: TForm4
           Font.Style = []
           ParentFont = False
         end
+        object BtnCancelar: TSpeedButton
+          Left = 0
+          Top = 0
+          Width = 137
+          Height = 33
+          Align = alClient
+          Flat = True
+          OnClick = BtnCancelarClick
+          ExplicitTop = 16
+          ExplicitWidth = 161
+          ExplicitHeight = 41
+        end
       end
     end
+  end
+  object DataSource1: TDataSource
+    Left = 784
+    Top = 80
   end
 end

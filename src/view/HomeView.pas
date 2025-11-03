@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Skia, Vcl.StdCtrls,
-  Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, PedidoMoviView, MovimentacoesView;
+  Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, PedidoMoviView, MovimentacoesView, RegistroOcorrenciaView, AnaliseOcorrenciaView;
 
 type
   TFormHome = class(TForm)
@@ -29,11 +29,16 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     Image9: TImage;
+    Image10: TImage;
+    Image11: TImage;
     procedure Image1Click(Sender: TObject);
     procedure Image3Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);
     procedure Image5Click(Sender: TObject);
-    procedure Image9Click(Sender: TObject);
+
+    procedure Image6Click(Sender: TObject);
+    procedure Image10Click(Sender: TObject);
+    procedure Image11Click(Sender: TObject);
 
   private
    ActiveForm: TForm;
@@ -50,6 +55,28 @@ implementation
 
 
 
+
+procedure TFormHome.Image10Click(Sender: TObject);
+var Ocorr: TFormRegistrarOcorrencia;
+begin
+  Ocorr := TFormRegistrarOcorrencia.Create(Self.Panel3);
+  Ocorr.Parent := Self.Panel3;
+  Ocorr.Align := AlClient;
+  Ocorr.BorderStyle := bsNone;
+  Ocorr.Show;
+
+end;
+
+procedure TFormHome.Image11Click(Sender: TObject);
+var Analise: TFormAnaliseOcorrencia;
+begin
+  Analise := TFormAnaliseOcorrencia.Create(Self.Panel3);
+  Analise.Parent := Self.Panel3;
+  Analise.Align := AlClient;
+  Analise.BorderStyle := bsNone;
+  Analise.Show;
+
+end;
 
 procedure TFormHome.Image1Click(Sender: TObject);
 begin
@@ -92,12 +119,7 @@ begin
 
 end;
 
-procedure TFormHome.Image8Click(Sender: TObject);
-begin
-Halt;
-end;
-
-procedure TFormHome.Image9Click(Sender: TObject);
+procedure TFormHome.Image6Click(Sender: TObject);
 var Movi: TFormMovi;
 begin
   Movi := TFormMovi.Create(Self.Panel3);
@@ -107,4 +129,12 @@ begin
   Movi.Show;
 
 end;
+
+procedure TFormHome.Image8Click(Sender: TObject);
+begin
+Halt;
+end;
+
 end.
+
+

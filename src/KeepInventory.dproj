@@ -198,13 +198,18 @@
         <DCCReference Include="repository\PendenciaRepository.pas"/>
         <DCCReference Include="service\PatrimonioImportacaoCSV.pas"/>
         <DCCReference Include="view\RegistroOcorrenciaView.pas">
-            <Form>Form4</Form>
+            <Form>FormRegistrarOcorrencia</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="view\AnaliseOcorrenciaView.pas">
             <Form>Form5</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="repository\OcorrenciaRepository.pas"/>
+        <DCCReference Include="model\OcorrenciaModel.pas"/>
+        <DCCReference Include="dto\OcorrenciaDTO.pas"/>
+        <DCCReference Include="service\OcorrenciaService.pas"/>
+        <DCCReference Include="controller\OcorrenciaController.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
