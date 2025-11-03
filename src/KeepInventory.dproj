@@ -210,6 +210,9 @@
         <DCCReference Include="dto\OcorrenciaDTO.pas"/>
         <DCCReference Include="service\OcorrenciaService.pas"/>
         <DCCReference Include="controller\OcorrenciaController.pas"/>
+        <DCCReference Include="repository\AnaliseOcorrenciaRepository.pas"/>
+        <DCCReference Include="service\AnaliseOcorrenciaService.pas"/>
+        <DCCReference Include="controller\AnaliseOcorrenciaController.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

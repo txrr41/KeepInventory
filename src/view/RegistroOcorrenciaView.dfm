@@ -570,6 +570,7 @@ object FormRegistrarOcorrencia: TFormRegistrarOcorrencia
             3B7107C24E147B94FE6A54800AF005B1D8E0214A97E72D0000000049454E44AE
             426082}
           Stretch = True
+          OnClick = Image1Click
         end
       end
       object CbPatrimonio: TComboBox

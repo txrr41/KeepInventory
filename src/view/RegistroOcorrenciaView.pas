@@ -74,6 +74,7 @@ type
     procedure BtnExcluirClick(Sender: TObject);
     procedure DBGridMinhasOcorrenciasCellClick(Column: TColumn);
     procedure BtnAdicionarPatrimonioClick(Sender: TObject);
+    procedure Image1Click(Sender: TObject);
   private
     FController: TOcorrenciaController;
     FIdOcorrenciaSelecionada: Integer;
@@ -225,6 +226,11 @@ procedure TFormRegistrarOcorrencia.FormDestroy(Sender: TObject);
 begin
  if Assigned(FController) then
     FController.Free;
+end;
+
+procedure TFormRegistrarOcorrencia.Image1Click(Sender: TObject);
+begin
+Panel3.Visible := False;
 end;
 
 procedure TFormRegistrarOcorrencia.LimparCampos;

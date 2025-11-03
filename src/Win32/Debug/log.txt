@@ -649,3 +649,42 @@
 01/11/2025 15:19:40 Usuário: ney - Realizou o login
 01/11/2025 15:24:52 Usuário: ney - Realizou o login
 01/11/2025 15:29:05 Usuário: ney - Realizou o login
+03/11/2025 14:39:31 Usuário: suporte1 - Realizou o login
+03/11/2025 14:39:36 Usuário:  - Acessou o módulo de Cadastros
+03/11/2025 14:42:42 Usuário:  - Acessou o módulo de Cadastros
+03/11/2025 14:48:23 Usuário: suporte1 - Realizou o login
+03/11/2025 14:48:27 Usuário:  - Acessou o módulo de Cadastros
+03/11/2025 14:48:29 Usuário:  - Acessou aba Salas
+03/11/2025 14:48:30 Usuário:  - Acessou aba Prédios
+03/11/2025 14:48:30 Usuário:  - Acessou aba Empresas
+03/11/2025 14:48:31 Usuário:  - Acessou aba Patrimônios
+03/11/2025 14:50:00 Usuário: suporte1 - Realizou o login
+03/11/2025 14:52:28 Usuário: suporte1 - Realizou o login
+03/11/2025 14:56:26 Usuário: suporte1 - Realizou o login
+03/11/2025 15:44:54 Usuário: suporte1 - Realizou o login
+03/11/2025 15:57:08 Usuário: suporte1 - Realizou o login
+03/11/2025 15:59:10 Usuário: suporte1 - Realizou o login
+03/11/2025 16:16:54 Usuário: suporte1 - Realizou o login
+03/11/2025 16:22:30 Usuário: suporte1 - Realizou o login
+03/11/2025 16:23:05 Usuário: suporte1 - Realizou o login
+03/11/2025 16:24:04 Usuário: suporte1 - Realizou o login
+03/11/2025 16:25:39 Usuário: suporte1 - Realizou o login
+03/11/2025 16:28:06 Usuário: suporte1 - Realizou o login
+03/11/2025 16:30:56 Usuário: suporte1 - Realizou o login
+03/11/2025 16:31:19 Usuário: suporte1 - Realizou o login
+03/11/2025 16:33:50 Usuário: suporte1 - Realizou o login
+03/11/2025 16:36:53 Usuário: suporte1 - Realizou o login
+03/11/2025 16:40:03 Usuário: suporte1 - Realizou o login
+03/11/2025 16:47:17 Usuário: suporte1 - Realizou o login
+03/11/2025 16:49:38 Usuário: suporte1 - Realizou o login
+03/11/2025 16:51:03 Usuário: suporte1 - Realizou o login
+03/11/2025 16:51:27 Usuário: suporte1 - Realizou o login
+03/11/2025 16:57:16 Usuário: suporte1 - Realizou o login
+03/11/2025 16:59:57 Usuário: suporte1 - Realizou o login
+03/11/2025 17:01:47 Usuário: suporte1 - Realizou o login
+03/11/2025 17:02:36 Usuário: suporte1 - Realizou o login
+03/11/2025 17:07:17 Usuário: suporte1 - Realizou o login
+03/11/2025 17:08:48 Usuário: suporte1 - Realizou o login
+03/11/2025 17:10:51 Usuário: suporte1 - Realizou o login
+03/11/2025 17:14:46 Usuário: suporte1 - Realizou o login
+03/11/2025 17:20:00 Usuário: suporte1 - Realizou o login

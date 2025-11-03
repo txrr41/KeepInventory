@@ -59,7 +59,10 @@ uses
   OcorrenciaModel in 'model\OcorrenciaModel.pas',
   OcorrenciaDTO in 'dto\OcorrenciaDTO.pas',
   OcorrenciaService in 'service\OcorrenciaService.pas',
-  OcorrenciaController in 'controller\OcorrenciaController.pas';
+  OcorrenciaController in 'controller\OcorrenciaController.pas',
+  AnaliseOcorrenciaRepository in 'repository\AnaliseOcorrenciaRepository.pas',
+  AnaliseOcorrenciaService in 'service\AnaliseOcorrenciaService.pas',
+  AnaliseOcorrenciaController in 'controller\AnaliseOcorrenciaController.pas';
 
 {$R *.res}
 
@@ -73,6 +76,6 @@ begin
   Application.CreateForm(TFormPedidoMovi, FormPedidoMovi);
   Application.CreateForm(TFormMovi, FormMovi);
   Application.CreateForm(TFormRegistrarOcorrencia, FormRegistrarOcorrencia);
-  Application.CreateForm(TForm5, Form5);
+  Application.CreateForm(TFormAnaliseOcorrencia, FormAnaliseOcorrencia);
   Application.Run;
 end.

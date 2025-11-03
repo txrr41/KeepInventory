@@ -10,6 +10,7 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnShow = FormShow
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -159,6 +160,19 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
           Font.Style = []
           ParentFont = False
         end
+        object BtnSalvarAnalise: TSpeedButton
+          Left = 0
+          Top = 0
+          Width = 137
+          Height = 33
+          Align = alClient
+          Flat = True
+          OnClick = BtnSalvarAnaliseClick
+          ExplicitLeft = 40
+          ExplicitTop = 8
+          ExplicitWidth = 23
+          ExplicitHeight = 22
+        end
       end
       object Panel6: TPanel
         Left = 360
@@ -197,8 +211,20 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
           Font.Style = []
           ParentFont = False
         end
+        object SpeedButton1: TSpeedButton
+          Left = 0
+          Top = 0
+          Width = 137
+          Height = 33
+          Align = alClient
+          Flat = True
+          ExplicitLeft = 40
+          ExplicitTop = 8
+          ExplicitWidth = 23
+          ExplicitHeight = 22
+        end
       end
-      object EdtVAQPatri: TMaskEdit
+      object EdtValorAtualA: TMaskEdit
         Left = 319
         Top = 294
         Width = 131
@@ -262,7 +288,7 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
         TabOrder = 11
         object DBGridAnalise: TDBGrid
           Left = 1
-          Top = 0
+          Top = 1
           Width = 631
           Height = 404
           BorderStyle = bsNone
@@ -272,6 +298,56 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
           TitleFont.Height = -12
           TitleFont.Name = 'Segoe UI'
           TitleFont.Style = []
+          OnCellClick = DBGridAnaliseCellClick
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'id'
+              Title.Caption = '       ID'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'usuario'
+              Title.Caption = '         Usuario'
+              Width = 100
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'item'
+              Title.Caption = '               Item'
+              Width = 120
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'tipo_ocorrencia'
+              Title.Caption = '              Tipo'
+              Width = 120
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'descricao'
+              Title.Caption = '               Descri'#231#227'o'
+              Width = 150
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'data_ocorrencia'
+              Title.Caption = '              Data/Hora'
+              Width = 150
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'status'
+              Title.Caption = '          Status'
+              Width = 100
+              Visible = True
+            end>
         end
       end
       object SearchBox1: TSearchBox
@@ -296,7 +372,7 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
         ParentBackground = False
         TabOrder = 13
       end
-      object EdtValorAtualA: TMemo
+      object MemoDetalhes: TMemo
         Left = 20
         Top = 100
         Width = 349
@@ -306,5 +382,9 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
         TabOrder = 14
       end
     end
+  end
+  object DataSource1: TDataSource
+    Left = 1225
+    Top = 81
   end
 end

@@ -2914,9 +2914,9 @@ object FormCadastro: TFormCadastro
                 object Label88: TLabel
                   Left = 37
                   Top = 12
-                  Width = 86
+                  Width = 88
                   Height = 20
-                  Caption = 'Exportar CSV'
+                  Caption = 'Importar CSV'
                   Font.Charset = DEFAULT_CHARSET
                   Font.Color = clWhite
                   Font.Height = -15

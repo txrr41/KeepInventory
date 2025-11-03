@@ -43,7 +43,7 @@ begin
 
     Query.SQL.Clear;
     Query.SQL.Add('INSERT INTO ocorrencias (');
-    Query.SQL.Add('  fk_id_patrimonio, fk_id_usuario_relator, tipo_ocorrencia,');
+    Query.SQL.Add('  fk_id_patrimonios, fk_id_usuario_relator, tipo_ocorrencia,');
     Query.SQL.Add('  descricao, data_ocorrencia, status, foto_anexo');
     Query.SQL.Add(') VALUES (');
     Query.SQL.Add('  :id_patrimonio, :id_usuario, :tipo, :descricao,');
@@ -76,7 +76,7 @@ begin
 
     Query.SQL.Clear;
     Query.SQL.Add('UPDATE ocorrencias SET');
-    Query.SQL.Add('  fk_id_patrimonio = :id_patrimonio,');
+    Query.SQL.Add('  fk_id_patrimonios = :id_patrimonio,');
     Query.SQL.Add('  tipo_ocorrencia = :tipo,');
     Query.SQL.Add('  descricao = :descricao,');
     Query.SQL.Add('  foto_anexo = :foto');
@@ -132,7 +132,7 @@ begin
     if not Query.IsEmpty then
     begin
       Result.Id := Query.FieldByName('id').AsInteger;
-      Result.IdPatrimonio := Query.FieldByName('fk_id_patrimonio').AsInteger;
+      Result.IdPatrimonio := Query.FieldByName('fk_id_patrimonios').AsInteger;
       Result.IdUsuarioRelator := Query.FieldByName('fk_id_usuario_relator').AsInteger;
 
       if not Query.FieldByName('fk_id_gestor').IsNull then
@@ -184,7 +184,7 @@ begin
   Query.SQL.Clear;
   Query.SQL.Add('SELECT ');
   Query.SQL.Add('  o.id,');
-  Query.SQL.Add('  o.fk_id_patrimonio,');
+  Query.SQL.Add('  o.fk_id_patrimonios,');
   Query.SQL.Add('  p.nome AS item,');
   Query.SQL.Add('  o.fk_id_usuario_relator,');
   Query.SQL.Add('  u.nome AS usuario,');
@@ -204,7 +204,7 @@ begin
   Query.SQL.Add('  o.observacoes_gestor,');
   Query.SQL.Add('  o.foto_anexo');
   Query.SQL.Add('FROM ocorrencias o');
-  Query.SQL.Add('INNER JOIN patrimonios p ON o.fk_id_patrimonio = p.id');
+  Query.SQL.Add('INNER JOIN patrimonios p ON o.fk_id_patrimonios = p.id');
   Query.SQL.Add('INNER JOIN usuarios u ON o.fk_id_usuario_relator = u.id');
   Query.SQL.Add('ORDER BY o.data_ocorrencia DESC');
 
@@ -222,7 +222,7 @@ begin
   Query.SQL.Clear;
   Query.SQL.Add('SELECT ');
   Query.SQL.Add('  o.id,');
-  Query.SQL.Add('  o.fk_id_patrimonio,');
+  Query.SQL.Add('  o.fk_id_patrimonios,');
   Query.SQL.Add('  p.nome AS item,');
   Query.SQL.Add('  o.fk_id_usuario_relator,');
   Query.SQL.Add('  u.nome AS usuario_relator_nome,');
@@ -232,7 +232,7 @@ begin
   Query.SQL.Add('  o.status,');
   Query.SQL.Add('  o.foto_anexo');
   Query.SQL.Add('FROM ocorrencias o');
-  Query.SQL.Add('INNER JOIN patrimonios p ON o.fk_id_patrimonio = p.id');
+  Query.SQL.Add('INNER JOIN patrimonios p ON o.fk_id_patrimonios = p.id');
   Query.SQL.Add('INNER JOIN usuarios u ON o.fk_id_usuario_relator = u.id');
   Query.SQL.Add('WHERE o.status = :status');
   Query.SQL.Add('ORDER BY o.data_ocorrencia DESC');
@@ -252,7 +252,7 @@ begin
 
   Query.SQL.Clear;
   Query.SQL.Add('SELECT * FROM ocorrencias');
-  Query.SQL.Add('WHERE fk_id_patrimonio = :id_patrimonio');
+  Query.SQL.Add('WHERE fk_id_patrimonios = :id_patrimonio');
   Query.SQL.Add('ORDER BY data_ocorrencia DESC');
 
   Query.ParamByName('id_patrimonio').AsInteger := IdPatrimonio;
@@ -271,7 +271,7 @@ begin
   Query.SQL.Clear;
   Query.SQL.Add('SELECT ');
   Query.SQL.Add('  o.id,');
-  Query.SQL.Add('  o.fk_id_patrimonio,');
+  Query.SQL.Add('  o.fk_id_patrimonios,');
   Query.SQL.Add('  p.nome AS patrimonio_nome,');
   Query.SQL.Add('  o.fk_id_usuario_relator,');
   Query.SQL.Add('  u.nome AS usuario_relator_nome,');
@@ -281,7 +281,7 @@ begin
   Query.SQL.Add('  o.status,');
   Query.SQL.Add('  o.foto_anexo');
   Query.SQL.Add('FROM ocorrencias o');
-  Query.SQL.Add('INNER JOIN patrimonios p ON o.fk_id_patrimonio = p.id');
+  Query.SQL.Add('INNER JOIN patrimonios p ON o.fk_id_patrimonios = p.id');
   Query.SQL.Add('INNER JOIN usuarios u ON o.fk_id_usuario_relator = u.id');
   Query.SQL.Add('WHERE o.status = ''PENDENTE''');
   Query.SQL.Add('ORDER BY o.data_ocorrencia ASC');
@@ -305,14 +305,14 @@ begin
 
     // Busca o ID do patrimônio
     Query.SQL.Clear;
-    Query.SQL.Add('SELECT fk_id_patrimonio FROM ocorrencias WHERE id = :id');
+    Query.SQL.Add('SELECT fk_id_patrimonios FROM ocorrencias WHERE id = :id');
     Query.ParamByName('id').AsInteger := IdOcorrencia;
     Query.Open;
 
     if Query.IsEmpty then
       Exit;
 
-    IdPatrimonio := Query.FieldByName('fk_id_patrimonio').AsInteger;
+    IdPatrimonio := Query.FieldByName('fk_id_patrimonios').AsInteger;
     Query.Close;
 
     // Busca valor atual do patrimônio
