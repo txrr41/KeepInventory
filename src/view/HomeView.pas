@@ -33,6 +33,8 @@ type
     Image11: TImage;
     Image5: TImage;
     Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
     procedure Image1Click(Sender: TObject);
     procedure Image3Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);
@@ -84,12 +86,12 @@ procedure TFormHome.Image1Click(Sender: TObject);
 begin
 
 
-   if Panel1.Width = 49 then begin
+   if Panel1.Width = 50 then begin
 
    Panel1.Width := 200;
    end else if Panel1.Width = 200 then begin
 
-   Panel1.Width := 49;
+   Panel1.Width := 50;
    end;
 
 end;

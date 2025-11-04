@@ -751,3 +751,5 @@
 04/11/2025 14:59:07 Usuário:  - Buscou CEP automaticamente - CEP: 81265-120 - Endereço: Rua Cruzeiro do Oeste
 04/11/2025 14:59:20 Usuário:  - Acessou aba Prédios
 04/11/2025 14:59:23 Usuário:  - Acessou aba Salas
+04/11/2025 16:01:38 Usuário: suporte1 - Realizou o login
+04/11/2025 16:01:45 Usuário:  - Acessou o módulo de Cadastros
