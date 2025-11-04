@@ -308,6 +308,7 @@ type
     procedure BtnFiltrarPatrimonioClick(Sender: TObject);
     procedure LimparCamposPatrimonio;
     procedure PopularComboBoxSalas;
+
     { Private declarations }
   end;
 
@@ -433,8 +434,26 @@ begin
     Dto.FTipo := EdtTipoPatri.Text;
     Dto.FSituacao := CBSituacaoPatri.Text;
     Dto.FModelo := EdtModelo.Text;
-    Dto.FValorAquisicao := StrToFloatDef(EdtVAQPatri.Text, 0);
-    Dto.FValorAtual := StrToFloatDef(EdtVAPatri.Text, 0);
+    Dto.FNome := EditNomePatri.Text;
+    Dto.FTipo := EdtTipoPatri.Text;
+    Dto.FSituacao := CBSituacaoPatri.Text;
+    Dto.FModelo := EdtModelo.Text;
+
+    // Converte valor removendo formatação
+    Dto.FValorAquisicao := StrToCurrDef(
+      StringReplace(
+    StringReplace(EdtVAQPatri.Text, '.', '', [rfReplaceAll]),
+    ',', '.', [rfReplaceAll]
+     ), 0);
+
+    Dto.FValorAtual := StrToCurrDef(
+    StringReplace(
+    StringReplace(EdtVAPatri.Text, '.', '', [rfReplaceAll]),
+    ',', '.', [rfReplaceAll]
+    ), 0);
+
+    Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
+    Dto.FNumeroSerie := EdtNS.Text;
     Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
     Dto.FNumeroSerie := EdtNS.Text;
 
@@ -578,6 +597,7 @@ begin
   if edtPesquisarSala.Text <> '' then
     RegistrarLog('Pesquisou sala - Termo: "' + edtPesquisarSala.Text + '"');
 end;
+
 
 procedure TFormCadastro.BtnAtualizarPredioClick(Sender: TObject);
 begin

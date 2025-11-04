@@ -2841,7 +2841,7 @@ object FormCadastro: TFormCadastro
             end
             object BtnConfirmarEdPatri: TButton
               Left = 759
-              Top = 77
+              Top = 37
               Width = 162
               Height = 32
               Caption = 'Confirmar Altera'#231#227'o'

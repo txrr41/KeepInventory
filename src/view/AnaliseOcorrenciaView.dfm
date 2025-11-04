@@ -10,6 +10,7 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 15
   object Panel1: TPanel
@@ -115,6 +116,7 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
         Width = 113
         Height = 23
         TabOrder = 1
+        OnChange = CbGravidadeAChange
       end
       object TMemo
         Left = 20
@@ -226,13 +228,13 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
       end
       object EdtValorAtualA: TMaskEdit
         Left = 319
-        Top = 294
-        Width = 131
+        Top = 291
+        Width = 115
         Height = 23
-        EditMask = 'R$999,999.99;1;_'
-        MaxLength = 12
+        EditMask = 'R$##.###,##;1;_'
+        MaxLength = 11
         TabOrder = 5
-        Text = 'R$   ,   .  '
+        Text = 'R$  .   ,  '
       end
       object EdtDepreciacao: TNumberBox
         Left = 174
@@ -240,16 +242,17 @@ object FormAnaliseOcorrencia: TFormAnaliseOcorrencia
         Width = 105
         Height = 23
         TabOrder = 6
+        OnChange = EdtDepreciacaoChange
       end
       object EdtNovoValorA: TMaskEdit
         Left = 486
         Top = 294
-        Width = 102
+        Width = 98
         Height = 23
-        EditMask = 'R$999,999.99;1;_'
-        MaxLength = 12
+        EditMask = 'R$##.###,##;1;_'
+        MaxLength = 11
         TabOrder = 7
-        Text = 'R$   ,   .  '
+        Text = 'R$  .   ,  '
       end
       object CbResponsabilidadeA: TComboBox
         Left = 20

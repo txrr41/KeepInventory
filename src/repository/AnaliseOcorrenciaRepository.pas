@@ -4,7 +4,7 @@ interface
 
 uses
   OcorrenciaModel, OcorrenciaDTO, DB, FireDAC.Comp.Client, Data.DB,
-  System.SysUtils, System.Classes;
+  System.SysUtils, System.Classes, Dialogs;
 
 type
   TAnaliseOcorrenciaRepository = class
@@ -21,7 +21,7 @@ var
 
 implementation
 
-{ TOcorrenciaRepository }
+{ TAnaliseOcorrenciaRepository }
 
 procedure TAnaliseOcorrenciaRepository.AvaliarOcorrencia(
   AAvaliacaoDTO: TAvaliacaoOcorrenciaDTO);
@@ -29,12 +29,13 @@ var
   Q: TFDQuery;
   ValorAtual, NovoValor: Currency;
   StatusPatrimonio: String;
+  IdPatrimonio: Integer;
 begin
   Q := TFDQuery.Create(nil);
   try
     Q.Connection := DataModule2.FDConnection;
 
-    // Busca o valor atual do patrimônio
+    // Busca o valor atual do patrimônio e o ID
     Q.SQL.Text :=
       'SELECT p.valor_atual, o.fk_id_patrimonios ' +
       'FROM ocorrencias o ' +
@@ -44,6 +45,7 @@ begin
     Q.Open;
 
     ValorAtual := Q.FieldByName('valor_atual').AsCurrency;
+    IdPatrimonio := Q.FieldByName('fk_id_patrimonios').AsInteger;
     NovoValor := ValorAtual - (ValorAtual * (AAvaliacaoDTO.FPercentualDepreciacao / 100));
 
     Q.Close;
@@ -90,11 +92,11 @@ begin
       'UPDATE patrimonios SET ' +
       'valor_atual = :valor_atual, ' +
       'status = :status ' +
-      'WHERE id = (SELECT fk_id_patrimonios FROM ocorrencias WHERE id = :id_ocorrencia)';
+      'WHERE id = :id_patrimonio';
 
     Q.ParamByName('valor_atual').AsCurrency := NovoValor;
     Q.ParamByName('status').AsString := StatusPatrimonio;
-    Q.ParamByName('id_ocorrencia').AsInteger := AAvaliacaoDTO.FIdOcorrencia;
+    Q.ParamByName('id_patrimonio').AsInteger := IdPatrimonio;
 
     Q.ExecSQL;
 
@@ -114,9 +116,9 @@ begin
     'SELECT ' +
     '  o.id, ' +
     '  o.data_ocorrencia, ' +
-    '  p.nome AS item, ' +
+    '  p.nome AS patrimonio, ' +
     '  o.tipo_ocorrencia, ' +
-    '  u.nome AS usuario, ' +
+    '  u.nome AS usuario_relator, ' +
     '  o.descricao, ' +
     '  o.status, ' +
     '  o.fk_id_patrimonios ' +
@@ -175,6 +177,7 @@ function TAnaliseOcorrenciaRepository.ObterValorPatrimonio(
 var
   Q: TFDQuery;
 begin
+  Result := 0;
   Q := TFDQuery.Create(nil);
   try
     Q.Connection := DataModule2.FDConnection;
@@ -182,10 +185,16 @@ begin
     Q.ParamByName('id').AsInteger := AIdPatrimonio;
     Q.Open;
 
+    ShowMessage('ID Patrimônio: ' + IntToStr(AIdPatrimonio)); // DEBUG
+
     if not Q.IsEmpty then
-      Result := Q.FieldByName('valor_atual').AsCurrency
+    begin
+      Result := Q.FieldByName('valor_atual').AsCurrency;
+      ShowMessage('Valor encontrado: ' + CurrToStr(Result)); // DEBUG
+    end
     else
-      Result := 0;
+      ShowMessage('Patrimônio não encontrado!'); // DEBUG
+
   finally
     Q.Free;
   end;
@@ -203,9 +212,9 @@ begin
       'SELECT ' +
       '  o.id, ' +
       '  o.data_ocorrencia, ' +
-      '  p.nome AS item, ' +
+      '  p.nome AS patrimonio, ' +
       '  o.tipo_ocorrencia, ' +
-      '  u.nome AS usuario, ' +
+      '  u.nome AS usuario_relator, ' +
       '  o.descricao, ' +
       '  o.status, ' +
       '  o.fk_id_patrimonios ' +

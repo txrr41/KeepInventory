@@ -55,7 +55,6 @@ type
     FIdOcorrenciaSelecionada: Integer;
     FIdPatrimonioSelecionado: Integer;
     FValorAtualPatrimonio: Currency;
-    FController: TAnaliseOcorrenciaController;
     procedure AtualizarGrid;
     procedure CarregarDetalhesOcorrencia(AIdOcorrencia: Integer);
     procedure CalcularNovoValor;
@@ -72,17 +71,24 @@ implementation
 
 {$R *.dfm}
 
+function FormatarValorBrasileiro(Valor: Currency): String;
+var
+  FS: TFormatSettings;
+begin
+  FS := TFormatSettings.Create;
+  FS.DecimalSeparator := ',';
+  FS.ThousandSeparator := '.';
+  Result := 'R$ ' + FormatFloat('#,##0.00', Valor, FS);
+end;
+
 procedure TFormAnaliseOcorrencia.AtualizarGrid;
 var
   DataSet: TDataSet;
 begin
   try
-    DataSet := FController.ListarOcorrenciasPendentes;
+    DataSet := FAnaliseOcorrenciaController.ListarOcorrenciasPendentes;
     DataSource1.DataSet := DataSet;
     DBGridAnalise.DataSource := DataSource1;
-
-    // Debug: mostrar quantidade de registros
-    ShowMessage('Registros encontrados: ' + IntToStr(DataSet.RecordCount));
   except
     on E: Exception do
     begin
@@ -111,15 +117,19 @@ begin
     // Converte custo de reparo
     if Trim(EdCustoReparo.Text) <> '' then
     begin
-      CustoReparo := StrToCurrDef(StringReplace(EdCustoReparo.Text, '.', '', [rfReplaceAll]), 0);
-      AvaliacaoDTO.FCustoEstimadoReparo := CustoReparo / 100;
+      CustoReparo := StrToCurrDef(
+        StringReplace(
+          StringReplace(EdCustoReparo.Text, '.', '', [rfReplaceAll]),
+          ',', '.', [rfReplaceAll]
+        ), 0);
+      AvaliacaoDTO.FCustoEstimadoReparo := CustoReparo;
     end
     else
       AvaliacaoDTO.FCustoEstimadoReparo := 0;
 
     AvaliacaoDTO.FObservacoesGestor := MemoDetalhes.Lines.Text;
 
-    FController.AvaliarOcorrencia(AvaliacaoDTO);
+    FAnaliseOcorrenciaController.AvaliarOcorrencia(AvaliacaoDTO);
 
     ShowMessage('Avaliação salva com sucesso!');
     LimparCampos;
@@ -137,15 +147,16 @@ var
 begin
   if (FValorAtualPatrimonio > 0) and (EdtDepreciacao.Value > 0) then
   begin
-    NovoValor := FController.CalcularNovoValor(
+    NovoValor := FAnaliseOcorrenciaController.CalcularNovoValor(
       FValorAtualPatrimonio,
       EdtDepreciacao.Value
     );
-
-    EdtNovoValorA.Text := FormatCurr('#,##0.00', NovoValor);
+    EdtNovoValorA.Text := FormatarValorBrasileiro(NovoValor);
   end
+  else if FValorAtualPatrimonio > 0 then
+    EdtNovoValorA.Text := FormatarValorBrasileiro(FValorAtualPatrimonio)
   else
-    EdtNovoValorA.Text := '';
+    EdtNovoValorA.Text := 'R$ 0,00';
 end;
 
 procedure TFormAnaliseOcorrencia.CarregarDetalhesOcorrencia(AIdOcorrencia: Integer);
@@ -155,19 +166,29 @@ var
 begin
   Detalhes := TStringList.Create;
   try
-    Ocorrencia := FController.ObterDetalhesOcorrencia(AIdOcorrencia);
+    Ocorrencia := FAnaliseOcorrenciaController.ObterDetalhesOcorrencia(AIdOcorrencia);
     try
+      if Ocorrencia = nil then
+      begin
+        ShowMessage('Ocorrência não encontrada!');
+        Exit;
+      end;
+
       FIdOcorrenciaSelecionada := Ocorrencia.Id;
       FIdPatrimonioSelecionado := Ocorrencia.IdPatrimonio;
 
       // Busca valor atual do patrimônio
+      FValorAtualPatrimonio := FAnaliseOcorrenciaController.ObterValorPatrimonio(Ocorrencia.IdPatrimonio);
 
-
+      // Formata os valores corretamente com formato brasileiro
+      EdtValorAtualA.EditMask := '';
+      EdtNovoValorA.EditMask := '';
+      EdtValorAtualA.Text := FormatarValorBrasileiro(FValorAtualPatrimonio);
+      EdtNovoValorA.Text := FormatarValorBrasileiro(FValorAtualPatrimonio);
 
       // Limpa campos de avaliação para novo cálculo
       CbGravidadeA.ItemIndex := -1;
       EdtDepreciacao.Value := 0;
-      EdtNovoValorA.Text := '';
       CbResponsabilidadeA.ItemIndex := -1;
       CheckBoxManutencao.Checked := False;
       EdCustoReparo.Text := '';
@@ -181,6 +202,7 @@ begin
       Detalhes.Add('Tipo: ' + Ocorrencia.TipoOcorrencia);
       Detalhes.Add('Data: ' + FormatDateTime('dd/mm/yyyy hh:nn', Ocorrencia.DataOcorrencia));
       Detalhes.Add('Status: ' + Ocorrencia.Status);
+      Detalhes.Add('Valor Atual do Patrimônio: ' + FormatarValorBrasileiro(FValorAtualPatrimonio));
       Detalhes.Add('');
       Detalhes.Add('───────────────────────────────────────');
       Detalhes.Add('DESCRIÇÃO:');
@@ -207,16 +229,11 @@ end;
 procedure TFormAnaliseOcorrencia.DBGridAnaliseCellClick(Column: TColumn);
 var
   IdOcorrencia: Integer;
-  Ocorrencia: TOcorrenciaModel;
-
 begin
   if not DataSource1.DataSet.IsEmpty then
   begin
     IdOcorrencia := DataSource1.DataSet.FieldByName('id').AsInteger;
     CarregarDetalhesOcorrencia(IdOcorrencia);
-      FValorAtualPatrimonio := FController.ObterValorPatrimonio(
-        Ocorrencia.IdPatrimonio);
-        EdtValorAtualA.Text := FormatCurr('#,##0.00', FValorAtualPatrimonio);
   end;
 end;
 
@@ -236,13 +253,19 @@ begin
       2: EdtDepreciacao.Value := 50;   // Alta = 50%
       3: EdtDepreciacao.Value := 75;   // Crítica = 75%
     end;
+
+    // Calcula automaticamente o novo valor
     CalcularNovoValor;
   end;
 end;
 
 procedure TFormAnaliseOcorrencia.FormCreate(Sender: TObject);
 begin
-  FController := TAnaliseOcorrenciaController.Create;
+  // Torna os campos de valor somente leitura
+  EdtValorAtualA.ReadOnly := True;
+  EdtValorAtualA.Color := clBtnFace;
+  EdtNovoValorA.ReadOnly := True;
+  EdtNovoValorA.Color := clBtnFace;
 
   // Configura o DataSource do DBGrid
   DBGridAnalise.DataSource := DataSource1;
@@ -262,7 +285,6 @@ begin
   CbResponsabilidadeA.Items.Add('Vandalismo');
 
   LimparCampos;
-  AtualizarGrid;
 end;
 
 procedure TFormAnaliseOcorrencia.FormShow(Sender: TObject);
@@ -272,8 +294,7 @@ end;
 
 procedure TFormAnaliseOcorrencia.FormDestroy(Sender: TObject);
 begin
-  if Assigned(FController) then
-    FController.Free;
+  // Não precisa liberar FAnaliseOcorrenciaController pois é uma variável global
 end;
 
 procedure TFormAnaliseOcorrencia.LimparCampos;
@@ -282,9 +303,9 @@ begin
   FIdPatrimonioSelecionado := 0;
   FValorAtualPatrimonio := 0;
 
-  EdtValorAtualA.Text := '';
+  EdtValorAtualA.Text := 'R$ 0,00';
   EdtDepreciacao.Value := 0;
-  EdtNovoValorA.Text := '';
+  EdtNovoValorA.Text := 'R$ 0,00';
   EdCustoReparo.Text := '';
   CheckBoxManutencao.Checked := False;
   CbGravidadeA.ItemIndex := -1;
@@ -295,7 +316,7 @@ end;
 procedure TFormAnaliseOcorrencia.SearchBox1Change(Sender: TObject);
 begin
   if Trim(SearchBox1.Text) <> '' then
-    DataSource1.DataSet := FController.PesquisarOcorrencia(SearchBox1.Text)
+    DataSource1.DataSet := FAnaliseOcorrenciaController.PesquisarOcorrencia(SearchBox1.Text)
   else
     AtualizarGrid;
 end;
