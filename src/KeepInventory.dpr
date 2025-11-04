@@ -62,7 +62,8 @@ uses
   OcorrenciaController in 'controller\OcorrenciaController.pas',
   AnaliseOcorrenciaRepository in 'repository\AnaliseOcorrenciaRepository.pas',
   AnaliseOcorrenciaService in 'service\AnaliseOcorrenciaService.pas',
-  AnaliseOcorrenciaController in 'controller\AnaliseOcorrenciaController.pas';
+  AnaliseOcorrenciaController in 'controller\AnaliseOcorrenciaController.pas',
+  CepService in 'service\CepService.pas';
 
 {$R *.res}
 

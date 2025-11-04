@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Skia, Vcl.StdCtrls,
-  Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, PedidoMoviView, MovimentacoesView, RegistroOcorrenciaView, AnaliseOcorrenciaView;
+  Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, PedidoMoviView, MovimentacoesView, RegistroOcorrenciaView, AnaliseOcorrenciaView,
+  Vcl.Imaging.pngimage;
 
 type
   TFormHome = class(TForm)
@@ -14,7 +15,6 @@ type
     Image3: TImage;
     Image4: TImage;
     Image6: TImage;
-    Image5: TImage;
     Image1: TImage;
     Image7: TImage;
     Label1: TLabel;
@@ -31,6 +31,8 @@ type
     Image9: TImage;
     Image10: TImage;
     Image11: TImage;
+    Image5: TImage;
+    Label9: TLabel;
     procedure Image1Click(Sender: TObject);
     procedure Image3Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);

@@ -8,7 +8,7 @@ uses
   Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask,
   EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController,
   SalaDTO, SalaController, PatrimonioDTO, PatrimonioController,
-  AuditoriaController, AuditoriaModel, PatrimonioImportacaoCSV, Winapi.ShellAPI; // ADICIONADO
+  AuditoriaController, AuditoriaModel, PatrimonioImportacaoCSV, Winapi.ShellAPI, CepService; // ADICIONADO
 
 type
   TFormCadastro = class(TForm)
@@ -297,6 +297,8 @@ type
     procedure BtnAdicionarEmpresaClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton6Click(Sender: TObject);
+    procedure EditCepExit(Sender: TObject);
+    procedure EdtCepPredioExit(Sender: TObject);
  private
   FLogController: TLogController; // ADICIONADO
     FUsuarioLogado: String; // ADICIONADO
@@ -596,6 +598,76 @@ begin
   // LOG: Pesquisou sala
   if edtPesquisarSala.Text <> '' then
     RegistrarLog('Pesquisou sala - Termo: "' + edtPesquisarSala.Text + '"');
+end;
+
+procedure TFormCadastro.EditCepExit(Sender: TObject);
+var
+  Endereco: TEndereco;
+begin
+  // Verifica se o CEP tem pelo menos 8 dígitos (com ou sem máscara)
+  if (Length(EditCep.Text) >= 8) and (EditCep.Text <> '     -   ') then
+  begin
+    Screen.Cursor := crHourGlass;
+    try
+      Endereco := TCepService.BuscarCep(EditCep.Text);
+
+      if Endereco.Erro = '' then
+      begin
+        // Preenche os campos automaticamente
+        EditRua.Text := Endereco.Logradouro;
+        EditBairro.Text := Endereco.Bairro;
+        EditCidade.Text := Endereco.Cidade;
+        EditEstado.Text := Endereco.Estado;
+
+        // Move o foco para o campo número
+        EditNumero.SetFocus;
+
+        // LOG: Buscou CEP
+        RegistrarLog('Buscou CEP automaticamente - CEP: ' + Endereco.Cep + ' - Endereço: ' + Endereco.Logradouro);
+      end
+      else
+      begin
+        ShowMessage('CEP não encontrado: ' + Endereco.Erro);
+      end;
+    finally
+      Screen.Cursor := crDefault;
+    end;
+  end;
+end;
+
+procedure TFormCadastro.EdtCepPredioExit(Sender: TObject);
+var
+  Endereco: TEndereco;
+begin
+  // Verifica se o CEP tem pelo menos 8 dígitos (com ou sem máscara)
+  if (Length(EdtCepPredio.Text) >= 8) and (EdtCepPredio.Text <> '     -   ') then
+  begin
+    Screen.Cursor := crHourGlass;
+    try
+      Endereco := TCepService.BuscarCep(EdtCepPredio.Text);
+
+      if Endereco.Erro = '' then
+      begin
+        // Preenche os campos automaticamente
+        EditRuaPredio.Text := Endereco.Logradouro;
+        EdtBairroPredio.Text := Endereco.Bairro;
+        EdtCidadePredio.Text := Endereco.Cidade;
+        EdtEstadoPredio.Text := Endereco.Estado;
+
+        // Move o foco para o campo número
+        EdtNumeroPredio.SetFocus;
+
+        // LOG: Buscou CEP
+        RegistrarLog('Buscou CEP automaticamente - CEP: ' + Endereco.Cep + ' - Endereço: ' + Endereco.Logradouro);
+      end
+      else
+      begin
+        ShowMessage('CEP não encontrado: ' + Endereco.Erro);
+      end;
+    finally
+      Screen.Cursor := crDefault;
+    end;
+  end;
 end;
 
 

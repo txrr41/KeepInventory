@@ -291,6 +291,7 @@ object FormCadastro: TFormCadastro
               MaxLength = 9
               TabOrder = 5
               Text = '     -   '
+              OnExit = EditCepExit
             end
             object EditNumero: TEdit
               Left = 24
@@ -993,6 +994,7 @@ object FormCadastro: TFormCadastro
               MaxLength = 9
               TabOrder = 3
               Text = '     -   '
+              OnExit = EdtCepPredioExit
             end
             object EdtNumeroPredio: TEdit
               Left = 733
