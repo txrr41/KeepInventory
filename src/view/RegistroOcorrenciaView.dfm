@@ -12,6 +12,7 @@ object FormRegistrarOcorrencia: TFormRegistrarOcorrencia
   Font.Style = []
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnShow = FormShow
   TextHeight = 15
   object Panel1: TPanel
     Left = 0

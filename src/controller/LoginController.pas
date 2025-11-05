@@ -4,7 +4,7 @@ unit LoginController;
 interface
 
 uses
-LoginModel, LoginService;
+LoginModel, LoginService, UsuarioModel;
 
 type
  TLoginController = class
@@ -12,7 +12,7 @@ type
   FService: TLoginService;
  public
   constructor Create;
-  function SalvarLogin (const ALoginConfig: TLoginConfig): boolean;
+  function SalvarLogin (const AUsuarioModel: TUsuarioModel): boolean;
 
 
 end;
@@ -26,9 +26,9 @@ begin
 FService := TLoginService.Create;
 end;
 
-function TLoginController.SalvarLogin(const ALoginConfig: TLoginConfig): boolean;
+function TLoginController.SalvarLogin(const AUsuarioModel: TUsuarioModel): boolean;
 begin
- result := FService.SalvarLogin(ALoginConfig);
+ result := FService.SalvarLogin(AUsuarioModel);
 end;
 
 end.

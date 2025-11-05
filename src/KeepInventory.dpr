@@ -63,7 +63,14 @@ uses
   AnaliseOcorrenciaRepository in 'repository\AnaliseOcorrenciaRepository.pas',
   AnaliseOcorrenciaService in 'service\AnaliseOcorrenciaService.pas',
   AnaliseOcorrenciaController in 'controller\AnaliseOcorrenciaController.pas',
-  CepService in 'service\CepService.pas';
+  CepService in 'service\CepService.pas',
+  CadastroUsuarioView in 'view\CadastroUsuarioView.pas' {FormCadastroUsuario},
+  UsuarioDTO in 'dto\UsuarioDTO.pas',
+  UsuarioModel in 'UsuarioModel.pas',
+  UsuarioRepository in 'UsuarioRepository.pas',
+  UsuarioService in 'UsuarioService.pas',
+  UsuarioController in 'controller\UsuarioController.pas',
+  PermissoesHelper in 'service\PermissoesHelper.pas';
 
 {$R *.res}
 
@@ -78,5 +85,6 @@ begin
   Application.CreateForm(TFormMovi, FormMovi);
   Application.CreateForm(TFormRegistrarOcorrencia, FormRegistrarOcorrencia);
   Application.CreateForm(TFormAnaliseOcorrencia, FormAnaliseOcorrencia);
+  Application.CreateForm(TFormCadastroUsuario, FormCadastroUsuario);
   Application.Run;
 end.

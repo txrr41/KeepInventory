@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.WinXCtrls,
-  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Skia, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.Client, FireDAC.Stan.Param, PedidoMoviController, PendenciaController, MovimentacaoModel;
+  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Skia, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.Client, FireDAC.Stan.Param, PedidoMoviController, PendenciaController, MovimentacaoModel, PermissoesHelper, UsuarioModel;
 
 type
   TFormMovi = class(TForm)
@@ -54,6 +54,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure BtnRecusarPendenciaClick(Sender: TObject);
     procedure AtualizarGrid;
+    procedure BtnExcluirMoviClick(Sender: TObject);
 
     { Private declarations }
   public
@@ -95,6 +96,7 @@ end;
 procedure TFormMovi.FormShow(Sender: TObject);
 begin
     AtualizarGrid;
+    TPermissoesHelper.AplicarPermissoesMovimentacoes(Self);
 end;
 
 procedure TFormMovi.Image1Click(Sender: TObject);
@@ -111,6 +113,21 @@ begin
 Ids := DataSource1.DataSet.FieldByName('id').AsInteger;
   FPendenciaController.AlterarStatus(Ids);
   AtualizarGridPendencias;
+end;
+
+procedure TFormMovi.BtnExcluirMoviClick(Sender: TObject);
+var
+  Usuario: TUsuarioModel;
+begin
+  Usuario := TPermissoesHelper.GetUsuarioLogado;
+
+  // Verifica se tem permissão de movimentações E de excluir
+  if not (Usuario.PermMovimentacoes and Usuario.PermMovExcluir) then
+  begin
+    ShowMessage('Você não tem permissão para excluir movimentações!');
+    Exit;
+  end;
+
 end;
 
 procedure TFormMovi.BtnRecusarPendenciaClick(Sender: TObject);

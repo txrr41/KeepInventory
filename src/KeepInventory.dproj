@@ -213,6 +213,17 @@
         <DCCReference Include="repository\AnaliseOcorrenciaRepository.pas"/>
         <DCCReference Include="service\AnaliseOcorrenciaService.pas"/>
         <DCCReference Include="controller\AnaliseOcorrenciaController.pas"/>
+        <DCCReference Include="service\CepService.pas"/>
+        <DCCReference Include="view\CadastroUsuarioView.pas">
+            <Form>FormCadastroUsuario</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="dto\UsuarioDTO.pas"/>
+        <DCCReference Include="UsuarioModel.pas"/>
+        <DCCReference Include="UsuarioRepository.pas"/>
+        <DCCReference Include="UsuarioService.pas"/>
+        <DCCReference Include="controller\UsuarioController.pas"/>
+        <DCCReference Include="service\PermissoesHelper.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

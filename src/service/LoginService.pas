@@ -3,7 +3,7 @@ unit LoginService;
 interface
 
 uses
-  LoginModel, Vcl.Dialogs, LoginRepository;
+  LoginModel, Vcl.Dialogs, LoginRepository, UsuarioModel;
 
 type
   TLoginService = class
@@ -13,7 +13,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    function SalvarLogin(const ALoginConfig: TLoginConfig): boolean ;
+    function SalvarLogin(const AUsuarioModel: TUsuarioModel): boolean ;
   end;
 
 implementation
@@ -31,17 +31,17 @@ begin
   inherited;
 end;
 
-function TLoginService.SalvarLogin(const ALoginConfig: TLoginConfig): boolean ;
+function TLoginService.SalvarLogin(const AUsuarioModel: TUsuarioModel): boolean ;
 var
   Repo: TLoginRepository;
   UserID: Integer;
 begin
   Repo := TLoginRepository.Create;
   try
-    Result := Repo.UsuarioExiste(ALoginConfig.User, ALoginConfig.Senha, UserID);
+    Result := Repo.UsuarioExiste(AUsuarioModel.Nome, AUsuarioModel.SenhaHash, UserID);
 
     if Result then
-      ALoginConfig.ID := UserID; // armazenar no model
+      AUsuarioModel.ID := UserID; // armazenar no model
   finally
     Repo.Free;
   end;

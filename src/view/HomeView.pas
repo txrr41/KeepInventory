@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Skia, Vcl.StdCtrls,
   Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, PedidoMoviView, MovimentacoesView, RegistroOcorrenciaView, AnaliseOcorrenciaView,
-  Vcl.Imaging.pngimage;
+  Vcl.Imaging.pngimage, CadastroUsuarioView, PermissoesHelper, UsuarioModel;
 
 type
   TFormHome = class(TForm)
@@ -43,6 +43,8 @@ type
     procedure Image6Click(Sender: TObject);
     procedure Image10Click(Sender: TObject);
     procedure Image11Click(Sender: TObject);
+    procedure Image9Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
 
   private
    ActiveForm: TForm;
@@ -59,6 +61,32 @@ implementation
 
 
 
+
+procedure TFormHome.FormCreate(Sender: TObject);
+var
+  Usuario: TUsuarioModel;
+begin
+  Usuario := TPermissoesHelper.GetUsuarioLogado;
+
+  if Usuario = nil then
+  begin
+    ShowMessage('Erro: Usuário não autenticado!');
+    Application.Terminate;
+    Exit;
+  end;
+
+  ShowMessage('Usuário: ' + Usuario.Nome);
+
+  // Controla visibilidade dos botões do menu principal
+  if Usuario.PermCadastros = True then
+
+  Image3.Visible := True;
+  Image5.Visible := Usuario.PermMovimentacoes;
+  Image6.Visible := Usuario.PermMovimentacoes;
+  Image10.Visible := Usuario.PermOcorrencias;
+  image11.Visible := Usuario.PermOcorrencias;
+  Image9.Visible := Usuario.PermUsuarios;
+end;
 
 procedure TFormHome.Image10Click(Sender: TObject);
 var Ocorr: TFormRegistrarOcorrencia;
@@ -137,6 +165,17 @@ end;
 procedure TFormHome.Image8Click(Sender: TObject);
 begin
 Halt;
+end;
+
+procedure TFormHome.Image9Click(Sender: TObject);
+var Movi: TFormCadastroUsuario;
+begin
+  Movi := TFormCadastroUsuario.Create(Self.Panel3);
+  Movi.Parent := Self.Panel3;
+  Movi.Align := AlClient;
+  Movi.BorderStyle := bsNone;
+  Movi.Show;
+
 end;
 
 end.

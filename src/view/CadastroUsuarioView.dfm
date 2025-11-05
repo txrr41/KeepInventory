@@ -1,7 +1,7 @@
-object Form4: TForm4
+object FormCadastroUsuario: TFormCadastroUsuario
   Left = 0
   Top = 0
-  Caption = 'Form4'
+  Caption = 'FormCadastroUsuario'
   ClientHeight = 872
   ClientWidth = 1373
   Color = clBtnFace
@@ -10,6 +10,7 @@ object Form4: TForm4
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnShow = FormShow
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -238,6 +239,7 @@ object Form4: TForm4
         Height = 41
         Align = alClient
         Flat = True
+        OnClick = BtnAddUserClick
         ExplicitLeft = 72
         ExplicitWidth = 23
         ExplicitHeight = 22
@@ -287,6 +289,7 @@ object Form4: TForm4
         Height = 41
         Align = alClient
         Flat = True
+        OnClick = BtnEditarUserClick
         ExplicitLeft = 72
         ExplicitWidth = 23
         ExplicitHeight = 22
@@ -336,6 +339,7 @@ object Form4: TForm4
         Height = 41
         Align = alClient
         Flat = True
+        OnClick = BtnExcluirUserClick
         ExplicitLeft = 72
         ExplicitWidth = 23
         ExplicitHeight = 22
@@ -385,6 +389,7 @@ object Form4: TForm4
         Height = 41
         Align = alClient
         Flat = True
+        OnClick = BtnAtualizarUserClick
         ExplicitLeft = 72
         ExplicitWidth = 23
         ExplicitHeight = 22
@@ -406,6 +411,7 @@ object Form4: TForm4
       Height = 17
       Caption = 'Cadastros'
       TabOrder = 15
+      OnClick = CheckCadastroClick
     end
     object Panel9: TPanel
       Left = 34
@@ -423,8 +429,9 @@ object Form4: TForm4
         Height = 17
         Caption = 'Empresa'
         TabOrder = 0
+        OnClick = CheckCadastroEmpClick
       end
-      object CheckBox3: TCheckBox
+      object CheckCadastroPredi: TCheckBox
         Left = 6
         Top = 30
         Width = 97
@@ -439,6 +446,7 @@ object Form4: TForm4
         Height = 17
         Caption = 'Sala'
         TabOrder = 2
+        OnClick = CheckCadastroSalaClick
       end
       object CheckCadastroPatri: TCheckBox
         Left = 6
@@ -447,6 +455,7 @@ object Form4: TForm4
         Height = 17
         Caption = 'Patrimonio'
         TabOrder = 3
+        OnClick = CheckCadastroPatriClick
       end
     end
     object Panel10: TPanel
@@ -479,6 +488,7 @@ object Form4: TForm4
       Height = 17
       Caption = 'Movimenta'#231#245'es'
       TabOrder = 18
+      OnClick = CheckMovimentacoesClick
     end
     object Panel11: TPanel
       Left = 152
@@ -521,6 +531,7 @@ object Form4: TForm4
       Height = 17
       Caption = 'Ocorr'#234'ncias'
       TabOrder = 20
+      OnClick = CheckOcorrenciasClick
     end
     object Panel12: TPanel
       Left = 307
@@ -563,6 +574,7 @@ object Form4: TForm4
       Height = 17
       Caption = 'Usuarios'
       TabOrder = 22
+      OnClick = CheckUsuariosClick
     end
     object Panel13: TPanel
       Left = 444
@@ -633,6 +645,7 @@ object Form4: TForm4
         Height = 33
         Align = alClient
         Flat = True
+        OnClick = BtnSalavarUserClick
         ExplicitLeft = 80
         ExplicitTop = 8
         ExplicitWidth = 23
@@ -646,5 +659,9 @@ object Form4: TForm4
       Height = 23
       TabOrder = 25
     end
+  end
+  object DataSource1: TDataSource
+    Left = 1232
+    Top = 88
   end
 end

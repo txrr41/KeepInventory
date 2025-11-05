@@ -5,8 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls, math,
-  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons, LoginController, LoginModel, HomeView, AuditoriaModel, AuditoriaController,
-  Vcl.Menus, GlobalUserDTO;
+  Vcl.Imaging.jpeg, Vcl.StdCtrls, Vcl.Skia, Vcl.Buttons, LoginController, LoginModel, HomeView, AuditoriaModel, AuditoriaController, UsuarioController,
+  Vcl.Menus, GlobalUserDTO, UsuarioModel, PermissoesHelper;
 
 type
   TFormLogin = class(TForm)
@@ -39,7 +39,9 @@ type
     procedure EditUserLoginKeyPress(Sender: TObject; var Key: Char);
     procedure EditSenhaLoginKeyPress(Sender: TObject; var Key: Char);
 
+
   private
+
     { Private declarations }
   public
     { Public declarations }
@@ -93,7 +95,7 @@ end;
 
 procedure TFormLogin.SpeedButton1Click(Sender: TObject);
 var
-Login: TLoginConfig;
+Usuario: TUsuarioModel;
 LogController: TLogController;
 Controller: TLoginController;
 UsuarioLog: TUserLog;
@@ -101,20 +103,39 @@ UsuarioExiste: Boolean;
 Home: TFormHome;
 DataHora: TDateTime;
 DataFormatada: String;
+Global: TLoginGlobal;
+Cont: TUsuarioController;
 
 
 begin
-  Login := TLoginConfig.Create;
+  Usuario := TUsuarioModel.Create;
   Controller := TLoginController.Create;
   LogController := TLogController.Create;
 
 
 try
-  Login.User := EditUserLogin.Text;
-  Login.Senha := EditSenhaLogin.Text;
-  UsuarioExiste := Controller.SalvarLogin(Login);
+  Usuario.Nome := EditUserLogin.Text;
+  Usuario.SenhaHash := EditSenhaLogin.Text;
+  UsuarioExiste := Controller.SalvarLogin(Usuario);
+  if Usuario = nil then
+  begin
+    ShowMessage('Erro: Usuário não autenticado!');
+    Application.Terminate;
+    Exit;
+  end;
+
 
   if UsuarioExiste = True then begin
+    ShowMessage('Usuário: ' + Usuario.Nome);
+
+
+  Usuario := TPermissoesHelper.GetUsuarioLogado;
+
+
+  ShowMessage('Usuário: ' + Usuario.Nome);
+  Cont := TUsuarioController.Create;
+    Usuario := FUsuarioController.ObterPermissoes(Usuario.Id);
+    TPermissoesHelper.SetUsuarioLogado(Usuario);
     UsuarioLog := TUserLog.Create;
     UsuarioLog.UserName := EditUserLogin.Text;
     DataHora := Now;
@@ -129,7 +150,7 @@ try
   raise exception.Create('Usuário ou senha invalidos.');
   end;
 finally
-   Login.Free;
+
    Controller.Free;
 
 end;

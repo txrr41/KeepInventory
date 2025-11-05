@@ -101,6 +101,7 @@ object FormMovi: TFormMovi
             Height = 41
             Align = alClient
             Flat = True
+            OnClick = BtnExcluirMoviClick
           end
         end
         object Panel7: TPanel

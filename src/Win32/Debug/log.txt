@@ -753,3 +753,13 @@
 04/11/2025 14:59:23 Usuário:  - Acessou aba Salas
 04/11/2025 16:01:38 Usuário: suporte1 - Realizou o login
 04/11/2025 16:01:45 Usuário:  - Acessou o módulo de Cadastros
+05/11/2025 14:31:42 Usuário: suporte1 - Realizou o login
+05/11/2025 14:39:07 Usuário: suporte1 - Realizou o login
+05/11/2025 14:40:10 Usuário: suporte1 - Realizou o login
+05/11/2025 15:45:04 Usuário: suporte1 - Realizou o login
+05/11/2025 15:54:43 Usuário: admin - Realizou o login
+05/11/2025 15:56:42 Usuário: admin - Realizou o login
+05/11/2025 15:59:34 Usuário: admin - Realizou o login
+05/11/2025 16:02:18 Usuário: admin - Realizou o login
+05/11/2025 17:03:11 Usuário:  - Realizou login no sistema
+05/11/2025 17:05:10 Usuário:  - Realizou login no sistema

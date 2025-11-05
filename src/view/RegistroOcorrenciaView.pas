@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Data.DB,
   Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, OcorrenciaController, OcorrenciaDTO, GlobalUserDTO,
-  Vcl.Imaging.pngimage;
+  Vcl.Imaging.pngimage, PermissoesHelper;
 
 type
   TFormRegistrarOcorrencia = class(TForm)
@@ -75,6 +75,7 @@ type
     procedure DBGridMinhasOcorrenciasCellClick(Column: TColumn);
     procedure BtnAdicionarPatrimonioClick(Sender: TObject);
     procedure Image1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     FController: TOcorrenciaController;
     FIdOcorrenciaSelecionada: Integer;
@@ -226,6 +227,11 @@ procedure TFormRegistrarOcorrencia.FormDestroy(Sender: TObject);
 begin
  if Assigned(FController) then
     FController.Free;
+end;
+
+procedure TFormRegistrarOcorrencia.FormShow(Sender: TObject);
+begin
+TPermissoesHelper.AplicarPermissoesOcorrencias(Self);
 end;
 
 procedure TFormRegistrarOcorrencia.Image1Click(Sender: TObject);

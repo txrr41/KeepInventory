@@ -8,7 +8,7 @@ uses
   Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask,
   EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController,
   SalaDTO, SalaController, PatrimonioDTO, PatrimonioController,
-  AuditoriaController, AuditoriaModel, PatrimonioImportacaoCSV, Winapi.ShellAPI, CepService; // ADICIONADO
+  AuditoriaController, AuditoriaModel, PatrimonioImportacaoCSV, Winapi.ShellAPI, CepService, PermissoesHelper, UsuarioModel; // ADICIONADO
 
 type
   TFormCadastro = class(TForm)
@@ -299,6 +299,7 @@ type
     procedure SpeedButton6Click(Sender: TObject);
     procedure EditCepExit(Sender: TObject);
     procedure EdtCepPredioExit(Sender: TObject);
+    procedure FormShow(Sender: TObject);
  private
   FLogController: TLogController; // ADICIONADO
     FUsuarioLogado: String; // ADICIONADO
@@ -350,7 +351,25 @@ end;
 // CONSTRUCTOR E DESTRUCTOR
 // ============================================================================
 constructor TFormCadastro.Create(AComponent: TComponent; const UsuarioLogado: String);
+var
+  Usuario: TUsuarioModel;
 begin
+  inherited Create(AComponent);
+
+  // Obtém o usuário logado do helper ao invés de receber como string
+  Usuario := TPermissoesHelper.GetUsuarioLogado;
+
+  if Usuario <> nil then
+    FUsuarioLogado := Usuario.Nome
+  else
+    FUsuarioLogado := 'Usuário Desconhecido';
+
+  FLogController := TLogController.Create;
+  FSalaController := TSalaController.Create;
+  FPatrimonioController := TPatrimonioController.Create;
+
+  RegistrarLog('Acessou o módulo de Cadastros');
+
   inherited Create(AComponent);
   FUsuarioLogado := UsuarioLogado;
   FLogController := TLogController.Create;
@@ -598,6 +617,11 @@ begin
   // LOG: Pesquisou sala
   if edtPesquisarSala.Text <> '' then
     RegistrarLog('Pesquisou sala - Termo: "' + edtPesquisarSala.Text + '"');
+end;
+
+procedure TFormCadastro.FormShow(Sender: TObject);
+begin
+TPermissoesHelper.AplicarPermissoesCadastros(PageControl1);
 end;
 
 procedure TFormCadastro.EditCepExit(Sender: TObject);
@@ -1297,7 +1321,16 @@ begin
 end;
 
 procedure TFormCadastro.BtnAdicionarPatrimonioClick(Sender: TObject);
+var
+  Usuario: TUsuarioModel;
 begin
+  Usuario := TPermissoesHelper.GetUsuarioLogado;
+
+  if not Usuario.PermCadEmpresa then
+  begin
+    ShowMessage('Você não tem permissão para adicionar empresas!');
+    Exit;
+  end;
 if Panel34.Visible = False then
   begin
     Panel34.Visible := True;

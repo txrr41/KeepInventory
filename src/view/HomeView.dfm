@@ -11,6 +11,7 @@ object FormHome: TFormHome
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnCreate = FormCreate
   TextHeight = 15
   object Panel2: TPanel
     Left = 0
@@ -55,7 +56,7 @@ object FormHome: TFormHome
         Stretch = True
       end
       object Image3: TImage
-        Left = 12
+        Left = 13
         Top = 182
         Width = 31
         Height = 31
@@ -82,6 +83,7 @@ object FormHome: TFormHome
           3E}
         ShowHint = True
         Stretch = True
+        Visible = False
         OnClick = Image3Click
       end
       object Image4: TImage
@@ -732,6 +734,7 @@ object FormHome: TFormHome
           34393639382031302037203130207A222F3E3C2F7376673E}
         ShowHint = True
         Stretch = True
+        OnClick = Image9Click
       end
       object Image10: TImage
         Left = 12
@@ -1145,8 +1148,6 @@ object FormHome: TFormHome
       Color = clWhite
       ParentBackground = False
       TabOrder = 1
-      ExplicitLeft = 63
-      ExplicitWidth = 1377
     end
   end
 end

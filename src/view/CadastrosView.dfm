@@ -17,6 +17,7 @@ object FormCadastro: TFormCadastro
   Font.Name = 'B '
   Font.Style = []
   Position = poDesigned
+  OnShow = FormShow
   TextHeight = 15
   object PanelCadastro: TPanel
     Left = -24

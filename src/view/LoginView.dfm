@@ -40,7 +40,6 @@ object FormLogin: TFormLogin
       Padding.Bottom = 100
       ParentBackground = False
       TabOrder = 0
-      ExplicitLeft = 6
       DesignSize = (
         456
         719)
