@@ -407,7 +407,7 @@ object FormPedidoMovi: TFormPedidoMovi
       end
       object Button2: TButton
         Left = 1144
-        Top = 18
+        Top = 50
         Width = 124
         Height = 33
         Caption = 'Confirmar Altera'#231#227'o'

@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
-  Vcl.DBGrids, Vcl.StdCtrls, Vcl.WinXCtrls;
+  Vcl.DBGrids, Vcl.StdCtrls, Vcl.WinXCtrls, Vcl.Buttons;
 
 type
   TForm4 = class(TForm)
@@ -14,20 +14,19 @@ type
     Panel7: TPanel;
     Panel3: TPanel;
     SearchBox1: TSearchBox;
-    DBGrid1: TDBGrid;
-    Edit1: TEdit;
-    Edit2: TEdit;
-    Edit3: TEdit;
+    DBGridUsuarios: TDBGrid;
+    EdtNomeUser: TEdit;
+    EdtCPFUser: TEdit;
+    EdtTelefoneUser: TEdit;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
-    Edit4: TEdit;
+    EdtRGUser: TEdit;
     Label4: TLabel;
-    Edit5: TEdit;
+    EdtNascimentoUser: TEdit;
     Label5: TLabel;
-    Edit6: TEdit;
     Label6: TLabel;
-    Edit7: TEdit;
+    EdtSenhaUser: TEdit;
     Label7: TLabel;
     Panel4: TPanel;
     Panel5: TPanel;
@@ -43,6 +42,38 @@ type
     Label11: TLabel;
     Memo1: TMemo;
     Label12: TLabel;
+    CheckCadastro: TCheckBox;
+    Panel9: TPanel;
+    CheckCadastroEmp: TCheckBox;
+    CheckBox3: TCheckBox;
+    CheckCadastroSala: TCheckBox;
+    CheckCadastroPatri: TCheckBox;
+    Panel10: TPanel;
+    CheckMovimentacoes: TCheckBox;
+    Panel11: TPanel;
+    CheckAnalisarMovi: TCheckBox;
+    CheckAdicionarMovi: TCheckBox;
+    CheckExcluirMovi: TCheckBox;
+    CheckOcorrencias: TCheckBox;
+    Panel12: TPanel;
+    CheckAnalisarOcorre: TCheckBox;
+    CheckAdicionarOcorre: TCheckBox;
+    CheckExcluirOcorre: TCheckBox;
+    CheckUsuarios: TCheckBox;
+    Panel13: TPanel;
+    CheckCadastrarUser: TCheckBox;
+    CheckPermissaoUser: TCheckBox;
+    Label13: TLabel;
+    Panel14: TPanel;
+    Shape4: TShape;
+    Label14: TLabel;
+    Label15: TLabel;
+    CbFuncaoUser: TComboBox;
+    BtnSalavarUser: TSpeedButton;
+    BtnAddUser: TSpeedButton;
+    BtnEditarUser: TSpeedButton;
+    BtnExcluirUser: TSpeedButton;
+    BtnAtualizarUser: TSpeedButton;
   private
     { Private declarations }
   public
