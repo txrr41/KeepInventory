@@ -8,7 +8,8 @@ uses
   Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, Vcl.Mask,
   EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController,
   SalaDTO, SalaController, PatrimonioDTO, PatrimonioController,
-  AuditoriaController, AuditoriaModel, PatrimonioImportacaoCSV, Winapi.ShellAPI, CepService, PermissoesHelper, UsuarioModel; // ADICIONADO
+  AuditoriaController, AuditoriaModel, PatrimonioImportacaoCSV, Winapi.ShellAPI, CepService, PermissoesHelper, UsuarioModel,
+  Vcl.Skia; // ADICIONADO
 
 type
   TFormCadastro = class(TForm)
@@ -206,6 +207,7 @@ type
     Shape4: TShape;
     Shape5: TShape;
     Panel4: TPanel;
+    Image1: TImage;
     procedure PageControl1Change(Sender: TObject);
     procedure BtnEnviarClick(Sender: TObject);
     procedure BtnConfirmarEdClick(Sender: TObject);
@@ -361,7 +363,7 @@ begin
     RegistrarLog('Cadastrou empresa - ' + EditFantasia.Text + ' (CNPJ: ' + EditCnpj.Text + ')');
 
     ShowMessage('Empresa adicionada com sucesso!');
-    PanelAddEmpresa.Visible := False;
+
 
     // Limpar campos
     EditFantasia.Text := '';
@@ -679,7 +681,7 @@ begin
     EditEstado.Text := '';
     EditNumero.Text := '';
     EditBairro.Text := '';
-    PanelAddEmpresa.Visible := False;
+
 
     AtualizarTabelaE;
     ShowMessage('Empresa atualizada com sucesso!');
@@ -1236,10 +1238,7 @@ procedure TFormCadastro.BtnAdicionarEmpresaClick(Sender: TObject);
 begin
  BtnConfirmarEd.Visible := False;
   BtnEnviar.Visible := True;
-  if PanelAddEmpresa.Visible = False then
-    PanelAddEmpresa.Visible := True
-  else
-    PanelAddEmpresa.Visible := False;
+
 end;
 
 procedure TFormCadastro.BtnAdicionarPatrimonioClick(Sender: TObject);
@@ -1283,7 +1282,7 @@ end;
 
 procedure TFormCadastro.BtnEditarEmpresaClick(Sender: TObject);
 begin
-  PanelAddEmpresa.Visible := True;
+
   BtnEnviar.Visible := False;
   BtnConfirmarEd.Visible := True;
 

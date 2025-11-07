@@ -149,13 +149,14 @@ begin
       LoadConfigToFields;
       FormLogin.ShowModal;
   finally
-       FormLogin.free;
+
   end;
 
   end
   else
   begin
     ShowMessage('Arquivo de configuração não encontrado. Preencha os dados de conexão.');
+    FormConnection.ShowModal;
   end;
 end;
 

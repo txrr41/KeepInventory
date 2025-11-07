@@ -823,3 +823,13 @@
 06/11/2025 22:37:30 Usuário: suporte1 - Acessou aba Patrimônios
 06/11/2025 22:37:30 Usuário: suporte1 - Acessou aba Empresas
 06/11/2025 22:37:31 Usuário: suporte1 - Acessou aba Patrimônios
+07/11/2025 01:06:22 Usuário: suporte1 - Realizou login
+07/11/2025 01:08:37 Usuário: suporte1 - Realizou login
+07/11/2025 01:09:09 Usuário: suporte1 - Acessou o módulo de Cadastros
+07/11/2025 01:09:10 Usuário: suporte1 - Acessou aba Patrimônios
+07/11/2025 01:09:11 Usuário: suporte1 - Acessou aba Empresas
+07/11/2025 01:09:12 Usuário: suporte1 - Acessou aba Patrimônios
+07/11/2025 01:09:13 Usuário: suporte1 - Acessou aba Empresas
+07/11/2025 01:09:14 Usuário: suporte1 - Acessou aba Patrimônios
+07/11/2025 01:09:15 Usuário: suporte1 - Acessou aba Empresas
+07/11/2025 01:14:46 Usuário: suporte1 - Realizou login

@@ -184,13 +184,14 @@ end;
 procedure TFormHome.Image9Click(Sender: TObject);
 var User: TFormCadastroUsuario;
 begin
-  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
+  LimparPanel;
 
-  User := TFormCadastroUsuario.Create(Self);
-  User.Parent := Self.Panel3;
-  User.Align := alClient;
-  User.BorderStyle := bsNone;
-  User.Show;
+
+User := TFormCadastroUsuario.Create(Self);
+User.Parent := Self.Panel3;
+User.Align := alClient;
+User.BorderStyle := bsNone;
+User.Show;
 end;
 
 end.

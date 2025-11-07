@@ -70,9 +70,11 @@ uses
   UsuarioRepository in 'UsuarioRepository.pas',
   UsuarioService in 'UsuarioService.pas',
   UsuarioController in 'controller\UsuarioController.pas',
+  dialogs,
   PermissoesHelper in 'service\PermissoesHelper.pas';
 
 {$R *.res}
+
 
 begin
   Application.Initialize;
