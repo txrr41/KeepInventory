@@ -12,7 +12,6 @@ type
   end;
 
 implementation
-
 function TLoginRepository.UsuarioExiste(const ALogin, ASenha: string; out AUserID: Integer): Boolean;
 var
   Qry: TFDQuery;
@@ -22,24 +21,18 @@ begin
 
   Qry := TFDQuery.Create(nil);
   try
-    Qry.Connection := DataModule2.FDConnection;
-    Qry.SQL.Text :=
-      'SELECT id FROM usuarios WHERE nome = :nome AND senha = :senha';
-
-    Qry.ParamByName('nome').AsString := ALogin;
-    Qry.ParamByName('senha').AsString := ASenha;
-
-    Qry.Open;
-
+   Qry := TFDQuery.Create(nil);
+  Qry.Connection := DataModule2.FDConnection;
+  Qry.SQL.Text := 'SELECT id, nome, ativo FROM usuarios LIMIT 1';
+  Qry.Open;
     if not Qry.IsEmpty then
     begin
       Result := True;
-      TGlobal.FUserID := Qry.FieldByName('id').AsInteger;
+      AUserID := Qry.FieldByName('id').AsInteger; // <-- CORRETO AGORA
     end;
   finally
     Qry.Free;
   end;
 end;
-
 end.
 

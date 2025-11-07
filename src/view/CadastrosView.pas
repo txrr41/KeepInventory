@@ -13,75 +13,124 @@ uses
 type
   TFormCadastro = class(TForm)
    PanelCadastro: TPanel;
+    Panel1: TPanel;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
-    TabSheet2: TTabSheet;
-    TabSheet3: TTabSheet;
-    TabSheet4: TTabSheet;
-    Label1: TLabel;
-    Panel1: TPanel;
+    Panel10: TPanel;
+    Shape6: TShape;
     Panel2: TPanel;
     DBGrid1: TDBGrid;
-    Panel4: TPanel;
-    Panel5: TPanel;
-    Shape1: TShape;
-    Panel6: TPanel;
-    Panel7: TPanel;
-    Label2: TLabel;
-    Label3: TLabel;
     edtPesquisar: TSearchBox;
-    Panel10: TPanel;
-    BtnAdicionarEmpresa: TSpeedButton;
-    Panel9: TPanel;
-    Label6: TLabel;
-    Shape5: TShape;
-    BtnFiltrarEmpresa: TSpeedButton;
-    Panel8: TPanel;
-    Label5: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-    Shape4: TShape;
-    BtnAtualizarEmpresa: TSpeedButton;
-    Label13: TLabel;
-    Shape2: TShape;
-    BtnEditarEmpresa: TSpeedButton;
-    Shape3: TShape;
-    BtnExcluirEmpresa: TSpeedButton;
-    Label12: TLabel;
-    Label4: TLabel;
-    Label9: TLabel;
-    Label14: TLabel;
-    Shape6: TShape;
-    Shape7: TShape;
-    Shape9: TShape;
-    PanelAddEmpresa: TPanel;
-    EditRazao: TEdit;
-    EditFantasia: TEdit;
-    EditRua: TEdit;
-    EditCnpj: TMaskEdit;
-    Label15: TLabel;
-    Label16: TLabel;
-    Label17: TLabel;
-    EditTelefone: TMaskEdit;
-    Label18: TLabel;
-    Label19: TLabel;
-    EditCep: TMaskEdit;
-    Label20: TLabel;
-    EditNumero: TEdit;
-    Label21: TLabel;
-    EditBairro: TEdit;
-    Label22: TLabel;
-    EditCidade: TEdit;
-    Label23: TLabel;
-    EditEstado: TEdit;
-    Label24: TLabel;
+    TabSheet2: TTabSheet;
     Panel11: TPanel;
     Shape8: TShape;
-    Shape10: TShape;
-    Shape11: TShape;
-    PanelAddPredio: TPanel;
+    Panel19: TPanel;
+    DBGridPredio: TDBGrid;
+    edtPesquisarPredio: TSearchBox;
+    TabSheet3: TTabSheet;
+    Panel3: TPanel;
+    Shape17: TShape;
+    Panel26: TPanel;
+    DBGridSalas: TDBGrid;
+    EdtPesquisarSala: TSearchBox;
+    TabSheet4: TTabSheet;
+    DataSEmpresa: TDataSource;
+    Panel12: TPanel;
+    Label80: TLabel;
+    Label82: TLabel;
+    Panel33: TPanel;
+    DBGridPatrimonio: TDBGrid;
+    SearchBox1: TSearchBox;
+    EditNomePatri: TEdit;
+    EdtTipoPatri: TEdit;
+    CbSituacaoPatri: TComboBox;
+    Label79: TLabel;
+    EdtVAQPatri: TMaskEdit;
+    Label81: TLabel;
+    EdtVAPatri: TMaskEdit;
+    Label85: TLabel;
+    EdtModelo: TEdit;
+    Label84: TLabel;
+    EdtDAPatri: TMaskEdit;
+    Label86: TLabel;
+    ComboBoxPatrimonio: TComboBox;
+    Label87: TLabel;
+    EdtNS: TEdit;
+    Label83: TLabel;
+    BtnConfirmarEdPatri: TButton;
+    BtnEnviarPatrimonio: TButton;
+    Panel30: TPanel;
+    Label69: TLabel;
+    Panel32: TPanel;
+    Label72: TLabel;
+    SpeedButton5: TSpeedButton;
+    Panel31: TPanel;
+    Label70: TLabel;
+    Shape29: TShape;
+    Panel28: TPanel;
+    Label51: TLabel;
+    SpeedButton4: TSpeedButton;
+    Panel29: TPanel;
+    Label52: TLabel;
+    BtnEditarPatrimonio: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    BtnAdicionarPatrimonio: TSpeedButton;
+    Shape25: TShape;
+    Shape27: TShape;
+    Shape28: TShape;
+    Shape26: TShape;
+    Panel27: TPanel;
+    Panel38: TPanel;
+    Label90: TLabel;
+    Panel37: TPanel;
+    Label88: TLabel;
+    SpeedButton1: TSpeedButton;
+    Shape31: TShape;
+    SpeedButton6: TSpeedButton;
+    Shape30: TShape;
+    Label1: TLabel;
+    ComboBox2: TComboBox;
+    EditNameSala: TEdit;
+    EdtObs: TEdit;
+    EdtSituacaoSala: TComboBox;
+    EdtTipoSala: TEdit;
+    Label27: TLabel;
+    Label48: TLabel;
+    Label49: TLabel;
+    Label50: TLabel;
+    Label55: TLabel;
+    BtnConfirmarEdtSala: TButton;
+    BtnEnviarSala: TButton;
+    Panel21: TPanel;
+    Label56: TLabel;
+    Panel22: TPanel;
+    Label59: TLabel;
+    Panel23: TPanel;
+    Label60: TLabel;
+    BtnAdicionarSala: TSpeedButton;
+    Panel24: TPanel;
+    Label62: TLabel;
+    BtnFiltrarSala: TSpeedButton;
+    Panel25: TPanel;
+    Label63: TLabel;
+    BtnEditarSala: TSpeedButton;
+    BtnExcluirSala: TSpeedButton;
+    BtnAtualizarSala: TSpeedButton;
+    Shape18: TShape;
+    Shape19: TShape;
+    Shape20: TShape;
+    Shape21: TShape;
+    Shape22: TShape;
+    Panel20: TPanel;
+    ComboBoxSituacao: TComboBox;
+    EditRuaPredio: TEdit;
+    EdtBairroPredio: TEdit;
+    EdtCepPredio: TMaskEdit;
+    EdtCidadePredio: TEdit;
+    EdtEstadoPredio: TEdit;
+    EdtNamePredio: TEdit;
+    EdtNumeroPredio: TEdit;
+    EdtTelefonePredio: TMaskEdit;
     Label25: TLabel;
     Label26: TLabel;
     Label28: TLabel;
@@ -91,169 +140,72 @@ type
     Label32: TLabel;
     Label33: TLabel;
     Label34: TLabel;
-    EdtNamePredio: TEdit;
-    EditRuaPredio: TEdit;
-    EdtTelefonePredio: TMaskEdit;
-    EdtCepPredio: TMaskEdit;
-    EdtNumeroPredio: TEdit;
-    EdtBairroPredio: TEdit;
-    EdtCidadePredio: TEdit;
-    EdtEstadoPredio: TEdit;
-    Panel13: TPanel;
     Panel14: TPanel;
-    Shape12: TShape;
     Label35: TLabel;
-    BtnAdicionarPredio: TSpeedButton;
     Panel15: TPanel;
-    Label36: TLabel;
-    Label37: TLabel;
-    Shape13: TShape;
-    BtnEditarPredio: TSpeedButton;
     Label38: TLabel;
     Panel16: TPanel;
-    Shape14: TShape;
-    BtnExcluirPredio: TSpeedButton;
     Label39: TLabel;
-    Panel17: TPanel;
-    Label40: TLabel;
-    Shape15: TShape;
-    BtnFiltrarPredio: TSpeedButton;
-    Label41: TLabel;
     Panel18: TPanel;
     Label42: TLabel;
-    Label43: TLabel;
-    Label44: TLabel;
-    Label45: TLabel;
-    Label46: TLabel;
-    Shape16: TShape;
+    BtnAdicionarPredio: TSpeedButton;
+    Panel17: TPanel;
+    Label41: TLabel;
+    BtnEditarPredio: TSpeedButton;
+    BtnExcluirPredio: TSpeedButton;
     BtnAtualizarPredio: TSpeedButton;
-    Label47: TLabel;
-    Panel19: TPanel;
-    DBGridPredio: TDBGrid;
-    edtPesquisarPredio: TSearchBox;
-    ComboBoxSituacao: TComboBox;
-    Panel3: TPanel;
-    Shape17: TShape;
-    Shape18: TShape;
-    Shape19: TShape;
-    Panel20: TPanel;
-    Panel21: TPanel;
-    Shape20: TShape;
-    Label56: TLabel;
-    BtnAdicionarSala: TSpeedButton;
-    Panel22: TPanel;
-    Label57: TLabel;
-    Label58: TLabel;
-    Shape21: TShape;
-    BtnEditarSala: TSpeedButton;
-    Label59: TLabel;
-    Panel23: TPanel;
-    Shape22: TShape;
-    BtnExcluirSala: TSpeedButton;
-    Label60: TLabel;
-    Panel24: TPanel;
-    Label61: TLabel;
-    Shape23: TShape;
-    BtnFiltrarSala: TSpeedButton;
-    Label62: TLabel;
-    Panel25: TPanel;
-    Label63: TLabel;
-    Label64: TLabel;
-    Label65: TLabel;
-    Label66: TLabel;
-    Label67: TLabel;
-    Shape24: TShape;
-    BtnAtualizarSala: TSpeedButton;
-    Label68: TLabel;
-    Panel26: TPanel;
-    DBGridSalas: TDBGrid;
-    EdtPesquisarSala: TSearchBox;
-    PanelAddSala: TPanel;
-    Label27: TLabel;
-    Label48: TLabel;
-    EdtSituacaoSala: TComboBox;
-    ComboBox2: TComboBox;
-    EditNameSala: TEdit;
-    Label49: TLabel;
-    EdtObs: TEdit;
-    Label50: TLabel;
-    EdtTipoSala: TEdit;
-    Label55: TLabel;
-    BtnEnviar: TButton;
-    DataSEmpresa: TDataSource;
-    BtnConfirmarEd: TButton;
-    BtnEnviarPredio: TButton;
+    BtnFiltrarPredio: TSpeedButton;
     BtnConfirmarEdPredio: TButton;
-    BtnEnviarSala: TButton;
-    BtnConfirmarEdtSala: TButton;
-    Panel12: TPanel;
-    Shape25: TShape;
-    Shape26: TShape;
-    Shape27: TShape;
-    Panel27: TPanel;
-    Panel28: TPanel;
-    Shape28: TShape;
-    Label51: TLabel;
-    BtnAdicionarPatrimonio: TSpeedButton;
-    Panel29: TPanel;
-    Label52: TLabel;
-    Label53: TLabel;
-    Shape29: TShape;
-    SpeedButton2: TSpeedButton;
-    Label54: TLabel;
-    Panel30: TPanel;
-    Shape30: TShape;
-    SpeedButton3: TSpeedButton;
-    Label69: TLabel;
-    Panel31: TPanel;
-    Label70: TLabel;
-    Shape31: TShape;
-    SpeedButton4: TSpeedButton;
-    Label71: TLabel;
-    Panel32: TPanel;
-    Label72: TLabel;
-    Label73: TLabel;
-    Label74: TLabel;
-    Label75: TLabel;
-    Label76: TLabel;
-    Shape32: TShape;
-    SpeedButton5: TSpeedButton;
-    Label77: TLabel;
-    Panel33: TPanel;
-    DBGridPatrimonio: TDBGrid;
-    SearchBox1: TSearchBox;
-    Panel34: TPanel;
-    Label79: TLabel;
-    Label80: TLabel;
-    Label82: TLabel;
-    CBSituacaoPatri: TComboBox;
-    EditNomePatri: TEdit;
-    EdtTipoPatri: TEdit;
-    BtnEnviarPatrimonio: TButton;
-    EdtVAQPatri: TMaskEdit;
-    EdtNS: TEdit;
-    Label83: TLabel;
-    EdtModelo: TEdit;
-    Label84: TLabel;
-    EdtVAPatri: TMaskEdit;
-    Label81: TLabel;
-    Label85: TLabel;
-    EdtDAPatri: TMaskEdit;
-    Label86: TLabel;
-    ComboBoxPatrimonio: TComboBox;
-    BtnConfirmarEdPatri: TButton;
-    Label87: TLabel;
-    Panel35: TPanel;
-    Panel36: TPanel;
-    Label89: TLabel;
-    Panel37: TPanel;
-    Shape33: TShape;
-    SpeedButton6: TSpeedButton;
-    Label88: TLabel;
-    Panel38: TPanel;
-    Shape34: TShape;
-    SpeedButton1: TSpeedButton;
-    Label90: TLabel;
+    BtnEnviarPredio: TButton;
+    Panel13: TPanel;
+    Shape10: TShape;
+    Shape11: TShape;
+    Shape12: TShape;
+    Shape13: TShape;
+    Shape15: TShape;
+    EditBairro: TEdit;
+    EditCep: TMaskEdit;
+    EditCidade: TEdit;
+    EditCnpj: TMaskEdit;
+    EditEstado: TEdit;
+    EditFantasia: TEdit;
+    EditNumero: TEdit;
+    EditRazao: TEdit;
+    EditRua: TEdit;
+    EditTelefone: TMaskEdit;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    BtnConfirmarEd: TButton;
+    BtnEnviar: TButton;
+    Panel5: TPanel;
+    Label2: TLabel;
+    Panel6: TPanel;
+    Label3: TLabel;
+    Panel7: TPanel;
+    Label4: TLabel;
+    Panel8: TPanel;
+    Label12: TLabel;
+    Panel9: TPanel;
+    Label14: TLabel;
+    BtnFiltrarEmpresa: TSpeedButton;
+    BtnExcluirEmpresa: TSpeedButton;
+    BtnEditarEmpresa: TSpeedButton;
+    BtnAdicionarEmpresa: TSpeedButton;
+    BtnAtualizarEmpresa: TSpeedButton;
+    Shape1: TShape;
+    Shape2: TShape;
+    Shape3: TShape;
+    Shape4: TShape;
+    Shape5: TShape;
+    Panel4: TPanel;
     procedure PageControl1Change(Sender: TObject);
     procedure BtnEnviarClick(Sender: TObject);
     procedure BtnConfirmarEdClick(Sender: TObject);
@@ -300,13 +252,13 @@ type
     procedure EditCepExit(Sender: TObject);
     procedure EdtCepPredioExit(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure BtnEditarPatrimonioClick(Sender: TObject);
  private
   FLogController: TLogController; // ADICIONADO
     FUsuarioLogado: String; // ADICIONADO
     procedure RegistrarLog(const Mensagem: String); // ADICIONADO
     procedure AtualizarTabelaPatrimonio;
     procedure BtnAtualizarPatrimonioClick(Sender: TObject);
-    procedure BtnEditarPatrimonioClick(Sender: TObject);
     procedure BtnExcluirPatrimonioClick(Sender: TObject);
     procedure BtnFiltrarPatrimonioClick(Sender: TObject);
     procedure LimparCamposPatrimonio;
@@ -354,9 +306,9 @@ constructor TFormCadastro.Create(AComponent: TComponent; const UsuarioLogado: St
 var
   Usuario: TUsuarioModel;
 begin
-  inherited Create(AComponent);
+  inherited Create(AComponent); // ← SÓ UMA VEZ!
 
-  // Obtém o usuário logado do helper ao invés de receber como string
+  // Obtém o usuário logado do helper
   Usuario := TPermissoesHelper.GetUsuarioLogado;
 
   if Usuario <> nil then
@@ -364,17 +316,11 @@ begin
   else
     FUsuarioLogado := 'Usuário Desconhecido';
 
+  // Cria os controllers UMA VEZ
   FLogController := TLogController.Create;
   FSalaController := TSalaController.Create;
   FPatrimonioController := TPatrimonioController.Create;
 
-  RegistrarLog('Acessou o módulo de Cadastros');
-
-  inherited Create(AComponent);
-  FUsuarioLogado := UsuarioLogado;
-  FLogController := TLogController.Create;
-  FSalaController := TSalaController.Create;
-  FPatrimonioController := TPatrimonioController.Create;
   RegistrarLog('Acessou o módulo de Cadastros');
 end;
 
@@ -485,7 +431,7 @@ begin
 
     AtualizarTabelaPatrimonio;
     LimparCamposPatrimonio;
-    Panel34.Visible := False;
+
 
     ShowMessage('Patrimônio adicionado com sucesso!');
   except
@@ -526,7 +472,6 @@ begin
     EdtNumeroPredio.Text := '';
     EdtBairroPredio.Text := '';
 
-    PanelAddPredio.Visible := False;
     AtualizarTabelaP;
     ShowMessage('Prédio adicionado com sucesso!');
   finally
@@ -570,7 +515,7 @@ begin
     EdtTipoSala.Text := '';
     EdtObs.Text := '';
 
-    PanelAddSala.Visible := False;
+
     ShowMessage('Sala adicionada com sucesso!');
   except
     on E: Exception do
@@ -707,28 +652,6 @@ begin
   RegistrarLog('Atualizou lista de salas');
 end;
 
-// ============================================================================
-// SALA - CRUD COM LOG
-// ============================================================================
-
-
-
-
-
-
-
-
-
-// ============================================================================
-// PATRIMÔNIO - CRUD COM LOG
-// ============================================================================
-
-
-
-
-
-
-
 procedure TFormCadastro.BtnConfirmarEdClick(Sender: TObject);
 var
   EmpModel: TEmpresaConfig;
@@ -796,7 +719,6 @@ begin
 
     AtualizarTabelaPatrimonio;
     LimparCamposPatrimonio;
-    Panel34.Visible := False;
 
     ShowMessage('Patrimônio atualizado com sucesso!');
   except
@@ -844,7 +766,7 @@ begin
   EdtNumeroPredio.Text := '';
   EdtBairroPredio.Text := '';
 
-  PanelAddPredio.Visible := False;
+
   ShowMessage('Prédio atualizado com sucesso!');
 
 end;
@@ -879,7 +801,7 @@ begin
   EdtTipoSala.Text := '';
   EdtObs.Text := '';
 
-  PanelAddSala.Visible := False;
+
   AtualizarTabelaS;
   ShowMessage('Sala atualizada com sucesso!');
 
@@ -1029,7 +951,7 @@ procedure TFormCadastro.SpeedButton2Click(Sender: TObject);
 begin
  BtnConfirmarEdPatri.Visible := True;
   BtnEnviarPatrimonio.Visible := False;
-  Panel34.Visible := True;
+
 
   try
     EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
@@ -1331,39 +1253,31 @@ begin
     ShowMessage('Você não tem permissão para adicionar empresas!');
     Exit;
   end;
-if Panel34.Visible = False then
+
   begin
-    Panel34.Visible := True;
+
     BtnEnviarPatrimonio.Visible := True;
     PopularComboBoxSalas;
-  end
-  else
-    Panel34.Visible := False;
+
+end;
 end;
 
 procedure TFormCadastro.BtnAdicionarPredioClick(Sender: TObject);
 begin
-      if PanelAddPredio.Visible = False then
-  begin
-    PanelAddPredio.Visible := True;
+
+
     BtnEnviarPredio.Visible := True;
-  end
-  else
-    PanelAddPredio.Visible := False;
+
 end;
 
 
 
 procedure TFormCadastro.BtnAdicionarSalaClick(Sender: TObject);
 begin
-  if PanelAddSala.Visible = False then
-  begin
-    PanelAddSala.Visible := True;
+
     BtnEnviarSala.Visible := True;
     PopularComboBox;
-  end
-  else
-    PanelAddSala.Visible := False;
+
 end;
 
 
@@ -1388,11 +1302,14 @@ begin
   end;
 end;
 
+
+
+
 procedure TFormCadastro.BtnEditarPatrimonioClick(Sender: TObject);
 begin
   BtnConfirmarEdPatri.Visible := True;
   BtnEnviarPatrimonio.Visible := False;
-  Panel34.Visible := True;
+
 
   try
     EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
@@ -1409,11 +1326,8 @@ begin
   end;
 end;
 
-
-
 procedure TFormCadastro.BtnEditarPredioClick(Sender: TObject);
 begin
-  PanelAddPredio.Visible := True;
   BtnConfirmarEdPredio.Visible := True;
   BtnEnviarPredio.Visible := False;
 
@@ -1437,7 +1351,7 @@ procedure TFormCadastro.BtnEditarSalaClick(Sender: TObject);
 begin
   BtnConfirmarEdtSala.Visible := True;
   BtnEnviarSala.Visible := False;
-  PanelAddSala.Visible := True;
+
 
   try
     EditNameSala.Text := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;

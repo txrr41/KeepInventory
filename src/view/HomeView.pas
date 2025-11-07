@@ -1,4 +1,4 @@
-unit HomeView;
+﻿unit HomeView;
 
 interface
 
@@ -39,7 +39,6 @@ type
     procedure Image3Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);
     procedure Image5Click(Sender: TObject);
-
     procedure Image6Click(Sender: TObject);
     procedure Image10Click(Sender: TObject);
     procedure Image11Click(Sender: TObject);
@@ -47,7 +46,8 @@ type
     procedure FormCreate(Sender: TObject);
 
   private
-   ActiveForm: TForm;
+    ActiveForm: TForm;
+    procedure LimparPanel; // NOVO MÉTODO
   public
     { Public declarations }
   end;
@@ -59,8 +59,20 @@ implementation
 
 {$R *.dfm}
 
-
-
+// NOVO MÉTODO PARA LIMPAR O PANEL
+procedure TFormHome.LimparPanel;
+var
+  i: Integer;
+begin
+  // Destrói todos os forms filhos do Panel3
+  for i := Panel3.ControlCount - 1 downto 0 do
+  begin
+    if Panel3.Controls[i] is TForm then
+    begin
+      TForm(Panel3.Controls[i]).Free;
+    end;
+  end;
+end;
 
 procedure TFormHome.FormCreate(Sender: TObject);
 var
@@ -70,114 +82,115 @@ begin
 
   if Usuario = nil then
   begin
-    ShowMessage('Erro: Usu�rio n�o autenticado!');
+    ShowMessage('Erro: Usuário não autenticado!');
     Application.Terminate;
     Exit;
   end;
 
-  ShowMessage('Usu�rio: ' + Usuario.Nome);
+  ShowMessage('Usuário: ' + Usuario.Nome);
 
-  // Controla visibilidade dos bot�es do menu principal
-  if Usuario.PermCadastros = True then
-
-  Image3.Visible := True;
+  // Controla visibilidade dos botões do menu principal
+  Image3.Visible := Usuario.PermCadastros;
   Image5.Visible := Usuario.PermMovimentacoes;
   Image6.Visible := Usuario.PermMovimentacoes;
   Image10.Visible := Usuario.PermOcorrencias;
-  image11.Visible := Usuario.PermOcorrencias;
+  Image11.Visible := Usuario.PermOcorrencias;
   Image9.Visible := Usuario.PermUsuarios;
 end;
 
 procedure TFormHome.Image10Click(Sender: TObject);
 var Ocorr: TFormRegistrarOcorrencia;
 begin
-  Ocorr := TFormRegistrarOcorrencia.Create(Self.Panel3);
+  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
+
+  Ocorr := TFormRegistrarOcorrencia.Create(Self);
   Ocorr.Parent := Self.Panel3;
-  Ocorr.Align := AlClient;
+  Ocorr.Align := alClient;
   Ocorr.BorderStyle := bsNone;
   Ocorr.Show;
-
 end;
 
 procedure TFormHome.Image11Click(Sender: TObject);
 var Analise: TFormAnaliseOcorrencia;
 begin
-  Analise := TFormAnaliseOcorrencia.Create(Self.Panel3);
+  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
+
+  Analise := TFormAnaliseOcorrencia.Create(Self);
   Analise.Parent := Self.Panel3;
-  Analise.Align := AlClient;
+  Analise.Align := alClient;
   Analise.BorderStyle := bsNone;
   Analise.Show;
-
 end;
 
 procedure TFormHome.Image1Click(Sender: TObject);
 begin
-
-
-   if Panel1.Width = 50 then begin
-
-   Panel1.Width := 200;
-   end else if Panel1.Width = 200 then begin
-
-   Panel1.Width := 50;
-   end;
-
+  if Panel1.Width = 50 then
+    Panel1.Width := 200
+  else if Panel1.Width = 200 then
+    Panel1.Width := 50;
 end;
 
-
 procedure TFormHome.Image3Click(Sender: TObject);
-var Cad: TFormCadastro;
-    Controller: TEmpresaController;
-    DataS: TDataSource;
+var
+  Cad: TFormCadastro;
+  Controller: TEmpresaController;
 begin
-  Cad := TFormCadastro.Create(Self.Panel3,'');
+  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
+
+  Cad := TFormCadastro.Create(Self, ''); // ← MUDEI PARA Self
   Cad.Parent := Self.Panel3;
   Cad.Align := alClient;
   Cad.BorderStyle := bsNone;
   Cad.Show;
+
   Controller := TEmpresaController.Create;
-  Cad.DataSEmpresa.DataSet := Controller.ListarEmpresa;
-  Cad.DbGrid1.DataSource := Cad.DataSEmpresa;
+  try
+    Cad.DataSEmpresa.DataSet := Controller.ListarEmpresa;
+    Cad.DbGrid1.DataSource := Cad.DataSEmpresa;
+  finally
+    Controller.Free;
+  end;
 end;
 
 procedure TFormHome.Image5Click(Sender: TObject);
 var Movi: TFormPedidoMovi;
 begin
-  Movi := TFormPedidoMovi.Create(Self.Panel3);
+  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
+
+  Movi := TFormPedidoMovi.Create(Self);
   Movi.Parent := Self.Panel3;
-  Movi.Align := AlClient;
+  Movi.Align := alClient;
   Movi.BorderStyle := bsNone;
   Movi.Show;
-
 end;
 
 procedure TFormHome.Image6Click(Sender: TObject);
 var Movi: TFormMovi;
 begin
-  Movi := TFormMovi.Create(Self.Panel3);
+  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
+
+  Movi := TFormMovi.Create(Self);
   Movi.Parent := Self.Panel3;
-  Movi.Align := AlClient;
+  Movi.Align := alClient;
   Movi.BorderStyle := bsNone;
   Movi.Show;
-
 end;
 
 procedure TFormHome.Image8Click(Sender: TObject);
 begin
-Halt;
+  Halt;
 end;
 
 procedure TFormHome.Image9Click(Sender: TObject);
-var Movi: TFormCadastroUsuario;
+var User: TFormCadastroUsuario;
 begin
-  Movi := TFormCadastroUsuario.Create(Self.Panel3);
-  Movi.Parent := Self.Panel3;
-  Movi.Align := AlClient;
-  Movi.BorderStyle := bsNone;
-  Movi.Show;
+  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
 
+  User := TFormCadastroUsuario.Create(Self);
+  User.Parent := Self.Panel3;
+  User.Align := alClient;
+  User.BorderStyle := bsNone;
+  User.Show;
 end;
 
 end.
-
-

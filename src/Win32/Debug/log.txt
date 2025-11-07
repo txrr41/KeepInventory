@@ -763,3 +763,63 @@
 05/11/2025 16:02:18 Usuário: admin - Realizou o login
 05/11/2025 17:03:11 Usuário:  - Realizou login no sistema
 05/11/2025 17:05:10 Usuário:  - Realizou login no sistema
+05/11/2025 23:04:02 Usuário: ney - Realizou login
+05/11/2025 23:04:09 Usuário: ney - Realizou login
+05/11/2025 23:04:17 Usuário: ney - Realizou login
+05/11/2025 23:08:35 Usuário: ney - Realizou login
+05/11/2025 23:13:40 Usuário: wadad - Realizou login
+05/11/2025 23:27:26 Usuário: suporte1 - Realizou login
+05/11/2025 23:27:30 Usuário: suporte1 - Acessou o módulo de Cadastros
+05/11/2025 23:27:36 Usuário: suporte1 - Acessou o módulo de Cadastros
+05/11/2025 23:27:44 Usuário: suporte1 - Acessou o módulo de Cadastros
+05/11/2025 23:27:46 Usuário: suporte1 - Acessou o módulo de Cadastros
+06/11/2025 21:13:44 Usuário: suporte1 - Realizou login
+06/11/2025 21:13:47 Usuário: suporte1 - Acessou o módulo de Cadastros
+06/11/2025 21:14:07 Usuário: suporte1 - Realizou login
+06/11/2025 21:14:10 Usuário: suporte1 - Acessou o módulo de Cadastros
+06/11/2025 21:19:33 Usuário: suporte1 - Realizou login
+06/11/2025 21:19:36 Usuário: suporte1 - Acessou o módulo de Cadastros
+06/11/2025 21:19:44 Usuário: suporte1 - Acessou o módulo de Cadastros
+06/11/2025 21:23:02 Usuário: suporte1 - Realizou login
+06/11/2025 21:23:04 Usuário: suporte1 - Acessou o módulo de Cadastros
+06/11/2025 21:26:43 Usuário: suporte1 - Realizou login
+06/11/2025 21:26:46 Usuário: suporte1 - Acessou o módulo de Cadastros
+06/11/2025 21:32:41 Usuário: suporte1 - Realizou login
+06/11/2025 21:32:43 Usuário: suporte1 - Acessou o módulo de Cadastros
+06/11/2025 22:32:52 Usuário: suporte1 - Realizou login
+06/11/2025 22:33:35 Usuário: suporte1 - Realizou login
+06/11/2025 22:34:50 Usuário: suporte1 - Realizou login
+06/11/2025 22:34:53 Usuário: suporte1 - Acessou o módulo de Cadastros
+06/11/2025 22:34:54 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:35:14 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:35:15 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:35:36 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:35:43 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:35:51 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:35:52 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:35:59 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:01 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:36:07 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:08 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:36:13 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:20 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:36:20 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:21 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:36:21 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:22 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:36:22 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:22 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:36:22 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:23 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:36:24 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:28 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:36:40 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:42 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:36:47 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:49 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:36:50 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:36:57 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:37:28 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:37:30 Usuário: suporte1 - Acessou aba Patrimônios
+06/11/2025 22:37:30 Usuário: suporte1 - Acessou aba Empresas
+06/11/2025 22:37:31 Usuário: suporte1 - Acessou aba Patrimônios

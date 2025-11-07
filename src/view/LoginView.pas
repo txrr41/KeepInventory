@@ -95,65 +95,57 @@ end;
 
 procedure TFormLogin.SpeedButton1Click(Sender: TObject);
 var
-Usuario: TUsuarioModel;
-LogController: TLogController;
-Controller: TLoginController;
-UsuarioLog: TUserLog;
-UsuarioExiste: Boolean;
-Home: TFormHome;
-DataHora: TDateTime;
-DataFormatada: String;
-Global: TLoginGlobal;
-Cont: TUsuarioController;
-
-
+  Usuario: TUsuarioModel;
+  LogController: TLogController;
+  Controller: TLoginController;
+  UsuarioLog: TUserLog;
+  Home: TFormHome;
+  Cont: TUsuarioController;
 begin
   Usuario := TUsuarioModel.Create;
   Controller := TLoginController.Create;
   LogController := TLogController.Create;
 
+  try
+    Usuario.Nome := EditUserLogin.Text;
+    Usuario.SenhaHash := EditSenhaLogin.Text;
 
-try
-  Usuario.Nome := EditUserLogin.Text;
-  Usuario.SenhaHash := EditSenhaLogin.Text;
-  UsuarioExiste := Controller.SalvarLogin(Usuario);
-  if Usuario = nil then
-  begin
-    ShowMessage('Erro: Usuário não autenticado!');
-    Application.Terminate;
-    Exit;
-  end;
+    // Verifica login
+    if not Controller.SalvarLogin(Usuario) then
+      raise Exception.Create('Usuário ou senha inválidos.');
 
-
-  if UsuarioExiste = True then begin
-    ShowMessage('Usuário: ' + Usuario.Nome);
-
-
-  Usuario := TPermissoesHelper.GetUsuarioLogado;
-
-
-  ShowMessage('Usuário: ' + Usuario.Nome);
-  Cont := TUsuarioController.Create;
-    Usuario := FUsuarioController.ObterPermissoes(Usuario.Id);
+    // Salva usuário logado
     TPermissoesHelper.SetUsuarioLogado(Usuario);
+
+    // Carrega permissões
+    Cont := TUsuarioController.Create;
+    try
+      Usuario := Cont.ObterPermissoes(Usuario.Id);
+      TPermissoesHelper.SetUsuarioLogado(Usuario);
+    finally
+      Cont.Free;
+    end;
+
+    // Log
     UsuarioLog := TUserLog.Create;
-    UsuarioLog.UserName := EditUserLogin.Text;
-    DataHora := Now;
-    DataFormatada := FormatDateTime('yyyy/mm/dd hh:nn:ss', DataHora);
-    UsuarioLog.Date := DataHora;
-    UsuarioLog.Msg := 'Realizou o login';
-    LogController.RegAuditoria(UsuarioLog);
-    Home := TFormhome.Create(nil);
+    try
+      UsuarioLog.UserName := Usuario.Nome;
+      UsuarioLog.Date := Now;
+      UsuarioLog.Msg := 'Realizou login';
+      LogController.RegAuditoria(UsuarioLog);
+    finally
+      UsuarioLog.Free;
+    end;
+
+    // Abre Home
+    Home := TFormHome.Create(nil);
     Home.ShowModal;
 
-  end else begin
-  raise exception.Create('Usuário ou senha invalidos.');
+  finally
+    Controller.Free;
+    LogController.Free;
+
   end;
-finally
-
-   Controller.Free;
-
-end;
 end;
 
 end.
