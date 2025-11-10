@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Skia, Vcl.StdCtrls,
   Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, PedidoMoviView, MovimentacoesView, RegistroOcorrenciaView, AnaliseOcorrenciaView,
-  Vcl.Imaging.pngimage, CadastroUsuarioView, PermissoesHelper, UsuarioModel;
+  Vcl.Imaging.pngimage, CadastroUsuarioView, PermissoesHelper, UsuarioModel, DashboardView;
 
 type
   TFormHome = class(TForm)
@@ -44,10 +44,11 @@ type
     procedure Image11Click(Sender: TObject);
     procedure Image9Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure Image2Click(Sender: TObject);
 
   private
     ActiveForm: TForm;
-    procedure LimparPanel; // NOVO MÉTODO
+    procedure LimparPanel;
   public
     { Public declarations }
   end;
@@ -59,12 +60,11 @@ implementation
 
 {$R *.dfm}
 
-// NOVO MÉTODO PARA LIMPAR O PANEL
 procedure TFormHome.LimparPanel;
 var
   i: Integer;
 begin
-  // Destrói todos os forms filhos do Panel3
+
   for i := Panel3.ControlCount - 1 downto 0 do
   begin
     if Panel3.Controls[i] is TForm then
@@ -77,6 +77,7 @@ end;
 procedure TFormHome.FormCreate(Sender: TObject);
 var
   Usuario: TUsuarioModel;
+  Dash: TFormDashboard;
 begin
   Usuario := TPermissoesHelper.GetUsuarioLogado;
 
@@ -87,9 +88,14 @@ begin
     Exit;
   end;
 
-  ShowMessage('Usuário: ' + Usuario.Nome);
+  LimparPanel;
 
-  // Controla visibilidade dos botões do menu principal
+  Dash := TFormDashboard.Create(self);
+  Dash.Parent := Self.Panel3;
+  Dash.Align := alClient;
+  Dash.BorderStyle := bsNone;
+  Dash.Show;
+
   Image3.Visible := Usuario.PermCadastros;
   Image5.Visible := Usuario.PermMovimentacoes;
   Image6.Visible := Usuario.PermMovimentacoes;
@@ -101,7 +107,7 @@ end;
 procedure TFormHome.Image10Click(Sender: TObject);
 var Ocorr: TFormRegistrarOcorrencia;
 begin
-  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
+  LimparPanel;
 
   Ocorr := TFormRegistrarOcorrencia.Create(Self);
   Ocorr.Parent := Self.Panel3;
@@ -113,8 +119,7 @@ end;
 procedure TFormHome.Image11Click(Sender: TObject);
 var Analise: TFormAnaliseOcorrencia;
 begin
-  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
-
+  LimparPanel;
   Analise := TFormAnaliseOcorrencia.Create(Self);
   Analise.Parent := Self.Panel3;
   Analise.Align := alClient;
@@ -130,14 +135,29 @@ begin
     Panel1.Width := 50;
 end;
 
+procedure TFormHome.Image2Click(Sender: TObject);
+var
+Dash: TFormDashboard;
+begin
+
+ LimparPanel;
+
+ Dash := TFormDashboard.Create(self);
+ Dash.Parent := Self.Panel3;
+ Dash.Align := alClient;
+ Dash.BorderStyle := bsNone;
+ Dash.Show;
+
+end;
+
 procedure TFormHome.Image3Click(Sender: TObject);
 var
   Cad: TFormCadastro;
   Controller: TEmpresaController;
 begin
-  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
+  LimparPanel;
 
-  Cad := TFormCadastro.Create(Self, ''); // ← MUDEI PARA Self
+  Cad := TFormCadastro.Create(Self, '');
   Cad.Parent := Self.Panel3;
   Cad.Align := alClient;
   Cad.BorderStyle := bsNone;
@@ -155,7 +175,7 @@ end;
 procedure TFormHome.Image5Click(Sender: TObject);
 var Movi: TFormPedidoMovi;
 begin
-  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
+  LimparPanel;
 
   Movi := TFormPedidoMovi.Create(Self);
   Movi.Parent := Self.Panel3;
@@ -167,7 +187,7 @@ end;
 procedure TFormHome.Image6Click(Sender: TObject);
 var Movi: TFormMovi;
 begin
-  LimparPanel; // LIMPA ANTES DE CRIAR NOVO
+  LimparPanel;
 
   Movi := TFormMovi.Create(Self);
   Movi.Parent := Self.Panel3;

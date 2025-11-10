@@ -32,7 +32,7 @@ begin
     Q.Connection := DataModule2.FDConnection;
     Q.SQL.Text :=
       'INSERT INTO usuarios ( ' +
-      '  nome, cpf, rg, telefone, data_nascimento, funcao, senha_hash, ' +
+      '  nome, cpf, rg, telefone, data_nascimento, funcao, senha, ' +
       '  perm_cadastros, perm_cad_empresa, perm_cad_predio, perm_cad_sala, perm_cad_patrimonio, ' +
       '  perm_movimentacoes, perm_mov_analisar, perm_mov_adicionar, perm_mov_excluir, ' +
       '  perm_ocorrencias, perm_ocor_analisar, perm_ocor_adicionar, perm_ocor_excluir, ' +
@@ -98,7 +98,7 @@ begin
       SQL :=
         'UPDATE usuarios SET ' +
         '  nome = :nome, cpf = :cpf, rg = :rg, telefone = :telefone, ' +
-        '  data_nascimento = :data_nascimento, funcao = :funcao, senha_hash = :senha_hash, ' +
+        '  data_nascimento = :data_nascimento, funcao = :funcao, senha = :senha_hash, ' +
         '  perm_cadastros = :perm_cadastros, perm_cad_empresa = :perm_cad_empresa, ' +
         '  perm_cad_predio = :perm_cad_predio, perm_cad_sala = :perm_cad_sala, ' +
         '  perm_cad_patrimonio = :perm_cad_patrimonio, ' +
@@ -231,35 +231,57 @@ var
   Q: TFDQuery;
   Usuario: TUsuarioModel;
 begin
-  Q := TFDQuery.Create(nil);
   Usuario := TUsuarioModel.Create;
+  Q := TFDQuery.Create(nil);
   try
     Q.Connection := DataModule2.FDConnection;
     Q.SQL.Text :=
       'SELECT * FROM usuarios WHERE id = :id AND ativo = true';
+
     Q.ParamByName('id').AsInteger := AIdUsuario;
     Q.Open;
 
     if not Q.IsEmpty then
     begin
+      // *** IMPORTANTE: Preenche o ID ***
       Usuario.Id := Q.FieldByName('id').AsInteger;
       Usuario.Nome := Q.FieldByName('nome').AsString;
+      Usuario.Cpf := Q.FieldByName('cpf').AsString;
+      Usuario.Rg := Q.FieldByName('rg').AsString;
+      Usuario.Telefone := Q.FieldByName('telefone').AsString;
+      Usuario.DataNascimento := Q.FieldByName('data_nascimento').AsDateTime;
+      Usuario.Funcao := Q.FieldByName('funcao').AsString;
+
+      // Permissões - Cadastros
       Usuario.PermCadastros := Q.FieldByName('perm_cadastros').AsBoolean;
-      Usuario.PermCadEmpresa := Q.FieldByName('perm_cad_empresa').AsBoolean;
-      Usuario.PermCadPredio := Q.FieldByName('perm_cad_predio').AsBoolean;
+      Usuario.PermCadEmpresa:= Q.FieldByName('perm_cad_empresa').AsBoolean;
       Usuario.PermCadSala := Q.FieldByName('perm_cad_sala').AsBoolean;
       Usuario.PermCadPatrimonio := Q.FieldByName('perm_cad_patrimonio').AsBoolean;
+      Usuario.PermCadPredio:= Q.FieldByName('perm_cad_predio').AsBoolean;
+
+      // Permissões - Movimentações
       Usuario.PermMovimentacoes := Q.FieldByName('perm_movimentacoes').AsBoolean;
       Usuario.PermMovAnalisar := Q.FieldByName('perm_mov_analisar').AsBoolean;
       Usuario.PermMovAdicionar := Q.FieldByName('perm_mov_adicionar').AsBoolean;
       Usuario.PermMovExcluir := Q.FieldByName('perm_mov_excluir').AsBoolean;
-      Usuario.PermOcorrencias := Q.FieldByName('perm_ocorrencias').AsBoolean;
+
+
+      // Permissões - Ocorrências
+      Usuario.PermOcorrencias:= Q.FieldByName('perm_ocorrencias').AsBoolean;
       Usuario.PermOcorAnalisar := Q.FieldByName('perm_ocor_analisar').AsBoolean;
       Usuario.PermOcorAdicionar := Q.FieldByName('perm_ocor_adicionar').AsBoolean;
       Usuario.PermOcorExcluir := Q.FieldByName('perm_ocor_excluir').AsBoolean;
+
+      // Permissões - Usuários
       Usuario.PermUsuarios := Q.FieldByName('perm_usuarios').AsBoolean;
       Usuario.PermUserCadastrar := Q.FieldByName('perm_user_cadastrar').AsBoolean;
       Usuario.PermUserPermissao := Q.FieldByName('perm_user_permissao').AsBoolean;
+    end
+    else
+    begin
+      // Se não encontrou o usuário, libera e retorna nil
+      Usuario.Free;
+      Usuario := nil;
     end;
 
     Result := Usuario;

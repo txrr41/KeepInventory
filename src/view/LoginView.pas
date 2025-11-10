@@ -99,53 +99,75 @@ var
   LogController: TLogController;
   Controller: TLoginController;
   UsuarioLog: TUserLog;
+  UsuarioExiste: Boolean;
   Home: TFormHome;
-  Cont: TUsuarioController;
+  DataHora: TDateTime;
 begin
   Usuario := TUsuarioModel.Create;
   Controller := TLoginController.Create;
   LogController := TLogController.Create;
-
   try
+    // Define nome e senha
     Usuario.Nome := EditUserLogin.Text;
     Usuario.SenhaHash := EditSenhaLogin.Text;
 
-    // Verifica login
-    if not Controller.SalvarLogin(Usuario) then
-      raise Exception.Create('Usuário ou senha inválidos.');
+    // Valida login
+    UsuarioExiste := Controller.SalvarLogin(Usuario);
 
-    // Salva usuário logado
-    TPermissoesHelper.SetUsuarioLogado(Usuario);
-
-    // Carrega permissões
-    Cont := TUsuarioController.Create;
-    try
-      Usuario := Cont.ObterPermissoes(Usuario.Id);
-      TPermissoesHelper.SetUsuarioLogado(Usuario);
-    finally
-      Cont.Free;
+    if not UsuarioExiste then
+    begin
+      ShowMessage('Usuário ou senha inválidos!');
+      Exit;
     end;
 
-    // Log
+    // Se chegou aqui, o login foi válido e Usuario.Id foi preenchido
+
+    // Busca as permissões completas do usuário
+    Usuario := FUsuarioController.ObterPermissoes(Usuario.Id);
+
+    if Usuario = nil then
+    begin
+      ShowMessage('Erro ao carregar permissões do usuário!');
+      Exit;
+    end;
+
+    // *** CRÍTICO: SALVA O USUÁRIO NO HELPER GLOBAL ***
+    TPermissoesHelper.SetUsuarioLogado(Usuario);
+
+    // Registra log de auditoria
     UsuarioLog := TUserLog.Create;
     try
-      UsuarioLog.UserName := Usuario.Nome;
-      UsuarioLog.Date := Now;
-      UsuarioLog.Msg := 'Realizou login';
+      UsuarioLog.UserName := EditUserLogin.Text;
+      DataHora := Now;
+      UsuarioLog.Date := DataHora;
+      UsuarioLog.Msg := 'Realizou o login';
       LogController.RegAuditoria(UsuarioLog);
     finally
       UsuarioLog.Free;
     end;
 
-    // Abre Home
-    Home := TFormHome.Create(nil);
-    Home.ShowModal;
+    // Esconde tela de login e mostra Home
+    Self.Hide;
 
-  finally
-    Controller.Free;
-    LogController.Free;
+    try
+      Home := TFormHome.Create(nil);
+      Home.ShowModal;
+    finally
+      Home.Free;
+    end;
 
+    // Fecha aplicação após sair da Home
+    Application.Terminate;
+
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Erro ao fazer login: ' + E.Message);
+      Usuario.Free;
+    end;
   end;
 end;
+
+
 
 end.

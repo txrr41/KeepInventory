@@ -54,10 +54,10 @@ object FormCadastro: TFormCadastro
     end
     object PageControl1: TPageControl
       Left = 6
-      Top = 65
+      Top = 67
       Width = 1398
       Height = 806
-      ActivePage = TabSheet3
+      ActivePage = TabSheet1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -78,8 +78,8 @@ object FormCadastro: TFormCadastro
         ParentShowHint = False
         ShowHint = False
         object Panel10: TPanel
-          Left = 0
-          Top = -16
+          Left = -7
+          Top = 0
           Width = 1387
           Height = 746
           Caption = 'Panel10'

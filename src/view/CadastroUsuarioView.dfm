@@ -10,6 +10,7 @@ object FormCadastroUsuario: TFormCadastroUsuario
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 15
   object Panel1: TPanel
@@ -22,7 +23,6 @@ object FormCadastroUsuario: TFormCadastroUsuario
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = -8
     object Label1: TLabel
       Left = 48
       Top = 107

@@ -24,7 +24,7 @@ object FormHome: TFormHome
     object Panel1: TPanel
       Left = 1
       Top = 1
-      Width = 50
+      Width = 48
       Height = 911
       Align = alLeft
       BevelOuter = bvNone
@@ -32,12 +32,17 @@ object FormHome: TFormHome
       ParentBackground = False
       TabOrder = 0
       object Image2: TImage
-        Left = 11
-        Top = 119
-        Width = 32
+        AlignWithMargins = True
+        Left = 7
+        Top = 137
+        Width = 34
         Height = 29
         Hint = 'Home'
+        Margins.Left = 7
+        Margins.Top = 85
+        Margins.Right = 7
         ParentCustomHint = False
+        Align = alTop
         ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C7376672066696C6C3D2223464646464646
@@ -54,14 +59,23 @@ object FormHome: TFormHome
           2F7376673E}
         ShowHint = True
         Stretch = True
+        OnClick = Image2Click
+        ExplicitLeft = 11
+        ExplicitTop = 119
+        ExplicitWidth = 32
       end
       object Image3: TImage
-        Left = 13
-        Top = 182
-        Width = 31
+        AlignWithMargins = True
+        Left = 7
+        Top = 189
+        Width = 34
         Height = 31
         Hint = 'Cadastros'
+        Margins.Left = 7
+        Margins.Top = 20
+        Margins.Right = 7
         ParentCustomHint = False
+        Align = alTop
         ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C7376672066696C6C3D2223464646464646
@@ -85,14 +99,22 @@ object FormHome: TFormHome
         Stretch = True
         Visible = False
         OnClick = Image3Click
+        ExplicitLeft = 13
+        ExplicitTop = 182
+        ExplicitWidth = 31
       end
       object Image4: TImage
-        Left = 11
+        AlignWithMargins = True
+        Left = 7
         Top = 243
-        Width = 32
+        Width = 34
         Height = 29
         Hint = 'Itens'
+        Margins.Left = 7
+        Margins.Top = 20
+        Margins.Right = 7
         ParentCustomHint = False
+        Align = alTop
         ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C7376672066696C6C3D2223464646464646
@@ -115,13 +137,20 @@ object FormHome: TFormHome
           203133204C203135203131204C2039203131207A222F3E3C2F7376673E}
         ShowHint = True
         Stretch = True
+        ExplicitLeft = 12
+        ExplicitWidth = 32
       end
       object Image6: TImage
-        Left = 11
-        Top = 360
-        Width = 33
+        AlignWithMargins = True
+        Left = 7
+        Top = 347
+        Width = 34
         Height = 32
+        Margins.Left = 7
+        Margins.Top = 20
+        Margins.Right = 7
         ParentCustomHint = False
+        Align = alTop
         ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C3F786D6C2076657273696F6E3D22312E30
@@ -509,12 +538,20 @@ object FormHome: TFormHome
         ShowHint = True
         Stretch = True
         OnClick = Image6Click
+        ExplicitLeft = 11
+        ExplicitTop = 360
+        ExplicitWidth = 33
       end
       object Image1: TImage
-        Left = 9
-        Top = 22
-        Width = 32
+        AlignWithMargins = True
+        Left = 7
+        Top = 20
+        Width = 34
         Height = 29
+        Margins.Left = 7
+        Margins.Top = 20
+        Margins.Right = 7
+        Align = alTop
         Picture.Data = {
           0954506E67496D61676589504E470D0A1A0A0000000D49484452000000180000
           00180806000000E0773DF8000000097048597300000B1300000B1301009A9C18
@@ -523,14 +560,22 @@ object FormHome: TFormHome
           2F1A0000000049454E44AE426082}
         Stretch = True
         OnClick = Image1Click
+        ExplicitLeft = 12
+        ExplicitTop = 22
+        ExplicitWidth = 32
       end
       object Image7: TImage
-        Left = 14
-        Top = 607
-        Width = 26
+        AlignWithMargins = True
+        Left = 7
+        Top = 558
+        Width = 34
         Height = 28
         Hint = 'Relatorios'
+        Margins.Left = 7
+        Margins.Top = 20
+        Margins.Right = 7
         ParentCustomHint = False
+        Align = alTop
         ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C7376672076657273696F6E3D22312E3122
@@ -557,6 +602,9 @@ object FormHome: TFormHome
           3C2F7376673E}
         ShowHint = True
         Stretch = True
+        ExplicitLeft = 14
+        ExplicitTop = 607
+        ExplicitWidth = 26
       end
       object Label1: TLabel
         Left = 56
@@ -637,8 +685,8 @@ object FormHome: TFormHome
         ParentFont = False
       end
       object Image8: TImage
-        Left = 11
-        Top = 750
+        Left = 9
+        Top = 751
         Width = 32
         Height = 29
         Picture.Data = {
@@ -685,12 +733,17 @@ object FormHome: TFormHome
         ParentFont = False
       end
       object Image9: TImage
-        Left = 12
-        Top = 424
-        Width = 32
+        AlignWithMargins = True
+        Left = 7
+        Top = 402
+        Width = 34
         Height = 29
         Hint = 'Usu'#225'rios'
+        Margins.Left = 7
+        Margins.Top = 20
+        Margins.Right = 7
         ParentCustomHint = False
+        Align = alTop
         ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C7376672066696C6C3D2223464646464646
@@ -735,14 +788,22 @@ object FormHome: TFormHome
         ShowHint = True
         Stretch = True
         OnClick = Image9Click
+        ExplicitLeft = 12
+        ExplicitTop = 424
+        ExplicitWidth = 32
       end
       object Image10: TImage
-        Left = 12
-        Top = 487
-        Width = 33
+        AlignWithMargins = True
+        Left = 7
+        Top = 454
+        Width = 34
         Height = 29
         Hint = 'Registrar Oorr'#234'ncias'
+        Margins.Left = 7
+        Margins.Top = 20
+        Margins.Right = 7
         ParentCustomHint = False
+        Align = alTop
         ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C7376672066696C6C3D2223464646464646
@@ -767,14 +828,22 @@ object FormHome: TFormHome
         ShowHint = True
         Stretch = True
         OnClick = Image10Click
+        ExplicitLeft = 12
+        ExplicitTop = 487
+        ExplicitWidth = 33
       end
       object Image11: TImage
-        Left = 13
-        Top = 545
-        Width = 31
+        AlignWithMargins = True
+        Left = 7
+        Top = 506
+        Width = 34
         Height = 29
         Hint = 'Registrar Oorr'#234'ncias'
+        Margins.Left = 7
+        Margins.Top = 20
+        Margins.Right = 7
         ParentCustomHint = False
+        Align = alTop
         ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C7376672076657273696F6E3D22312E3122
@@ -814,13 +883,21 @@ object FormHome: TFormHome
         ShowHint = True
         Stretch = True
         OnClick = Image11Click
+        ExplicitLeft = 13
+        ExplicitTop = 545
+        ExplicitWidth = 31
       end
       object Image5: TImage
-        Left = 12
-        Top = 301
-        Width = 29
+        AlignWithMargins = True
+        Left = 7
+        Top = 295
+        Width = 34
         Height = 29
         Hint = 'Movimenta'#231#245'es'
+        Margins.Left = 7
+        Margins.Top = 20
+        Margins.Right = 7
+        Align = alTop
         ParentShowHint = False
         Picture.Data = {
           0D54536B537667477261706869633C3F786D6C2076657273696F6E3D22312E30
@@ -1098,6 +1175,9 @@ object FormHome: TFormHome
         ShowHint = True
         Stretch = True
         OnClick = Image5Click
+        ExplicitLeft = 12
+        ExplicitTop = 301
+        ExplicitWidth = 29
       end
       object Label9: TLabel
         Left = 56
@@ -1140,9 +1220,9 @@ object FormHome: TFormHome
       end
     end
     object Panel3: TPanel
-      Left = 51
+      Left = 49
       Top = 1
-      Width = 1389
+      Width = 1391
       Height = 911
       Align = alClient
       Color = clWhite

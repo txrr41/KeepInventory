@@ -124,6 +124,8 @@ implementation
 
 procedure TFormCadastroUsuario.FormCreate(Sender: TObject);
 begin
+  inherited;
+  FUsuarioController := TUsuarioController.Create;
   FModoEdicao := False;
   FIdUsuarioSelecionado := 0;
 
@@ -148,9 +150,24 @@ begin
 end;
 
 procedure TFormCadastroUsuario.FormShow(Sender: TObject);
+
+var
+  UsuarioLogado: TUsuarioModel;
 begin
   AtualizarGrid;
-  TPermissoesHelper.AplicarPermissoesUsuarios(Self);
+  ShowMessage('Antes de GetUsuarioLogado');  // Log temporário
+  UsuarioLogado := TPermissoesHelper.GetUsuarioLogado;
+  ShowMessage('Depois de GetUsuarioLogado: ' + IntToStr(Integer(UsuarioLogado)));  // Mostra o ponteiro
+  if Assigned(UsuarioLogado) then
+  begin
+    ShowMessage('Usuario logado: ' + UsuarioLogado.Nome);
+    TPermissoesHelper.AplicarPermissoesUsuarios(Self);
+  end
+  else
+  begin
+    ShowMessage('Nenhum usuário logado!');
+    Close;
+  end;
 end;
 
 procedure TFormCadastroUsuario.HabilitarCampos(AHabilitar: Boolean);

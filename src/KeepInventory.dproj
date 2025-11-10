@@ -127,12 +127,10 @@
         </DelphiCompile>
         <DCCReference Include="view\LoginView.pas">
             <Form>Form2</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="view\uBlurHelper.pas"/>
         <DCCReference Include="view\ConnectionView.pas">
             <Form>Form1</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="model\ConnectionModel.pas"/>
         <DCCReference Include="repository\ConnectionRepository.pas"/>
@@ -149,11 +147,9 @@
         </DCCReference>
         <DCCReference Include="view\HomeView.pas">
             <Form>FormHome</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="view\CadastrosView.pas">
             <Form>Form3</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="model\AuditoriaModel.pas"/>
         <DCCReference Include="controller\AuditoriaController.pas"/>
@@ -181,7 +177,6 @@
         <DCCReference Include="repository\PatrimonioRepository.pas"/>
         <DCCReference Include="view\PedidoMoviView.pas">
             <Form>FormPedidoMovi</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="dto\MovimentacaoDto.pas"/>
         <DCCReference Include="model\MovimentacaoModel.pas"/>
@@ -191,7 +186,6 @@
         <DCCReference Include="dto\GlobalUserDTO.pas"/>
         <DCCReference Include="view\MovimentacoesView.pas">
             <Form>FormMovi</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="controller\PendenciaController.pas"/>
         <DCCReference Include="service\PendenciaService.pas"/>
@@ -199,11 +193,9 @@
         <DCCReference Include="service\PatrimonioImportacaoCSV.pas"/>
         <DCCReference Include="view\RegistroOcorrenciaView.pas">
             <Form>FormRegistrarOcorrencia</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="view\AnaliseOcorrenciaView.pas">
             <Form>Form5</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="repository\OcorrenciaRepository.pas"/>
         <DCCReference Include="model\OcorrenciaModel.pas"/>
@@ -216,7 +208,6 @@
         <DCCReference Include="service\CepService.pas"/>
         <DCCReference Include="view\CadastroUsuarioView.pas">
             <Form>FormCadastroUsuario</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="dto\UsuarioDTO.pas"/>
         <DCCReference Include="UsuarioModel.pas"/>
@@ -224,6 +215,14 @@
         <DCCReference Include="UsuarioService.pas"/>
         <DCCReference Include="controller\UsuarioController.pas"/>
         <DCCReference Include="service\PermissoesHelper.pas"/>
+        <DCCReference Include="view\DashboardView.pas">
+            <Form>FormDashboard</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="controller\DashboardController.pas"/>
+        <DCCReference Include="model\DashboardModel.pas"/>
+        <DCCReference Include="service\DashboardService.pas"/>
+        <DCCReference Include="repository\DashboardRepository.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

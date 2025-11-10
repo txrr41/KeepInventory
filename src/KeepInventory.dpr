@@ -71,7 +71,12 @@ uses
   UsuarioService in 'UsuarioService.pas',
   UsuarioController in 'controller\UsuarioController.pas',
   dialogs,
-  PermissoesHelper in 'service\PermissoesHelper.pas';
+  PermissoesHelper in 'service\PermissoesHelper.pas',
+  DashboardView in 'view\DashboardView.pas' {FormDashboard},
+  DashboardController in 'controller\DashboardController.pas',
+  DashboardModel in 'model\DashboardModel.pas',
+  DashboardService in 'service\DashboardService.pas',
+  DashboardRepository in 'repository\DashboardRepository.pas';
 
 {$R *.res}
 
@@ -88,5 +93,6 @@ begin
   Application.CreateForm(TFormRegistrarOcorrencia, FormRegistrarOcorrencia);
   Application.CreateForm(TFormAnaliseOcorrencia, FormAnaliseOcorrencia);
   Application.CreateForm(TFormCadastroUsuario, FormCadastroUsuario);
+  Application.CreateForm(TFormDashboard, FormDashboard);
   Application.Run;
 end.

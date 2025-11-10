@@ -833,3 +833,78 @@
 07/11/2025 01:09:14 Usuário: suporte1 - Acessou aba Patrimônios
 07/11/2025 01:09:15 Usuário: suporte1 - Acessou aba Empresas
 07/11/2025 01:14:46 Usuário: suporte1 - Realizou login
+07/11/2025 23:21:20 Usuário: suporte1 - Realizou login
+07/11/2025 23:29:36 Usuário: suporte1 - Realizou login
+07/11/2025 23:31:23 Usuário: suporte1 - Realizou login
+07/11/2025 23:31:57 Usuário: suporte1 - Realizou login
+07/11/2025 23:32:46 Usuário: suporte1 - Realizou login
+07/11/2025 23:37:08 Usuário: suporte1 - Realizou login
+07/11/2025 23:37:29 Usuário: suporte1 - Realizou login
+07/11/2025 23:48:18 Usuário: suporte1 - Realizou login
+07/11/2025 23:48:57 Usuário: suporte1 - Realizou login
+07/11/2025 23:51:48 Usuário: suporte1 - Realizou login
+07/11/2025 23:52:20 Usuário: suporte1 - Realizou login
+07/11/2025 23:55:26 Usuário: suporte1 - Realizou login
+07/11/2025 23:57:43 Usuário: suporte1 - Realizou login
+08/11/2025 11:43:48 Usuário: suporte1 - Realizou o login
+08/11/2025 11:45:26 Usuário: suporte1 - Realizou o login
+08/11/2025 11:47:44 Usuário: suporte1 - Realizou o login
+08/11/2025 11:59:20 Usuário: suporte1 - Realizou o login
+08/11/2025 12:01:53 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 12:02:02 Usuário: suporte1 - Realizou o login
+08/11/2025 12:02:47 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 12:02:50 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 12:02:52 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 12:02:53 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 12:02:54 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 12:03:49 Usuário: suporte1 - Realizou o login
+08/11/2025 12:03:52 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 12:03:53 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 12:04:49 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 12:05:25 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 12:05:36 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 12:05:36 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 12:05:37 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 12:05:49 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 12:06:14 Usuário: suporte1 - Buscou CEP automaticamente - CEP: 81265-120 - Endereço: Rua Cruzeiro do Oeste
+08/11/2025 12:06:18 Usuário: suporte1 - Alterou empresa - TechPlus (ID: 1)
+08/11/2025 16:23:16 Usuário: suporte1 - Realizou o login
+08/11/2025 16:24:41 Usuário: suporte1 - Realizou o login
+08/11/2025 16:28:37 Usuário: suporte1 - Realizou o login
+08/11/2025 16:30:01 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 16:30:05 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 16:30:08 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 16:30:10 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 16:30:10 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 16:30:12 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 16:30:12 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 16:30:12 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 16:30:12 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 16:30:13 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 16:30:13 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 16:30:14 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 16:44:21 Usuário: suporte1 - Realizou o login
+08/11/2025 16:45:55 Usuário: suporte1 - Realizou o login
+08/11/2025 16:46:57 Usuário: suporte1 - Realizou o login
+08/11/2025 16:48:06 Usuário: suporte1 - Realizou o login
+08/11/2025 16:49:22 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 16:50:09 Usuário: suporte1 - Realizou o login
+08/11/2025 16:52:07 Usuário: suporte1 - Realizou o login
+08/11/2025 16:55:12 Usuário: suporte1 - Realizou o login
+08/11/2025 17:00:47 Usuário: suporte1 - Realizou o login
+08/11/2025 17:02:56 Usuário: suporte1 - Realizou o login
+08/11/2025 17:14:47 Usuário: suporte1 - Realizou o login
+08/11/2025 17:28:31 Usuário: suporte1 - Realizou o login
+08/11/2025 17:28:42 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 17:28:42 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 17:28:43 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 17:28:53 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 17:34:49 Usuário: suporte1 - Realizou o login
+08/11/2025 17:35:05 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 19:35:13 Usuário: suporte1 - Realizou o login
+08/11/2025 19:36:06 Usuário: suporte1 - Acessou o módulo de Cadastros
+08/11/2025 19:36:09 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 19:36:09 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 19:36:09 Usuário: suporte1 - Acessou aba Patrimônios
+08/11/2025 19:36:10 Usuário: suporte1 - Acessou aba Empresas
+08/11/2025 19:36:10 Usuário: suporte1 - Acessou aba Patrimônios

@@ -26,8 +26,6 @@ implementation
 
 class procedure TPermissoesHelper.SetUsuarioLogado(AUsuario: TUsuarioModel);
 begin
-  if FUsuarioLogado <> nil then
-    FUsuarioLogado.Free;
   FUsuarioLogado := AUsuario;
 end;
 
@@ -214,7 +212,7 @@ begin
       TPanel(Comp).Enabled := FUsuarioLogado.PermUserPermissao;
 
     // Checkboxes de permissões
-    if (Comp is TCheckBox) and FUsuarioLogado.PermUserPermissao = False then
+    if (Comp is TCheckBox) and FUsuarioLogado.PermUserPermissao then
       TCheckBox(Comp).Enabled := False;
   end;
 end;
