@@ -66,9 +66,6 @@ uses
   CepService in 'service\CepService.pas',
   CadastroUsuarioView in 'view\CadastroUsuarioView.pas' {FormCadastroUsuario},
   UsuarioDTO in 'dto\UsuarioDTO.pas',
-  UsuarioModel in 'UsuarioModel.pas',
-  UsuarioRepository in 'UsuarioRepository.pas',
-  UsuarioService in 'UsuarioService.pas',
   UsuarioController in 'controller\UsuarioController.pas',
   dialogs,
   PermissoesHelper in 'service\PermissoesHelper.pas',
@@ -76,7 +73,10 @@ uses
   DashboardController in 'controller\DashboardController.pas',
   DashboardModel in 'model\DashboardModel.pas',
   DashboardService in 'service\DashboardService.pas',
-  DashboardRepository in 'repository\DashboardRepository.pas';
+  DashboardRepository in 'repository\DashboardRepository.pas',
+  UsuarioModel in 'model\UsuarioModel.pas',
+  UsuarioService in 'service\UsuarioService.pas',
+  UsuarioRepository in 'repository\UsuarioRepository.pas';
 
 {$R *.res}
 

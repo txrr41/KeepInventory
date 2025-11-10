@@ -262,32 +262,27 @@ begin
 end;
 
 function TOcorrenciaRepository.ListarPendentes: TFDQuery;
-var
-  Query: TFDQuery;
-begin
-  Query := TFDQuery.Create(nil);
-  Query.Connection := DataModule2.FDConnection;
-
-  Query.SQL.Clear;
-  Query.SQL.Add('SELECT ');
-  Query.SQL.Add('  o.id,');
-  Query.SQL.Add('  o.fk_id_patrimonios,');
-  Query.SQL.Add('  p.nome AS patrimonio_nome,');
-  Query.SQL.Add('  o.fk_id_usuario_relator,');
-  Query.SQL.Add('  u.nome AS usuario_relator_nome,');
-  Query.SQL.Add('  o.tipo_ocorrencia,');
-  Query.SQL.Add('  o.descricao,');
-  Query.SQL.Add('  o.data_ocorrencia,');
-  Query.SQL.Add('  o.status,');
-  Query.SQL.Add('  o.foto_anexo');
-  Query.SQL.Add('FROM ocorrencias o');
-  Query.SQL.Add('INNER JOIN patrimonios p ON o.fk_id_patrimonios = p.id');
-  Query.SQL.Add('INNER JOIN usuarios u ON o.fk_id_usuario_relator = u.id');
-  Query.SQL.Add('WHERE o.status = ''PENDENTE''');
-  Query.SQL.Add('ORDER BY o.data_ocorrencia ASC');
-
-  Query.Open;
-  Result := Query;
+ var Query: TFDQuery;
+ begin Query := TFDQuery.Create(nil);
+ Query.Connection := DataModule2.FDConnection;
+ Query.SQL.Clear; Query.SQL.Add('SELECT ');
+ Query.SQL.Add(' o.id,');
+ Query.SQL.Add(' o.fk_id_patrimonios,');
+ Query.SQL.Add(' p.nome AS patrimonio,');
+ Query.SQL.Add(' o.fk_id_usuario_relator,');
+  Query.SQL.Add(' u.nome AS usuario,');
+   Query.SQL.Add(' o.tipo_ocorrencia,');
+    Query.SQL.Add(' o.descricao,');
+     Query.SQL.Add(' o.data_ocorrencia,');
+      Query.SQL.Add(' o.status,');
+       Query.SQL.Add(' o.foto_anexo');
+       Query.SQL.Add('FROM ocorrencias o');
+        Query.SQL.Add('INNER JOIN patrimonios p ON o.fk_id_patrimonios = p.id');
+         Query.SQL.Add('INNER JOIN usuarios u ON o.fk_id_usuario_relator = u.id');
+          Query.SQL.Add('WHERE o.status = ''PENDENTE''');
+          Query.SQL.Add('ORDER BY o.data_ocorrencia ASC');
+          Query.Open;
+          Result := Query;
 end;
 
 function TOcorrenciaRepository.AvaliarOcorrencia(IdOcorrencia, IdGestor: Integer;
@@ -332,7 +327,7 @@ begin
     Query.SQL.Add('  custo_estimado_reparo = :custo_estimado,');
     Query.SQL.Add('  observacoes_gestor = :observacoes,');
     Query.SQL.Add('  data_analise = NOW(),');
-    Query.SQL.Add('  status = ''ANALISADA''');
+    Query.SQL.Add('  status = ''analisada''');
     Query.SQL.Add('WHERE id = :id');
 
     Query.ParamByName('id').AsInteger := IdOcorrencia;

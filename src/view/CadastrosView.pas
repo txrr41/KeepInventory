@@ -208,6 +208,10 @@ type
     Shape5: TShape;
     Panel4: TPanel;
     Image1: TImage;
+    Image2: TImage;
+    Image3: TImage;
+    Image4: TImage;
+    Image5: TImage;
     procedure PageControl1Change(Sender: TObject);
     procedure BtnEnviarClick(Sender: TObject);
     procedure BtnConfirmarEdClick(Sender: TObject);

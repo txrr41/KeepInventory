@@ -285,6 +285,7 @@ begin
   CbResponsabilidadeA.Items.Add('Vandalismo');
 
   LimparCampos;
+  AtualizarGrid;
 end;
 
 procedure TFormAnaliseOcorrencia.FormShow(Sender: TObject);

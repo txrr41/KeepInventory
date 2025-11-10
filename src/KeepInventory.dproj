@@ -210,9 +210,6 @@
             <Form>FormCadastroUsuario</Form>
         </DCCReference>
         <DCCReference Include="dto\UsuarioDTO.pas"/>
-        <DCCReference Include="UsuarioModel.pas"/>
-        <DCCReference Include="UsuarioRepository.pas"/>
-        <DCCReference Include="UsuarioService.pas"/>
         <DCCReference Include="controller\UsuarioController.pas"/>
         <DCCReference Include="service\PermissoesHelper.pas"/>
         <DCCReference Include="view\DashboardView.pas">
@@ -223,6 +220,9 @@
         <DCCReference Include="model\DashboardModel.pas"/>
         <DCCReference Include="service\DashboardService.pas"/>
         <DCCReference Include="repository\DashboardRepository.pas"/>
+        <DCCReference Include="model\UsuarioModel.pas"/>
+        <DCCReference Include="service\UsuarioService.pas"/>
+        <DCCReference Include="repository\UsuarioRepository.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -908,3 +908,93 @@
 08/11/2025 19:36:09 Usuário: suporte1 - Acessou aba Patrimônios
 08/11/2025 19:36:10 Usuário: suporte1 - Acessou aba Empresas
 08/11/2025 19:36:10 Usuário: suporte1 - Acessou aba Patrimônios
+10/11/2025 13:42:56 Usuário: admin - Realizou o login
+10/11/2025 13:43:12 Usuário: admin - Acessou o módulo de Cadastros
+10/11/2025 13:43:27 Usuário: admin - Acessou o módulo de Cadastros
+10/11/2025 13:43:28 Usuário: admin - Acessou aba Prédios
+10/11/2025 13:43:29 Usuário: admin - Acessou aba Salas
+10/11/2025 13:43:29 Usuário: admin - Acessou aba Patrimônios
+10/11/2025 13:44:58 Usuário: admin - Acessou o módulo de Cadastros
+10/11/2025 13:45:01 Usuário: admin - Acessou o módulo de Cadastros
+10/11/2025 13:45:03 Usuário: admin - Acessou aba Salas
+10/11/2025 13:45:05 Usuário: admin - Pesquisou sala - Termo: "s"
+10/11/2025 13:45:06 Usuário: admin - Pesquisou sala - Termo: "sa"
+10/11/2025 13:45:06 Usuário: admin - Pesquisou sala - Termo: "sas"
+10/11/2025 13:45:07 Usuário: admin - Pesquisou sala - Termo: "sasa"
+10/11/2025 13:45:07 Usuário: admin - Pesquisou sala - Termo: "sasas"
+10/11/2025 13:45:07 Usuário: admin - Pesquisou sala - Termo: "sasass"
+10/11/2025 13:45:07 Usuário: admin - Pesquisou sala - Termo: "sasassa"
+10/11/2025 13:45:08 Usuário: admin - Pesquisou sala - Termo: "sasass"
+10/11/2025 13:45:08 Usuário: admin - Pesquisou sala - Termo: "sasas"
+10/11/2025 13:45:08 Usuário: admin - Pesquisou sala - Termo: "sasa"
+10/11/2025 13:45:08 Usuário: admin - Pesquisou sala - Termo: "sas"
+10/11/2025 13:45:08 Usuário: admin - Pesquisou sala - Termo: "sa"
+10/11/2025 13:45:08 Usuário: admin - Pesquisou sala - Termo: "s"
+10/11/2025 13:45:11 Usuário: admin - Acessou aba Prédios
+10/11/2025 13:45:12 Usuário: admin - Acessou aba Empresas
+10/11/2025 13:45:12 Usuário: admin - Acessou aba Prédios
+10/11/2025 13:45:13 Usuário: admin - Acessou aba Salas
+10/11/2025 13:45:14 Usuário: admin - Acessou aba Patrimônios
+10/11/2025 14:00:56 Usuário: admin - Realizou o login
+10/11/2025 14:26:08 Usuário: admin - Realizou o login
+10/11/2025 14:27:51 Usuário: admin - Realizou o login
+10/11/2025 14:33:52 Usuário: admin - Realizou o login
+10/11/2025 14:40:05 Usuário: admin - Realizou o login
+10/11/2025 14:48:25 Usuário: admin - Realizou o login
+10/11/2025 14:53:36 Usuário: alec - Realizou o login
+10/11/2025 14:53:44 Usuário: alec - Acessou o módulo de Cadastros
+10/11/2025 15:15:10 Usuário: admin - Realizou o login
+10/11/2025 15:15:52 Usuário: admin - Acessou o módulo de Cadastros
+10/11/2025 15:15:53 Usuário: admin - Acessou aba Prédios
+10/11/2025 15:15:54 Usuário: admin - Acessou aba Salas
+10/11/2025 15:15:55 Usuário: admin - Acessou aba Patrimônios
+10/11/2025 15:15:56 Usuário: admin - Acessou aba Salas
+10/11/2025 15:15:57 Usuário: admin - Acessou aba Prédios
+10/11/2025 15:15:57 Usuário: admin - Acessou aba Empresas
+10/11/2025 15:16:44 Usuário: admin - Acessou o módulo de Cadastros
+10/11/2025 15:16:45 Usuário: admin - Acessou aba Prédios
+10/11/2025 15:16:46 Usuário: admin - Acessou aba Salas
+10/11/2025 15:16:47 Usuário: admin - Acessou aba Patrimônios
+10/11/2025 15:16:49 Usuário: admin - Acessou aba Salas
+10/11/2025 15:16:59 Usuário: admin - Acessou aba Prédios
+10/11/2025 15:17:00 Usuário: admin - Acessou aba Empresas
+10/11/2025 15:17:01 Usuário: admin - Acessou aba Salas
+10/11/2025 15:17:10 Usuário: admin - Acessou aba Patrimônios
+10/11/2025 15:17:11 Usuário: admin - Acessou aba Salas
+10/11/2025 15:17:12 Usuário: admin - Acessou aba Patrimônios
+10/11/2025 15:17:59 Usuário: admin - Cadastrou patrimônio - Gui (NS: 01)
+10/11/2025 15:21:08 Usuário: admin - Realizou o login
+10/11/2025 15:22:52 Usuário: admin - Realizou o login
+10/11/2025 15:25:41 Usuário: admin - Realizou o login
+10/11/2025 15:26:26 Usuário: admin - Realizou o login
+10/11/2025 15:29:43 Usuário: admin - Realizou o login
+10/11/2025 15:32:19 Usuário: admin - Realizou o login
+10/11/2025 15:36:38 Usuário: admin - Realizou o login
+10/11/2025 15:39:35 Usuário: admin - Realizou o login
+10/11/2025 15:40:26 Usuário: admin - Realizou o login
+10/11/2025 15:43:45 Usuário: admin - Realizou o login
+10/11/2025 16:02:22 Usuário: admin - Realizou o login
+10/11/2025 16:04:39 Usuário: admin - Realizou o login
+10/11/2025 16:07:48 Usuário: admin - Realizou o login
+10/11/2025 16:11:22 Usuário: admin - Realizou o login
+10/11/2025 16:11:41 Usuário: admin - Acessou o módulo de Cadastros
+10/11/2025 16:11:42 Usuário: admin - Acessou aba Prédios
+10/11/2025 16:12:23 Usuário: admin - Cadastrou prédio - dwdwadwa (wdwadwa)
+10/11/2025 16:14:27 Usuário: admin - Acessou o módulo de Cadastros
+10/11/2025 16:14:29 Usuário: admin - Acessou o módulo de Cadastros
+10/11/2025 16:15:54 Usuário: bruno pinto - Realizou o login
+10/11/2025 16:15:58 Usuário: bruno pinto - Acessou o módulo de Cadastros
+10/11/2025 16:15:59 Usuário: bruno pinto - Acessou aba Prédios
+10/11/2025 16:16:00 Usuário: bruno pinto - Acessou aba Empresas
+10/11/2025 16:16:01 Usuário: bruno pinto - Acessou aba Prédios
+10/11/2025 16:16:01 Usuário: bruno pinto - Acessou aba Empresas
+10/11/2025 16:16:01 Usuário: bruno pinto - Acessou aba Prédios
+10/11/2025 16:16:03 Usuário: bruno pinto - Acessou aba Empresas
+10/11/2025 16:16:03 Usuário: bruno pinto - Acessou aba Prédios
+10/11/2025 16:16:03 Usuário: bruno pinto - Acessou aba Empresas
+10/11/2025 16:16:19 Usuário: admin - Realizou o login
+10/11/2025 16:16:22 Usuário: admin - Acessou o módulo de Cadastros
+10/11/2025 16:16:25 Usuário: admin - Acessou aba Salas
+10/11/2025 16:16:25 Usuário: admin - Acessou aba Patrimônios
+10/11/2025 16:39:22 Usuário: admin - Realizou o login
+10/11/2025 16:42:30 Usuário: admin - Acessou o módulo de Cadastros
