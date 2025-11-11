@@ -1,33 +1,3 @@
-﻿# MODELO DE IMPORTAÇÃO DE PATRIMÔNIO
-# ===================================
-#
-# INSTRUÇÕES:
-# 1. Apague todas as linhas de instrução (linhas que começam com #)
-# 2. Mantenha OBRIGATORIAMENTE o cabeçalho (primeira linha sem #)
-# 3. Preencha seus dados seguindo o formato dos exemplos
-# 4. NÃO altere a ordem das colunas
-#
-# FORMATO DOS CAMPOS:
-# - Nome: Texto livre (obrigatório)
-# - Tipo: Texto livre
-# - Situacao: Ativo, Inativo, Manutenção, etc
-# - Modelo: Modelo do equipamento
-# - ValorAquisicao: Número decimal com ponto (ex: 3500.00)
-# - ValorAtual: Número decimal com ponto (ex: 2800.00)
-# - DataAquisicao: Formato DD/MM/AAAA (ex: 15/03/2024)
-# - NumeroSerie: Identificador ÚNICO do item (obrigatório)
-# - IdSala: ID numérico da sala (consulte no sistema)
-#   IMPORTANTE: Para obter os IDs das salas, acesse o cadastro de salas
-#
-# ATENÇÃO:
-# - Cada item DEVE ter um número de série ÚNICO
-# - Valores devem usar PONTO como separador decimal
-# - Cada linha representa UM item individual
-#
-
-Nome,Tipo,Situacao,Modelo,ValorAquisicao,ValorAtual,DataAquisicao,NumeroSerie,IdSala
-Notebook Dell Inspiron,Computador,Ativo,Inspiron 15,3500.00,2800.00,15/03/2024,SN001234,1
-Mouse Logitech,Periférico,Ativo,MX Master 3,150.00,120.00,15/03/2024,SN001235,1
-Cadeira Escritório,Mobiliário,Ativo,Presidente Giratória,800.00,600.00,10/01/2024,SN001236,2
-Monitor Samsung 24,Periférico,Ativo,S24F350,900.00,750.00,20/02/2024,SN001237,1
-Mesa Escritório,Mobiliário,Ativo,Mesa L 150x150cm,500.00,450.00,05/01/2024,SN001238,2
+version https://git-lfs.github.com/spec/v1
+oid sha256:497e8f7e1113ec0f263013a06e83c50074431b0f47521b5909c0f7abdd97c61a
+size 1542

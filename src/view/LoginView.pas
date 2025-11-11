@@ -95,7 +95,7 @@ end;
 
 procedure TFormLogin.SpeedButton1Click(Sender: TObject);
 var
-  Usuario: TUsuarioModel;
+
   LogController: TLogController;
   Controller: TLoginController;
   UsuarioLog: TUserLog;
@@ -103,16 +103,16 @@ var
   Home: TFormHome;
   DataHora: TDateTime;
 begin
-  Usuario := TUsuarioModel.Create;
+  UserM:= TUsuarioModel.Create;
   Controller := TLoginController.Create;
   LogController := TLogController.Create;
   try
     // Define nome e senha
-    Usuario.Nome := EditUserLogin.Text;
-    Usuario.SenhaHash := EditSenhaLogin.Text;
+    UserM.Nome := EditUserLogin.Text;
+    UserM.SenhaHash := EditSenhaLogin.Text;
 
     // Valida login
-    UsuarioExiste := Controller.SalvarLogin(Usuario);
+    UsuarioExiste := Controller.SalvarLogin(UserM);
 
     if not UsuarioExiste then
     begin
@@ -123,16 +123,16 @@ begin
     // Se chegou aqui, o login foi válido e Usuario.Id foi preenchido
 
     // Busca as permissões completas do usuário
-    Usuario := FUsuarioController.ObterPermissoes(Usuario.Id);
+    UserM := FUsuarioController.ObterPermissoes(UserM.Id);
 
-    if Usuario = nil then
+    if UserM = nil then
     begin
       ShowMessage('Erro ao carregar permissões do usuário!');
       Exit;
     end;
 
     // *** CRÍTICO: SALVA O USUÁRIO NO HELPER GLOBAL ***
-    TPermissoesHelper.SetUsuarioLogado(Usuario);
+    TPermissoesHelper.SetUsuarioLogado(UserM);
 
     // Registra log de auditoria
     UsuarioLog := TUserLog.Create;
@@ -163,7 +163,7 @@ begin
     on E: Exception do
     begin
       ShowMessage('Erro ao fazer login: ' + E.Message);
-      Usuario.Free;
+      UserM.Free;
     end;
   end;
 end;

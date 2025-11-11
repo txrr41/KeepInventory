@@ -76,7 +76,11 @@ uses
   DashboardRepository in 'repository\DashboardRepository.pas',
   UsuarioModel in 'model\UsuarioModel.pas',
   UsuarioService in 'service\UsuarioService.pas',
-  UsuarioRepository in 'repository\UsuarioRepository.pas';
+  UsuarioRepository in 'repository\UsuarioRepository.pas',
+  DepreciacaoModel in 'model\DepreciacaoModel.pas',
+  DepreciacaoRepository in 'repository\DepreciacaoRepository.pas',
+  DepreciacaoController in 'controller\DepreciacaoController.pas',
+  DepreciacaoService in 'service\DepreciacaoService.pas';
 
 {$R *.res}
 

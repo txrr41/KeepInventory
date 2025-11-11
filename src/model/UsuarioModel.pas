@@ -72,6 +72,8 @@ Type
     property PermUserPermissao: Boolean read FPermUserPermissao write FPermUserPermissao;
   end;
 
+  var UserM: TUsuarioModel;
+
 implementation
 
 end.

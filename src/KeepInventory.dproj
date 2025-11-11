@@ -223,6 +223,10 @@
         <DCCReference Include="model\UsuarioModel.pas"/>
         <DCCReference Include="service\UsuarioService.pas"/>
         <DCCReference Include="repository\UsuarioRepository.pas"/>
+        <DCCReference Include="model\DepreciacaoModel.pas"/>
+        <DCCReference Include="repository\DepreciacaoRepository.pas"/>
+        <DCCReference Include="controller\DepreciacaoController.pas"/>
+        <DCCReference Include="service\DepreciacaoService.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, FireDAC.Comp.Client, FireDAC.Stan.Param, Data.DB,
-  OcorrenciaModel, Vcl.StdCtrls, DB;
+  OcorrenciaModel, Vcl.StdCtrls, DB, dialogs;
 
 type
   TOcorrenciaRepository = class
@@ -36,6 +36,8 @@ function TOcorrenciaRepository.Inserir(Ocorrencia: TOcorrenciaModel): Boolean;
 var
   Query: TFDQuery;
 begin
+
+ShowMessage('O Id é' + IntToStr(Ocorrencia.IdUsuarioRelator));
   Result := False;
   Query := TFDQuery.Create(nil);
   try

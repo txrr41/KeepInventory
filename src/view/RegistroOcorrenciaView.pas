@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Data.DB,
   Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, Vcl.WinXCtrls, OcorrenciaController, OcorrenciaDTO, GlobalUserDTO,
-  Vcl.Imaging.pngimage, PermissoesHelper;
+  Vcl.Imaging.pngimage, PermissoesHelper, UsuarioModel;
 
 type
   TFormRegistrarOcorrencia = class(TForm)
@@ -128,7 +128,7 @@ begin
   try
     DTO.FId := 0;
     DTO.FIdPatrimonio := ObterIdDoComboBox(CbPatrimonio);
-    DTO.FIdUsuarioRelator := TGlobal.FUserID;
+    DTO.FIdUsuarioRelator := UserM.Id;
     DTO.FTipoOcorrencia := CbTipoOcorrencia.Text;
     DTO.FDescricao := Trim(MemoDescricao.Text);
     DTO.FDataOcorrencia := Now;
