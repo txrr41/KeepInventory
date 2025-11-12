@@ -73,6 +73,9 @@
 # Delphi history and backups
 __history/*
 __recovery/*
+__**
+**.identcache
+**.dproj.local	
 *.~*
 
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
