@@ -7,7 +7,8 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VCLTee.TeEngine, VCLTee.Series,
   Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart, Vcl.StdCtrls,
   DashboardController, DashboardModel, System.Generics.Collections, Vcl.ComCtrls,
-  VclTee.TeeGDIPlus, Vcl.WinXPanels, DepreciacaoController, DepreciacaoModel;
+  VclTee.TeeGDIPlus, Vcl.WinXPanels, DepreciacaoController, DepreciacaoModel,
+  Vcl.Imaging.pngimage;
 
 type
   TFormDashboard = class(TForm)
@@ -18,25 +19,37 @@ type
     Chart1: TChart;
     Series1: TBarSeries;
     ComboBoxTipo: TComboBox;
-    PanelResumoDepreciacao: TPanel;
-    PanelCardValorOriginal: TCardPanel;
-    PanelCardDepreciado: TCardPanel;
-    LabelTituloDepreciado: TLabel;
-    LabelTituloAtual: TLabel;
-    LabelTituloOriginal: TLabel;
-    LabelValorOriginal: TLabel;
-    Card1: TCard;
+    Panel5: TPanel;
+    Panel6: TPanel;
+    Panel4: TPanel;
+    Panel3: TPanel;
+    Shape1: TShape;
+    Shape2: TShape;
+    Shape3: TShape;
+    Shape4: TShape;
     LabelTituloTaxa: TLabel;
+    LabelTituloDepreciado: TLabel;
     LabelValorDepreciado: TLabel;
-    Card2: TCard;
-    CardPanel1: TCardPanel;
-    PanelCardTaxa: TCard;
+    LabelValorOriginal: TLabel;
+    LabelValorAtual: TLabel;
     LabelTaxaDepreciacao: TLabel;
+    LabelTituloOriginal: TLabel;
+    LabelTituloAtual: TLabel;
+    Panel7: TPanel;
+    Label15: TLabel;
+    Panel8: TPanel;
     ChartDepreciacao: TChart;
     BarSeries1: THorizBarSeries;
-    PanelCardValorAtual: TCardPanel;
-    Card3: TCard;
-    LabelValorAtual: TLabel;
+    Panel9: TPanel;
+    Panel10: TPanel;
+    ComboBox1: TComboBox;
+    Panel11: TPanel;
+    Shape5: TShape;
+    Label4: TLabel;
+    Panel12: TPanel;
+    Label3: TLabel;
+    Label5: TLabel;
+    Image1: TImage;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -116,9 +129,7 @@ end;
 
 procedure TFormDashboard.ConfigurarCards;
 begin
-  // Card 1 - Valor Original
-  PanelCardValorOriginal.Color := $00F5F5F5; // Cinza claro
-  PanelCardValorOriginal.BevelOuter := bvNone;
+
   LabelTituloOriginal.Caption := 'Valor Original Total';
   LabelTituloOriginal.Font.Size := 9;
   LabelTituloOriginal.Font.Color := clGray;
@@ -126,9 +137,6 @@ begin
   LabelValorOriginal.Font.Style := [fsBold];
   LabelValorOriginal.Font.Color := clBlue;
 
-  // Card 2 - Valor Atual
-  PanelCardValorAtual.Color := $00F5F5F5;
-  PanelCardValorAtual.BevelOuter := bvNone;
   LabelTituloAtual.Caption := 'Valor Atual Total';
   LabelTituloAtual.Font.Size := 9;
   LabelTituloAtual.Font.Color := clGray;
@@ -136,9 +144,6 @@ begin
   LabelValorAtual.Font.Style := [fsBold];
   LabelValorAtual.Font.Color := clGreen;
 
-  // Card 3 - Depreciação
-  PanelCardDepreciado.Color := $00F5F5F5;
-  PanelCardDepreciado.BevelOuter := bvNone;
   LabelTituloDepreciado.Caption := 'Total Depreciado';
   LabelTituloDepreciado.Font.Size := 9;
   LabelTituloDepreciado.Font.Color := clGray;
@@ -146,9 +151,6 @@ begin
   LabelValorDepreciado.Font.Style := [fsBold];
   LabelValorDepreciado.Font.Color := clRed;
 
-  // Card 4 - Taxa Média
-  PanelCardTaxa.Color := $00F5F5F5;
-  PanelCardTaxa.BevelOuter := bvNone;
   LabelTituloTaxa.Caption := 'Taxa Média Depreciação';
   LabelTituloTaxa.Font.Size := 9;
   LabelTituloTaxa.Font.Color := clGray;
@@ -159,20 +161,15 @@ end;
 
 procedure TFormDashboard.ConfigurarGraficoDepreciacao;
 begin
-  // Define tamanho adequado
-  ChartDepreciacao.Height := 400;
 
-  // Configurações do gráfico de barras horizontais
   ChartDepreciacao.Title.Text.Clear;
   ChartDepreciacao.Title.Text.Add('Depreciação por Tipo de Ocorrência');
   ChartDepreciacao.Title.Font.Size := 14;
   ChartDepreciacao.Title.Font.Style := [fsBold];
 
-  // Gráfico 2D
   ChartDepreciacao.View3D := False;
   ChartDepreciacao.Legend.Visible := False;
 
-  // Configuração dos eixos
   ChartDepreciacao.LeftAxis.Title.Caption := 'Tipo de Ocorrência';
   ChartDepreciacao.BottomAxis.Title.Caption := 'Valor Depreciado (R$)';
 
@@ -181,8 +178,6 @@ begin
   BarSeries1.Marks.Style := smsValue;
   BarSeries1.Marks.Font.Size := 10;
   BarSeries1.Marks.Font.Style := [fsBold];
-
-  // Cores alternadas
 
 end;
 
@@ -216,7 +211,6 @@ var
 begin
   Resumo := FDepreciacaoController.ObterResumoGeral;
   try
-    // Atualiza os cards com os valores
     LabelValorOriginal.Caption := FormatCurr('R$ #,##0.00', Resumo.ValorOriginalTotal);
     LabelValorAtual.Caption := FormatCurr('R$ #,##0.00', Resumo.ValorAtualTotal);
     LabelValorDepreciado.Caption := FormatCurr('R$ #,##0.00', Resumo.ValorDepreciadoTotal);
@@ -246,7 +240,6 @@ begin
           Item.QuantidadeOcorrencias
         ]);
 
-        // Adiciona a barra
         BarSeries1.Add(Item.ValorDepreciado, NomeTipo, clTeeColor);
       end;
     end

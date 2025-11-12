@@ -1043,3 +1043,111 @@
 11/11/2025 10:36:46 Usuário: suporte1 - Realizou o login
 11/11/2025 10:38:44 Usuário: suporte1 - Realizou o login
 11/11/2025 10:39:02 Usuário: suporte1 - Realizou o login
+11/11/2025 19:33:19 Usuário: suporte1 - Realizou o login
+11/11/2025 19:46:56 Usuário: suporte1 - Realizou o login
+11/11/2025 19:56:51 Usuário: suporte1 - Realizou o login
+11/11/2025 20:05:15 Usuário: suporte1 - Realizou o login
+11/11/2025 20:07:17 Usuário: suporte1 - Realizou o login
+11/11/2025 20:08:47 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 20:08:50 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 20:08:51 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 20:08:54 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 20:13:35 Usuário: suporte1 - Realizou o login
+11/11/2025 20:14:10 Usuário: suporte1 - Realizou o login
+11/11/2025 20:15:33 Usuário: suporte1 - Realizou o login
+11/11/2025 20:16:23 Usuário: suporte1 - Realizou o login
+11/11/2025 20:17:11 Usuário: suporte1 - Realizou o login
+11/11/2025 20:18:04 Usuário: suporte1 - Realizou o login
+11/11/2025 20:18:57 Usuário: suporte1 - Realizou o login
+11/11/2025 20:20:20 Usuário: suporte1 - Realizou o login
+11/11/2025 20:46:19 Usuário: suporte1 - Realizou o login
+11/11/2025 20:53:30 Usuário: suporte1 - Realizou o login
+11/11/2025 20:55:07 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 20:55:08 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 20:55:43 Usuário: suporte1 - Cadastrou patrimônio - wdawdwd (NS: 32323323)
+11/11/2025 20:56:08 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 20:56:08 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:00:02 Usuário: suporte1 - Realizou o login
+11/11/2025 21:02:36 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 21:02:39 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:39 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:02:40 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:40 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:02:40 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:40 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:02:41 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:41 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:02:41 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:42 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:02:42 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:43 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:02:43 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:43 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:02:43 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:44 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:02:44 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:44 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:02:44 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:45 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:02:45 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:02:45 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 21:06:05 Usuário: suporte1 - Realizou o login
+11/11/2025 21:06:21 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 21:06:21 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:06:51 Usuário: suporte1 - Cadastrou patrimônio - Casa (NS: 2131231)
+11/11/2025 21:08:39 Usuário: suporte1 - Realizou o login
+11/11/2025 21:09:14 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 21:09:15 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:09:41 Usuário: suporte1 - Cadastrou patrimônio - wdawd (NS: 123123123)
+11/11/2025 21:12:32 Usuário: suporte1 - Realizou o login
+11/11/2025 21:12:33 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 21:12:34 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:12:58 Usuário: suporte1 - Cadastrou patrimônio - wdwdw (NS: 123123)
+11/11/2025 21:15:11 Usuário: suporte1 - Realizou o login
+11/11/2025 21:15:12 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 21:15:13 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:15:38 Usuário: suporte1 - Cadastrou patrimônio - dawdawd (NS: 12312332)
+11/11/2025 21:28:41 Usuário: suporte1 - Realizou o login
+11/11/2025 21:28:43 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 21:28:44 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:30:21 Usuário: suporte1 - Realizou o login
+11/11/2025 21:30:22 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 21:30:23 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:31:44 Usuário: suporte1 - Realizou o login
+11/11/2025 21:31:46 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 21:31:47 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:32:12 Usuário: suporte1 - Cadastrou patrimônio - dwadawdw (NS: 23123123)
+11/11/2025 21:33:56 Usuário: suporte1 - Realizou o login
+11/11/2025 21:33:58 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 21:34:00 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:38:17 Usuário: suporte1 - Realizou o login
+11/11/2025 21:38:22 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 21:38:23 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 21:38:51 Usuário: suporte1 - Cadastrou patrimônio - wdawd (NS: 21312)
+11/11/2025 21:38:57 Usuário: suporte1 - Atualizou lista de patrimônios
+11/11/2025 21:39:24 Usuário: suporte1 - Atualizou lista de patrimônios
+11/11/2025 21:39:24 Usuário: suporte1 - Atualizou lista de patrimônios
+11/11/2025 21:39:24 Usuário: suporte1 - Atualizou lista de patrimônios
+11/11/2025 22:36:05 Usuário: suporte1 - Realizou o login
+11/11/2025 22:36:45 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 22:36:45 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 22:37:32 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 22:40:51 Usuário: suporte1 - Realizou o login
+11/11/2025 22:40:53 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 22:40:54 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 22:41:51 Usuário: suporte1 - Realizou o login
+11/11/2025 22:42:35 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 22:42:36 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 22:43:10 Usuário: suporte1 - Cadastrou patrimônio - dwadwa (NS: 2321312, VA: 2121, VAT: 1212)
+11/11/2025 22:45:23 Usuário: suporte1 - Realizou o login
+11/11/2025 22:45:38 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 22:45:39 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 22:47:35 Usuário: suporte1 - Realizou o login
+11/11/2025 22:47:37 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 22:47:38 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 22:59:07 Usuário: suporte1 - Realizou o login
+11/11/2025 22:59:14 Usuário: suporte1 - Acessou o módulo de Cadastros
+11/11/2025 22:59:16 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 22:59:19 Usuário: suporte1 - Acessou aba Empresas
+11/11/2025 22:59:19 Usuário: suporte1 - Acessou aba Patrimônios
+11/11/2025 23:01:25 Usuário: suporte1 - Realizou o login

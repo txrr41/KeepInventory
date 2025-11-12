@@ -269,6 +269,8 @@ type
     procedure BtnFiltrarPatrimonioClick(Sender: TObject);
     procedure LimparCamposPatrimonio;
     procedure PopularComboBoxSalas;
+    function LimparValorMoeda(const Texto: string): Currency;
+    function FormatarValorBrasileiro(Valor: Currency): String;
 
     { Private declarations }
   end;
@@ -391,8 +393,10 @@ procedure TFormCadastro.BtnEnviarPatrimonioClick(Sender: TObject);
 var
   Dto: TPatrimonioDTO;
   SelectedID: Integer;
+  ValorAquisicao, ValorAtual: Currency;
 begin
   try
+    // Validação da Sala (mantida)
     if ComboBoxPatrimonio.ItemIndex >= 0 then
     begin
       SelectedID := Integer(NativeInt(ComboBoxPatrimonio.Items.Objects[ComboBoxPatrimonio.ItemIndex]));
@@ -403,48 +407,36 @@ begin
       raise Exception.Create('Por favor, selecione uma Sala.');
     end;
 
+    // Validação e limpeza dos valores
+    ValorAquisicao := LimparValorMoeda(EdtVAQPatri.Text);
+    ValorAtual := LimparValorMoeda(EdtVAPatri.Text);
+
+    if (ValorAquisicao <= 0) or (ValorAtual <= 0) then
+    begin
+      raise Exception.Create('Os valores de aquisição e atual devem ser maiores que zero. Verifique o formato (ex.: 1.234,56).');
+    end;
+
     Dto.FNome := EditNomePatri.Text;
     Dto.FTipo := EdtTipoPatri.Text;
     Dto.FSituacao := CBSituacaoPatri.Text;
     Dto.FModelo := EdtModelo.Text;
-    Dto.FNome := EditNomePatri.Text;
-    Dto.FTipo := EdtTipoPatri.Text;
-    Dto.FSituacao := CBSituacaoPatri.Text;
-    Dto.FModelo := EdtModelo.Text;
-
-    // Converte valor removendo formatação
-    Dto.FValorAquisicao := StrToCurrDef(
-      StringReplace(
-    StringReplace(EdtVAQPatri.Text, '.', '', [rfReplaceAll]),
-    ',', '.', [rfReplaceAll]
-     ), 0);
-
-    Dto.FValorAtual := StrToCurrDef(
-    StringReplace(
-    StringReplace(EdtVAPatri.Text, '.', '', [rfReplaceAll]),
-    ',', '.', [rfReplaceAll]
-    ), 0);
-
-    Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
-    Dto.FNumeroSerie := EdtNS.Text;
+    Dto.FValorAquisicao := ValorAquisicao;
+    Dto.FValorAtual := ValorAtual;
     Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
     Dto.FNumeroSerie := EdtNS.Text;
 
     FPatrimonioController.AdicionarPatrimonio(Dto);
 
-    // LOG: Cadastrou patrimônio
-    RegistrarLog('Cadastrou patrimônio - ' + EditNomePatri.Text + ' (NS: ' + EdtNS.Text + ')');
+    RegistrarLog('Cadastrou patrimônio - ' + EditNomePatri.Text + ' (NS: ' + EdtNS.Text + ', VA: ' + CurrToStr(ValorAquisicao) + ', VAT: ' + CurrToStr(ValorAtual) + ')');
 
     AtualizarTabelaPatrimonio;
     LimparCamposPatrimonio;
-
 
     ShowMessage('Patrimônio adicionado com sucesso!');
   except
     on E: Exception do
       ShowMessage('Erro ao salvar: ' + E.Message);
   end;
-
 end;
 
 procedure TFormCadastro.BtnEnviarPredioClick(Sender: TObject);
@@ -568,6 +560,16 @@ begin
   // LOG: Pesquisou sala
   if edtPesquisarSala.Text <> '' then
     RegistrarLog('Pesquisou sala - Termo: "' + edtPesquisarSala.Text + '"');
+end;
+
+function TFormCadastro.FormatarValorBrasileiro(Valor: Currency): String;
+var
+  FS: TFormatSettings;
+begin
+  FS := TFormatSettings.Create;
+  FS.DecimalSeparator := ',';
+  FS.ThousandSeparator := '.';
+  Result := 'R$ ' + FormatFloat('#,##0.00', Valor, FS);
 end;
 
 procedure TFormCadastro.FormShow(Sender: TObject);
@@ -712,15 +714,17 @@ begin
     Dto.FTipo := EdtTipoPatri.Text;
     Dto.FSituacao := CBSituacaoPatri.Text;
     Dto.FModelo := EdtModelo.Text;
-    Dto.FValorAquisicao := StrToCurrDef(EdtVAQPatri.Text, 0);
-    Dto.FValorAtual := StrToCurrDef(EdtVAPatri.Text, 0);
+
+    // ✅ USA A FUNÇÃO
+    Dto.FValorAquisicao := LimparValorMoeda(EdtVAQPatri.Text);
+    Dto.FValorAtual := LimparValorMoeda(EdtVAPatri.Text);
+
     Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
     Dto.FNumeroSerie := EdtNS.Text;
     Dto.FId := IdPatri;
 
     FPatrimonioController.EditarPatrimonio(Dto);
 
-    // LOG: Alterou patrimônio
     RegistrarLog('Alterou patrimônio - ' + NomePatri + ' (ID: ' + IntToStr(IdPatri) + ')');
 
     AtualizarTabelaPatrimonio;
@@ -731,7 +735,6 @@ begin
     on E: Exception do
       ShowMessage('Erro ao editar: ' + E.Message);
   end;
-
 end;
 
 procedure TFormCadastro.BtnConfirmarEdPredioClick(Sender: TObject);
@@ -1174,6 +1177,34 @@ begin
   EdtDAPatri.Text := DateToStr(Now);
 end;
 
+function TFormCadastro.LimparValorMoeda(const Texto: string): Currency;
+var
+  NumeroLimpo: string;
+  I: Integer;
+begin
+  NumeroLimpo := '';
+
+  // Remove espaços e outros caracteres de máscara (ex.: preenchimento)
+  NumeroLimpo := StringReplace(Texto, ' ', '', [rfReplaceAll]);
+
+  // Extrai apenas dígitos, vírgula e ponto
+  for I := 1 to Length(NumeroLimpo) do
+  begin
+    if CharInSet(NumeroLimpo[I], ['0'..'9', ',', '.']) then
+      NumeroLimpo := NumeroLimpo + NumeroLimpo[I];
+  end;
+
+  // Remove pontos (separador de milhar)
+  NumeroLimpo := StringReplace(NumeroLimpo, '.', '', [rfReplaceAll]);
+
+  // Troca vírgula por ponto (separador decimal)
+  NumeroLimpo := StringReplace(NumeroLimpo, ',', '.', [rfReplaceAll]);
+
+  // Converte; retorna 0 se erro (mas com validação posterior, evita 0 silencioso)
+  if not TryStrToCurr(NumeroLimpo, Result) then
+    Result := 0;  // Fallback, mas valide no botão para alertar
+end;
+
 function TFormCadastro.CarregarObjeto: TEmpresaDTO;
 var
   Dto: TEmpresaDTO;
@@ -1286,24 +1317,28 @@ end;
 
 procedure TFormCadastro.BtnEditarEmpresaClick(Sender: TObject);
 begin
-
-  BtnEnviar.Visible := False;
-  BtnConfirmarEd.Visible := True;
+  BtnConfirmarEdPatri.Visible := True;
+  BtnEnviarPatrimonio.Visible := False;
 
   try
-    EditFantasia.Text := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
-    EditRazao.Text := DBGrid1.DataSource.DataSet.FieldByName('razao_social').AsString;
-    EditBairro.Text := DBGrid1.DataSource.DataSet.FieldByName('bairro').AsString;
-    EditRua.Text := DBGrid1.DataSource.DataSet.FieldByName('rua').AsString;
-    EditCnpj.Text := DBGrid1.DataSource.DataSet.FieldByName('cnpj').AsString;
-    EditTelefone.Text := DBGrid1.DataSource.DataSet.FieldByName('telefone').AsString;
-    EditNumero.Text := DBGrid1.DataSource.DataSet.FieldByName('numero').AsString;
-    EditEstado.Text := DBGrid1.DataSource.DataSet.FieldByName('estado').AsString;
-    EditCidade.Text := DBGrid1.DataSource.DataSet.FieldByName('cidade').AsString;
-    EditCep.Text := DBGrid1.DataSource.DataSet.FieldByName('cep').AsString;
+    EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
+    EdtTipoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString;
+    CBSituacaoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('situacao').AsString;
+    EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
+
+    // ✅ USA FormatCurr com formato brasileiro
+    EdtVAQPatri.Text := FormatCurr('#,##0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsCurrency);
+    EdtVAPatri.Text := FormatCurr('#,##0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsCurrency);
+
+    EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
+    EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
+    ComboBoxPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;
+    PopularComboBoxSalas;
   finally
   end;
 end;
+
+
 
 
 
@@ -1313,14 +1348,16 @@ begin
   BtnConfirmarEdPatri.Visible := True;
   BtnEnviarPatrimonio.Visible := False;
 
-
   try
     EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
     EdtTipoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString;
     CBSituacaoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('situacao').AsString;
     EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
-    EdtVAQPatri.Text := FormatFloat('0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsFloat);
-    EdtVAPatri.Text := FormatFloat('0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsFloat);
+
+    // ✅ USA FormatCurr com formato brasileiro
+    EdtVAQPatri.Text := FormatCurr('#,##0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsCurrency);
+    EdtVAPatri.Text := FormatCurr('#,##0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsCurrency);
+
     EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
     EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
     ComboBoxPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;

@@ -46,8 +46,8 @@ begin
     Q.ParamByName('tipo').AsString := APatrimonioModel.Tipo;
     Q.ParamByName('situacao').AsString := APatrimonioModel.Situacao;
     Q.ParamByName('modelo').AsString := APatrimonioModel.Modelo;
-    Q.ParamByName('valor_aquisicao').AsFloat := APatrimonioModel.ValorAquisicao;
-    Q.ParamByName('valor_atual').AsFloat := APatrimonioModel.ValorAtual;
+    Q.ParamByName('valor_aquisicao').AsCurrency := APatrimonioModel.ValorAquisicao;
+    Q.ParamByName('valor_atual').AsCurrency:= APatrimonioModel.ValorAtual;
     Q.ParamByName('quantidade').AsInteger := APatrimonioModel.Quantidade;
     Q.ParamByName('data_aquisicao').AsDate := APatrimonioModel.DataAquisicao;
     Q.ParamByName('numero_serie').AsString := APatrimonioModel.NumeroSerie;
@@ -79,9 +79,9 @@ begin
     Q.ParamByName('tipo').AsString := APatrimonioModel.Tipo;
     Q.ParamByName('situacao').AsString := APatrimonioModel.Situacao;
     Q.ParamByName('modelo').AsString := APatrimonioModel.Modelo;
-    Q.ParamByName('valor_aquisicao').AsFloat := APatrimonioModel.ValorAquisicao;
-    Q.ParamByName('valor_atual').AsFloat := APatrimonioModel.ValorAtual;
-    Q.ParamByName('quantidade').AsInteger := APatrimonioModel.Quantidade;
+    Q.ParamByName('valor_aquisicao').AsCurrency := APatrimonioModel.ValorAquisicao;
+    Q.ParamByName('valor_atual').AsCurrency := APatrimonioModel.ValorAtual;
+    Q.ParamByName('quantidade').AsCurrency := APatrimonioModel.Quantidade;
     Q.ParamByName('data_aquisicao').AsDate := APatrimonioModel.DataAquisicao;
     Q.ParamByName('numero_serie').AsString := APatrimonioModel.NumeroSerie;
     Q.ParamByName('fk_id_salas').AsInteger := APatrimonioModel.IdSala;
