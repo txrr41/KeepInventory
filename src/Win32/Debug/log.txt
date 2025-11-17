@@ -1262,3 +1262,86 @@
 17/11/2025 09:47:08 Usuário: suporte1 - Acessou o módulo de Cadastros
 17/11/2025 11:53:18 Usuário: suporte1 - Login realizado com sucesso
 17/11/2025 11:53:18 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:16:20 Usuário: admin - Login realizado com sucesso
+17/11/2025 14:16:20 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:16:25 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 14:20:25 Usuário: admin - Login realizado com sucesso
+17/11/2025 14:20:25 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:22:53 Usuário: admin - Login realizado com sucesso
+17/11/2025 14:22:53 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:23:31 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:23:33 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 14:37:14 Usuário: admin - Login realizado com sucesso
+17/11/2025 14:37:14 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:37:16 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 14:41:29 Usuário: admin - Login realizado com sucesso
+17/11/2025 14:41:29 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:41:39 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+17/11/2025 14:43:48 Usuário: admin - Login realizado com sucesso
+17/11/2025 14:43:49 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:43:50 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+17/11/2025 14:48:06 Usuário: admin - Login realizado com sucesso
+17/11/2025 14:48:06 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:48:29 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+17/11/2025 14:48:43 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+17/11/2025 14:49:18 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+17/11/2025 14:51:42 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:51:44 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 14:52:36 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 14:53:28 Usuário: admin - Login realizado com sucesso
+17/11/2025 14:53:28 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 14:53:35 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 15:23:46 Usuário: admin - Login realizado com sucesso
+17/11/2025 15:23:46 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 15:23:50 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 15:23:57 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 15:26:34 Usuário: admin - Login realizado com sucesso
+17/11/2025 15:26:34 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 15:26:37 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 15:38:26 Usuário: admin - Login realizado com sucesso
+17/11/2025 15:38:26 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 15:38:54 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 15:38:55 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 15:39:17 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 15:39:31 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2025 a 17/11/2025
+17/11/2025 15:39:53 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 15:39:54 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 15:49:14 Usuário: admin - Login realizado com sucesso
+17/11/2025 15:49:14 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 15:49:17 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 15:50:24 Usuário: admin - Login realizado com sucesso
+17/11/2025 15:50:24 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 15:50:33 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 15:55:40 Usuário: admin - Login realizado com sucesso
+17/11/2025 15:55:40 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 15:55:44 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:02:13 Usuário: admin - Login realizado com sucesso
+17/11/2025 16:02:13 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 16:02:48 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:05:51 Usuário: admin - Login realizado com sucesso
+17/11/2025 16:05:51 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 16:06:18 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:10:29 Usuário: admin - Login realizado com sucesso
+17/11/2025 16:10:29 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 16:10:32 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:11:03 Usuário: admin - Login realizado com sucesso
+17/11/2025 16:11:03 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 16:11:04 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:20:25 Usuário: admin - Login realizado com sucesso
+17/11/2025 16:20:26 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 16:20:35 Usuário: admin (ID: 1) - [ERRO] Erro ao gerar relatório: Data final n?o pode ser futura!
+17/11/2025 16:20:45 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:21:09 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:23:33 Usuário: admin - Login realizado com sucesso
+17/11/2025 16:23:33 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 16:23:36 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:47:10 Usuário: admin - Login realizado com sucesso
+17/11/2025 16:47:10 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 16:47:13 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:49:15 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 16:49:19 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:50:07 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 16:50:12 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025
+17/11/2025 16:56:16 Usuário: admin - Login realizado com sucesso
+17/11/2025 16:56:16 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+17/11/2025 16:56:20 Usuário: admin (ID: 1) - Gerou relatório -  Período: 17/11/2024 a 17/11/2025

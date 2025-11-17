@@ -31,6 +31,10 @@ procedure TMovimentacaoRepository.AdicionarMovimentacao(
 var
   Q: TFDQuery;
 begin
+  // Validação antes de inserir no banco
+  if AMovimentacaoModel.IdUsuario <= 0 then
+    raise Exception.Create('ID de usuário inválido: ' + IntToStr(AMovimentacaoModel.IdUsuario));
+
   Q := TFDQuery.Create(nil);
   try
     Q.Connection := DataModule2.FDConnection;

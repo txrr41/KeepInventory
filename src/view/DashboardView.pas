@@ -95,6 +95,10 @@ begin
   FControllerRela := TRelatorioDepreciacaoController.Create(DataModule2.FDConnection);
   FDadosRelatorio := TObjectList<TRelatorioDepreciacaoItemModel>.Create;
 
+  // Configura o formato de data para o padrão brasileiro
+  DateTimePickerInicio.Format := 'dd/MM/yyyy';
+  DateTimePickerFim.Format := 'dd/MM/yyyy';
+
   ConfigurarFiltrosPadrao;
   CarregarComboTipo;
 end;
