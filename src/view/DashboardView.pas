@@ -1,4 +1,4 @@
-unit DashboardView;
+ï»¿unit DashboardView;
 
 interface
 
@@ -8,7 +8,8 @@ uses
   Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart, Vcl.StdCtrls,
   DashboardController, DashboardModel, System.Generics.Collections, Vcl.ComCtrls,
   VclTee.TeeGDIPlus, Vcl.WinXPanels, DepreciacaoController, DepreciacaoModel,
-  Vcl.Imaging.pngimage;
+  Vcl.Imaging.pngimage, RelatorioDepreciacaoController, DB, RelatorioDepreciacaoItemModel,
+  Vcl.Buttons, frxClass, DateUtils, frxDBSet, frxDesgn, frxChart, LogService;
 
 type
   TFormDashboard = class(TForm)
@@ -42,32 +43,39 @@ type
     BarSeries1: THorizBarSeries;
     Panel9: TPanel;
     Panel10: TPanel;
-    ComboBox1: TComboBox;
+    ComboBoxRelatorios: TComboBox;
     Panel11: TPanel;
     Shape5: TShape;
     Label4: TLabel;
     Panel12: TPanel;
     Label3: TLabel;
     Label5: TLabel;
-    Image1: TImage;
+    DateTimePickerFim: TDateTimePicker;
+    DateTimePickerInicio: TDateTimePicker;
+    BtnGerarRelatorio: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ComboBoxTipoChange(Sender: TObject);
+    procedure BtnGerarRelatorioClick(Sender: TObject);
   private
     FController: TDashboardController;
     FDepreciacaoController: TDepreciacaoController;
+    FControllerRela: TRelatorioDepreciacaoController;
+    FDadosRelatorio: TObjectList<TRelatorioDepreciacaoItemModel>;
 
     procedure ConfigurarGrafico;
     procedure ConfigurarGraficoDepreciacao;
     procedure ConfigurarCards;
-
+    procedure ConfigurarFiltrosPadrao;
     procedure AtualizarGraficoPorPredio;
     procedure AtualizarGraficoPorSala;
     procedure AtualizarResumoDepreciacao;
     procedure AtualizarGraficoDepreciacao;
-
+    procedure CarregarComboTipo;
     procedure PreencherGrafico(ADados: TObjectList<TDashboardItemModel>; const ATitulo: string);
+    procedure GerarRelatorioVisual(ADados: TObjectList<TRelatorioDepreciacaoItemModel>);
+
   public
     { Public declarations }
   end;
@@ -83,19 +91,29 @@ procedure TFormDashboard.FormCreate(Sender: TObject);
 begin
   FController := TDashboardController.Create;
   FDepreciacaoController := TDepreciacaoController.Create;
+
+  FControllerRela := TRelatorioDepreciacaoController.Create(DataModule2.FDConnection);
+  FDadosRelatorio := TObjectList<TRelatorioDepreciacaoItemModel>.Create;
+
+  ConfigurarFiltrosPadrao;
+  CarregarComboTipo;
 end;
 
 procedure TFormDashboard.FormDestroy(Sender: TObject);
 begin
   FController.Free;
   FDepreciacaoController.Free;
+  FDadosRelatorio.Free;
+  FControllerRela.Free;
 end;
 
 procedure TFormDashboard.FormShow(Sender: TObject);
 begin
+  TLogService.Instance.LogAcesso('Dashboard');
+
   // Configura o ComboBox
   ComboBoxTipo.Items.Clear;
-  ComboBoxTipo.Items.Add('Por Prédio');
+  ComboBoxTipo.Items.Add('Por PrÃ©dio');
   ComboBoxTipo.Items.Add('Por Sala');
   ComboBoxTipo.ItemIndex := 0;
 
@@ -108,22 +126,70 @@ begin
   AtualizarGraficoDepreciacao;
 end;
 
+procedure TFormDashboard.GerarRelatorioVisual(
+  ADados: TObjectList<TRelatorioDepreciacaoItemModel>);
+var
+  I: Integer;
+  Item: TRelatorioDepreciacaoItemModel;
+  TotalAntes, TotalDepois, TotalDepreciado: Currency;
+  MediaPercentual: Double;
+begin
+  // Aqui vocÃª pode:
+  // 1. Popular um StringGrid/DBGrid com os dados
+  // 2. Gerar um relatÃ³rio FastReport programaticamente
+  // 3. Exportar para Excel
+  // 4. Mostrar em um Memo formatado
+
+  // Exemplo simples: Mostrar resumo
+  TotalAntes := 0;
+  TotalDepois := 0;
+  TotalDepreciado := 0;
+  MediaPercentual := 0;
+
+  for Item in ADados do
+  begin
+    TotalAntes := TotalAntes + Item.ValorAntes;
+    TotalDepois := TotalDepois + Item.ValorDepois;
+    TotalDepreciado := TotalDepreciado + Item.ValorDepreciado;
+    MediaPercentual := MediaPercentual + Item.PercentualDepreciacao;
+  end;
+
+  if ADados.Count > 0 then
+    MediaPercentual := MediaPercentual / ADados.Count;
+
+  ShowMessage(
+    Format('RESUMO DO RELATÃ“RIO'#13#10 +
+           '===================='#13#10 +
+           'OcorrÃªncias: %d'#13#10 +
+           'Valor Antes: R$ %s'#13#10 +
+           'Valor Depois: R$ %s'#13#10 +
+           'Total Depreciado: R$ %s'#13#10 +
+           'MÃ©dia Percentual: %.2f%%',
+           [ADados.Count,
+            FormatFloat('#,##0.00', TotalAntes),
+            FormatFloat('#,##0.00', TotalDepois),
+            FormatFloat('#,##0.00', TotalDepreciado),
+            MediaPercentual]));
+
+  // TODO: Carregar e preencher FastReport com os dados
+end;
+
 procedure TFormDashboard.ConfigurarGrafico;
 begin
-  // Configurações gerais do gráfico de barras
+  // ConfiguraÃ§Ãµes gerais do grÃ¡fico de barras
   Chart1.Title.Text.Clear;
-  Chart1.Title.Text.Add('Patrimônios por Localização');
+  Chart1.Title.Text.Add('PatrimÃ´nios por LocalizaÃ§Ã£o');
   Chart1.Title.Font.Size := 14;
   Chart1.Title.Font.Style := [fsBold];
 
-  // Configurações da série
+  // ConfiguraÃ§Ãµes da sÃ©rie
   Series1.Clear;
   Series1.Marks.Visible := True;
   Series1.Marks.Style := smsValue;
 
   Chart1.View3D := False;
   Chart1.Legend.Visible := False;
-  Chart1.BottomAxis.Title.Caption := 'Localização';
+  Chart1.BottomAxis.Title.Caption := 'LocalizaÃ§Ã£o';
   Chart1.LeftAxis.Title.Caption := 'Quantidade';
 end;
 
@@ -151,7 +217,7 @@ begin
   LabelValorDepreciado.Font.Style := [fsBold];
   LabelValorDepreciado.Font.Color := clRed;
 
-  LabelTituloTaxa.Caption := 'Taxa Média Depreciação';
+  LabelTituloTaxa.Caption := 'Taxa MÃ©dia DepreciaÃ§Ã£o';
   LabelTituloTaxa.Font.Size := 9;
   LabelTituloTaxa.Font.Color := clGray;
   LabelTaxaDepreciacao.Font.Size := 16;
@@ -159,18 +225,24 @@ begin
   LabelTaxaDepreciacao.Font.Color := clMaroon;
 end;
 
+procedure TFormDashboard.ConfigurarFiltrosPadrao;
+begin
+  DateTimePickerFim.Date := Date;
+  DateTimePickerInicio.Date := IncYear(Date, -1);
+end;
+
 procedure TFormDashboard.ConfigurarGraficoDepreciacao;
 begin
 
   ChartDepreciacao.Title.Text.Clear;
-  ChartDepreciacao.Title.Text.Add('Depreciação por Tipo de Ocorrência');
+  ChartDepreciacao.Title.Text.Add('DepreciaÃ§Ã£o por Tipo de OcorrÃªncia');
   ChartDepreciacao.Title.Font.Size := 14;
   ChartDepreciacao.Title.Font.Style := [fsBold];
 
   ChartDepreciacao.View3D := False;
   ChartDepreciacao.Legend.Visible := False;
 
-  ChartDepreciacao.LeftAxis.Title.Caption := 'Tipo de Ocorrência';
+  ChartDepreciacao.LeftAxis.Title.Caption := 'Tipo de OcorrÃªncia';
   ChartDepreciacao.BottomAxis.Title.Caption := 'Valor Depreciado (R$)';
 
   BarSeries1.Clear;
@@ -187,7 +259,7 @@ var
 begin
   Dados := FController.CarregarGraficoPorPredio;
   try
-    PreencherGrafico(Dados, 'Patrimônios por Prédio');
+    PreencherGrafico(Dados, 'PatrimÃ´nios por PrÃ©dio');
   finally
     Dados.Free;
   end;
@@ -199,7 +271,7 @@ var
 begin
   Dados := FController.CarregarGraficoPorSala(10);
   try
-    PreencherGrafico(Dados, 'Top 10 Salas com Mais Patrimônios');
+    PreencherGrafico(Dados, 'Top 10 Salas com Mais PatrimÃ´nios');
   finally
     Dados.Free;
   end;
@@ -220,6 +292,86 @@ begin
   end;
 end;
 
+procedure TFormDashboard.BtnGerarRelatorioClick(Sender: TObject);
+var
+  MaiorImpacto: TMaiorImpactoDTO;
+  TipoSelecionado: string;
+  MensagemErro: string;
+begin
+
+  if not DataModule2.FDConnection.Connected then
+  begin
+    ShowMessage('ConexÃ£o com o banco de dados nÃ£o estÃ¡ ativa.');
+    Exit;
+  end;
+
+  try
+    if ComboBoxRelatorios.ItemIndex = 0 then
+      TipoSelecionado := ''
+    else
+      TipoSelecionado := ComboBoxRelatorios.Text;
+
+    FControllerRela.PrepararRelatorioFastReport(
+      DateTimePickerInicio.Date,
+      DateTimePickerFim.Date,
+      TipoSelecionado,
+      MensagemErro
+    );
+
+    if MensagemErro <> '' then
+    begin
+      TLogService.Instance.LogSistema('Erro ao gerar relatÃ³rio: ' + MensagemErro, 'ERRO');
+      ShowMessage(MensagemErro);
+      Exit;
+    end
+    else
+    begin
+      // Log de sucesso na geraÃ§Ã£o do relatÃ³rio
+      TLogService.Instance.LogRelatorio(
+        TipoSelecionado,
+        Format('PerÃ­odo: %s a %s', [
+          DateToStr(DateTimePickerInicio.Date),
+          DateToStr(DateTimePickerFim.Date)
+        ])
+      );
+    end;
+
+    MaiorImpacto := FControllerRela.ObterMaiorImpactoParaRelatorio(
+      DateTimePickerInicio.Date,
+      DateTimePickerFim.Date,
+      TipoSelecionado
+    );
+
+    ShowMessage(Format('DEBUG: %s - %s - R$ %.2f (%.0f%%)',
+  [MaiorImpacto.Nome,
+   MaiorImpacto.TipoOcorrencia,
+   MaiorImpacto.Valor,
+   MaiorImpacto.Percentual]));
+
+    if MaiorImpacto.Valor > 0 then
+    begin
+      DataModule2.frxReport1.Variables['MaiorImpactoNome'] := MaiorImpacto.Nome;
+      DataModule2.frxReport1.Variables['MaiorImpactoTipo'] := MaiorImpacto.TipoOcorrencia;
+      DataModule2.frxReport1.Variables['MaiorImpactoValor'] := MaiorImpacto.Valor;
+      DataModule2.frxReport1.Variables['MaiorImpactoPercentual'] := MaiorImpacto.Percentual;
+    end
+    else
+    begin
+      DataModule2.frxReport1.Variables['MaiorImpactoNome'] := 'Nenhum';
+      DataModule2.frxReport1.Variables['MaiorImpactoTipo'] := '-';
+      DataModule2.frxReport1.Variables['MaiorImpactoValor'] := 0;
+      DataModule2.frxReport1.Variables['MaiorImpactoPercentual'] := 0;
+    end;
+
+    // âœ… MOSTRA O RELATÃ“RIO
+    DataModule2.frxReport1.ShowReport;
+
+  except
+    on E: Exception do
+      ShowMessage('Erro ao gerar relatÃ³rio: ' + E.Message);
+  end;
+end;
+
 procedure TFormDashboard.AtualizarGraficoDepreciacao;
 var
   Dados: TObjectList<TDepreciacaoTipoModel>;
@@ -234,7 +386,7 @@ begin
     begin
       for Item in Dados do
       begin
-        // Nome do tipo com quantidade de ocorrências
+        // Nome do tipo com quantidade de ocorrÃªncias
         NomeTipo := Format('%s (%d)', [
           Item.TipoOcorrencia,
           Item.QuantidadeOcorrencias
@@ -269,6 +421,26 @@ begin
   else
   begin
     Series1.Add(0, 'Sem dados', clGray);
+  end;
+end;
+
+procedure TFormDashboard.CarregarComboTipo;
+var
+  Tipos: TStringList;
+  I: Integer;
+begin
+  ComboBoxRelatorios.Items.Clear;
+  ComboBoxRelatorios.Items.Add('Relatorio de depreciacao de bens');
+
+  // âœ… USA O CONTROLLER - Sem contato direto com banco
+  Tipos := FControllerRela.ObterTiposOcorrencia;
+  try
+    for I := 0 to Tipos.Count - 1 do
+      ComboBoxTipo.Items.Add(Tipos[I]);
+
+    ComboBoxTipo.ItemIndex := 0;
+  finally
+    Tipos.Free;
   end;
 end;
 

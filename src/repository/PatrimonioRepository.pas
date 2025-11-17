@@ -16,8 +16,9 @@ public
   function ListarPatrimonio: TDataSet;
   function PesquisarPatrimonio(const aSearch: String): TDataSet;
 
-  // Novos métodos para importação
+  // Novos mï¿½todos para importaï¿½ï¿½o
   function NumeroSerieExiste(const NumeroSerie: string): Boolean;
+  function GetNomePatrimonioById(AId: Integer): string;
   procedure ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
     var TotalImportados, TotalErros: Integer; Erros: TStringList);
 end;
@@ -81,7 +82,7 @@ begin
     Q.ParamByName('modelo').AsString := APatrimonioModel.Modelo;
     Q.ParamByName('valor_aquisicao').AsCurrency := APatrimonioModel.ValorAquisicao;
     Q.ParamByName('valor_atual').AsCurrency := APatrimonioModel.ValorAtual;
-    Q.ParamByName('quantidade').AsCurrency := APatrimonioModel.Quantidade;
+    Q.ParamByName('quantidade').AsInteger := APatrimonioModel.Quantidade;
     Q.ParamByName('data_aquisicao').AsDate := APatrimonioModel.DataAquisicao;
     Q.ParamByName('numero_serie').AsString := APatrimonioModel.NumeroSerie;
     Q.ParamByName('fk_id_salas').AsInteger := APatrimonioModel.IdSala;
@@ -126,6 +127,26 @@ begin
   end;
 end;
 
+function TPatrimonioRepository.GetNomePatrimonioById(AId: Integer): string;
+var
+  Q: TFDQuery;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text := 'SELECT nome FROM patrimonios WHERE id = :id AND ativo = true';
+    Q.ParamByName('id').AsInteger := AId;
+    Q.Open;
+
+    if not Q.Eof then
+      Result := Q.FieldByName('nome').AsString
+    else
+      Result := '';
+  finally
+    Q.Free;
+  end;
+end;
+
 procedure TPatrimonioRepository.ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
   var TotalImportados, TotalErros: Integer; Erros: TStringList);
 var
@@ -152,10 +173,10 @@ begin
         Item := Itens[i];
 
         try
-          // Verifica se número de série já existe
+          // Verifica se nï¿½mero de sï¿½rie jï¿½ existe
           if NumeroSerieExiste(Item.FNumeroSerie) then
           begin
-            Erros.Add(Format('Item %d: Número de série %s já existe no sistema',
+            Erros.Add(Format('Item %d: Nï¿½mero de sï¿½rie %s jï¿½ existe no sistema',
               [i + 1, Item.FNumeroSerie]));
             Inc(TotalErros);
             Continue;
@@ -190,7 +211,7 @@ begin
       on E: Exception do
       begin
         DataModule2.FDConnection.Rollback;
-        Erros.Add('Erro geral na importação: ' + E.Message);
+        Erros.Add('Erro geral na importaï¿½ï¿½o: ' + E.Message);
         raise;
       end;
     end;

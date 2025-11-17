@@ -6,18 +6,21 @@ uses
 AuditoriaModel, AuditoriaRepository;
 
 type
- TLogService = class
+ TAuditoriaService = class
  private
  FRepository: TLogRepository;
  public
  function RegAuditoria(UsuarioLog: TUserLog): String;
  end;
 
+ var
+ FAuditoriaService: TAuditoriaService;
+
 implementation
 
 { TLogService }
 
-function TLogService.RegAuditoria(UsuarioLog: TUserLog): String;
+function TAuditoriaService.RegAuditoria(UsuarioLog: TUserLog): String;
 begin
 Result := FRepository.RegAuditoria(UsuarioLog)
 end;

@@ -17,7 +17,7 @@ public
   function ListarPatrimonio: TDataSet;
   function DtoForModel(APatrimonioDTO: TPatrimonioDTO): TPatrimonioConfig;
 
-  // Novos métodos para importação CSV
+  // Novos mï¿½todos para importaï¿½ï¿½o CSV
   function ImportarPatrimoniosCSV(const ArquivoCSV: string;
     var TotalImportados, TotalErros: Integer; Erros: TStringList): Boolean;
 end;
@@ -36,6 +36,8 @@ var
 begin
   PatrimonioModel := DtoForModel(APatrimonioDTO);
   FPatrimonioService.AdicionarPatrimonio(PatrimonioModel);
+
+  // Log movido para o Service
 end;
 
 function TPatrimonioController.DtoForModel(APatrimonioDTO: TPatrimonioDTO): TPatrimonioConfig;
@@ -65,11 +67,14 @@ var
 begin
   PatrimonioModel := DtoForModel(APatrimonioDTO);
   FPatrimonioService.EditarPatrimonio(PatrimonioModel);
+
+  // Log movido para o Service
 end;
 
 procedure TPatrimonioController.ExcluirPatrimonio(AId: Integer);
 begin
   FPatrimonioService.ExcluirPatrimonio(AId);
+  // Log movido para o Service
 end;
 
 function TPatrimonioController.ListarPatrimonio: TDataSet;
@@ -107,21 +112,21 @@ begin
 
   Importador := TPatrimonioImportacaoCSV.Create;
   try
-    // Lê e valida o CSV
+    // Lï¿½ e valida o CSV
     if not Importador.LerCSV(ArquivoCSV, Itens) then
     begin
       Erros.AddStrings(Importador.Erros);
       Exit;
     end;
 
-    // Adiciona os erros de validação do CSV
+    // Adiciona os erros de validaï¿½ï¿½o do CSV
     if Importador.Erros.Count > 0 then
     begin
       Erros.AddStrings(Importador.Erros);
       TotalErros := Importador.Erros.Count;
     end;
 
-    // Se houver itens válidos, importa para o banco
+    // Se houver itens vï¿½lidos, importa para o banco
     if Length(Itens) > 0 then
     begin
       FPatrimonioService.ImportarPatrimonios(Itens, TotalImportados, TotalErros, Erros);
@@ -129,7 +134,7 @@ begin
     end
     else if Erros.Count = 0 then
     begin
-      Erros.Add('Nenhum item válido encontrado no arquivo CSV');
+      Erros.Add('Nenhum item vï¿½lido encontrado no arquivo CSV');
     end;
 
   finally

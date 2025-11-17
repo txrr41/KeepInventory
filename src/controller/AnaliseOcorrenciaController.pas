@@ -3,8 +3,8 @@ unit AnaliseOcorrenciaController;
 interface
 
 uses
-  OcorrenciaModel, OcorrenciaDTO, AnaliseOcorrenciaService, System.SysUtils,
-  Vcl.StdCtrls, System.Classes, Data.DB;
+  OcorrenciaModel, OcorrenciaDTO, AnaliseOcorrenciaService, OcorrenciaRepository,
+  System.SysUtils, Vcl.StdCtrls, System.Classes, Data.DB, FireDAC.Comp.Client;
 
 type
   TAnaliseOcorrenciaController = class
@@ -14,6 +14,8 @@ type
     procedure AvaliarOcorrencia(AAvaliacaoDTO: TAvaliacaoOcorrenciaDTO);
     function ObterDetalhesOcorrencia(AIdOcorrencia: Integer): TOcorrenciaModel;
     function ObterValorPatrimonio(AIdPatrimonio: Integer): Currency;
+    function CalcularDepreciacaoAcumulada(AIdPatrimonio: Integer): Currency;
+    function ObterHistoricoDepreciacoes(AIdPatrimonio: Integer): TFDQuery;
     function CalcularNovoValor(AValorAtual: Currency; APercentualDepreciacao: Currency): Currency;
   end;
 
@@ -28,6 +30,18 @@ procedure TAnaliseOcorrenciaController.AvaliarOcorrencia(
   AAvaliacaoDTO: TAvaliacaoOcorrenciaDTO);
 begin
   FAnaliseOcorrenciaService.AvaliarOcorrencia(AAvaliacaoDTO);
+end;
+
+function TAnaliseOcorrenciaController.CalcularDepreciacaoAcumulada(
+  AIdPatrimonio: Integer): Currency;
+begin
+  Result := FOcorrenciaRepository.CalcularDepreciacaoAcumulada(AIdPatrimonio);
+end;
+
+function TAnaliseOcorrenciaController.ObterHistoricoDepreciacoes(
+  AIdPatrimonio: Integer): TFDQuery;
+begin
+  Result := FOcorrenciaRepository.ObterHistoricoDepreciacoes(AIdPatrimonio);
 end;
 
 function TAnaliseOcorrenciaController.CalcularNovoValor(AValorAtual,

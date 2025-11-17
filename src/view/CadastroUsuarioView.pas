@@ -129,7 +129,7 @@ begin
   FModoEdicao := False;
   FIdUsuarioSelecionado := 0;
 
-  // Configura ComboBox de função
+  // Configura ComboBox de funï¿½ï¿½o
   CbFuncaoUser.Items.Clear;
   CbFuncaoUser.Items.Add('Administrador');
   CbFuncaoUser.Items.Add('Gestor');
@@ -155,7 +155,7 @@ var
   UsuarioLogado: TUsuarioModel;
 begin
   AtualizarGrid;
-  ShowMessage('Antes de GetUsuarioLogado');  // Log temporário
+  ShowMessage('Antes de GetUsuarioLogado');  // Log temporï¿½rio
   UsuarioLogado := TPermissoesHelper.GetUsuarioLogado;
   ShowMessage('Depois de GetUsuarioLogado: ' + IntToStr(Integer(UsuarioLogado)));  // Mostra o ponteiro
   if Assigned(UsuarioLogado) then
@@ -165,9 +165,12 @@ begin
   end
   else
   begin
-    ShowMessage('Nenhum usuário logado!');
+    ShowMessage('Nenhum usuï¿½rio logado!');
     Close;
   end;
+
+  // Inicializar campos desabilitados
+  HabilitarCampos(False);
 end;
 
 procedure TFormCadastroUsuario.HabilitarCampos(AHabilitar: Boolean);
@@ -182,7 +185,7 @@ begin
   EdtSenhaUser.Enabled := AHabilitar;
   Memo1.Enabled := AHabilitar;
 
-  // Painéis de permissões
+  // Painï¿½is de permissï¿½es
   Panel9.Enabled := AHabilitar;
   Panel11.Enabled := AHabilitar;
   Panel12.Enabled := AHabilitar;
@@ -200,21 +203,21 @@ begin
   CheckCadastroSala.Enabled := AHabilitar;
   CheckCadastroPatri.Enabled := AHabilitar;
 
-  // Checkboxes filhos - Movimentações
+  // Checkboxes filhos - Movimentaï¿½ï¿½es
   CheckAnalisarMovi.Enabled := AHabilitar;
   CheckAdicionarMovi.Enabled := AHabilitar;
   CheckExcluirMovi.Enabled := AHabilitar;
 
-  // Checkboxes filhos - Ocorrências
+  // Checkboxes filhos - Ocorrï¿½ncias
   CheckAnalisarOcorre.Enabled := AHabilitar;
   CheckAdicionarOcorre.Enabled := AHabilitar;
   CheckExcluirOcorre.Enabled := AHabilitar;
 
-  // Checkboxes filhos - Usuários
+  // Checkboxes filhos - Usuï¿½rios
   CheckCadastrarUser.Enabled := AHabilitar;
   CheckPermissaoUser.Enabled := AHabilitar;
 
-  // Botão Salvar
+  // Botï¿½o Salvar
   BtnSalavarUser.Enabled := AHabilitar;
 
   if AHabilitar then
@@ -248,7 +251,7 @@ begin
   EdtSenhaUser.Text := '';
   Memo1.Lines.Clear;
 
-  // Limpa todas as permissões
+  // Limpa todas as permissï¿½es
   CheckCadastro.Checked := False;
   CheckCadastroEmp.Checked := False;
   CheckCadastroPredi.Checked := False;
@@ -280,7 +283,7 @@ begin
   except
     on E: Exception do
     begin
-      ShowMessage('Erro ao carregar usuários: ' + E.Message);
+      ShowMessage('Erro ao carregar usuï¿½rios: ' + E.Message);
       DBGridUsuarios.DataSource := nil;
     end;
   end;
@@ -292,38 +295,38 @@ begin
 
   if Trim(EdtNomeUser.Text) = '' then
   begin
-    ShowMessage('Informe o nome do usuário!');
+    ShowMessage('Informe o nome do usuï¿½rio!');
     EdtNomeUser.SetFocus;
     Exit;
   end;
 
   if Trim(EdtCPFUser.Text) = '' then
   begin
-    ShowMessage('Informe o CPF do usuário!');
+    ShowMessage('Informe o CPF do usuï¿½rio!');
     EdtCPFUser.SetFocus;
     Exit;
   end;
 
   if CbFuncaoUser.ItemIndex = -1 then
   begin
-    ShowMessage('Selecione a função do usuário!');
+    ShowMessage('Selecione a funï¿½ï¿½o do usuï¿½rio!');
     CbFuncaoUser.SetFocus;
     Exit;
   end;
 
-  // Valida senha apenas no modo de inclusão
+  // Valida senha apenas no modo de inclusï¿½o
   if (not FModoEdicao) and (Trim(EdtSenhaUser.Text) = '') then
   begin
-    ShowMessage('Informe a senha do usuário!');
+    ShowMessage('Informe a senha do usuï¿½rio!');
     EdtSenhaUser.SetFocus;
     Exit;
   end;
 
-  // Valida se pelo menos uma permissão foi marcada
+  // Valida se pelo menos uma permissï¿½o foi marcada
   if not (CheckCadastro.Checked or CheckMovimentacoes.Checked or
           CheckOcorrencias.Checked or CheckUsuarios.Checked) then
   begin
-    ShowMessage('Selecione pelo menos uma permissão para o usuário!');
+    ShowMessage('Selecione pelo menos uma permissï¿½o para o usuï¿½rio!');
     Exit;
   end;
 
@@ -346,28 +349,28 @@ begin
     Dto.FDataNascimento := Date;
 
   Dto.FFuncao := CbFuncaoUser.Text;
-  Dto.FSenha := EdtSenhaUser.Text; // Será convertida em hash no controller
+  Dto.FSenha := EdtSenhaUser.Text; // Serï¿½ convertida em hash no controller
 
-  // Permissões Cadastros
+  // Permissï¿½es Cadastros
   Dto.FPermCadastros := CheckCadastro.Checked;
   Dto.FPermCadEmpresa := CheckCadastroEmp.Checked;
   Dto.FPermCadPredio := CheckCadastroPredi.Checked;
   Dto.FPermCadSala := CheckCadastroSala.Checked;
   Dto.FPermCadPatrimonio := CheckCadastroPatri.Checked;
 
-  // Permissões Movimentações
+  // Permissï¿½es Movimentaï¿½ï¿½es
   Dto.FPermMovimentacoes := CheckMovimentacoes.Checked;
   Dto.FPermMovAnalisar := CheckAnalisarMovi.Checked;
   Dto.FPermMovAdicionar := CheckAdicionarMovi.Checked;
   Dto.FPermMovExcluir := CheckExcluirMovi.Checked;
 
-  // Permissões Ocorrências
+  // Permissï¿½es Ocorrï¿½ncias
   Dto.FPermOcorrencias := CheckOcorrencias.Checked;
   Dto.FPermOcorAnalisar := CheckAnalisarOcorre.Checked;
   Dto.FPermOcorAdicionar := CheckAdicionarOcorre.Checked;
   Dto.FPermOcorExcluir := CheckExcluirOcorre.Checked;
 
-  // Permissões Usuários
+  // Permissï¿½es Usuï¿½rios
   Dto.FPermUsuarios := CheckUsuarios.Checked;
   Dto.FPermUserCadastrar := CheckCadastrarUser.Checked;
   Dto.FPermUserPermissao := CheckPermissaoUser.Checked;
@@ -396,12 +399,12 @@ begin
     if FModoEdicao then
     begin
       FUsuarioController.EditarUsuario(Dto);
-      ShowMessage('Usuário atualizado com sucesso!');
+      ShowMessage('Usuï¿½rio atualizado com sucesso!');
     end
     else
     begin
       FUsuarioController.AdicionarUsuario(Dto);
-      ShowMessage('Usuário cadastrado com sucesso!');
+      ShowMessage('Usuï¿½rio cadastrado com sucesso!');
     end;
 
     LimparCampos;
@@ -411,7 +414,7 @@ begin
 
   except
     on E: Exception do
-      ShowMessage('Erro ao salvar usuário: ' + E.Message);
+      ShowMessage('Erro ao salvar usuï¿½rio: ' + E.Message);
   end;
 end;
 
@@ -425,16 +428,16 @@ begin
   try
     FIdUsuarioSelecionado := DataSource1.DataSet.FieldByName('id').AsInteger;
 
-    // Carrega dados básicos
+    // Carrega dados bï¿½sicos
     EdtNomeUser.Text := DataSource1.DataSet.FieldByName('nome').AsString;
     EdtCPFUser.Text := DataSource1.DataSet.FieldByName('cpf').AsString;
     EdtRGUser.Text := DataSource1.DataSet.FieldByName('rg').AsString;
     EdtTelefoneUser.Text := DataSource1.DataSet.FieldByName('telefone').AsString;
     EdtNascimentoUser.Text := DateToStr(DataSource1.DataSet.FieldByName('data_nascimento').AsDateTime);
     CbFuncaoUser.Text := DataSource1.DataSet.FieldByName('funcao').AsString;
-    EdtSenhaUser.Text := ''; // Não carrega a senha
+    EdtSenhaUser.Text := ''; // Nï¿½o carrega a senha
 
-    // Carrega permissões do banco
+    // Carrega permissï¿½es do banco
     Usuario := FUsuarioController.ObterPermissoes(FIdUsuarioSelecionado);
     try
       if Usuario <> nil then
@@ -473,7 +476,7 @@ procedure TFormCadastroUsuario.BtnEditarUserClick(Sender: TObject);
 begin
   if DataSource1.DataSet.IsEmpty then
   begin
-    ShowMessage('Selecione um usuário para editar!');
+    ShowMessage('Selecione um usuï¿½rio para editar!');
     Exit;
   end;
 
@@ -490,24 +493,24 @@ var
 begin
   if DataSource1.DataSet.IsEmpty then
   begin
-    ShowMessage('Selecione um usuário para excluir!');
+    ShowMessage('Selecione um usuï¿½rio para excluir!');
     Exit;
   end;
 
   NomeUsuario := DataSource1.DataSet.FieldByName('nome').AsString;
 
-  if MessageDlg('Deseja realmente excluir o usuário "' + NomeUsuario + '"?',
+  if MessageDlg('Deseja realmente excluir o usuï¿½rio "' + NomeUsuario + '"?',
                 mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     try
       IdUsuario := DataSource1.DataSet.FieldByName('id').AsInteger;
       FUsuarioController.ExcluirUsuario(IdUsuario);
-      ShowMessage('Usuário excluído com sucesso!');
+      ShowMessage('Usuï¿½rio excluï¿½do com sucesso!');
       AtualizarGrid;
       LimparCampos;
     except
       on E: Exception do
-        ShowMessage('Erro ao excluir usuário: ' + E.Message);
+        ShowMessage('Erro ao excluir usuï¿½rio: ' + E.Message);
     end;
   end;
 end;
@@ -526,7 +529,7 @@ begin
 end;
 
 // ============================================================================
-// GERENCIAMENTO DE PERMISSÕES - CADASTROS
+// GERENCIAMENTO DE PERMISSï¿½ES - CADASTROS
 // ============================================================================
 
 procedure TFormCadastroUsuario.ConfigurarPermissoesCadastro(AMarcar: Boolean);
@@ -564,7 +567,7 @@ end;
 
 procedure TFormCadastroUsuario.VerificarCheckboxPrincipalCadastro;
 begin
-  // Se todos estão marcados, marca o principal
+  // Se todos estï¿½o marcados, marca o principal
   if CheckCadastroEmp.Checked and CheckCadastroPredi.Checked and
      CheckCadastroSala.Checked and CheckCadastroPatri.Checked then
     CheckCadastro.Checked := True
@@ -574,7 +577,7 @@ begin
 end;
 
 // ============================================================================
-// GERENCIAMENTO DE PERMISSÕES - MOVIMENTAÇÕES
+// GERENCIAMENTO DE PERMISSï¿½ES - MOVIMENTAï¿½ï¿½ES
 // ============================================================================
 
 procedure TFormCadastroUsuario.ConfigurarPermissoesMovimentacoes(AMarcar: Boolean);
@@ -600,7 +603,7 @@ begin
 end;
 
 // ============================================================================
-// GERENCIAMENTO DE PERMISSÕES - OCORRÊNCIAS
+// GERENCIAMENTO DE PERMISSï¿½ES - OCORRï¿½NCIAS
 // ============================================================================
 
 procedure TFormCadastroUsuario.ConfigurarPermissoesOcorrencias(AMarcar: Boolean);
@@ -626,7 +629,7 @@ begin
 end;
 
 // ============================================================================
-// GERENCIAMENTO DE PERMISSÕES - USUÁRIOS
+// GERENCIAMENTO DE PERMISSï¿½ES - USUï¿½RIOS
 // ============================================================================
 
 procedure TFormCadastroUsuario.ConfigurarPermissoesUsuarios(AMarcar: Boolean);

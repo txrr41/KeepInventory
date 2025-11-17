@@ -35,7 +35,7 @@ begin
   try
     Q.Connection := DataModule2.FDConnection;
 
-    // Busca o valor atual do patrimônio e o ID
+    // Busca o valor atual do patrimï¿½nio e o ID
     Q.SQL.Text :=
       'SELECT p.valor_atual, o.fk_id_patrimonios ' +
       'FROM ocorrencias o ' +
@@ -50,13 +50,13 @@ begin
 
     Q.Close;
 
-    // Define o status do patrimônio
+    // Define o status do patrimï¿½nio
     if AAvaliacaoDTO.FRequerManutencao then
       StatusPatrimonio := 'em_manutencao'
     else
       StatusPatrimonio := 'ativo';
 
-    // Atualiza a ocorrência com a avaliação
+    // Atualiza a ocorrï¿½ncia com a avaliaï¿½ï¿½o
     Q.SQL.Text :=
       'UPDATE ocorrencias SET ' +
       'fk_id_gestor = :id_gestor, ' +
@@ -87,7 +87,7 @@ begin
     Q.ExecSQL;
     Q.Close;
 
-    // Atualiza o valor do patrimônio e seu status
+    // Atualiza o valor do patrimï¿½nio e seu status
     Q.SQL.Text :=
       'UPDATE patrimonios SET ' +
       'valor_atual = :valor_atual, ' +
@@ -185,15 +185,10 @@ begin
     Q.ParamByName('id').AsInteger := AIdPatrimonio;
     Q.Open;
 
-    ShowMessage('ID Patrimônio: ' + IntToStr(AIdPatrimonio)); // DEBUG
-
     if not Q.IsEmpty then
     begin
       Result := Q.FieldByName('valor_atual').AsCurrency;
-      ShowMessage('Valor encontrado: ' + CurrToStr(Result)); // DEBUG
     end
-    else
-      ShowMessage('Patrimônio não encontrado!'); // DEBUG
 
   finally
     Q.Free;

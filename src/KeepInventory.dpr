@@ -16,7 +16,7 @@ uses
   LoginRepository in 'repository\LoginRepository.pas',
   DB in 'view\DB.pas' {DataModule2: TDataModule},
   HomeView in 'view\HomeView.pas' {FormHome},
-  CadastrosView in 'view\CadastrosView.pas' {Form3},
+  CadastrosView in 'view\CadastrosView.pas' {FormCadastro},
   AuditoriaModel in 'model\AuditoriaModel.pas',
   AuditoriaController in 'controller\AuditoriaController.pas',
   AuditoriaService in 'service\AuditoriaService.pas',
@@ -80,7 +80,18 @@ uses
   DepreciacaoModel in 'model\DepreciacaoModel.pas',
   DepreciacaoRepository in 'repository\DepreciacaoRepository.pas',
   DepreciacaoController in 'controller\DepreciacaoController.pas',
-  DepreciacaoService in 'service\DepreciacaoService.pas';
+  DepreciacaoService in 'service\DepreciacaoService.pas',
+  RastreamentoView in 'view\RastreamentoView.pas' {FormRastreamento},
+  RastreioService in 'service\RastreioService.pas',
+  RastreioController in 'controller\RastreioController.pas',
+  RastreioModel in 'model\RastreioModel.pas',
+  RastreioRepository in 'repository\RastreioRepository.pas',
+  RelatorioDepreciacaoItemModel in 'model\RelatorioDepreciacaoItemModel.pas',
+  RelatorioDepreciacaoService in 'service\RelatorioDepreciacaoService.pas',
+  RelatorioDepreciacaoRepository in 'repository\RelatorioDepreciacaoRepository.pas',
+  RelatorioDepreciacaoController in 'controller\RelatorioDepreciacaoController.pas',
+  UIHelper in 'helper\UIHelper.pas',
+  LogService in 'service\LogService.pas';
 
 {$R *.res}
 
@@ -96,7 +107,9 @@ begin
   Application.CreateForm(TFormMovi, FormMovi);
   Application.CreateForm(TFormRegistrarOcorrencia, FormRegistrarOcorrencia);
   Application.CreateForm(TFormAnaliseOcorrencia, FormAnaliseOcorrencia);
+  Application.CreateForm(TFormCadastro, FormCadastro);
   Application.CreateForm(TFormCadastroUsuario, FormCadastroUsuario);
   Application.CreateForm(TFormDashboard, FormDashboard);
+  Application.CreateForm(TFormRastreamento, FormRastreamento);
   Application.Run;
 end.

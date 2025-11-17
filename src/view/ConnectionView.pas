@@ -143,15 +143,14 @@ var formlogiN: TFormLogin;
 begin
   if FController.IniExist then
   begin
-  try
+    try
       ConexaoDB;
       formlogiN := TFormLogin.Create(nil);
       LoadConfigToFields;
       FormLogin.ShowModal;
-  finally
+    finally
 
-  end;
-
+    end;
   end
   else
   begin

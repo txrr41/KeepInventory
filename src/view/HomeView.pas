@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Skia, Vcl.StdCtrls,
   Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, PedidoMoviView, MovimentacoesView, RegistroOcorrenciaView, AnaliseOcorrenciaView,
-  Vcl.Imaging.pngimage, CadastroUsuarioView, PermissoesHelper, UsuarioModel, DashboardView;
+  Vcl.Imaging.pngimage, CadastroUsuarioView, PermissoesHelper, UsuarioModel, DashboardView, RastreamentoView;
 
 type
   TFormHome = class(TForm)
@@ -35,6 +35,7 @@ type
     Label9: TLabel;
     Label10: TLabel;
     Label11: TLabel;
+    Image12: TImage;
     procedure Image1Click(Sender: TObject);
     procedure Image3Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);
@@ -45,6 +46,7 @@ type
     procedure Image9Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Image2Click(Sender: TObject);
+    procedure Image7Click(Sender: TObject);
 
   private
     ActiveForm: TForm;
@@ -194,6 +196,18 @@ begin
   Movi.Align := alClient;
   Movi.BorderStyle := bsNone;
   Movi.Show;
+end;
+
+procedure TFormHome.Image7Click(Sender: TObject);
+var Rastreio: TFormRastreamento;
+begin
+   LimparPanel;
+
+   Rastreio := TFormRastreamento.Create(Self);
+   Rastreio.Parent := Self.Panel3;
+   Rastreio.Align := alClient;
+   Rastreio.BorderStyle := bsNone;
+   Rastreio.Show;
 end;
 
 procedure TFormHome.Image8Click(Sender: TObject);

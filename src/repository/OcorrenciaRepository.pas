@@ -22,7 +22,14 @@ type
       RequerManutencao: Boolean; CustoEstimado: Currency;
       Observacoes: String): Boolean;
     function ObterValorPatrimonio(IdPatrimonio: Integer): Currency;
+    function ObterIdPatrimonioPorOcorrencia(IdOcorrencia: Integer): Integer;
+    function ObterValorOriginalPatrimonio(IdPatrimonio: Integer): Currency;
+    function CalcularDepreciacaoAcumulada(IdPatrimonio: Integer): Currency;
+    function ObterHistoricoDepreciacoes(IdPatrimonio: Integer): TFDQuery;
+    function VerificarLimiteDepreciacao(IdPatrimonio: Integer; PercentualNovo: Currency;
+      var ValorDepois: Currency; var PercentualAcumulado: Currency): Boolean;
     function AtualizarValorPatrimonio(IdPatrimonio: Integer; NovoValor: Currency): Boolean;
+    function DesativarPatrimonio(IdPatrimonio: Integer): Boolean;
     procedure PopularComboBoxPatrimonios(ComboBox: TComboBox);
   end;
 
@@ -37,8 +44,7 @@ var
   Query: TFDQuery;
 begin
 
-ShowMessage('O Id �' + IntToStr(Ocorrencia.IdUsuarioRelator));
-  Result := False;
+Result := False;
   Query := TFDQuery.Create(nil);
   try
     Query.Connection := DataModule2.FDConnection;
@@ -292,15 +298,17 @@ function TOcorrenciaRepository.AvaliarOcorrencia(IdOcorrencia, IdGestor: Integer
   RequerManutencao: Boolean; CustoEstimado: Currency; Observacoes: String): Boolean;
 var
   Query: TFDQuery;
-  ValorAntes, ValorDepois: Currency;
+  ValorAntes, ValorDepois, ValorOriginal: Currency;
   IdPatrimonio: Integer;
+  PercentualAcumulado: Currency;
+  PatrimonioDesativado: Boolean;
 begin
   Result := False;
   Query := TFDQuery.Create(nil);
   try
     Query.Connection := DataModule2.FDConnection;
 
-    // Busca o ID do patrim�nio
+    // Busca o ID do patrim�nio
     Query.SQL.Clear;
     Query.SQL.Add('SELECT fk_id_patrimonios FROM ocorrencias WHERE id = :id');
     Query.ParamByName('id').AsInteger := IdOcorrencia;
@@ -312,11 +320,25 @@ begin
     IdPatrimonio := Query.FieldByName('fk_id_patrimonios').AsInteger;
     Query.Close;
 
-    // Busca valor atual do patrim�nio
+    // Busca valores do patrim�nio
     ValorAntes := ObterValorPatrimonio(IdPatrimonio);
-    ValorDepois := ValorAntes - (ValorAntes * (PercentualDepreciacao / 100));
+    ValorOriginal := ObterValorOriginalPatrimonio(IdPatrimonio);
 
-    // Atualiza a ocorr�ncia
+    // Verifica limite de depreciação e calcula valor final
+    if not VerificarLimiteDepreciacao(IdPatrimonio, PercentualDepreciacao, ValorDepois, PercentualAcumulado) then
+    begin
+      // Se ultrapassar 100%, ajusta para o valor mínimo (0)
+      ValorDepois := 0;
+      PercentualDepreciacao := PercentualAcumulado * 100; // Ajusta para exatamente 100%
+
+      // Desativa o patrimônio
+      DesativarPatrimonio(IdPatrimonio);
+      PatrimonioDesativado := True;
+    end
+    else
+      PatrimonioDesativado := False;
+
+    // Atualiza a ocorr�ncia
     Query.SQL.Clear;
     Query.SQL.Add('UPDATE ocorrencias SET');
     Query.SQL.Add('  fk_id_gestor = :id_gestor,');
@@ -345,7 +367,7 @@ begin
 
     Query.ExecSQL;
 
-    // Atualiza o valor do patrim�nio
+    // Atualiza o valor do patrim�nio
     if PercentualDepreciacao > 0 then
       AtualizarValorPatrimonio(IdPatrimonio, ValorDepois);
 
@@ -373,6 +395,65 @@ begin
       Result := Query.FieldByName('valor_atual').AsCurrency;
   finally
     Query.Free;
+  end;
+end;
+
+function TOcorrenciaRepository.ObterIdPatrimonioPorOcorrencia(IdOcorrencia: Integer): Integer;
+var
+  Query: TFDQuery;
+begin
+  Result := 0;
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := DataModule2.FDConnection;
+
+    Query.SQL.Clear;
+    Query.SQL.Add('SELECT fk_id_patrimonios FROM ocorrencias WHERE id = :id');
+    Query.ParamByName('id').AsInteger := IdOcorrencia;
+    Query.Open;
+
+    if not Query.IsEmpty then
+      Result := Query.FieldByName('fk_id_patrimonios').AsInteger;
+  finally
+    Query.Free;
+  end;
+end;
+
+function TOcorrenciaRepository.ObterHistoricoDepreciacoes(IdPatrimonio: Integer): TFDQuery;
+var
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := DataModule2.FDConnection;
+
+    Query.SQL.Clear;
+    Query.SQL.Add('SELECT');
+    Query.SQL.Add('  o.id AS id_ocorrencia,');
+    Query.SQL.Add('  o.tipo_ocorrencia,');
+    Query.SQL.Add('  o.percentual_depreciacao,');
+    Query.SQL.Add('  o.valor_antes,');
+    Query.SQL.Add('  o.valor_depois,');
+    Query.SQL.Add('  o.data_ocorrencia,');
+    Query.SQL.Add('  o.data_analise,');
+    Query.SQL.Add('  o.gravidade,');
+    Query.SQL.Add('  o.responsabilidade,');
+    Query.SQL.Add('  o.observacoes_gestor,');
+    Query.SQL.Add('  u.nome AS gestor');
+    Query.SQL.Add('FROM ocorrencias o');
+    Query.SQL.Add('LEFT JOIN usuarios u ON o.fk_id_gestor = u.id');
+    Query.SQL.Add('WHERE o.fk_id_patrimonios = :id_patrimonio');
+    Query.SQL.Add('  AND o.status = ''analisada''');
+    Query.SQL.Add('  AND o.percentual_depreciacao > 0');
+    Query.SQL.Add('ORDER BY o.data_analise DESC');
+
+    Query.ParamByName('id_patrimonio').AsInteger := IdPatrimonio;
+    Query.Open;
+
+    Result := Query;
+  except
+    Query.Free;
+    raise;
   end;
 end;
 
@@ -418,6 +499,113 @@ begin
       );
       Query.Next;
     end;
+  finally
+    Query.Free;
+  end;
+end;
+
+function TOcorrenciaRepository.ObterValorOriginalPatrimonio(IdPatrimonio: Integer): Currency;
+var
+  Query: TFDQuery;
+begin
+  Result := 0;
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := DataModule2.FDConnection;
+
+    Query.SQL.Clear;
+    Query.SQL.Add('SELECT valor_aquisicao FROM patrimonios WHERE id = :id');
+    Query.ParamByName('id').AsInteger := IdPatrimonio;
+    Query.Open;
+
+    if not Query.IsEmpty then
+      Result := Query.FieldByName('valor_aquisicao').AsCurrency;
+  finally
+    Query.Free;
+  end;
+end;
+
+function TOcorrenciaRepository.CalcularDepreciacaoAcumulada(IdPatrimonio: Integer): Currency;
+var
+  Query: TFDQuery;
+  ValorOriginal, ValorAtual: Currency;
+begin
+  Result := 0;
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := DataModule2.FDConnection;
+
+    // Busca valores original e atual
+    Query.SQL.Clear;
+    Query.SQL.Add('SELECT valor_aquisicao, valor_atual FROM patrimonios WHERE id = :id');
+    Query.ParamByName('id').AsInteger := IdPatrimonio;
+    Query.Open;
+
+    if not Query.IsEmpty then
+    begin
+      ValorOriginal := Query.FieldByName('valor_aquisicao').AsCurrency;
+      ValorAtual := Query.FieldByName('valor_atual').AsCurrency;
+
+      if ValorOriginal > 0 then
+        Result := ((ValorOriginal - ValorAtual) / ValorOriginal) * 100;
+    end;
+  finally
+    Query.Free;
+  end;
+end;
+
+function TOcorrenciaRepository.VerificarLimiteDepreciacao(IdPatrimonio: Integer;
+  PercentualNovo: Currency; var ValorDepois: Currency; var PercentualAcumulado: Currency): Boolean;
+var
+  ValorAtual, ValorOriginal, TotalDepreciado, NovoValor: Currency;
+begin
+  Result := True;
+  ValorAtual := ObterValorPatrimonio(IdPatrimonio);
+  ValorOriginal := ObterValorOriginalPatrimonio(IdPatrimonio);
+
+  if ValorOriginal <= 0 then
+    Exit;
+
+  // Calcula depreciação acumulada atual
+  TotalDepreciado := (ValorOriginal - ValorAtual) / ValorOriginal;
+
+  // Calcula nova depreciação acumulada
+  PercentualAcumulado := TotalDepreciado + (PercentualNovo / 100);
+
+  // Verifica se ultrapassa 100%
+  if PercentualAcumulado >= 1.0 then
+  begin
+    Result := False; // Ultrapassa 100%
+    ValorDepois := 0;
+  end
+  else
+  begin
+    // Calcula novo valor normal (baseado no valor atual)
+    ValorDepois := ValorAtual - (ValorAtual * (PercentualNovo / 100));
+    if ValorDepois < 0 then
+      ValorDepois := 0;
+
+    // Verificação adicional: garante que não ultrapasse o valor original
+    if ValorDepois < (ValorOriginal * (1 - PercentualAcumulado)) then
+      ValorDepois := ValorOriginal * (1 - PercentualAcumulado);
+  end;
+end;
+
+function TOcorrenciaRepository.DesativarPatrimonio(IdPatrimonio: Integer): Boolean;
+var
+  Query: TFDQuery;
+begin
+  Result := False;
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := DataModule2.FDConnection;
+
+    Query.SQL.Clear;
+    Query.SQL.Add('UPDATE patrimonios SET ativo = false WHERE id = :id');
+    Query.ParamByName('id').AsInteger := IdPatrimonio;
+
+    Query.ExecSQL;
+    Result := True;
   finally
     Query.Free;
   end;

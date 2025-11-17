@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.WinXCtrls,
-  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Skia, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.Client, FireDAC.Stan.Param, PedidoMoviController, PendenciaController, MovimentacaoModel, PermissoesHelper, UsuarioModel;
+  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Skia, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.Client, FireDAC.Stan.Param, PedidoMoviController, PendenciaController, MovimentacaoModel, PermissoesHelper, UsuarioModel, LogService;
 
 type
   TFormMovi = class(TForm)
@@ -95,6 +95,7 @@ end;
 
 procedure TFormMovi.FormShow(Sender: TObject);
 begin
+    TLogService.Instance.LogAcesso('MovimentaÃ§Ãµes');
     AtualizarGrid;
     TPermissoesHelper.AplicarPermissoesMovimentacoes(Self);
 end;
@@ -121,10 +122,10 @@ var
 begin
   Usuario := TPermissoesHelper.GetUsuarioLogado;
 
-  // Verifica se tem permissão de movimentações E de excluir
+  // Verifica se tem permissï¿½o de movimentaï¿½ï¿½es E de excluir
   if not (Usuario.PermMovimentacoes and Usuario.PermMovExcluir) then
   begin
-    ShowMessage('Você não tem permissão para excluir movimentações!');
+    ShowMessage('Vocï¿½ nï¿½o tem permissï¿½o para excluir movimentaï¿½ï¿½es!');
     Exit;
   end;
 

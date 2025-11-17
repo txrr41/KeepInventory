@@ -3,7 +3,7 @@ unit OcorrenciaService;
 interface
 
 uses
-  System.SysUtils, Data.DB, FireDAC.Comp.Client,
+  System.SysUtils, Data.DB, FireDAC.Comp.Client, Vcl.Dialogs, Vcl.Forms,
   OcorrenciaModel, OcorrenciaDTO, OcorrenciaRepository;
 
 type
@@ -33,13 +33,13 @@ begin
   Result := '';
 
   if DTO.FIdPatrimonio <= 0 then
-    Result := 'Selecione um patrimÙnio v·lido!'
+    Result := 'Selecione um patrimÔøΩnio vÔøΩlido!'
   else if Trim(DTO.FTipoOcorrencia) = '' then
-    Result := 'Selecione o tipo de ocorrÍncia!'
+    Result := 'Selecione o tipo de ocorrÔøΩncia!'
   else if Trim(DTO.FDescricao) = '' then
     Result := 'Descreva o que aconteceu!'
   else if Length(Trim(DTO.FDescricao)) < 10 then
-    Result := 'A descriÁ„o deve ter no mÌnimo 10 caracteres!';
+    Result := 'A descriÔøΩÔøΩo deve ter no mÔøΩnimo 10 caracteres!';
 end;
 
 function TOcorrenciaService.ValidarAvaliacao(DTO: TAvaliacaoOcorrenciaDTO): String;
@@ -47,19 +47,19 @@ begin
   Result := '';
 
   if DTO.FIdOcorrencia <= 0 then
-    Result := 'OcorrÍncia inv·lida!'
+    Result := 'OcorrÔøΩncia invÔøΩlida!'
   else if DTO.FIdGestor <= 0 then
-    Result := 'Gestor inv·lido!'
+    Result := 'Gestor invÔøΩlido!'
   else if Trim(DTO.FGravidade) = '' then
     Result := 'Selecione a gravidade!'
   else if DTO.FPercentualDepreciacao < 0 then
-    Result := 'Percentual de depreciaÁ„o inv·lido!'
+    Result := 'Percentual de depreciaÔøΩÔøΩo invÔøΩlido!'
   else if DTO.FPercentualDepreciacao > 100 then
-    Result := 'Percentual de depreciaÁ„o n„o pode ser maior que 100%!'
+    Result := 'Percentual de depreciaÔøΩÔøΩo nÔøΩo pode ser maior que 100%!'
   else if Trim(DTO.FResponsabilidade) = '' then
     Result := 'Selecione a responsabilidade!'
   else if Trim(DTO.FObservacoesGestor) = '' then
-    Result := 'Adicione suas observaÁıes!';
+    Result := 'Adicione suas observaÔøΩÔøΩes!';
 end;
 
 function TOcorrenciaService.DtoForModel(DTO: TOcorrenciaDTO): TOcorrenciaModel;
@@ -107,7 +107,7 @@ begin
   Result := False;
 
   if DTO.FId <= 0 then
-    raise Exception.Create('ID da ocorrÍncia inv·lido!');
+    raise Exception.Create('ID da ocorrÔøΩncia invÔøΩlido!');
 
   MsgErro := ValidarOcorrencia(DTO);
   if MsgErro <> '' then
@@ -124,7 +124,7 @@ end;
 function TOcorrenciaService.ExcluirOcorrencia(Id: Integer): Boolean;
 begin
   if Id <= 0 then
-    raise Exception.Create('ID da ocorrÍncia inv·lido!');
+    raise Exception.Create('ID da ocorrÔøΩncia invÔøΩlido!');
 
   Result := FOcorrenciaRepository.Excluir(Id);
 end;
@@ -132,12 +132,47 @@ end;
 function TOcorrenciaService.AvaliarOcorrencia(DTO: TAvaliacaoOcorrenciaDTO): Boolean;
 var
   MsgErro: String;
+  IdPatrimonio: Integer;
+  PercentualAcumulado: Currency;
+  Aviso: String;
 begin
   Result := False;
 
   MsgErro := ValidarAvaliacao(DTO);
   if MsgErro <> '' then
     raise Exception.Create(MsgErro);
+
+  // Obter ID do patrim√¥nio para verifica√ß√µes adicionais
+  IdPatrimonio := FOcorrenciaRepository.ObterIdPatrimonioPorOcorrencia(DTO.FIdOcorrencia);
+
+  // Verificar deprecia√ß√£o acumulada atual
+  PercentualAcumulado := FOcorrenciaRepository.CalcularDepreciacaoAcumulada(IdPatrimonio);
+
+  // Verificar se est√° pr√≥ximo do limite (80% ou mais)
+  if (PercentualAcumulado + DTO.FPercentualDepreciacao) >= 80 then
+  begin
+    if (PercentualAcumulado + DTO.FPercentualDepreciacao) >= 100 then
+    begin
+      // Ultrapassa 100% - aviso grave
+      Aviso := 'ATEN√á√ÉO: Esta ocorr√™ncia ir√° desativar o patrim√¥nio!' + #13#10 +
+               'A deprecia√ß√£o acumulada atingir√° 100% e o item ficar√° indispon√≠vel.' + #13#10 +
+               'Deseja continuar?';
+
+      // Mostrar aviso e permitir cancelar
+      if MessageDlg(Aviso, mtWarning, [mbYes, mbNo], 0) = 7 then
+        Exit;
+    end
+    else
+    begin
+      // Est√° pr√≥ximo mas n√£o ultrapassa 100% - aviso informativo
+      Aviso := 'AVISO: O patrim√¥nio est√° chegando ao final de sua vida √∫til!' + #13#10 +
+               'Deprecia√ß√£o acumulada ap√≥s esta an√°lise: ' +
+               FormatFloat('0.00', PercentualAcumulado + DTO.FPercentualDepreciacao) + '%' + #13#10 +
+               'Considere programar a substitui√ß√£o em breve.';
+
+      MessageDlg(Aviso, mtInformation, [mbOK], 0);
+    end;
+  end;
 
   Result := FOcorrenciaRepository.AvaliarOcorrencia(
     DTO.FIdOcorrencia,
@@ -164,7 +199,7 @@ end;
 function TOcorrenciaService.ListarPorPatrimonio(IdPatrimonio: Integer): TFDQuery;
 begin
   if IdPatrimonio <= 0 then
-    raise Exception.Create('ID do patrimÙnio inv·lido!');
+    raise Exception.Create('ID do patrimÔøΩnio invÔøΩlido!');
 
   Result := FOcorrenciaRepository.ListarPorPatrimonio(IdPatrimonio);
 end;
@@ -172,7 +207,7 @@ end;
 function TOcorrenciaService.BuscarPorId(Id: Integer): TOcorrenciaModel;
 begin
   if Id <= 0 then
-    raise Exception.Create('ID da ocorrÍncia inv·lido!');
+    raise Exception.Create('ID da ocorrÔøΩncia invÔøΩlido!');
 
   Result := FOcorrenciaRepository.BuscarPorId(Id);
 end;

@@ -71,6 +71,7 @@ type
     FIdOcorrenciaSelecionada: Integer;
     function ValidarCampos: Boolean;
     function ObterIdDoComboBox(AComboBox: TComboBox): Integer;
+    procedure SetEstadoCamposFormulario(Habilitado: Boolean);
   public
     procedure CarregarGrid;
     procedure LimparCampos;
@@ -85,36 +86,40 @@ implementation
 
 procedure TFormRegistrarOcorrencia.BtnAdicionarPatrimonioClick(Sender: TObject);
 begin
-Panel3.Visible := True;
+  Panel3.Visible := True;
+  LimparCampos;
+  SetEstadoCamposFormulario(True);
+  CbPatrimonio.SetFocus;
 end;
 
 procedure TFormRegistrarOcorrencia.BtnCancelarClick(Sender: TObject);
 begin
-LimparCampos;
+  LimparCampos;
+  Panel3.Visible := False;
 end;
 
 procedure TFormRegistrarOcorrencia.BtnExcluirClick(Sender: TObject);
 begin
 if FIdOcorrenciaSelecionada = 0 then
   begin
-    ShowMessage('Selecione uma ocorrência para excluir!');
+    ShowMessage('Selecione uma ocorrï¿½ncia para excluir!');
     Exit;
   end;
 
-  if MessageDlg('Deseja realmente excluir esta ocorrência?',
+  if MessageDlg('Deseja realmente excluir esta ocorrï¿½ncia?',
      mtConfirmation, [mbYes, mbNo], 0) = mrNo then
     Exit;
 
   try
     if FController.ExcluirOcorrencia(FIdOcorrenciaSelecionada) then
     begin
-      ShowMessage('Ocorrência excluída com sucesso!');
+      ShowMessage('Ocorrï¿½ncia excluï¿½da com sucesso!');
       CarregarGrid;
       LimparCampos;
     end;
   except
     on E: Exception do
-      ShowMessage('Erro ao excluir ocorrência: ' + E.Message);
+      ShowMessage('Erro ao excluir ocorrï¿½ncia: ' + E.Message);
   end;
 end;
 
@@ -137,14 +142,14 @@ begin
 
     if FController.RegistrarOcorrencia(DTO) then
     begin
-      ShowMessage('Ocorrência registrada com sucesso!' + #13#10 +
-                  'Aguarde a análise do gestor.');
+      ShowMessage('Ocorrï¿½ncia registrada com sucesso!' + #13#10 +
+                  'Aguarde a anï¿½lise do gestor.');
       LimparCampos;
       CarregarGrid;
     end;
   except
     on E: Exception do
-      ShowMessage('Erro ao registrar ocorrência: ' + E.Message);
+      ShowMessage('Erro ao registrar ocorrï¿½ncia: ' + E.Message);
   end;
 
   Panel3.Visible := False;
@@ -170,7 +175,7 @@ begin
     DBGridMinhasOcorrencias.Refresh;
   except
     on E: Exception do
-      ShowMessage('Erro ao carregar ocorrências: ' + E.Message);
+      ShowMessage('Erro ao carregar ocorrï¿½ncias: ' + E.Message);
   end;
 end;
 
@@ -183,14 +188,14 @@ begin
   try
     FIdOcorrenciaSelecionada := DataSource1.DataSet.FieldByName('id').AsInteger;
 
-    // Só permite excluir se estiver PENDENTE
+    // Sï¿½ permite excluir se estiver PENDENTE
     if DataSource1.DataSet.FieldByName('status').AsString = 'PENDENTE' then
       BtnExcluir.Enabled := True
     else
       BtnExcluir.Enabled := False;
   except
     on E: Exception do
-      ShowMessage('Erro ao selecionar ocorrência: ' + E.Message);
+      ShowMessage('Erro ao selecionar ocorrï¿½ncia: ' + E.Message);
   end;
 end;
 
@@ -206,10 +211,13 @@ begin
 
     // Carrega o grid
     CarregarGrid;
+
+    // Inicializa com o formulÃ¡rio oculto e campos desabilitados
+    Panel3.Visible := False;
     LimparCampos;
   except
     on E: Exception do
-      ShowMessage('Erro ao inicializar formulário: ' + E.Message);
+      ShowMessage('Erro ao inicializar formulï¿½rio: ' + E.Message);
   end;
 end;
 
@@ -236,8 +244,8 @@ begin
   MemoDescricao.Clear;
   FIdOcorrenciaSelecionada := 0;
 
-  BtnRegistrar.Enabled := True;
-  BtnCancelar.Enabled := False;
+  // Desabilitar campos
+  SetEstadoCamposFormulario(False);
 end;
 
 function TFormRegistrarOcorrencia.ObterIdDoComboBox(
@@ -260,7 +268,7 @@ begin
 
   if CbPatrimonio.ItemIndex = -1 then
   begin
-    ShowMessage('Selecione um patrimônio!');
+    ShowMessage('Selecione um patrimï¿½nio!');
     CbPatrimonio.SetFocus;
     Result := False;
     Exit;
@@ -268,7 +276,7 @@ begin
 
   if CbTipoOcorrencia.ItemIndex = -1 then
   begin
-    ShowMessage('Selecione o tipo de ocorrência!');
+    ShowMessage('Selecione o tipo de ocorrï¿½ncia!');
     CbTipoOcorrencia.SetFocus;
     Result := False;
     Exit;
@@ -284,10 +292,34 @@ begin
 
   if Length(Trim(MemoDescricao.Text)) < 10 then
   begin
-    ShowMessage('A descrição deve ter no mínimo 10 caracteres!');
+    ShowMessage('A descriï¿½ï¿½o deve ter no mï¿½nimo 10 caracteres!');
     MemoDescricao.SetFocus;
     Result := False;
     Exit;
+  end;
+end;
+
+procedure TFormRegistrarOcorrencia.SetEstadoCamposFormulario(Habilitado: Boolean);
+begin
+  // Habilitar/Desabilitar campos do formulÃ¡rio
+  CbPatrimonio.Enabled := Habilitado;
+  CbTipoOcorrencia.Enabled := Habilitado;
+  MemoDescricao.Enabled := Habilitado;
+  BtnRegistrar.Enabled := Habilitado;
+  BtnCancelar.Enabled := Habilitado;
+
+  // Mudar aparÃªncia dos campos
+  if Habilitado then
+  begin
+    CbPatrimonio.Color := clWindow;
+    CbTipoOcorrencia.Color := clWindow;
+    MemoDescricao.Color := clWindow;
+  end
+  else
+  begin
+    CbPatrimonio.Color := clBtnFace;
+    CbTipoOcorrencia.Color := clBtnFace;
+    MemoDescricao.Color := clBtnFace;
   end;
 end;
 

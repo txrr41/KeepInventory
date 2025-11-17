@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.StdCtrls,
   Vcl.Grids, Vcl.DBGrids, Vcl.WinXCtrls, Vcl.Buttons, Vcl.NumberBox, Vcl.Mask,
-  AnaliseOcorrenciaController, OcorrenciaDTO, OcorrenciaModel;
+  AnaliseOcorrenciaController, OcorrenciaDTO, OcorrenciaModel, FireDAC.Comp.Client;
 
 type
   TFormAnaliseOcorrencia = class(TForm)
@@ -55,11 +55,13 @@ type
     FIdOcorrenciaSelecionada: Integer;
     FIdPatrimonioSelecionado: Integer;
     FValorAtualPatrimonio: Currency;
+    FPercentualDepreciacaoAcumulada: Currency;
     procedure AtualizarGrid;
     procedure CarregarDetalhesOcorrencia(AIdOcorrencia: Integer);
     procedure CalcularNovoValor;
     procedure LimparCampos;
     function ValidarCampos: Boolean;
+    procedure AdicionarHistoricoDepreciacoes(AIdPatrimonio: Integer; ADetalhes: TStringList);
   public
     { Public declarations }
   end;
@@ -144,6 +146,8 @@ end;
 procedure TFormAnaliseOcorrencia.CalcularNovoValor;
 var
   NovoValor: Currency;
+  PercentualTotal: Currency;
+  AvisoStatus: String;
 begin
   if (FValorAtualPatrimonio > 0) and (EdtDepreciacao.Value > 0) then
   begin
@@ -151,12 +155,48 @@ begin
       FValorAtualPatrimonio,
       EdtDepreciacao.Value
     );
+
+    // Calcular percentual total acumulado
+    PercentualTotal := FPercentualDepreciacaoAcumulada + EdtDepreciacao.Value;
+
     EdtNovoValorA.Text := FormatarValorBrasileiro(NovoValor);
+
+    // Mostrar aviso visual baseado no status
+    if PercentualTotal >= 100 then
+    begin
+      EdtNovoValorA.Color := clRed;
+      EdtNovoValorA.Font.Color := clWhite;
+      AvisoStatus := ' (ITEM SERÁ DESATIVADO)';
+    end
+    else if PercentualTotal >= 80 then
+    begin
+      EdtNovoValorA.Color := $0080FF; // Laranja
+      EdtNovoValorA.Font.Color := clWhite;
+      AvisoStatus := ' (Próximo do limite)';
+    end
+    else
+    begin
+      EdtNovoValorA.Color := clBtnFace;
+      EdtNovoValorA.Font.Color := clBlack;
+      AvisoStatus := '';
+    end;
+
+    // Atualizar o texto para incluir o aviso
+    if AvisoStatus <> '' then
+      EdtNovoValorA.Text := EdtNovoValorA.Text + AvisoStatus;
   end
   else if FValorAtualPatrimonio > 0 then
-    EdtNovoValorA.Text := FormatarValorBrasileiro(FValorAtualPatrimonio)
+  begin
+    EdtNovoValorA.Text := FormatarValorBrasileiro(FValorAtualPatrimonio);
+    EdtNovoValorA.Color := clBtnFace;
+    EdtNovoValorA.Font.Color := clBlack;
+  end
   else
+  begin
     EdtNovoValorA.Text := 'R$ 0,00';
+    EdtNovoValorA.Color := clBtnFace;
+    EdtNovoValorA.Font.Color := clBlack;
+  end;
 end;
 
 procedure TFormAnaliseOcorrencia.CarregarDetalhesOcorrencia(AIdOcorrencia: Integer);
@@ -180,11 +220,37 @@ begin
       // Busca valor atual do patrimônio
       FValorAtualPatrimonio := FAnaliseOcorrenciaController.ObterValorPatrimonio(Ocorrencia.IdPatrimonio);
 
+      // Calcula depreciação acumulada atual
+      FPercentualDepreciacaoAcumulada := FAnaliseOcorrenciaController.CalcularDepreciacaoAcumulada(Ocorrencia.IdPatrimonio);
+
       // Formata os valores corretamente com formato brasileiro
       EdtValorAtualA.EditMask := '';
       EdtNovoValorA.EditMask := '';
       EdtValorAtualA.Text := FormatarValorBrasileiro(FValorAtualPatrimonio);
       EdtNovoValorA.Text := FormatarValorBrasileiro(FValorAtualPatrimonio);
+
+      // Adiciona informação sobre depreciação acumulada
+      if FPercentualDepreciacaoAcumulada > 0 then
+      begin
+        Detalhes.Add('================================================');
+        Detalhes.Add('STATUS DE DEPRECIAÇÃO');
+        Detalhes.Add('================================================');
+        Detalhes.Add('Depreciação Acumulada: ' + FormatFloat('0.00', FPercentualDepreciacaoAcumulada) + '%');
+
+        if FPercentualDepreciacaoAcumulada >= 80 then
+        begin
+          Detalhes.Add('');
+          if FPercentualDepreciacaoAcumulada >= 100 then
+            Detalhes.Add('ALERTA CRÍTICO: Item atingiu 100% de depreciação - SERÁ DESATIVADO')
+          else
+            Detalhes.Add('ALERTA: Item próximo do final da vida útil (' + FormatFloat('0.0', FPercentualDepreciacaoAcumulada) + '%)');
+        end;
+
+        Detalhes.Add('');
+      end;
+
+      // Adiciona histórico de depreciações anteriores
+      AdicionarHistoricoDepreciacoes(Ocorrencia.IdPatrimonio, Detalhes);
 
       // Limpa campos de avaliação para novo cálculo
       CbGravidadeA.ItemIndex := -1;
@@ -194,27 +260,21 @@ begin
       EdCustoReparo.Text := '';
 
       // Monta os detalhes da ocorrência
-      Detalhes.Add('═══════════════════════════════════════');
-      Detalhes.Add('DETALHES DA OCORRÊNCIA');
-      Detalhes.Add('═══════════════════════════════════════');
+      Detalhes.Add('================================================');
+      Detalhes.Add('DADOS DA OCORRÊNCIA');
+      Detalhes.Add('================================================');
+      Detalhes.Add('ID: ' + IntToStr(Ocorrencia.Id) +
+                  ' | Tipo: ' + Ocorrencia.TipoOcorrencia +
+                  ' | Data: ' + FormatDateTime('dd/mm/yyyy hh:nn', Ocorrencia.DataOcorrencia) +
+                  ' | Status: ' + Ocorrencia.Status);
+      Detalhes.Add('Valor Atual: ' + FormatarValorBrasileiro(FValorAtualPatrimonio));
       Detalhes.Add('');
-      Detalhes.Add('ID: ' + IntToStr(Ocorrencia.Id));
-      Detalhes.Add('Tipo: ' + Ocorrencia.TipoOcorrencia);
-      Detalhes.Add('Data: ' + FormatDateTime('dd/mm/yyyy hh:nn', Ocorrencia.DataOcorrencia));
-      Detalhes.Add('Status: ' + Ocorrencia.Status);
-      Detalhes.Add('Valor Atual do Patrimônio: ' + FormatarValorBrasileiro(FValorAtualPatrimonio));
-      Detalhes.Add('');
-      Detalhes.Add('───────────────────────────────────────');
       Detalhes.Add('DESCRIÇÃO:');
-      Detalhes.Add('───────────────────────────────────────');
       Detalhes.Add(Ocorrencia.Descricao);
       Detalhes.Add('');
 
       if Ocorrencia.FotoAnexo <> '' then
-      begin
-        Detalhes.Add('───────────────────────────────────────');
-        Detalhes.Add('Foto anexada: ' + Ocorrencia.FotoAnexo);
-      end;
+        Detalhes.Add('Anexo: ' + Ocorrencia.FotoAnexo);
 
       MemoDetalhes.Lines.Assign(Detalhes);
 
@@ -303,10 +363,13 @@ begin
   FIdOcorrenciaSelecionada := 0;
   FIdPatrimonioSelecionado := 0;
   FValorAtualPatrimonio := 0;
+  FPercentualDepreciacaoAcumulada := 0;
 
   EdtValorAtualA.Text := 'R$ 0,00';
   EdtDepreciacao.Value := 0;
   EdtNovoValorA.Text := 'R$ 0,00';
+  EdtNovoValorA.Color := clBtnFace;
+  EdtNovoValorA.Font.Color := clBlack;
   EdCustoReparo.Text := '';
   CheckBoxManutencao.Checked := False;
   CbGravidadeA.ItemIndex := -1;
@@ -320,6 +383,81 @@ begin
     DataSource1.DataSet := FAnaliseOcorrenciaController.PesquisarOcorrencia(SearchBox1.Text)
   else
     AtualizarGrid;
+end;
+
+procedure TFormAnaliseOcorrencia.AdicionarHistoricoDepreciacoes(AIdPatrimonio: Integer; ADetalhes: TStringList);
+var
+  Query: TFDQuery;
+  TemHistorico: Boolean;
+  Contador: Integer;
+begin
+  Query := FAnaliseOcorrenciaController.ObterHistoricoDepreciacoes(AIdPatrimonio);
+  try
+    if not Assigned(Query) or Query.IsEmpty then
+      Exit;
+
+    TemHistorico := False;
+    Query.First;
+
+    // Verifica se há algum registro antes de adicionar o título
+    while not Query.Eof do
+    begin
+      if Query.FieldByName('percentual_depreciacao').AsCurrency > 0 then
+      begin
+        TemHistorico := True;
+        Break;
+      end;
+      Query.Next;
+    end;
+
+    if TemHistorico then
+    begin
+      ADetalhes.Add('================================================');
+      ADetalhes.Add('HISTÓRICO DE DEPRECIAÇÕES');
+      ADetalhes.Add('================================================');
+      ADetalhes.Add('ID    | Data       | Tipo            | %      | Valores');
+      ADetalhes.Add('------+------------+-----------------+--------+-------------------');
+
+      Contador := 0;
+      Query.First;
+      while not Query.Eof do
+      begin
+        if Query.FieldByName('percentual_depreciacao').AsCurrency > 0 then
+        begin
+          Inc(Contador);
+
+          // Limita a 5 ocorrências mais recentes para não poluir
+          if Contador <= 5 then
+          begin
+            ADetalhes.Add(
+              Format('%-5d | %-10s | %-15s | %5.2f%% | %s -> %s', [
+                Query.FieldByName('id_ocorrencia').AsInteger,
+                FormatDateTime('dd/mm/yyyy', Query.FieldByName('data_analise').AsDateTime),
+                Copy(Query.FieldByName('tipo_ocorrencia').AsString, 1, 15),
+                Query.FieldByName('percentual_depreciacao').AsCurrency,
+                FormatarValorBrasileiro(Query.FieldByName('valor_antes').AsCurrency),
+                FormatarValorBrasileiro(Query.FieldByName('valor_depois').AsCurrency)
+              ])
+            );
+          end;
+        end;
+        Query.Next;
+      end;
+
+      ADetalhes.Add('------+------------+-----------------+--------+-------------------');
+
+      if Contador > 5 then
+        ADetalhes.Add('... e mais ' + IntToStr(Contador - 5) + ' ocorrência(s) não exibida(s)');
+
+      ADetalhes.Add('');
+      ADetalhes.Add('Resumo:');
+      ADetalhes.Add('- Total de ocorrências com depreciação: ' + IntToStr(Contador));
+      ADetalhes.Add('- Depreciação acumulada atual: ' + FormatFloat('0.00', FPercentualDepreciacaoAcumulada) + '%');
+      ADetalhes.Add('');
+    end;
+  finally
+    Query.Free;
+  end;
 end;
 
 function TFormAnaliseOcorrencia.ValidarCampos: Boolean;
@@ -351,6 +489,17 @@ begin
     ShowMessage('O percentual de depreciação não pode ser maior que 100%!');
     EdtDepreciacao.SetFocus;
     Exit;
+  end;
+
+  // Verificar se ultrapassa 100% acumulado
+  if (FPercentualDepreciacaoAcumulada + EdtDepreciacao.Value) > 100 then
+  begin
+    ShowMessage('Atenção: Esta depreciação ultrapassará 100% do valor original!' + #13#10 +
+               'Depreciação atual: ' + FormatFloat('0.00', FPercentualDepreciacaoAcumulada) + '%' + #13#10 +
+               'Nova depreciação: ' + FormatFloat('0.00', EdtDepreciacao.Value) + '%' + #13#10 +
+               'Total: ' + FormatFloat('0.00', FPercentualDepreciacaoAcumulada + EdtDepreciacao.Value) + '%' + #13#10 +
+               'O item será desativado automaticamente.');
+    // Não impede a operação, apenas alerta
   end;
 
   if CbResponsabilidadeA.ItemIndex = -1 then

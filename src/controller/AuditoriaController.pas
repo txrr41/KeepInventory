@@ -8,7 +8,7 @@ System.SysUtils, AuditoriaService,  AuditoriaModel;
 type
  TLogController = class
  private
- FService: TLogService;
+ FService: TAuditoriaService;
  public
  constructor Create;
  function RegAuditoria(UsuarioLog: TUserLog): String;
@@ -22,7 +22,7 @@ implementation
 
 constructor TLogController.Create;
 begin
-FService := TLogService.Create;
+FService := TAuditoriaService.Create;
 end;
 
 function TLogController.RegAuditoria(UsuarioLog: TUserLog): String;

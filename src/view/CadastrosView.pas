@@ -9,7 +9,7 @@ uses
   EmpresaController, EmpresaDTO, EmpresaModel, PredioDTO, PredioModel, PredioController,
   SalaDTO, SalaController, PatrimonioDTO, PatrimonioController,
   AuditoriaController, AuditoriaModel, PatrimonioImportacaoCSV, Winapi.ShellAPI, CepService, PermissoesHelper, UsuarioModel,
-  Vcl.Skia; // ADICIONADO
+  Vcl.Skia;
 
 type
   TFormCadastro = class(TForm)
@@ -46,9 +46,9 @@ type
     EdtTipoPatri: TEdit;
     CbSituacaoPatri: TComboBox;
     Label79: TLabel;
-    EdtVAQPatri: TMaskEdit;
+    EdtVAQPatri: TEdit;
     Label81: TLabel;
-    EdtVAPatri: TMaskEdit;
+    EdtVAPatri: TEdit;
     Label85: TLabel;
     EdtModelo: TEdit;
     Label84: TLabel;
@@ -245,7 +245,6 @@ type
     procedure SpeedButton5Click(Sender: TObject);
     procedure SpeedButton4Click(Sender: TObject);
     procedure SearchBox1Change(Sender: TObject);
-    procedure EditNameSalaChange(Sender: TObject);
     function  CarregarObjeto : TEmpresaDTO;
     procedure AtualizarTabelaP;
     procedure AtualizarTabelaE;
@@ -259,18 +258,27 @@ type
     procedure EdtCepPredioExit(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BtnEditarPatrimonioClick(Sender: TObject);
+    procedure EdtVAQPatriKeyPress(Sender: TObject; var Key: Char);
+    procedure EdtVAPatriKeyPress(Sender: TObject; var Key: Char);
+    procedure EdtVAQPatriExit(Sender: TObject);
+    procedure EdtVAPatriExit(Sender: TObject);
  private
-  FLogController: TLogController; // ADICIONADO
-    FUsuarioLogado: String; // ADICIONADO
-    procedure RegistrarLog(const Mensagem: String); // ADICIONADO
-    procedure AtualizarTabelaPatrimonio;
+          procedure AtualizarTabelaPatrimonio;
     procedure BtnAtualizarPatrimonioClick(Sender: TObject);
     procedure BtnExcluirPatrimonioClick(Sender: TObject);
     procedure BtnFiltrarPatrimonioClick(Sender: TObject);
     procedure LimparCamposPatrimonio;
+    procedure LimparCamposSala;
+    procedure LimparCamposPredio;
     procedure PopularComboBoxSalas;
     function LimparValorMoeda(const Texto: string): Currency;
     function FormatarValorBrasileiro(Valor: Currency): String;
+
+    // Controle de estado dos campos
+    procedure SetEstadoCamposPatrimonio(Habilitado: Boolean);
+    procedure SetEstadoCamposSala(Habilitado: Boolean);
+    procedure SetEstadoCamposPredio(Habilitado: Boolean);
+    procedure SetEstadoCamposEmpresa(Habilitado: Boolean);
 
     { Private declarations }
   end;
@@ -285,57 +293,26 @@ implementation
 // ============================================================================
 // MÉTODO PARA REGISTRAR LOG
 // ============================================================================
-procedure TFormCadastro.RegistrarLog(const Mensagem: String);
-var
-  UsuarioLog: TUserLog;
-  DataHora: TDateTime;
-begin
-  try
-    UsuarioLog := TUserLog.Create;
-    try
-      UsuarioLog.UserName := FUsuarioLogado;
-      DataHora := Now;
-      UsuarioLog.Date := DataHora;
-      UsuarioLog.Msg := Mensagem;
-      FLogController.RegAuditoria(UsuarioLog);
-    finally
-      UsuarioLog.Free;
-    end;
-  except
-    on E: Exception do
-      ShowMessage('Erro ao registrar log: ' + E.Message);
-  end;
-end;
 
 // ============================================================================
 // CONSTRUCTOR E DESTRUCTOR
 // ============================================================================
 constructor TFormCadastro.Create(AComponent: TComponent; const UsuarioLogado: String);
-var
-  Usuario: TUsuarioModel;
+// Usuario removido - logging movido para services
 begin
   inherited Create(AComponent); // ← SÓ UMA VEZ!
 
   // Obtém o usuário logado do helper
-  Usuario := TPermissoesHelper.GetUsuarioLogado;
-
-  if Usuario <> nil then
-    FUsuarioLogado := Usuario.Nome
-  else
-    FUsuarioLogado := 'Usuário Desconhecido';
+  // Usuario e FUsuarioLogado removidos - logging movido para services
 
   // Cria os controllers UMA VEZ
-  FLogController := TLogController.Create;
+  // FLogController removido - logging movido para services
   FSalaController := TSalaController.Create;
   FPatrimonioController := TPatrimonioController.Create;
 
-  RegistrarLog('Acessou o módulo de Cadastros');
-end;
 
 
 
-procedure TFormCadastro.EditNameSalaChange(Sender: TObject);
-begin
 
 end;
 
@@ -366,12 +343,10 @@ begin
     Controller.AdicionarEmpresa(dto);
 
     // LOG: Cadastrou empresa
-    RegistrarLog('Cadastrou empresa - ' + EditFantasia.Text + ' (CNPJ: ' + EditCnpj.Text + ')');
-
+    // Log removido - movido para Controller:Cadastrou empresa - ' + EditFantasia.Text + ' (CNPJ: ' + EditCnpj.Text + ')
     ShowMessage('Empresa adicionada com sucesso!');
 
-
-    // Limpar campos
+    // Limpar campos e desabilitar
     EditFantasia.Text := '';
     EditRazao.Text := '';
     EditCnpj.Text := '';
@@ -383,6 +358,8 @@ begin
     EditNumero.Text := '';
     EditBairro.Text := '';
 
+    // Desabilitar campos após salvar
+    SetEstadoCamposEmpresa(False);
     AtualizarTabelaE;
   finally
     Controller.Free;
@@ -396,7 +373,9 @@ var
   ValorAquisicao, ValorAtual: Currency;
 begin
   try
-    // Validação da Sala (mantida)
+    Dto.FId := 0; // Inicializa o DTO (record não usa Create)
+
+    // Validação da Sala
     if ComboBoxPatrimonio.ItemIndex >= 0 then
     begin
       SelectedID := Integer(NativeInt(ComboBoxPatrimonio.Items.Objects[ComboBoxPatrimonio.ItemIndex]));
@@ -407,15 +386,23 @@ begin
       raise Exception.Create('Por favor, selecione uma Sala.');
     end;
 
-    // Validação e limpeza dos valores
+    // Validação dos campos de valor
+    if Trim(EdtVAQPatri.Text) = '' then
+      raise Exception.Create('Por favor, informe o Valor de Aquisição.');
+
+    if Trim(EdtVAPatri.Text) = '' then
+      raise Exception.Create('Por favor, informe o Valor Atual.');
+
+    // Conversão dos valores
     ValorAquisicao := LimparValorMoeda(EdtVAQPatri.Text);
     ValorAtual := LimparValorMoeda(EdtVAPatri.Text);
 
     if (ValorAquisicao <= 0) or (ValorAtual <= 0) then
     begin
-      raise Exception.Create('Os valores de aquisição e atual devem ser maiores que zero. Verifique o formato (ex.: 1.234,56).');
+      raise Exception.Create('Os valores de aquisição e atual devem ser maiores que zero. Use o formato: 1234,56');
     end;
 
+    // Preenche o DTO
     Dto.FNome := EditNomePatri.Text;
     Dto.FTipo := EdtTipoPatri.Text;
     Dto.FSituacao := CBSituacaoPatri.Text;
@@ -427,8 +414,7 @@ begin
 
     FPatrimonioController.AdicionarPatrimonio(Dto);
 
-    RegistrarLog('Cadastrou patrimônio - ' + EditNomePatri.Text + ' (NS: ' + EdtNS.Text + ', VA: ' + CurrToStr(ValorAquisicao) + ', VAT: ' + CurrToStr(ValorAtual) + ')');
-
+    // Log movido para Service
     AtualizarTabelaPatrimonio;
     LimparCamposPatrimonio;
 
@@ -457,8 +443,7 @@ begin
     ControllerPredio.AdicionarPredio(Dto);
 
     // LOG: Cadastrou prédio
-    RegistrarLog('Cadastrou prédio - ' + EdtNamePredio.Text + ' (' + EdtCidadePredio.Text + ')');
-
+    // Log removido - movido para Controller:Cadastrou prédio - ' + EdtNamePredio.Text + ' (' + EdtCidadePredio.Text + ')
     // Limpar campos
     EdtNamePredio.Text := '';
     ComboBoxSituacao.Text := '';
@@ -473,6 +458,7 @@ begin
     AtualizarTabelaP;
     ShowMessage('Prédio adicionado com sucesso!');
   finally
+
   end;
 
 end;
@@ -502,8 +488,7 @@ begin
     FSalaController.AdicionarSala(Dto);
 
     // LOG: Cadastrou sala
-    RegistrarLog('Cadastrou sala - ' + EditNameSala.Text + ' (Tipo: ' + EdtTipoSala.Text + ')');
-
+    // Log removido - movido para Controller:Cadastrou sala - ' + EditNameSala.Text + ' (Tipo: ' + EdtTipoSala.Text + ')
     AtualizarTabelaS;
 
     // Limpar campos
@@ -533,7 +518,7 @@ begin
 
     // LOG: Pesquisou empresa
     if edtPesquisar.Text <> '' then
-      RegistrarLog('Pesquisou empresa - Termo: "' + edtPesquisar.Text + '"');
+      // Log removido - movido para Controller:Pesquisou empresa - Termo: "' + edtPesquisar.Text + '"';
   finally
     Controller.Free;
   end;
@@ -547,9 +532,6 @@ begin
   DataSEmpresa.DataSet := ControllerPredio.PesquisarPredio(edtPesquisarPredio.Text);
   DBGridPredio.DataSource := DataSEmpresa;
 
-  // LOG: Pesquisou prédio
-  if edtPesquisarPredio.Text <> '' then
-    RegistrarLog('Pesquisou prédio - Termo: "' + edtPesquisarPredio.Text + '"');
 end;
 
 procedure TFormCadastro.EdtPesquisarSalaChange(Sender: TObject);
@@ -557,9 +539,6 @@ begin
  DataSEmpresa.DataSet := FSalaController.PesquisarSala(edtPesquisarSala.Text);
   DBGridSalas.DataSource := DataSEmpresa;
 
-  // LOG: Pesquisou sala
-  if edtPesquisarSala.Text <> '' then
-    RegistrarLog('Pesquisou sala - Termo: "' + edtPesquisarSala.Text + '"');
 end;
 
 function TFormCadastro.FormatarValorBrasileiro(Valor: Currency): String;
@@ -572,9 +551,110 @@ begin
   Result := 'R$ ' + FormatFloat('#,##0.00', Valor, FS);
 end;
 
+// ============================================================================
+// FORMATAÇÃO DE VALORES EM TEMPO REAL
+// ============================================================================
+procedure TFormCadastro.EdtVAQPatriKeyPress(Sender: TObject; var Key: Char);
+var
+  Texto: String;
+begin
+  // Permite apenas números, vírgula e backspace
+  if not (CharInSet(Key, ['0'..'9', ',', #8])) then
+    Key := #0;
+
+  // Impede múltiplas vírgulas
+  if Key = ',' then
+  begin
+    Texto := EdtVAQPatri.Text;
+    if Pos(',', Texto) > 0 then
+      Key := #0;
+  end;
+end;
+
+procedure TFormCadastro.EdtVAPatriKeyPress(Sender: TObject; var Key: Char);
+var
+  Texto: String;
+begin
+  // Permite apenas números, vírgula e backspace
+  if not (CharInSet(Key, ['0'..'9', ',', #8])) then
+    Key := #0;
+
+  // Impede múltiplas vírgulas
+  if Key = ',' then
+  begin
+    Texto := EdtVAPatri.Text;
+    if Pos(',', Texto) > 0 then
+      Key := #0;
+  end;
+end;
+
+procedure TFormCadastro.EdtVAQPatriExit(Sender: TObject);
+var
+  Valor: Currency;
+  Texto: String;
+begin
+  Texto := Trim(EdtVAQPatri.Text);
+
+  if Texto <> '' then
+  begin
+    // Remove R$ e espaços se existirem
+    Texto := StringReplace(Texto, 'R$', '', [rfReplaceAll]);
+    Texto := StringReplace(Texto, ' ', '', [rfReplaceAll]);
+
+    // Troca vírgula por ponto para conversão
+    Texto := StringReplace(Texto, ',', '.', [rfReplaceAll]);
+
+    if TryStrToCurr(Texto, Valor) then
+      EdtVAQPatri.Text := FormatarValorBrasileiro(Valor)
+    else
+    begin
+      ShowMessage('Valor inválido! Use o formato: 1234,56');
+      EdtVAQPatri.SetFocus;
+    end;
+  end;
+end;
+
+procedure TFormCadastro.EdtVAPatriExit(Sender: TObject);
+var
+  Valor: Currency;
+  Texto: String;
+begin
+  Texto := Trim(EdtVAPatri.Text);
+
+  if Texto <> '' then
+  begin
+    // Remove R$ e espaços se existirem
+    Texto := StringReplace(Texto, 'R$', '', [rfReplaceAll]);
+    Texto := StringReplace(Texto, ' ', '', [rfReplaceAll]);
+
+    // Troca vírgula por ponto para conversão
+    Texto := StringReplace(Texto, ',', '.', [rfReplaceAll]);
+
+    if TryStrToCurr(Texto, Valor) then
+      EdtVAPatri.Text := FormatarValorBrasileiro(Valor)
+    else
+    begin
+      ShowMessage('Valor inválido! Use o formato: 1234,56');
+      EdtVAPatri.SetFocus;
+    end;
+  end;
+end;
+
 procedure TFormCadastro.FormShow(Sender: TObject);
 begin
-TPermissoesHelper.AplicarPermissoesCadastros(PageControl1);
+  TPermissoesHelper.AplicarPermissoesCadastros(PageControl1);
+
+  // Inicializar campos desabilitados
+  SetEstadoCamposPatrimonio(False);
+  SetEstadoCamposSala(False);
+  SetEstadoCamposPredio(False);
+  SetEstadoCamposEmpresa(False);
+
+  // Inicializar botões de envio como invisíveis
+  BtnEnviarPatrimonio.Visible := False;
+  BtnEnviarSala.Visible := False;
+  BtnEnviarPredio.Visible := False;
+  BtnEnviar.Visible := False;
 end;
 
 procedure TFormCadastro.EditCepExit(Sender: TObject);
@@ -600,7 +680,7 @@ begin
         EditNumero.SetFocus;
 
         // LOG: Buscou CEP
-        RegistrarLog('Buscou CEP automaticamente - CEP: ' + Endereco.Cep + ' - Endereço: ' + Endereco.Logradouro);
+        // Log removido - movido para Controller:Buscou CEP automaticamente - CEP: ' + Endereco.Cep + ' - Endereço: ' + Endereco.Logradouro);
       end
       else
       begin
@@ -635,7 +715,7 @@ begin
         EdtNumeroPredio.SetFocus;
 
         // LOG: Buscou CEP
-        RegistrarLog('Buscou CEP automaticamente - CEP: ' + Endereco.Cep + ' - Endereço: ' + Endereco.Logradouro);
+        // Log removido - movido para Controller:Buscou CEP automaticamente - CEP: ' + Endereco.Cep + ' - Endereço: ' + Endereco.Logradouro);
       end
       else
       begin
@@ -651,13 +731,12 @@ end;
 procedure TFormCadastro.BtnAtualizarPredioClick(Sender: TObject);
 begin
   AtualizarTabelaP;
-  RegistrarLog('Atualizou lista de prédios');
+  // Log removido - movido para Controller:Atualizou lista de prédios';
 end;
 
 procedure TFormCadastro.BtnAtualizarSalaClick(Sender: TObject);
 begin
   AtualizarTabelaS;
-  RegistrarLog('Atualizou lista de salas');
 end;
 
 procedure TFormCadastro.BtnConfirmarEdClick(Sender: TObject);
@@ -674,8 +753,7 @@ begin
     Controller.EditarEmpresa(CarregarObjeto);
 
     // LOG: Alterou empresa
-    RegistrarLog('Alterou empresa - ' + NomeEmpresa + ' (ID: ' + IntToStr(DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger) + ')');
-
+    // Log removido - movido para Controller:Alterou empresa - ' + NomeEmpresa + ' (ID: ' + IntToStr(DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger) + ')
     // Limpar campos
     EditFantasia.Text := '';
     EditRazao.Text := '';
@@ -715,20 +793,30 @@ begin
     Dto.FSituacao := CBSituacaoPatri.Text;
     Dto.FModelo := EdtModelo.Text;
 
-    // ✅ USA A FUNÇÃO
+    // Validação dos campos de valor
+    if Trim(EdtVAQPatri.Text) = '' then
+      raise Exception.Create('Por favor, informe o Valor de Aquisição.');
+
+    if Trim(EdtVAPatri.Text) = '' then
+      raise Exception.Create('Por favor, informe o Valor Atual.');
+    // Conversão dos valores usando a função atualizada
     Dto.FValorAquisicao := LimparValorMoeda(EdtVAQPatri.Text);
     Dto.FValorAtual := LimparValorMoeda(EdtVAPatri.Text);
 
+    if (Dto.FValorAquisicao <= 0) or (Dto.FValorAtual <= 0) then
+      raise Exception.Create('Os valores devem ser maiores que zero. Use o formato: 1234,56');
     Dto.FDataAquisicao := StrToDate(EdtDAPatri.Text);
     Dto.FNumeroSerie := EdtNS.Text;
     Dto.FId := IdPatri;
 
     FPatrimonioController.EditarPatrimonio(Dto);
 
-    RegistrarLog('Alterou patrimônio - ' + NomePatri + ' (ID: ' + IntToStr(IdPatri) + ')');
-
+    // Log removido - movido para Controller:Alterou patrimônio - ' + NomePatri + ' (ID: ' + IntToStr(IdPatri) + ')
     AtualizarTabelaPatrimonio;
     LimparCamposPatrimonio;
+
+    // Desabilitar campos após salvar
+    SetEstadoCamposPatrimonio(False);
 
     ShowMessage('Patrimônio atualizado com sucesso!');
   except
@@ -760,24 +848,16 @@ begin
   ControllerPredio.EditarPredio(Dto);
 
   // LOG: Alterou prédio
-  RegistrarLog('Alterou prédio - ' + NomePredio + ' (ID: ' + IntToStr(IdPredio) + ')');
-
+  // Log removido - movido para Controller:Alterou prédio - ' + NomePredio + ' (ID: ' + IntToStr(IdPredio) + ')
   AtualizarTabelaP;
 
   // Limpar campos
-  EdtNamePredio.Text := '';
-  ComboBoxSituacao.Text := '';
-  EdtTelefonePredio.Text := '';
-  EdtCepPredio.Text := '';
-  EditRuaPredio.Text := '';
-  EdtCidadePredio.Text := '';
-  EdtEstadoPredio.Text := '';
-  EdtNumeroPredio.Text := '';
-  EdtBairroPredio.Text := '';
+  LimparCamposPredio;
 
+  // Desabilitar campos após salvar
+  SetEstadoCamposPredio(False);
 
   ShowMessage('Prédio atualizado com sucesso!');
-
 end;
 
 procedure TFormCadastro.BtnConfirmarEdtSalaClick(Sender: TObject);
@@ -801,19 +881,16 @@ begin
   FSalaController.EditarSala(Dto);
 
   // LOG: Alterou sala
-  RegistrarLog('Alterou sala - ' + NomeSala + ' (ID: ' + IntToStr(IdSala) + ')');
-
+  // Log removido - movido para Controller:Alterou sala - ' + NomeSala + ' (ID: ' + IntToStr(IdSala) + ')
   // Limpar campos
-  EditNameSala.Text := '';
-  ComboBox2.ItemIndex := -1;
-  EdtSituacaoSala.Text := '';
-  EdtTipoSala.Text := '';
-  EdtObs.Text := '';
-
+  LimparCamposSala;
 
   AtualizarTabelaS;
-  ShowMessage('Sala atualizada com sucesso!');
 
+  // Desabilitar campos após salvar
+  SetEstadoCamposSala(False);
+
+  ShowMessage('Sala atualizada com sucesso!');
 end;
 
 procedure TFormCadastro.BtnExcluirEmpresaClick(Sender: TObject);
@@ -831,8 +908,7 @@ begin
       Controller.ExcluirEmpresa(IdUser);
 
       // LOG: Excluiu empresa
-      RegistrarLog('Excluiu empresa - ' + Emp + ' (ID: ' + IntToStr(IdUser) + ')');
-
+      // Log removido - movido para Controller:Excluiu empresa - ' + Emp + ' (ID: ' + IntToStr(IdUser) + ')
       AtualizarTabelaE;
       ShowMessage('Empresa excluída com sucesso!');
     finally
@@ -855,8 +931,7 @@ begin
     FPatrimonioController.ExcluirPatrimonio(IdPatrimonio);
 
     // LOG: Excluiu patrimônio
-    RegistrarLog('Excluiu patrimônio - ' + Patrimonio + ' (ID: ' + IntToStr(IdPatrimonio) + ')');
-
+    // Log removido - movido para Controller:Excluiu patrimônio - ' + Patrimonio + ' (ID: ' + IntToStr(IdPatrimonio) + ')
     AtualizarTabelaPatrimonio;
     ShowMessage('Patrimônio excluído com sucesso!');
   end;
@@ -874,8 +949,7 @@ begin
     ControllerPredio.ExcluirPredio(IdPredio);
 
     // LOG: Excluiu prédio
-    RegistrarLog('Excluiu prédio - ' + Predio + ' (ID: ' + IntToStr(IdPredio) + ')');
-
+    // Log removido - movido para Controller:Excluiu prédio - ' + Predio + ' (ID: ' + IntToStr(IdPredio) + ')
     AtualizarTabelaP;
     ShowMessage('Prédio excluído com sucesso!');
   end;
@@ -894,8 +968,7 @@ begin
     FSalaController.ExcluirSala(IdSala);
 
     // LOG: Excluiu sala
-    RegistrarLog('Excluiu sala - ' + Sala + ' (ID: ' + IntToStr(IdSala) + ')');
-
+    // Log removido - movido para Controller:Excluiu sala - ' + Sala + ' (ID: ' + IntToStr(IdSala) + ')
     AtualizarTabelaS;
     ShowMessage('Sala excluída com sucesso!');
   end;
@@ -909,10 +982,7 @@ begin
   DataSEmpresa.DataSet := FPatrimonioController.PesquisarPatrimonio(SearchBox1.Text);
   DBGridPatrimonio.DataSource := DataSEmpresa;
 
-  // LOG: Pesquisou patrimônio
-  if SearchBox1.Text <> '' then
-    RegistrarLog('Pesquisou patrimônio - Termo: "' + SearchBox1.Text + '"');
-end;
+ end;
 
 procedure TFormCadastro.SpeedButton1Click(Sender: TObject);
 var
@@ -967,8 +1037,8 @@ begin
     EdtTipoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString;
     CBSituacaoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('situacao').AsString;
     EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
-    EdtVAQPatri.Text := FormatFloat('0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsFloat);
-    EdtVAPatri.Text := FormatFloat('0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsFloat);
+    EdtVAQPatri.Text := FormatarValorBrasileiro(DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsCurrency);
+    EdtVAPatri.Text := FormatarValorBrasileiro(DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsCurrency);
     EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
     EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
     ComboBoxPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;
@@ -990,8 +1060,7 @@ begin
     FPatrimonioController.ExcluirPatrimonio(IdPatrimonio);
 
     // LOG: Excluiu patrimônio
-    RegistrarLog('Excluiu patrimônio - ' + Patrimonio + ' (ID: ' + IntToStr(IdPatrimonio) + ')');
-
+    // Log removido - movido para Controller:Excluiu patrimônio - ' + Patrimonio + ' (ID: ' + IntToStr(IdPatrimonio) + ')
     AtualizarTabelaPatrimonio;
     ShowMessage('Patrimônio excluído com sucesso!');
   end;
@@ -1006,7 +1075,6 @@ end;
 procedure TFormCadastro.SpeedButton5Click(Sender: TObject);
 begin
   AtualizarTabelaPatrimonio;
-  RegistrarLog('Atualizou lista de patrimônios');
 end;
 
 procedure TFormCadastro.SpeedButton6Click(Sender: TObject);
@@ -1056,18 +1124,16 @@ begin
             ForceDirectories(ExtractFilePath(LogPath));
 
             // Adiciona cabeçalho ao log
-            Erros.Insert(0, '');
             Erros.Insert(0, '====================================');
             Erros.Insert(0, 'LOG DE ERROS - IMPORTAÇÃO CSV');
             Erros.Insert(0, 'Data/Hora: ' + FormatDateTime('dd/mm/yyyy hh:nn:ss', Now));
             Erros.Insert(0, 'Arquivo: ' + OpenDialog.FileName);
             Erros.Insert(0, '====================================');
-            Erros.Add('');
+
             Erros.Add('====================================');
             Erros.Add(Format('Total de itens importados: %d', [TotalImportados]));
             Erros.Add(Format('Total de erros: %d', [TotalErros]));
             Erros.Add('====================================');
-
             Erros.SaveToFile(LogPath);
 
             Mensagem := Mensagem + sLineBreak + sLineBreak +
@@ -1110,22 +1176,14 @@ end;
 
 procedure TFormCadastro.BtnAtualizarEmpresaClick(Sender: TObject);
 begin
- AtualizarTabelaE;
-  RegistrarLog('Atualizou lista de empresas');
+  AtualizarTabelaE;
+  // Log removido - movido para Controller:Atualizou lista de empresas';
 end;
 
 procedure TFormCadastro.BtnAtualizarPatrimonioClick(Sender: TObject);
 begin
   AtualizarTabelaPatrimonio;
-  RegistrarLog('Atualizou lista de patrimônios');
 end;
-
-
-
-// ============================================================================
-// MÉTODOS AUXILIARES (mantidos como estão)
-// ============================================================================
-
 procedure TFormCadastro.AtualizarTabelaE;
 var
   Controller: TEmpresaController;
@@ -1177,32 +1235,57 @@ begin
   EdtDAPatri.Text := DateToStr(Now);
 end;
 
+procedure TFormCadastro.LimparCamposSala;
+begin
+  EditNameSala.Text := '';
+  ComboBox2.ItemIndex := -1;
+  EdtSituacaoSala.Text := '';
+  EdtTipoSala.Text := '';
+  EdtObs.Text := '';
+end;
+
+procedure TFormCadastro.LimparCamposPredio;
+begin
+  EdtNamePredio.Text := '';
+  EdtNumeroPredio.Text := '';
+  EditRuaPredio.Text := '';
+  EdtBairroPredio.Text := '';
+  EdtCepPredio.Text := '';
+  EdtCidadePredio.Text := '';
+  EdtEstadoPredio.Text := '';
+  EdtTelefonePredio.Text := '';
+  ComboBoxSituacao.ItemIndex := -1;
+end;
+
 function TFormCadastro.LimparValorMoeda(const Texto: string): Currency;
 var
-  NumeroLimpo: string;
-  I: Integer;
+  FS: TFormatSettings;
+  TextoLimpo: string;
+  i: Integer;
 begin
-  NumeroLimpo := '';
+  Result := 0;
+  TextoLimpo := '';
 
-  // Remove espaços e outros caracteres de máscara (ex.: preenchimento)
-  NumeroLimpo := StringReplace(Texto, ' ', '', [rfReplaceAll]);
-
-  // Extrai apenas dígitos, vírgula e ponto
-  for I := 1 to Length(NumeroLimpo) do
+  // Extrai apenas dígitos e vírgula
+  for i := 1 to Length(Texto) do
   begin
-    if CharInSet(NumeroLimpo[I], ['0'..'9', ',', '.']) then
-      NumeroLimpo := NumeroLimpo + NumeroLimpo[I];
+    if Texto[i] in ['0'..'9', ','] then
+      TextoLimpo := TextoLimpo + Texto[i];
   end;
 
-  // Remove pontos (separador de milhar)
-  NumeroLimpo := StringReplace(NumeroLimpo, '.', '', [rfReplaceAll]);
+  if TextoLimpo = '' then
+    Exit;
 
-  // Troca vírgula por ponto (separador decimal)
-  NumeroLimpo := StringReplace(NumeroLimpo, ',', '.', [rfReplaceAll]);
+  // Configurações de formato brasileiro
+  FS := TFormatSettings.Create;
+  FS.DecimalSeparator := ',';
+  FS.ThousandSeparator := '.';
 
-  // Converte; retorna 0 se erro (mas com validação posterior, evita 0 silencioso)
-  if not TryStrToCurr(NumeroLimpo, Result) then
-    Result := 0;  // Fallback, mas valide no botão para alertar
+  try
+    Result := StrToCurr(TextoLimpo, FS);
+  except
+    Result := 0;
+  end;
 end;
 
 function TFormCadastro.CarregarObjeto: TEmpresaDTO;
@@ -1227,24 +1310,19 @@ procedure TFormCadastro.PageControl1Change(Sender: TObject);
 begin
   if PageControl1.ActivePage = TabSheet1 then
   begin
-    AtualizarTabelaE;
-    RegistrarLog('Acessou aba Empresas');
   end
   else if PageControl1.ActivePage = TabSheet2 then
   begin
     AtualizarTabelaP;
-    RegistrarLog('Acessou aba Prédios');
-  end
+end
   else if PageControl1.ActivePage = TabSheet3 then
   begin
     AtualizarTabelaS;
-    RegistrarLog('Acessou aba Salas');
-  end
+end
   else if PageControl1.ActivePage = TabSheet4 then
   begin
     AtualizarTabelaPatrimonio;
-    RegistrarLog('Acessou aba Patrimônios');
-  end;
+end;
 end;
 
 procedure TFormCadastro.PopularComboBox;
@@ -1274,6 +1352,20 @@ begin
  BtnConfirmarEd.Visible := False;
   BtnEnviar.Visible := True;
 
+  // Limpar campos e habilitar para edição
+  EditFantasia.Text := '';
+  EditRazao.Text := '';
+  EditCnpj.Text := '';
+  EditTelefone.Text := '';
+  EditCep.Text := '';
+  EditRua.Text := '';
+  EditCidade.Text := '';
+  EditEstado.Text := '';
+  EditNumero.Text := '';
+  EditBairro.Text := '';
+
+  SetEstadoCamposEmpresa(True);
+  EditFantasia.SetFocus;
 end;
 
 procedure TFormCadastro.BtnAdicionarPatrimonioClick(Sender: TObject);
@@ -1288,30 +1380,33 @@ begin
     Exit;
   end;
 
-  begin
+  BtnEnviarPatrimonio.Visible := True;
+  PopularComboBoxSalas;
 
-    BtnEnviarPatrimonio.Visible := True;
-    PopularComboBoxSalas;
-
-end;
-end;
+    // Habilitar campos para edição
+    SetEstadoCamposPatrimonio(True);
+    LimparCamposPatrimonio;
+  end;
 
 procedure TFormCadastro.BtnAdicionarPredioClick(Sender: TObject);
 begin
-
-
     BtnEnviarPredio.Visible := True;
 
+    // Habilitar campos para edição
+    SetEstadoCamposPredio(True);
+    LimparCamposPredio;
 end;
 
 
 
 procedure TFormCadastro.BtnAdicionarSalaClick(Sender: TObject);
 begin
-
     BtnEnviarSala.Visible := True;
     PopularComboBox;
 
+    // Habilitar campos para edição
+    SetEstadoCamposSala(True);
+    LimparCamposSala;
 end;
 
 
@@ -1320,23 +1415,23 @@ begin
   BtnConfirmarEdPatri.Visible := True;
   BtnEnviarPatrimonio.Visible := False;
 
-  try
-    EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
+  EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
     EdtTipoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString;
     CBSituacaoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('situacao').AsString;
     EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
 
-    // ✅ USA FormatCurr com formato brasileiro
-    EdtVAQPatri.Text := FormatCurr('#,##0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsCurrency);
-    EdtVAPatri.Text := FormatCurr('#,##0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsCurrency);
+    // ✅ USA formatação brasileira unificada
+    EdtVAQPatri.Text := FormatarValorBrasileiro(DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsCurrency);
+    EdtVAPatri.Text := FormatarValorBrasileiro(DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsCurrency);
 
     EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
     EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
     ComboBoxPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;
     PopularComboBoxSalas;
-  finally
-  end;
+
+
 end;
+
 
 
 
@@ -1349,14 +1444,17 @@ begin
   BtnEnviarPatrimonio.Visible := False;
 
   try
+    // Habilitar campos para edição
+    SetEstadoCamposPatrimonio(True);
+
     EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
     EdtTipoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString;
     CBSituacaoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('situacao').AsString;
     EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
 
-    // ✅ USA FormatCurr com formato brasileiro
-    EdtVAQPatri.Text := FormatCurr('#,##0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsCurrency);
-    EdtVAPatri.Text := FormatCurr('#,##0.00', DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsCurrency);
+    // ✅ USA formatação brasileira unificada
+    EdtVAQPatri.Text := FormatarValorBrasileiro(DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsCurrency);
+    EdtVAPatri.Text := FormatarValorBrasileiro(DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsCurrency);
 
     EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
     EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
@@ -1372,6 +1470,9 @@ begin
   BtnEnviarPredio.Visible := False;
 
   try
+    // Habilitar campos para edição
+    SetEstadoCamposPredio(True);
+
     EdtNamePredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('nome').AsString;
     ComboBoxSituacao.Text := DBGridPredio.DataSource.DataSet.FieldByName('situacao').AsString;
     EdtBairroPredio.Text := DBGridPredio.DataSource.DataSet.FieldByName('bairro').AsString;
@@ -1392,8 +1493,10 @@ begin
   BtnConfirmarEdtSala.Visible := True;
   BtnEnviarSala.Visible := False;
 
-
   try
+    // Habilitar campos para edição
+    SetEstadoCamposSala(True);
+
     EditNameSala.Text := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;
     ComboBox2.Text := DBGridSalas.DataSource.DataSet.FieldByName('nome_predio').AsString;
     PopularComboBox;
@@ -1416,12 +1519,164 @@ end;
 
 procedure TFormCadastro.BtnFiltrarPredioClick(Sender: TObject);
 begin
-edtPesquisarPredio.Visible := True;
+  edtPesquisarPredio.Visible := True;
 end;
 
 procedure TFormCadastro.BtnFiltrarSalaClick(Sender: TObject);
 begin
- edtPesquisarSala.Visible := True;
+  edtPesquisarSala.Visible := True;
+end;
+
+// Funções de controle de estado dos campos
+procedure TFormCadastro.SetEstadoCamposPatrimonio(Habilitado: Boolean);
+begin
+  // Habilitar/Desabilitar campos de Patrimônio
+  EditNomePatri.Enabled := Habilitado;
+  EdtTipoPatri.Enabled := Habilitado;
+  CbSituacaoPatri.Enabled := Habilitado;
+  EdtVAQPatri.Enabled := Habilitado;
+  EdtVAPatri.Enabled := Habilitado;
+  EdtModelo.Enabled := Habilitado;
+  EdtDAPatri.Enabled := Habilitado;
+  ComboBoxPatrimonio.Enabled := Habilitado;
+  EdtNS.Enabled := Habilitado;
+
+  // Mudar aparência dos campos
+  if Habilitado then
+  begin
+    EditNomePatri.Color := clWindow;
+    EdtTipoPatri.Color := clWindow;
+    CbSituacaoPatri.Color := clWindow;
+    EdtVAQPatri.Color := clWindow;
+    EdtVAPatri.Color := clWindow;
+    EdtModelo.Color := clWindow;
+    EdtDAPatri.Color := clWindow;
+    ComboBoxPatrimonio.Color := clWindow;
+    EdtNS.Color := clWindow;
+  end
+  else
+  begin
+    EditNomePatri.Color := clBtnFace;
+    EdtTipoPatri.Color := clBtnFace;
+    CbSituacaoPatri.Color := clBtnFace;
+    EdtVAQPatri.Color := clBtnFace;
+    EdtVAPatri.Color := clBtnFace;
+    EdtModelo.Color := clBtnFace;
+    EdtDAPatri.Color := clBtnFace;
+    ComboBoxPatrimonio.Color := clBtnFace;
+    EdtNS.Color := clBtnFace;
+  end;
+end;
+
+procedure TFormCadastro.SetEstadoCamposSala(Habilitado: Boolean);
+begin
+  // Habilitar/Desabilitar campos de Sala
+  EditNameSala.Enabled := Habilitado;
+  EdtObs.Enabled := Habilitado;
+  EdtSituacaoSala.Enabled := Habilitado;
+  EdtTipoSala.Enabled := Habilitado;
+  ComboBox2.Enabled := Habilitado;
+
+  // Mudar aparência dos campos
+  if Habilitado then
+  begin
+    EditNameSala.Color := clWindow;
+    EdtObs.Color := clWindow;
+    EdtSituacaoSala.Color := clWindow;
+    EdtTipoSala.Color := clWindow;
+    ComboBox2.Color := clWindow;
+  end
+  else
+  begin
+    EditNameSala.Color := clBtnFace;
+    EdtObs.Color := clBtnFace;
+    EdtSituacaoSala.Color := clBtnFace;
+    EdtTipoSala.Color := clBtnFace;
+    ComboBox2.Color := clBtnFace;
+  end;
+end;
+
+procedure TFormCadastro.SetEstadoCamposPredio(Habilitado: Boolean);
+begin
+  // Habilitar/Desabilitar campos de Prédio
+  EdtNamePredio.Enabled := Habilitado;
+  EdtNumeroPredio.Enabled := Habilitado;
+  EditRuaPredio.Enabled := Habilitado;
+  EdtBairroPredio.Enabled := Habilitado;
+  EdtCepPredio.Enabled := Habilitado;
+  EdtCidadePredio.Enabled := Habilitado;
+  EdtEstadoPredio.Enabled := Habilitado;
+  EdtTelefonePredio.Enabled := Habilitado;
+  ComboBoxSituacao.Enabled := Habilitado;
+
+  // Mudar aparência dos campos
+  if Habilitado then
+  begin
+    EdtNamePredio.Color := clWindow;
+    EdtNumeroPredio.Color := clWindow;
+    EditRuaPredio.Color := clWindow;
+    EdtBairroPredio.Color := clWindow;
+    EdtCepPredio.Color := clWindow;
+    EdtCidadePredio.Color := clWindow;
+    EdtEstadoPredio.Color := clWindow;
+    EdtTelefonePredio.Color := clWindow;
+    ComboBoxSituacao.Color := clWindow;
+  end
+  else
+  begin
+    EdtNamePredio.Color := clBtnFace;
+    EdtNumeroPredio.Color := clBtnFace;
+    EditRuaPredio.Color := clBtnFace;
+    EdtBairroPredio.Color := clBtnFace;
+    EdtCepPredio.Color := clBtnFace;
+    EdtCidadePredio.Color := clBtnFace;
+    EdtEstadoPredio.Color := clBtnFace;
+    EdtTelefonePredio.Color := clBtnFace;
+    ComboBoxSituacao.Color := clBtnFace;
+  end;
+end;
+
+procedure TFormCadastro.SetEstadoCamposEmpresa(Habilitado: Boolean);
+begin
+  // Habilitar/Desabilitar campos de Empresa
+  EditFantasia.Enabled := Habilitado;
+  EditRazao.Enabled := Habilitado;
+  EditCnpj.Enabled := Habilitado;
+  EditTelefone.Enabled := Habilitado;
+  EditCep.Enabled := Habilitado;
+  EditRua.Enabled := Habilitado;
+  EditCidade.Enabled := Habilitado;
+  EditEstado.Enabled := Habilitado;
+  EditNumero.Enabled := Habilitado;
+  EditBairro.Enabled := Habilitado;
+
+  // Mudar aparência dos campos
+  if Habilitado then
+  begin
+    EditFantasia.Color := clWindow;
+    EditRazao.Color := clWindow;
+    EditCnpj.Color := clWindow;
+    EditTelefone.Color := clWindow;
+    EditCep.Color := clWindow;
+    EditRua.Color := clWindow;
+    EditCidade.Color := clWindow;
+    EditEstado.Color := clWindow;
+    EditNumero.Color := clWindow;
+    EditBairro.Color := clWindow;
+  end
+  else
+  begin
+    EditFantasia.Color := clBtnFace;
+    EditRazao.Color := clBtnFace;
+    EditCnpj.Color := clBtnFace;
+    EditTelefone.Color := clBtnFace;
+    EditCep.Color := clBtnFace;
+    EditRua.Color := clBtnFace;
+    EditCidade.Color := clBtnFace;
+    EditEstado.Color := clBtnFace;
+    EditNumero.Color := clBtnFace;
+    EditBairro.Color := clBtnFace;
+  end;
 end;
 
 end.

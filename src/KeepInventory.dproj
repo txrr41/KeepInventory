@@ -149,7 +149,7 @@
             <Form>FormHome</Form>
         </DCCReference>
         <DCCReference Include="view\CadastrosView.pas">
-            <Form>Form3</Form>
+            <Form>FormCadastro</Form>
         </DCCReference>
         <DCCReference Include="model\AuditoriaModel.pas"/>
         <DCCReference Include="controller\AuditoriaController.pas"/>
@@ -227,6 +227,20 @@
         <DCCReference Include="repository\DepreciacaoRepository.pas"/>
         <DCCReference Include="controller\DepreciacaoController.pas"/>
         <DCCReference Include="service\DepreciacaoService.pas"/>
+        <DCCReference Include="view\RastreamentoView.pas">
+            <Form>FormRastreamento</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="service\RastreioService.pas"/>
+        <DCCReference Include="controller\RastreioController.pas"/>
+        <DCCReference Include="model\RastreioModel.pas"/>
+        <DCCReference Include="repository\RastreioRepository.pas"/>
+        <DCCReference Include="model\RelatorioDepreciacaoItemModel.pas"/>
+        <DCCReference Include="service\RelatorioDepreciacaoService.pas"/>
+        <DCCReference Include="repository\RelatorioDepreciacaoRepository.pas"/>
+        <DCCReference Include="controller\RelatorioDepreciacaoController.pas"/>
+        <DCCReference Include="helper\UIHelper.pas"/>
+        <DCCReference Include="service\LogService.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

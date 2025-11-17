@@ -3,7 +3,7 @@ unit LoginRepository;
 interface
 
 uses
-  FireDAC.Comp.Client, System.SysUtils, DB, GlobalUserDTO;
+  FireDAC.Comp.Client, System.SysUtils, DB, GlobalUserDTO, System.Hash;
 
 type
   TLoginRepository = class
@@ -16,9 +16,13 @@ implementation
 function TLoginRepository.UsuarioExiste(const ALogin, ASenha: string; out AUserID: Integer): Boolean;
 var
   Qry: TFDQuery;
+  SenhaHash: string;
 begin
   Result := False;
   AUserID := -1;
+
+  // Gera hash da senha digitada para comparar com o hash armazenado
+  SenhaHash := THashSHA2.GetHashString(ASenha);
 
   Qry := TFDQuery.Create(nil);
   try
@@ -28,11 +32,11 @@ begin
     Qry.SQL.Text :=
       'SELECT id, nome FROM usuarios ' +
       'WHERE nome = :nome ' +
-      '  AND senha = :senha ' +  // ou senha_hash se for o campo de hash
+      '  AND senha = :senha ' +  // Compara com o campo senha
       '  AND ativo = true';
 
     Qry.ParamByName('nome').AsString := ALogin;
-    Qry.ParamByName('senha').AsString := ASenha; // Se usar hash: THashSHA2.GetHashString(ASenha)
+    Qry.ParamByName('senha').AsString := SenhaHash;
 
     Qry.Open;
 

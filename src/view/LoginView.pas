@@ -96,55 +96,44 @@ end;
 procedure TFormLogin.SpeedButton1Click(Sender: TObject);
 var
 
-  LogController: TLogController;
   Controller: TLoginController;
-  UsuarioLog: TUserLog;
   UsuarioExiste: Boolean;
   Home: TFormHome;
-  DataHora: TDateTime;
 begin
   UserM:= TUsuarioModel.Create;
   Controller := TLoginController.Create;
-  LogController := TLogController.Create;
   try
-    // Define nome e senha
+    // Define nome e senha (senha em texto puro, o hash serÃ¡ feito no repository)
     UserM.Nome := EditUserLogin.Text;
-    UserM.SenhaHash := EditSenhaLogin.Text;
+    UserM.SenhaHash := EditSenhaLogin.Text; // Recebe senha texto puro
 
     // Valida login
     UsuarioExiste := Controller.SalvarLogin(UserM);
 
     if not UsuarioExiste then
     begin
-      ShowMessage('Usuário ou senha inválidos!');
+      // Log de tentativa de login falha - movido para Controller
+      Controller.LogLoginFalho(EditUserLogin.Text);
+      ShowMessage('Usuï¿½rio ou senha invï¿½lidos!');
       Exit;
     end;
 
-    // Se chegou aqui, o login foi válido e Usuario.Id foi preenchido
+    // Se chegou aqui, o login foi vï¿½lido e Usuario.Id foi preenchido
 
-    // Busca as permissões completas do usuário
+    // Busca as permissï¿½es completas do usuï¿½rio
     UserM := FUsuarioController.ObterPermissoes(UserM.Id);
 
     if UserM = nil then
     begin
-      ShowMessage('Erro ao carregar permissões do usuário!');
+      ShowMessage('Erro ao carregar permissï¿½es do usuï¿½rio!');
       Exit;
     end;
 
-    // *** CRÍTICO: SALVA O USUÁRIO NO HELPER GLOBAL ***
+    // *** CRï¿½TICO: SALVA O USUï¿½RIO NO HELPER GLOBAL ***
     TPermissoesHelper.SetUsuarioLogado(UserM);
 
-    // Registra log de auditoria
-    UsuarioLog := TUserLog.Create;
-    try
-      UsuarioLog.UserName := EditUserLogin.Text;
-      DataHora := Now;
-      UsuarioLog.Date := DataHora;
-      UsuarioLog.Msg := 'Realizou o login';
-      LogController.RegAuditoria(UsuarioLog);
-    finally
-      UsuarioLog.Free;
-    end;
+    // Registra log de auditoria - movido para Controller
+    Controller.LogLoginSucesso;
 
     // Esconde tela de login e mostra Home
     Self.Hide;
@@ -156,15 +145,12 @@ begin
       Home.Free;
     end;
 
-    // Fecha aplicação após sair da Home
+    // Fecha aplicaï¿½ï¿½o apï¿½s sair da Home
     Application.Terminate;
 
-  except
-    on E: Exception do
-    begin
-      ShowMessage('Erro ao fazer login: ' + E.Message);
-      UserM.Free;
-    end;
+  finally
+    Controller.Free;
+    UserM.Free;
   end;
 end;
 

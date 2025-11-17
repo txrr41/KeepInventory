@@ -38,7 +38,7 @@ begin
       '  perm_ocorrencias, perm_ocor_analisar, perm_ocor_adicionar, perm_ocor_excluir, ' +
       '  perm_usuarios, perm_user_cadastrar, perm_user_permissao ' +
       ') VALUES ( ' +
-      '  :nome, :cpf, :rg, :telefone, :data_nascimento, :funcao, :senha_hash, ' +
+      '  :nome, :cpf, :rg, :telefone, :data_nascimento, :funcao, :senha, ' +
       '  :perm_cadastros, :perm_cad_empresa, :perm_cad_predio, :perm_cad_sala, :perm_cad_patrimonio, ' +
       '  :perm_movimentacoes, :perm_mov_analisar, :perm_mov_adicionar, :perm_mov_excluir, ' +
       '  :perm_ocorrencias, :perm_ocor_analisar, :perm_ocor_adicionar, :perm_ocor_excluir, ' +
@@ -51,28 +51,28 @@ begin
     Q.ParamByName('telefone').AsString := AUsuarioModel.Telefone;
     Q.ParamByName('data_nascimento').AsDate := AUsuarioModel.DataNascimento;
     Q.ParamByName('funcao').AsString := AUsuarioModel.Funcao;
-    Q.ParamByName('senha_hash').AsString := AUsuarioModel.SenhaHash;
+    Q.ParamByName('senha').AsString := AUsuarioModel.SenhaHash;
 
-    // Permissões Cadastros
+    // Permissï¿½es Cadastros
     Q.ParamByName('perm_cadastros').AsBoolean := AUsuarioModel.PermCadastros;
     Q.ParamByName('perm_cad_empresa').AsBoolean := AUsuarioModel.PermCadEmpresa;
     Q.ParamByName('perm_cad_predio').AsBoolean := AUsuarioModel.PermCadPredio;
     Q.ParamByName('perm_cad_sala').AsBoolean := AUsuarioModel.PermCadSala;
     Q.ParamByName('perm_cad_patrimonio').AsBoolean := AUsuarioModel.PermCadPatrimonio;
 
-    // Permissões Movimentações
+    // Permissï¿½es Movimentaï¿½ï¿½es
     Q.ParamByName('perm_movimentacoes').AsBoolean := AUsuarioModel.PermMovimentacoes;
     Q.ParamByName('perm_mov_analisar').AsBoolean := AUsuarioModel.PermMovAnalisar;
     Q.ParamByName('perm_mov_adicionar').AsBoolean := AUsuarioModel.PermMovAdicionar;
     Q.ParamByName('perm_mov_excluir').AsBoolean := AUsuarioModel.PermMovExcluir;
 
-    // Permissões Ocorrências
+    // Permissï¿½es Ocorrï¿½ncias
     Q.ParamByName('perm_ocorrencias').AsBoolean := AUsuarioModel.PermOcorrencias;
     Q.ParamByName('perm_ocor_analisar').AsBoolean := AUsuarioModel.PermOcorAnalisar;
     Q.ParamByName('perm_ocor_adicionar').AsBoolean := AUsuarioModel.PermOcorAdicionar;
     Q.ParamByName('perm_ocor_excluir').AsBoolean := AUsuarioModel.PermOcorExcluir;
 
-    // Permissões Usuários
+    // Permissï¿½es Usuï¿½rios
     Q.ParamByName('perm_usuarios').AsBoolean := AUsuarioModel.PermUsuarios;
     Q.ParamByName('perm_user_cadastrar').AsBoolean := AUsuarioModel.PermUserCadastrar;
     Q.ParamByName('perm_user_permissao').AsBoolean := AUsuarioModel.PermUserPermissao;
@@ -98,7 +98,7 @@ begin
       SQL :=
         'UPDATE usuarios SET ' +
         '  nome = :nome, cpf = :cpf, rg = :rg, telefone = :telefone, ' +
-        '  data_nascimento = :data_nascimento, funcao = :funcao, senha = :senha_hash, ' +
+        '  data_nascimento = :data_nascimento, funcao = :funcao, senha = :senha, ' +
         '  perm_cadastros = :perm_cadastros, perm_cad_empresa = :perm_cad_empresa, ' +
         '  perm_cad_predio = :perm_cad_predio, perm_cad_sala = :perm_cad_sala, ' +
         '  perm_cad_patrimonio = :perm_cad_patrimonio, ' +
@@ -138,7 +138,7 @@ begin
     Q.ParamByName('funcao').AsString := AUsuarioModel.Funcao;
 
     if AUsuarioModel.SenhaHash <> '' then
-      Q.ParamByName('senha_hash').AsString := AUsuarioModel.SenhaHash;
+      Q.ParamByName('senha').AsString := AUsuarioModel.SenhaHash;
 
     Q.ParamByName('perm_cadastros').AsBoolean := AUsuarioModel.PermCadastros;
     Q.ParamByName('perm_cad_empresa').AsBoolean := AUsuarioModel.PermCadEmpresa;
@@ -252,34 +252,34 @@ begin
       Usuario.DataNascimento := Q.FieldByName('data_nascimento').AsDateTime;
       Usuario.Funcao := Q.FieldByName('funcao').AsString;
 
-      // Permissões - Cadastros
+      // Permissï¿½es - Cadastros
       Usuario.PermCadastros := Q.FieldByName('perm_cadastros').AsBoolean;
       Usuario.PermCadEmpresa:= Q.FieldByName('perm_cad_empresa').AsBoolean;
       Usuario.PermCadSala := Q.FieldByName('perm_cad_sala').AsBoolean;
       Usuario.PermCadPatrimonio := Q.FieldByName('perm_cad_patrimonio').AsBoolean;
       Usuario.PermCadPredio:= Q.FieldByName('perm_cad_predio').AsBoolean;
 
-      // Permissões - Movimentações
+      // Permissï¿½es - Movimentaï¿½ï¿½es
       Usuario.PermMovimentacoes := Q.FieldByName('perm_movimentacoes').AsBoolean;
       Usuario.PermMovAnalisar := Q.FieldByName('perm_mov_analisar').AsBoolean;
       Usuario.PermMovAdicionar := Q.FieldByName('perm_mov_adicionar').AsBoolean;
       Usuario.PermMovExcluir := Q.FieldByName('perm_mov_excluir').AsBoolean;
 
 
-      // Permissões - Ocorrências
+      // Permissï¿½es - Ocorrï¿½ncias
       Usuario.PermOcorrencias:= Q.FieldByName('perm_ocorrencias').AsBoolean;
       Usuario.PermOcorAnalisar := Q.FieldByName('perm_ocor_analisar').AsBoolean;
       Usuario.PermOcorAdicionar := Q.FieldByName('perm_ocor_adicionar').AsBoolean;
       Usuario.PermOcorExcluir := Q.FieldByName('perm_ocor_excluir').AsBoolean;
 
-      // Permissões - Usuários
+      // Permissï¿½es - Usuï¿½rios
       Usuario.PermUsuarios := Q.FieldByName('perm_usuarios').AsBoolean;
       Usuario.PermUserCadastrar := Q.FieldByName('perm_user_cadastrar').AsBoolean;
       Usuario.PermUserPermissao := Q.FieldByName('perm_user_permissao').AsBoolean;
     end
     else
     begin
-      // Se não encontrou o usuário, libera e retorna nil
+      // Se nï¿½o encontrou o usuï¿½rio, libera e retorna nil
       Usuario.Free;
       Usuario := nil;
     end;

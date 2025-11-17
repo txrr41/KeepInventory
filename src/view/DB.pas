@@ -8,13 +8,16 @@ uses
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.UI.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Phys.PGDef,
-  FireDAC.Phys.PG;
+  FireDAC.Phys.PG, frxSmartMemo, frxClass, frxDBSet, frCoreClasses;
 
 type
   TDataModule2 = class(TDataModule)
     FDQuery1: TFDQuery;
     FDPhysPgDriverLink1: TFDPhysPgDriverLink;
     FDConnection: TFDConnection;
+    frxReport1: TfrxReport;
+    QueryDepreciacao: TFDQuery;
+    frxDBDataset1: TfrxDBDataset;
   private
     { Private declarations }
   public
