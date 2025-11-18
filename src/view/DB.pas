@@ -18,6 +18,9 @@ type
     frxReport1: TfrxReport;
     QueryDepreciacao: TFDQuery;
     frxDBDataset1: TfrxDBDataset;
+    frxReport2: TfrxReport;
+    FDQuery2: TFDQuery;
+    frxDBDataset2: TfrxDBDataset;
   private
     { Private declarations }
   public
