@@ -19,8 +19,35 @@ type
     QueryDepreciacao: TFDQuery;
     frxDBDataset1: TfrxDBDataset;
     frxReport2: TfrxReport;
-    FDQuery2: TFDQuery;
+    qryRelatorio: TFDQuery;
     frxDBDataset2: TfrxDBDataset;
+    frxDBDataset3: TfrxDBDataset;
+    qryResumo: TFDQuery;
+    qryResumoqtd_depreciado: TLargeintField;
+    qryResumovalor_depreciado: TFMTBCDField;
+    qryResumoqtd_urgente: TLargeintField;
+    qryResumovalor_urgente: TFMTBCDField;
+    qryResumoqtd_atencao: TLargeintField;
+    qryResumovalor_atencao: TFMTBCDField;
+    qryResumoqtd_planejamento: TLargeintField;
+    qryResumovalor_planejamento: TFMTBCDField;
+    qryResumototal_itens: TLargeintField;
+    qryResumoinvestimento_total: TFMTBCDField;
+    qryRelatorioid: TIntegerField;
+    qryRelatorionome: TWideStringField;
+    qryRelatoriomodelo: TWideStringField;
+    qryRelatoriotipo: TWideStringField;
+    qryRelatorionumero_serie: TWideStringField;
+    qryRelatoriovalor_aquisicao: TBCDField;
+    qryRelatoriovalor_atual: TBCDField;
+    qryRelatoriodata_aquisicao: TDateField;
+    qryRelatoriovida_util_meses: TIntegerField;
+    qryRelatorioidade_meses: TIntegerField;
+    qryRelatoriopercentual_depreciacao: TFMTBCDField;
+    qryRelatoriomeses_restantes: TIntegerField;
+    qryRelatoriostatus_codigo: TIntegerField;
+    qryRelatoriostatus_texto: TWideMemoField;
+    qryRelatoriodata_depreciacao_estimada: TSQLTimeStampField;
   private
     { Private declarations }
   public

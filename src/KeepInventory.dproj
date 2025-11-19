@@ -241,6 +241,7 @@
         <DCCReference Include="controller\RelatorioDepreciacaoController.pas"/>
         <DCCReference Include="helper\UIHelper.pas"/>
         <DCCReference Include="service\LogService.pas"/>
+        <DCCReference Include="repository\RelatorioDepreciacaoStsRepository.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

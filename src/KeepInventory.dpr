@@ -91,7 +91,8 @@ uses
   RelatorioDepreciacaoRepository in 'repository\RelatorioDepreciacaoRepository.pas',
   RelatorioDepreciacaoController in 'controller\RelatorioDepreciacaoController.pas',
   UIHelper in 'helper\UIHelper.pas',
-  LogService in 'service\LogService.pas';
+  LogService in 'service\LogService.pas',
+  RelatorioDepreciacaoStsRepository in 'repository\RelatorioDepreciacaoStsRepository.pas';
 
 {$R *.res}
 

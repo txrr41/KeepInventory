@@ -21,3 +21,20 @@
 18/11/2025 16:06:50 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
 18/11/2025 16:06:53 Usuário: admin (ID: 1) - Gerou relatório - Relatório de Status de Depreciação Data: 18/11/2025
 18/11/2025 16:07:11 Usuário: admin (ID: 1) - Gerou relatório - Relatório de Status de Depreciação Data: 18/11/2025
+18/11/2025 23:37:54 Usuário: suporte1 - Login realizado com sucesso
+18/11/2025 23:37:55 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+18/11/2025 23:37:56 Usuário: suporte1 (ID: 1) - Gerou relatório -  Período: 18/11/2024 a 18/11/2025
+19/11/2025 01:16:19 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 01:16:19 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 01:18:03 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 01:18:03 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 01:18:50 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 01:18:50 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 01:22:01 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 01:22:01 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 01:24:00 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 01:24:01 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 01:26:35 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 01:26:35 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 01:56:51 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 01:56:51 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
