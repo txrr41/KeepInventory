@@ -9,7 +9,8 @@ uses
   DashboardController, DashboardModel, System.Generics.Collections, Vcl.ComCtrls,
   VclTee.TeeGDIPlus, Vcl.WinXPanels, DepreciacaoController, DepreciacaoModel,
   Vcl.Imaging.pngimage, RelatorioDepreciacaoController, DB, RelatorioDepreciacaoItemModel,
-  Vcl.Buttons, frxClass, DateUtils, frxDBSet, frxDesgn, frxChart, LogService;
+  Vcl.Buttons, frxClass, DateUtils, frxDBSet, frxDesgn, frxChart, LogService,
+  RelatorioStatusDepreciacaoController;
 
 type
   TFormDashboard = class(TForm)
@@ -62,6 +63,7 @@ type
     FController: TDashboardController;
     FDepreciacaoController: TDepreciacaoController;
     FControllerRela: TRelatorioDepreciacaoController;
+    FControllerStatusRela: TRelatorioStatusDepreciacaoController;
     FDadosRelatorio: TObjectList<TRelatorioDepreciacaoItemModel>;
 
     procedure ConfigurarGrafico;
@@ -93,6 +95,7 @@ begin
   FDepreciacaoController := TDepreciacaoController.Create;
 
   FControllerRela := TRelatorioDepreciacaoController.Create(DataModule2.FDConnection);
+  FControllerStatusRela := TRelatorioStatusDepreciacaoController.Create(DataModule2.FDConnection);
   FDadosRelatorio := TObjectList<TRelatorioDepreciacaoItemModel>.Create;
 
   // Configura o formato de data para o padrão brasileiro
@@ -109,6 +112,7 @@ begin
   FDepreciacaoController.Free;
   FDadosRelatorio.Free;
   FControllerRela.Free;
+  FControllerStatusRela.Free;
 end;
 
 procedure TFormDashboard.FormShow(Sender: TObject);
@@ -310,65 +314,111 @@ begin
   end;
 
   try
+    // Verifica qual relatório foi selecionado no ComboBox
     if ComboBoxRelatorios.ItemIndex = 0 then
-      TipoSelecionado := ''
-    else
-      TipoSelecionado := ComboBoxRelatorios.Text;
-
-    FControllerRela.PrepararRelatorioFastReport(
-      DateTimePickerInicio.Date,
-      DateTimePickerFim.Date,
-      TipoSelecionado,
-      MensagemErro
-    );
-
-    if MensagemErro <> '' then
     begin
-      TLogService.Instance.LogSistema('Erro ao gerar relatório: ' + MensagemErro, 'ERRO');
-      ShowMessage(MensagemErro);
-      Exit;
-    end
-    else
-    begin
-      // Log de sucesso na geração do relatório
-      TLogService.Instance.LogRelatorio(
+      // Primeiro relatório (frxReport1) - Relatorio de depreciacao de bens
+      TipoSelecionado := '';
+
+      FControllerRela.PrepararRelatorioFastReport(
+        DateTimePickerInicio.Date,
+        DateTimePickerFim.Date,
         TipoSelecionado,
-        Format('Período: %s a %s', [
-          DateToStr(DateTimePickerInicio.Date),
-          DateToStr(DateTimePickerFim.Date)
-        ])
+        MensagemErro
       );
-    end;
 
-    MaiorImpacto := FControllerRela.ObterMaiorImpactoParaRelatorio(
-      DateTimePickerInicio.Date,
-      DateTimePickerFim.Date,
-      TipoSelecionado
-    );
+      if MensagemErro <> '' then
+      begin
+        TLogService.Instance.LogSistema('Erro ao gerar relatório: ' + MensagemErro, 'ERRO');
+        ShowMessage(MensagemErro);
+        Exit;
+      end
+      else
+      begin
+        // Log de sucesso na geração do relatório
+        TLogService.Instance.LogRelatorio(
+          TipoSelecionado,
+          Format('Período: %s a %s', [
+            DateToStr(DateTimePickerInicio.Date),
+            DateToStr(DateTimePickerFim.Date)
+          ])
+        );
+      end;
 
-    ShowMessage(Format('DEBUG: %s - %s - R$ %.2f (%.0f%%)',
-  [MaiorImpacto.Nome,
-   MaiorImpacto.TipoOcorrencia,
-   MaiorImpacto.Valor,
-   MaiorImpacto.Percentual]));
+      MaiorImpacto := FControllerRela.ObterMaiorImpactoParaRelatorio(
+        DateTimePickerInicio.Date,
+        DateTimePickerFim.Date,
+        TipoSelecionado
+      );
 
-    if MaiorImpacto.Valor > 0 then
+      ShowMessage(Format('DEBUG: %s - %s - R$ %.2f (%.0f%%)',
+    [MaiorImpacto.Nome,
+     MaiorImpacto.TipoOcorrencia,
+     MaiorImpacto.Valor,
+     MaiorImpacto.Percentual]));
+
+      if MaiorImpacto.Valor > 0 then
+      begin
+        DataModule2.frxReport1.Variables['MaiorImpactoNome'] := MaiorImpacto.Nome;
+        DataModule2.frxReport1.Variables['MaiorImpactoTipo'] := MaiorImpacto.TipoOcorrencia;
+        DataModule2.frxReport1.Variables['MaiorImpactoValor'] := MaiorImpacto.Valor;
+        DataModule2.frxReport1.Variables['MaiorImpactoPercentual'] := MaiorImpacto.Percentual;
+      end
+      else
+      begin
+        DataModule2.frxReport1.Variables['MaiorImpactoNome'] := 'Nenhum';
+        DataModule2.frxReport1.Variables['MaiorImpactoTipo'] := '-';
+        DataModule2.frxReport1.Variables['MaiorImpactoValor'] := 0;
+        DataModule2.frxReport1.Variables['MaiorImpactoPercentual'] := 0;
+      end;
+
+      // ✅ MOSTRA O PRIMEIRO RELATÓRIO
+      DataModule2.frxReport1.ShowReport;
+    end
+    else if ComboBoxRelatorios.ItemIndex = 1 then
     begin
-      DataModule2.frxReport1.Variables['MaiorImpactoNome'] := MaiorImpacto.Nome;
-      DataModule2.frxReport1.Variables['MaiorImpactoTipo'] := MaiorImpacto.TipoOcorrencia;
-      DataModule2.frxReport1.Variables['MaiorImpactoValor'] := MaiorImpacto.Valor;
-      DataModule2.frxReport1.Variables['MaiorImpactoPercentual'] := MaiorImpacto.Percentual;
+      // Segundo relatório (frxReport2) - Relatorio de Status de Depreciacao
+      ShowMessage('Gerando segundo relatório com frxReport2...');
+
+      try
+        // Prepara os dados para o frxReport2 usando o controller correto
+        FControllerStatusRela.PrepararRelatorioFastReport(MensagemErro);
+
+        if MensagemErro <> '' then
+        begin
+          TLogService.Instance.LogSistema('Erro ao preparar relatório de status: ' + MensagemErro, 'ERRO');
+          ShowMessage('Erro ao preparar relatório: ' + MensagemErro);
+          Exit;
+        end
+        else
+        begin
+          // Log de sucesso na geração do relatório
+          TLogService.Instance.LogRelatorio(
+            'Status de Depreciação',
+            Format('Período: %s a %s', [
+              DateToStr(DateTimePickerInicio.Date),
+              DateToStr(DateTimePickerFim.Date)
+            ])
+          );
+        end;
+
+        // Configura variáveis para o frxReport2
+        DataModule2.frxReport2.Variables['DataInicio'] := DateTimePickerInicio.Date;
+        DataModule2.frxReport2.Variables['DataFim'] := DateTimePickerFim.Date;
+        DataModule2.frxReport2.Variables['TipoRelatorio'] := 'Status de Depreciação';
+
+        // ✅ MOSTRA O SEGUNDO RELATÓRIO
+        DataModule2.frxReport2.ShowReport;
+
+      except
+        on E: Exception do
+          ShowMessage('Erro ao gerar segundo relatório: ' + E.Message);
+      end;
     end
     else
     begin
-      DataModule2.frxReport1.Variables['MaiorImpactoNome'] := 'Nenhum';
-      DataModule2.frxReport1.Variables['MaiorImpactoTipo'] := '-';
-      DataModule2.frxReport1.Variables['MaiorImpactoValor'] := 0;
-      DataModule2.frxReport1.Variables['MaiorImpactoPercentual'] := 0;
+      ShowMessage('Selecione um tipo de relatório válido.');
     end;
-
-    // ✅ MOSTRA O RELATÓRIO
-    DataModule2.frxReport1.ShowReport;
 
   except
     on E: Exception do
@@ -435,6 +485,7 @@ var
 begin
   ComboBoxRelatorios.Items.Clear;
   ComboBoxRelatorios.Items.Add('Relatorio de depreciacao de bens');
+  ComboBoxRelatorios.Items.Add('Segundo relatório (frxReport2)');
 
   // ✅ USA O CONTROLLER - Sem contato direto com banco
   Tipos := FControllerRela.ObterTiposOcorrencia;

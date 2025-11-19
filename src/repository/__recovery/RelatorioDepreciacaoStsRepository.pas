@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, FireDAC.Comp.Client, frxClass, frxDBSet,
-  Data.DB, DB;
+  Data.DB;
 
 type
   TRelatorioDepreciacaoStsRepository = class
@@ -71,20 +71,22 @@ begin
     // Percentual Depreciação
     '  ROUND( ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100, 2 ) AS percentual_depreciacao, ' +
 
-    // Meses Restantes - simplificado
+    // Meses Restantes
     '  CASE ' +
     '    WHEN p.vida_util_meses IS NOT NULL AND p.vida_util_meses > 0 THEN ' +
-    '      GREATEST(0, p.vida_util_meses - (DATE_PART(''year'', AGE(CURRENT_DATE, p.data_aquisicao)) * 12 + DATE_PART(''month'', AGE(CURRENT_DATE, p.data_aquisicao)))) ' +
+    '      GREATEST( 0, p.vida_util_meses - ( ' +
+    '        EXTRACT(YEAR FROM AGE(CURRENT_DATE,p.data_aquisicao))::integer * 12 + ' +
+    '        EXTRACT(MONTH FROM AGE(CURRENT_DATE,p.data_aquisicao))::integer ) ) ' +
     '    ELSE 0 ' +
     '  END as meses_restantes, ' +
 
     // Status Ordem (STRING)
     '  CASE ' +
-    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 100 THEN 1 ' +
-    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 95 THEN 2 ' +
-    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 85 THEN 3 ' +
-    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 75 THEN 4 ' +
-    '    ELSE 5 ' +
+    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 100 THEN ''1'' ' +
+    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 95 THEN ''2'' ' +
+    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 85 THEN ''3'' ' +
+    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 75 THEN ''4'' ' +
+    '    ELSE ''5'' ' +
     '  END AS status_ordem, ' +
 
     // Status Texto
@@ -127,29 +129,30 @@ begin
 
   FQueryResumo.SQL.Text :=
     'SELECT ' +
-    '  SUM(CASE WHEN ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 >= 100 THEN 1 ELSE 0 END) as qtd_depreciado, ' +
-    '  SUM(CASE WHEN ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 >= 100 THEN valor_aquisicao ELSE 0 END) as valor_depreciado, ' +
+    '  COALESCE(COUNT(*) FILTER ( WHERE perc >= 100 ), 0) as qtd_depreciado, ' +
+    '  COALESCE(SUM(valor_aquisicao) FILTER ( WHERE perc >= 100 ), 0) as valor_depreciado, ' +
 
-    '  SUM(CASE WHEN ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 >= 95 AND ' +
-    '                ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 < 100 THEN 1 ELSE 0 END) as qtd_urgente, ' +
-    '  SUM(CASE WHEN ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 >= 95 AND ' +
-    '                ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 < 100 THEN valor_aquisicao ELSE 0 END) as valor_urgente, ' +
+    '  COALESCE(COUNT(*) FILTER ( WHERE perc >= 95 AND perc < 100 ), 0) as qtd_urgente, ' +
+    '  COALESCE(SUM(valor_aquisicao) FILTER ( WHERE perc >= 95 AND perc < 100 ), 0) as valor_urgente, ' +
 
-    '  SUM(CASE WHEN ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 >= 85 AND ' +
-    '                ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 < 95 THEN 1 ELSE 0 END) as qtd_atencao, ' +
-    '  SUM(CASE WHEN ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 >= 85 AND ' +
-    '                ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 < 95 THEN valor_aquisicao ELSE 0 END) as valor_atencao, ' +
+    '  COALESCE(COUNT(*) FILTER ( WHERE perc >= 85 AND perc < 95 ), 0) as qtd_atencao, ' +
+    '  COALESCE(SUM(valor_aquisicao) FILTER ( WHERE perc >= 85 AND perc < 95 ), 0) as valor_atencao, ' +
 
-    '  SUM(CASE WHEN ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 >= 75 AND ' +
-    '                ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 < 85 THEN 1 ELSE 0 END) as qtd_planejamento, ' +
-    '  SUM(CASE WHEN ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 >= 75 AND ' +
-    '                ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 < 85 THEN valor_aquisicao ELSE 0 END) as valor_planejamento, ' +
+    '  COALESCE(COUNT(*) FILTER ( WHERE perc >= 75 AND perc < 85 ), 0) as qtd_planejamento, ' +
+    '  COALESCE(SUM(valor_aquisicao) FILTER ( WHERE perc >= 75 AND perc < 85 ), 0) as valor_planejamento, ' +
 
-    '  COUNT(*) as total_itens, ' +
-    '  SUM(valor_aquisicao) as investimento_total ' +
+    '  COALESCE(COUNT(*), 0) as total_itens, ' +
+    '  COALESCE(SUM(valor_aquisicao), 0) as investimento_total ' +
 
-    'FROM patrimonios ' +
-    'WHERE ativo = true AND valor_aquisicao > 0 AND valor_atual IS NOT NULL';
+    'FROM ( ' +
+    '  SELECT ' +
+    '    valor_aquisicao, ' +
+    '    ROUND( ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100, 2 ) as perc ' +
+    '  FROM patrimonios ' +
+    '  WHERE ativo = true ' +
+    '    AND valor_aquisicao > 0 ' +
+    '    AND valor_atual IS NOT NULL ' +
+    ') sub';
 
   try
     FQueryResumo.Open;
@@ -166,27 +169,10 @@ begin
   try
     ConfigurarQuerys;
 
-    // Preencher as queries do DataModule2 com os dados
-    if Assigned(DataModule2.qryRelatorio) then
-    begin
-      DataModule2.qryRelatorio.Close;
-      DataModule2.qryRelatorio.SQL := FQueryRelatorio.SQL;
-      DataModule2.qryRelatorio.Open;
-    end;
-
-    if Assigned(DataModule2.qryResumo) then
-    begin
-      DataModule2.qryResumo.Close;
-      DataModule2.qryResumo.SQL := FQueryResumo.SQL;
-      DataModule2.qryResumo.Open;
-    end;
-
-    // Associar os datasets do DataModule2 ao relatório
+    // Associar os datasets ao relatório
     AfrxReport.DataSets.Clear;
-    if Assigned(DataModule2.frxDBDataset2) then
-      AfrxReport.DataSets.Add(DataModule2.frxDBDataset2);
-    if Assigned(DataModule2.frxDBDataset3) then
-      AfrxReport.DataSets.Add(DataModule2.frxDBDataset3);
+    AfrxReport.DataSets.Add(FfrxDBDatasetRelatorio);
+    AfrxReport.DataSets.Add(FfrxDBDatasetResumo);
 
   except
     on E: Exception do

@@ -38,3 +38,19 @@
 19/11/2025 01:26:35 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
 19/11/2025 01:56:51 Usuário: suporte1 - Login realizado com sucesso
 19/11/2025 01:56:51 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 16:57:26 Usuário: Sistema - Tentativa de login falhou - Usuário: suporte1
+19/11/2025 16:57:30 Usuário: admin - Login realizado com sucesso
+19/11/2025 16:57:30 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 16:57:36 Usuário: admin (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 16:57:45 Usuário: admin (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 16:57:55 Usuário: admin (ID: 1) - Gerou relatório -  Período: 19/11/2024 a 19/11/2025
+19/11/2025 16:58:09 Usuário: admin (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 17:02:46 Usuário: Sistema - Tentativa de login falhou - Usuário: suporte1
+19/11/2025 17:02:51 Usuário: admin - Login realizado com sucesso
+19/11/2025 17:02:51 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 17:02:54 Usuário: admin (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 17:03:35 Usuário: admin (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 17:14:44 Usuário: admin - Login realizado com sucesso
+19/11/2025 17:14:44 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 17:14:48 Usuário: admin (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 17:15:33 Usuário: admin (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
