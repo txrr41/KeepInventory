@@ -14,10 +14,8 @@ type
   public
     constructor Create(AConnection: TFDConnection);
     destructor Destroy; override;
-
     function GerarRelatorioStatus: TObjectList<TRelatorioStatusDepreciacaoModel>;
     function ObterResumoDashboard: TResumoDashboardDepreciacaoDTO;
-    procedure PreencherQueryStatusDepreciacao(AQuery: TFDQuery);
   end;
 
 implementation
@@ -43,9 +41,5 @@ begin
   Result := FRepository.ObterResumoDashboard;
 end;
 
-procedure TRelatorioStatusDepreciacaoService.PreencherQueryStatusDepreciacao(AQuery: TFDQuery);
-begin
-  FRepository.PreencherQueryStatusDepreciacao(AQuery);
-end;
 
 end.

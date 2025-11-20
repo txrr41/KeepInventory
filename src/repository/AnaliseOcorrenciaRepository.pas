@@ -35,9 +35,9 @@ begin
   try
     Q.Connection := DataModule2.FDConnection;
 
-    // Busca o valor atual do patrim�nio e o ID
+    // Busca o valor atual do patrim�nio, ID e tipo de ocorrência
     Q.SQL.Text :=
-      'SELECT p.valor_atual, o.fk_id_patrimonios ' +
+      'SELECT p.valor_atual, o.fk_id_patrimonios, o.tipo_ocorrencia ' +
       'FROM ocorrencias o ' +
       'INNER JOIN patrimonios p ON p.id = o.fk_id_patrimonios ' +
       'WHERE o.id = :id_ocorrencia';
@@ -46,12 +46,16 @@ begin
 
     ValorAtual := Q.FieldByName('valor_atual').AsCurrency;
     IdPatrimonio := Q.FieldByName('fk_id_patrimonios').AsInteger;
+    var TipoOcorrencia := Q.FieldByName('tipo_ocorrencia').AsString.ToUpper;
     NovoValor := ValorAtual - (ValorAtual * (AAvaliacaoDTO.FPercentualDepreciacao / 100));
 
     Q.Close;
 
     // Define o status do patrim�nio
-    if AAvaliacaoDTO.FRequerManutencao then
+    // Se for perda ou furto, inativa o patrimônio
+    if (TipoOcorrencia = 'PERDA') or (TipoOcorrencia = 'FURTO') then
+      StatusPatrimonio := 'inativo'
+    else if AAvaliacaoDTO.FRequerManutencao then
       StatusPatrimonio := 'em_manutencao'
     else
       StatusPatrimonio := 'ativo';
@@ -88,11 +92,24 @@ begin
     Q.Close;
 
     // Atualiza o valor do patrim�nio e seu status
-    Q.SQL.Text :=
-      'UPDATE patrimonios SET ' +
-      'valor_atual = :valor_atual, ' +
-      'status = :status ' +
-      'WHERE id = :id_patrimonio';
+    // Se for inativação por perda/furto, também define ativo = false
+    if (TipoOcorrencia = 'PERDA') or (TipoOcorrencia = 'FURTO') then
+    begin
+      Q.SQL.Text :=
+        'UPDATE patrimonios SET ' +
+        'valor_atual = :valor_atual, ' +
+        'status = :status, ' +
+        'ativo = false ' +
+        'WHERE id = :id_patrimonio';
+    end
+    else
+    begin
+      Q.SQL.Text :=
+        'UPDATE patrimonios SET ' +
+        'valor_atual = :valor_atual, ' +
+        'status = :status ' +
+        'WHERE id = :id_patrimonio';
+    end;
 
     Q.ParamByName('valor_atual').AsCurrency := NovoValor;
     Q.ParamByName('status').AsString := StatusPatrimonio;

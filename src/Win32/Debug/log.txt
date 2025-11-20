@@ -54,3 +54,76 @@
 19/11/2025 17:14:44 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
 19/11/2025 17:14:48 Usuário: admin (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
 19/11/2025 17:15:33 Usuário: admin (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 18:57:05 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 18:57:05 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 18:57:09 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 19:04:16 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 19:04:16 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 19:04:19 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 19:05:15 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 19:05:15 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 19:05:20 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 19:05:29 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 19:12:47 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 19:12:47 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 19:12:49 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: qryResumo: Parameter 'DataInicio' not found
+19/11/2025 19:20:17 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 19:20:17 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 19:20:20 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: qryResumo: Parameter 'DataInicio' not found
+19/11/2025 19:45:18 Usuário: Sistema - Tentativa de login falhou - Usuário: suporte1
+19/11/2025 19:45:20 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 19:45:20 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 19:45:23 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: qryResumo: Parameter 'DataInicio' not found
+19/11/2025 19:47:13 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 19:47:13 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 19:47:22 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: qryResumo: Parameter 'DataInicio' not found
+19/11/2025 19:47:25 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: qryResumo: Parameter 'DataInicio' not found
+19/11/2025 19:47:53 Usuário: suporte1 (ID: 1) - Gerou relatório -  Período: 19/11/2024 a 19/11/2025
+19/11/2025 19:48:08 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: qryResumo: Parameter 'DataInicio' not found
+19/11/2025 19:48:38 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 19:48:38 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 19:58:54 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 19:58:54 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 19:58:57 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 19:59:29 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 20:01:35 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 20:01:35 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 20:01:39 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao definir parâmetros em PreencherQueryStatusDepreciacao: qryResumo: Parameter 'DataInicio' not found
+19/11/2025 20:07:32 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 20:07:32 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 20:07:34 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 20:10:21 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 20:10:21 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 20:10:27 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 20:17:37 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 20:17:37 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 20:17:43 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 20:18:15 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 20:18:15 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 20:18:18 Usuário: suporte1 (ID: 1) - Gerou relatório -  Período: 19/11/2024 a 19/11/2025
+19/11/2025 20:18:25 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 20:26:14 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 20:26:14 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 20:26:18 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 20:34:16 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 20:34:16 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 20:34:19 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: Erro ao executar consulta de status de depreciação: [FireDAC][Phys][PG][libpq] ERRO: erro de sintaxe no fim da entrada
+19/11/2025 20:53:09 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 20:53:09 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 20:53:12 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 19/11/2024 a 19/11/2025
+19/11/2025 20:53:32 Usuário: suporte1 (ID: 1) - Gerou relatório -  Período: 19/11/2024 a 19/11/2025
+19/11/2025 20:53:44 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 19/11/2024 a 19/11/2025
+19/11/2025 21:46:49 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 21:46:50 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 21:47:05 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 19/11/2024 a 19/11/2025
+19/11/2025 21:48:39 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 21:48:39 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 21:48:51 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 19/11/2024 a 19/11/2025
+19/11/2025 22:16:07 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 22:16:07 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 22:16:13 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 19/11/2024 a 19/11/2025
+19/11/2025 22:16:23 Usuário: suporte1 (ID: 1) - Gerou relatório -  Período: 19/11/2024 a 19/11/2025
+19/11/2025 22:21:22 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 22:21:22 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+19/11/2025 22:38:05 Usuário: suporte1 - Login realizado com sucesso
+19/11/2025 22:38:05 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard

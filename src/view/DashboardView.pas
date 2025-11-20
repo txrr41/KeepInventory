@@ -10,7 +10,7 @@ uses
   VclTee.TeeGDIPlus, Vcl.WinXPanels, DepreciacaoController, DepreciacaoModel,
   Vcl.Imaging.pngimage, RelatorioDepreciacaoController, DB, RelatorioDepreciacaoItemModel,
   Vcl.Buttons, frxClass, DateUtils, frxDBSet, frxDesgn, frxChart, LogService,
-  RelatorioStatusDepreciacaoController;
+  RelatorioStatusDepreciacaoController, PermissoesHelper;
 
 type
   TFormDashboard = class(TForm)
@@ -59,6 +59,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure ComboBoxTipoChange(Sender: TObject);
     procedure BtnGerarRelatorioClick(Sender: TObject);
+    procedure ComboBoxRelatoriosChange(Sender: TObject);
   private
     FController: TDashboardController;
     FDepreciacaoController: TDepreciacaoController;
@@ -375,54 +376,48 @@ begin
       // ✅ MOSTRA O PRIMEIRO RELATÓRIO
       DataModule2.frxReport1.ShowReport;
     end
-    else if ComboBoxRelatorios.ItemIndex = 1 then
+  else if ComboBoxRelatorios.ItemIndex = 1 then
+begin
+  // Segundo relatório (frxReport2) - Relatorio de Status de Depreciacao
+  try
+    // Sem filtro de data
+    MensagemErro := ''; // Inicializa a variável out
+    FControllerStatusRela.PrepararRelatorioFastReport(
+      MensagemErro
+    );
+
+    if MensagemErro <> '' then
     begin
-      // Segundo relatório (frxReport2) - Relatorio de Status de Depreciacao
-      ShowMessage('Gerando segundo relatório com frxReport2...');
-
-      try
-        // Prepara os dados para o frxReport2 usando o controller correto
-        FControllerStatusRela.PrepararRelatorioFastReport(MensagemErro);
-
-        if MensagemErro <> '' then
-        begin
-          TLogService.Instance.LogSistema('Erro ao preparar relatório de status: ' + MensagemErro, 'ERRO');
-          ShowMessage('Erro ao preparar relatório: ' + MensagemErro);
-          Exit;
-        end
-        else
-        begin
-          // Log de sucesso na geração do relatório
-          TLogService.Instance.LogRelatorio(
-            'Status de Depreciação',
-            Format('Período: %s a %s', [
-              DateToStr(DateTimePickerInicio.Date),
-              DateToStr(DateTimePickerFim.Date)
-            ])
-          );
-        end;
-
-        // Configura variáveis para o frxReport2
-        DataModule2.frxReport2.Variables['DataInicio'] := DateTimePickerInicio.Date;
-        DataModule2.frxReport2.Variables['DataFim'] := DateTimePickerFim.Date;
-        DataModule2.frxReport2.Variables['TipoRelatorio'] := 'Status de Depreciação';
-
-        // ✅ MOSTRA O SEGUNDO RELATÓRIO
-        DataModule2.frxReport2.ShowReport;
-
-      except
-        on E: Exception do
-          ShowMessage('Erro ao gerar segundo relatório: ' + E.Message);
-      end;
+      TLogService.Instance.LogSistema('Erro ao preparar relatório de status: ' + MensagemErro, 'ERRO');
+      ShowMessage('Erro ao preparar relatório: ' + MensagemErro);
+      Exit;
     end
     else
     begin
-      ShowMessage('Selecione um tipo de relatório válido.');
+      TLogService.Instance.LogRelatorio(
+        'Status de Depreciação',
+        Format('Período: %s a %s', [
+          DateToStr(DateTimePickerInicio.Date),
+          DateToStr(DateTimePickerFim.Date)
+        ])
+      );
     end;
+
+    DataModule2.frxReport2.Variables['DataInicio'] := DateTimePickerInicio.Date;
+    DataModule2.frxReport2.Variables['DataFim'] := DateTimePickerFim.Date;
+    DataModule2.frxReport2.Variables['TipoRelatorio'] := 'Status de Depreciação';
+    DataModule2.frxReport2.Variables['DataEmissao'] := Date;
+    DataModule2.frxReport2.Variables['UsuarioEmissao'] := TPermissoesHelper.GetUsuarioLogado.Nome;
+
+    DataModule2.frxReport2.ShowReport;
 
   except
     on E: Exception do
-      ShowMessage('Erro ao gerar relatório: ' + E.Message);
+      ShowMessage('Erro ao gerar segundo relatório: ' + E.Message);
+  end;
+end;
+  finally
+
   end;
 end;
 
@@ -505,6 +500,18 @@ begin
     0: AtualizarGraficoPorPredio;
     1: AtualizarGraficoPorSala;
   end;
+end;
+
+procedure TFormDashboard.ComboBoxRelatoriosChange(Sender: TObject);
+begin
+  // Relatório 2 (índice 1) não usa filtro de data
+  DateTimePickerInicio.Visible := (ComboBoxRelatorios.ItemIndex <> 1);
+  DateTimePickerFim.Visible := (ComboBoxRelatorios.ItemIndex <> 1);
+
+  // Se for relatório 2, também esconde os labels associados
+  Label3.Visible := (ComboBoxRelatorios.ItemIndex <> 1); // Label "Data Início"
+  Label4.Visible := (ComboBoxRelatorios.ItemIndex <> 1); // Label "Data Fim"
+  Label5.Visible := (ComboBoxRelatorios.ItemIndex <> 1); // Label "Período"
 end;
 
 end.

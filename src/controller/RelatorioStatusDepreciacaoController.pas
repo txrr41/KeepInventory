@@ -1,4 +1,4 @@
-unit RelatorioStatusDepreciacaoController;
+﻿unit RelatorioStatusDepreciacaoController;
 
 interface
 
@@ -78,13 +78,17 @@ begin
 end;
 
 procedure TRelatorioStatusDepreciacaoController.PrepararRelatorioFastReport(
-  out MensagemErro: string);
+    out MensagemErro: string);
 begin
   MensagemErro := '';
 
   try
-    // O service vai preencher a FDQuery2 do DataModule2
-    FService.PreencherQueryStatusDepreciacao(DataModule2.FDQuery2);
+    // Abre as queries diretamente (elas já têm a SQL definida no design time)
+    if not DataModule2.qryRelatorio.Active then
+      DataModule2.qryRelatorio.Open;
+
+    if not DataModule2.qryResumo.Active then
+      DataModule2.qryResumo.Open;
   except
     on E: Exception do
     begin

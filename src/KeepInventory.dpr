@@ -92,7 +92,11 @@ uses
   RelatorioDepreciacaoController in 'controller\RelatorioDepreciacaoController.pas',
   UIHelper in 'helper\UIHelper.pas',
   LogService in 'service\LogService.pas',
-  RelatorioDepreciacaoStsRepository in 'repository\RelatorioDepreciacaoStsRepository.pas';
+  RelatorioDepreciacaoStsRepository in 'repository\RelatorioDepreciacaoStsRepository.pas',
+  RelatorioStatusDepreciacaoController in 'controller\RelatorioStatusDepreciacaoController.pas',
+  RelatorioStatusDepreciacaoModel in 'model\RelatorioStatusDepreciacaoModel.pas',
+  RelatorioStatusDepreciacaoService in 'service\RelatorioStatusDepreciacaoService.pas',
+  RelatorioStatusDepreciacaoRepository in 'repository\RelatorioStatusDepreciacaoRepository.pas';
 
 {$R *.res}
 
