@@ -246,6 +246,10 @@
         <DCCReference Include="model\RelatorioStatusDepreciacaoModel.pas"/>
         <DCCReference Include="service\RelatorioStatusDepreciacaoService.pas"/>
         <DCCReference Include="repository\RelatorioStatusDepreciacaoRepository.pas"/>
+        <DCCReference Include="model\RelatorioMovimentacaoModel.pas"/>
+        <DCCReference Include="repository\RelatorioMovimentacaoRepository.pas"/>
+        <DCCReference Include="controller\RelatorioMovimentacaoController.pas"/>
+        <DCCReference Include="service\RelatorioMovimentacaoService.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

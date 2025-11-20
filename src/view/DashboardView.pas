@@ -3,14 +3,14 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, System.StrUtils,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VCLTee.TeEngine, VCLTee.Series,
   Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart, Vcl.StdCtrls,
   DashboardController, DashboardModel, System.Generics.Collections, Vcl.ComCtrls,
   VclTee.TeeGDIPlus, Vcl.WinXPanels, DepreciacaoController, DepreciacaoModel,
   Vcl.Imaging.pngimage, RelatorioDepreciacaoController, DB, RelatorioDepreciacaoItemModel,
   Vcl.Buttons, frxClass, DateUtils, frxDBSet, frxDesgn, frxChart, LogService,
-  RelatorioStatusDepreciacaoController, PermissoesHelper;
+  RelatorioStatusDepreciacaoController, RelatorioMovimentacaoController, PermissoesHelper;
 
 type
   TFormDashboard = class(TForm)
@@ -54,6 +54,8 @@ type
     DateTimePickerFim: TDateTimePicker;
     DateTimePickerInicio: TDateTimePicker;
     BtnGerarRelatorio: TSpeedButton;
+    ComboBoxFiltroItem: TComboBox;
+    LabelFiltroItem: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -65,6 +67,7 @@ type
     FDepreciacaoController: TDepreciacaoController;
     FControllerRela: TRelatorioDepreciacaoController;
     FControllerStatusRela: TRelatorioStatusDepreciacaoController;
+    FControllerMovimentacao: TRelatorioMovimentacaoController;
     FDadosRelatorio: TObjectList<TRelatorioDepreciacaoItemModel>;
 
     procedure ConfigurarGrafico;
@@ -76,6 +79,7 @@ type
     procedure AtualizarResumoDepreciacao;
     procedure AtualizarGraficoDepreciacao;
     procedure CarregarComboTipo;
+    procedure CarregarComboItens;
     procedure PreencherGrafico(ADados: TObjectList<TDashboardItemModel>; const ATitulo: string);
     procedure GerarRelatorioVisual(ADados: TObjectList<TRelatorioDepreciacaoItemModel>);
 
@@ -97,6 +101,7 @@ begin
 
   FControllerRela := TRelatorioDepreciacaoController.Create(DataModule2.FDConnection);
   FControllerStatusRela := TRelatorioStatusDepreciacaoController.Create(DataModule2.FDConnection);
+  FControllerMovimentacao := TRelatorioMovimentacaoController.Create(DataModule2.FDConnection);
   FDadosRelatorio := TObjectList<TRelatorioDepreciacaoItemModel>.Create;
 
   // Configura o formato de data para o padrão brasileiro
@@ -114,6 +119,7 @@ begin
   FDadosRelatorio.Free;
   FControllerRela.Free;
   FControllerStatusRela.Free;
+  FControllerMovimentacao.Free;
 end;
 
 procedure TFormDashboard.FormShow(Sender: TObject);
@@ -415,7 +421,97 @@ begin
     on E: Exception do
       ShowMessage('Erro ao gerar segundo relatório: ' + E.Message);
   end;
-end;
+end
+  else if ComboBoxRelatorios.ItemIndex = 2 then
+  begin
+    // Terceiro relatório - Relatório de Movimentações
+    try
+      var ItemFilter: string;
+      var DataInicio: TDate;
+      var DataFim: TDate;
+
+      ItemFilter := '';
+      DataInicio := 0;
+      DataFim := 0;
+
+      // Obter filtro de item
+      if Assigned(ComboBoxFiltroItem) and (ComboBoxFiltroItem.ItemIndex > 0) then
+      begin
+        ItemFilter := ComboBoxFiltroItem.Text;
+      end;
+
+      // Obter filtro de datas
+      if DateTimePickerInicio.Visible and DateTimePickerInicio.Checked then
+        DataInicio := Trunc(DateTimePickerInicio.Date);
+      if DateTimePickerFim.Visible and DateTimePickerFim.Checked then
+        DataFim := Trunc(DateTimePickerFim.Date);
+
+      // Validar período se ambas as datas estiverem preenchidas
+      if (DataInicio > 0) and (DataFim > 0) and (DataInicio > DataFim) then
+      begin
+        ShowMessage('A data inicial não pode ser maior que a data final!');
+        Exit;
+      end;
+
+      // Verificar se existem dados para o filtro aplicado
+      if not FControllerMovimentacao.VerificarDadosExistentes(ItemFilter, DataInicio, DataFim) then
+      begin
+        var Mensagem: string;
+        Mensagem := 'Não foram encontradas movimentações';
+        if ItemFilter <> '' then
+          Mensagem := Mensagem + ' para o item "' + ItemFilter + '"';
+        if (DataInicio > 0) or (DataFim > 0) then
+          Mensagem := Mensagem + ' no período especificado';
+        Mensagem := Mensagem + '.';
+
+        ShowMessage(Mensagem);
+        Exit;
+      end;
+
+      // Preparar o relatório de movimentação
+      FControllerMovimentacao.GerarRelatorio(DataModule2.frxReport3, ItemFilter, DataInicio, DataFim);
+
+
+      DataModule2.frxReport3.Variables['ItemFiltro'] := QuotedStr(IfThen(ItemFilter = '', 'Todos os itens', ItemFilter));
+      if DataInicio > 0 then
+        DataModule2.frxReport3.Variables['DataInicio'] := DataInicio
+      else
+        DataModule2.frxReport3.Variables['DataInicio'] := Null;
+
+      if DataFim > 0 then
+        DataModule2.frxReport3.Variables['DataFim'] := DataFim
+      else
+        DataModule2.frxReport3.Variables['DataFim'] := Null;
+
+      DataModule2.frxReport3.Variables['DataEmissao'] := Trunc(Date);
+
+
+      DataModule2.frxReport3.ShowReport;
+
+      // Log do relatório gerado
+      TLogService.Instance.LogRelatorio(
+        'Movimentações',
+        Format('Item: %s | Período: %s a %s', [
+          IfThen(ItemFilter = '', 'Todos', ItemFilter),
+          IfThen(DataInicio > 0, DateToStr(DataInicio), 'Início'),
+          IfThen(DataFim > 0, DateToStr(DataFim), 'Fim')
+        ])
+      );
+
+    except
+      on E: Exception do
+      begin
+        ShowMessage('Erro ao gerar relatório de movimentações: ' + E.Message);
+        TLogService.Instance.LogSistema('Erro ao gerar relatório de movimentações: ' + E.Message, 'ERRO');
+      end;
+    end;
+  end
+  else
+  begin
+    ShowMessage('Selecione um relatório válido.');
+    Exit;
+  end;
+
   finally
 
   end;
@@ -481,6 +577,7 @@ begin
   ComboBoxRelatorios.Items.Clear;
   ComboBoxRelatorios.Items.Add('Relatorio de depreciacao de bens');
   ComboBoxRelatorios.Items.Add('Segundo relatório (frxReport2)');
+  ComboBoxRelatorios.Items.Add('Relatório de Movimentações');
 
   // ✅ USA O CONTROLLER - Sem contato direto com banco
   Tipos := FControllerRela.ObterTiposOcorrencia;
@@ -504,7 +601,7 @@ end;
 
 procedure TFormDashboard.ComboBoxRelatoriosChange(Sender: TObject);
 begin
-  // Relatório 2 (índice 1) não usa filtro de data
+  // Relatório 2 (índice 1) não usa filtro de data, mas os outros usam
   DateTimePickerInicio.Visible := (ComboBoxRelatorios.ItemIndex <> 1);
   DateTimePickerFim.Visible := (ComboBoxRelatorios.ItemIndex <> 1);
 
@@ -512,6 +609,82 @@ begin
   Label3.Visible := (ComboBoxRelatorios.ItemIndex <> 1); // Label "Data Início"
   Label4.Visible := (ComboBoxRelatorios.ItemIndex <> 1); // Label "Data Fim"
   Label5.Visible := (ComboBoxRelatorios.ItemIndex <> 1); // Label "Período"
+
+  // Mostrar/ocultar componentes do relatório de movimentação (índice 2)
+  if ComboBoxRelatorios.ItemIndex = 2 then
+  begin
+    // Criar componentes se não existirem
+    if not Assigned(ComboBoxFiltroItem) then
+    begin
+      ComboBoxFiltroItem := TComboBox.Create(Self);
+      ComboBoxFiltroItem.Parent := Panel10; // Painel onde estão os filtros
+      ComboBoxFiltroItem.Left := DateTimePickerInicio.Left;
+      ComboBoxFiltroItem.Top := DateTimePickerInicio.Top + DateTimePickerInicio.Height + 10;
+      ComboBoxFiltroItem.Width := 200;
+      ComboBoxFiltroItem.Style := csDropDownList;
+
+      LabelFiltroItem := TLabel.Create(Self);
+      LabelFiltroItem.Parent := Panel10;
+      LabelFiltroItem.Left := DateTimePickerInicio.Left;
+      LabelFiltroItem.Top := ComboBoxFiltroItem.Top - 20;
+      LabelFiltroItem.Caption := 'Filtrar por Item:';
+      LabelFiltroItem.Font.Style := [fsBold];
+    end;
+
+    ComboBoxFiltroItem.Visible := True;
+    LabelFiltroItem.Visible := True;
+    CarregarComboItens; // Carregar itens disponíveis
+  end
+  else
+  begin
+    // Esconder componentes do relatório de movimentação
+    if Assigned(ComboBoxFiltroItem) then
+      ComboBoxFiltroItem.Visible := False;
+    if Assigned(LabelFiltroItem) then
+      LabelFiltroItem.Visible := False;
+  end;
+end;
+
+procedure TFormDashboard.CarregarComboItens;
+var
+  ItemsList: TStringList;
+begin
+  if not Assigned(ComboBoxFiltroItem) then
+    Exit;
+
+  ComboBoxFiltroItem.Items.Clear;
+
+  try
+    if Assigned(FControllerMovimentacao) then
+    begin
+      ItemsList := FControllerMovimentacao.CarregarItens;
+      try
+        ComboBoxFiltroItem.Items.AddStrings(ItemsList);
+        // Selecionar primeiro item (Todos) por padrão
+        ComboBoxFiltroItem.ItemIndex := 0;
+      finally
+        ItemsList.Free;
+      end;
+    end
+    else
+    begin
+      // Fallback caso o controller não esteja disponível
+      ComboBoxFiltroItem.Items.Add('Todos');
+      ComboBoxFiltroItem.ItemIndex := 0;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Erro ao carregar itens: ' + E.Message);
+      // Adicionar opção padrão em caso de erro
+      if ComboBoxFiltroItem.Items.Count = 0 then
+      begin
+        ComboBoxFiltroItem.Items.Add('Todos');
+        ComboBoxFiltroItem.ItemIndex := 0;
+      end;
+    end;
+  end;
 end;
 
 end.

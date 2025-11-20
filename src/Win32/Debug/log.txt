@@ -127,3 +127,35 @@
 19/11/2025 22:21:22 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
 19/11/2025 22:38:05 Usuário: suporte1 - Login realizado com sucesso
 19/11/2025 22:38:05 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 14:48:08 Usuário: Sistema - Tentativa de login falhou - Usuário: suporte1
+20/11/2025 14:48:12 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 14:48:13 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 14:48:39 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 14:54:48 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 14:54:48 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 14:55:03 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 14:57:47 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 14:57:47 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 14:58:05 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 14:58:31 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 15:00:05 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 15:00:06 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 15:01:34 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 15:01:34 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 15:01:43 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 15:01:55 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 15:01:57 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 20/11/2024 a 20/11/2025
+20/11/2025 15:02:14 Usuário: suporte1 (ID: 1) - Gerou relatório -  Período: 20/11/2024 a 20/11/2025
+20/11/2025 15:02:51 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 15:04:32 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 15:04:32 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 18:11:03 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 18:11:03 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 18:11:40 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 18:11:43 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 18:15:41 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 18:19:00 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 18:19:00 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 18:19:08 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 18:19:22 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'itemFilter' not found
+20/11/2025 18:19:28 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found

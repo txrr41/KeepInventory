@@ -96,7 +96,11 @@ uses
   RelatorioStatusDepreciacaoController in 'controller\RelatorioStatusDepreciacaoController.pas',
   RelatorioStatusDepreciacaoModel in 'model\RelatorioStatusDepreciacaoModel.pas',
   RelatorioStatusDepreciacaoService in 'service\RelatorioStatusDepreciacaoService.pas',
-  RelatorioStatusDepreciacaoRepository in 'repository\RelatorioStatusDepreciacaoRepository.pas';
+  RelatorioStatusDepreciacaoRepository in 'repository\RelatorioStatusDepreciacaoRepository.pas',
+  RelatorioMovimentacaoModel in 'model\RelatorioMovimentacaoModel.pas',
+  RelatorioMovimentacaoRepository in 'repository\RelatorioMovimentacaoRepository.pas',
+  RelatorioMovimentacaoController in 'controller\RelatorioMovimentacaoController.pas',
+  RelatorioMovimentacaoService in 'service\RelatorioMovimentacaoService.pas';
 
 {$R *.res}
 
