@@ -53,6 +53,30 @@ type
     frxReport3: TfrxReport;
     FfrxDBDatasetEstatisticas: TfrxDBDataset;
     qryEstatisticas: TFDQuery;
+    qryMovimentacaoid: TIntegerField;
+    qryMovimentacaodata_movimentacao: TDateField;
+    qryMovimentacaostatus: TWideStringField;
+    qryMovimentacaoativo: TBooleanField;
+    qryMovimentacaopatrimonio: TWideStringField;
+    qryMovimentacaousuario: TWideStringField;
+    qryEstatisticastotal_movimentacoes: TLargeintField;
+    qryEstatisticasitens_distintos: TLargeintField;
+    qryEstatisticaslocais_distintos: TLargeintField;
+    qryEstatisticastotal_quantidade: TLargeintField;
+    qryEstatisticaslocal_mais_recebeu: TWideMemoField;
+    qryMovimentacaotipo_patrimonio: TWideStringField;
+    qryMovimentacaonumero_serie: TWideStringField;
+    qryMovimentacaosala_origem: TWideStringField;
+    qryMovimentacaopredio_origem: TWideStringField;
+    qryMovimentacaosala_destino: TWideStringField;
+    qryMovimentacaopredio_destino: TWideStringField;
+    qryMovimentacaoquantidade: TIntegerField;
+    qryMovimentacaoobservacoes: TWideStringField;
+    qryMovimentacaofk_id_patrimonios: TIntegerField;
+    qryMovimentacaofk_id_origem: TIntegerField;
+    qryMovimentacaofk_id_destino: TIntegerField;
+    qryMovimentacaofk_id_usuarios: TIntegerField;
+    qryEstatisticasitem_mais_movimentado: TWideMemoField;
   private
     { Private declarations }
   public

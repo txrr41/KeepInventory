@@ -208,3 +208,93 @@
 21/11/2025 10:05:28 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
 21/11/2025 10:22:40 Usuário: suporte1 - Login realizado com sucesso
 21/11/2025 10:22:40 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 13:29:37 Usuário: Sistema - Tentativa de login falhou - Usuário: admin
+21/11/2025 13:29:43 Usuário: admin - Login realizado com sucesso
+21/11/2025 13:29:43 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 13:29:52 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 13:30:07 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 13:30:10 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+21/11/2025 13:30:13 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+21/11/2025 13:30:49 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+21/11/2025 13:31:00 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 13:41:32 Usuário: admin - Login realizado com sucesso
+21/11/2025 13:41:33 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 13:41:45 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 13:42:04 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+21/11/2025 13:42:56 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 13:43:20 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 13:43:30 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 13:43:42 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Cadeira Escritório | Período: 21/11/2024 a 21/11/2025
+21/11/2025 13:46:14 Usuário: admin - Login realizado com sucesso
+21/11/2025 13:46:14 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 13:46:49 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 13:52:36 Usuário: admin - Login realizado com sucesso
+21/11/2025 13:52:36 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 13:52:55 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 13:53:01 Usuário: admin (ID: 1) - Gerou relatório - Status de Depreciação Período: 21/11/2024 a 21/11/2025
+21/11/2025 13:56:42 Usuário: admin - Login realizado com sucesso
+21/11/2025 13:56:42 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 13:56:59 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 13:57:02 Usuário: admin (ID: 1) - Gerou relatório - Status de Depreciação Período: 21/11/2024 a 21/11/2025
+21/11/2025 13:57:06 Usuário: admin (ID: 1) - Gerou relatório -  Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:11:29 Usuário: admin - Login realizado com sucesso
+21/11/2025 14:11:29 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:12:16 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:12:19 Usuário: admin (ID: 1) - Gerou relatório - Status de Depreciação Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:14:04 Usuário: admin (ID: 1) - Gerou relatório -  Período: 21/11/2025 a 21/11/2025
+21/11/2025 14:14:10 Usuário: admin (ID: 1) - Gerou relatório - Status de Depreciação Período: 21/11/2025 a 21/11/2025
+21/11/2025 14:14:46 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Mesa Escritório | Período: 21/11/2025 a 21/11/2025
+21/11/2025 14:19:44 Usuário: admin - Login realizado com sucesso
+21/11/2025 14:19:44 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:19:52 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:20:58 Usuário: admin - Login realizado com sucesso
+21/11/2025 14:20:58 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:21:11 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:25:18 Usuário: admin - Login realizado com sucesso
+21/11/2025 14:25:18 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:25:31 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:29:55 Usuário: admin - Login realizado com sucesso
+21/11/2025 14:29:55 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:30:04 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+21/11/2025 14:30:12 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:30:22 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:30:24 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+21/11/2025 14:30:35 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:30:41 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:30:42 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+21/11/2025 14:31:10 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+21/11/2025 14:31:15 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:31:37 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:34:54 Usuário: admin - Login realizado com sucesso
+21/11/2025 14:34:54 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:35:02 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:37:16 Usuário: admin - Login realizado com sucesso
+21/11/2025 14:37:16 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:37:23 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:42:52 Usuário: admin - Login realizado com sucesso
+21/11/2025 14:42:52 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:44:14 Usuário: admin (ID: 1) - Cadastrou PatrimÃ´nio - gELADEIRA (ID: 0)
+21/11/2025 14:44:33 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+21/11/2025 14:44:40 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:44:49 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 14:54:01 Usuário: admin - Login realizado com sucesso
+21/11/2025 14:54:01 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 14:54:13 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 15:58:23 Usuário: admin - Login realizado com sucesso
+21/11/2025 15:58:23 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 15:58:45 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 15:58:47 Usuário: admin (ID: 1) - Gerou relatório - Status de Depreciação Período: 21/11/2024 a 21/11/2025
+21/11/2025 15:58:52 Usuário: admin (ID: 1) - Gerou relatório -  Período: 21/11/2024 a 21/11/2025
+21/11/2025 15:59:28 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Mesa Escritório | Período: 21/11/2024 a 21/11/2025
+21/11/2025 16:07:57 Usuário: admin - Login realizado com sucesso
+21/11/2025 16:07:57 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 16:56:50 Usuário: admin - Login realizado com sucesso
+21/11/2025 16:56:51 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 16:57:37 Usuário: admin (ID: 1) - Gerou relatório - Status de Depreciação Período: 21/11/2024 a 21/11/2025
+21/11/2025 16:58:59 Usuário: admin - Login realizado com sucesso
+21/11/2025 16:58:59 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 16:59:51 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 17:00:05 Usuário: admin (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+21/11/2025 17:00:10 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 17:03:18 Usuário: admin - Login realizado com sucesso
+21/11/2025 17:03:18 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard

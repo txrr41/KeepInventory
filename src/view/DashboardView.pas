@@ -414,7 +414,7 @@ begin
           ShowMessage('Erro ao gerar segundo relatório: ' + E.Message);
       end;
     end
-   else if ComboBoxRelatorios.ItemIndex = 2 then
+  else if ComboBoxRelatorios.ItemIndex = 2 then
 begin
   // Terceiro relatório - Relatório de Movimentações
   try
@@ -456,14 +456,32 @@ begin
       Exit;
     end;
 
-    // Preparar o relatório de movimentação
-    FControllerMovimentacao.GerarRelatorio(DataModule2.frxReport3, ItemFilter, DataInicio, DataFim);
+    // ✅ CORREÇÃO: Usar PrepararDatasets em vez de GerarRelatorio
+    FControllerMovimentacao.PrepararDatasets(
+      DataModule2.FfrxDBDatasetMovimentacao,
+      DataModule2.FfrxDBDatasetEstatisticas,
+      ItemFilter,
+      DataInicio,
+      DataFim
+    );
 
+    // Configurar variáveis do relatório
     if ItemFilter <> '' then
       DataModule2.frxReport3.Variables['ItemFiltro'] := QuotedStr(ItemFilter)
     else
       DataModule2.frxReport3.Variables['ItemFiltro'] := QuotedStr('Todos os itens');
 
+    DataModule2.frxReport3.Variables['DataInicio'] := DataInicio;
+    DataModule2.frxReport3.Variables['DataFim'] := DataFim;
+    DataModule2.frxReport3.Variables['DataEmissao'] := Date;
+    DataModule2.frxReport3.Variables['UsuarioEmissao'] := TPermissoesHelper.GetUsuarioLogado.Nome;
+
+    // Associar datasets ao relatório
+    DataModule2.frxReport3.DataSets.Clear;
+    DataModule2.frxReport3.DataSets.Add(DataModule2.FfrxDBDatasetMovimentacao);
+    DataModule2.frxReport3.DataSets.Add(DataModule2.FfrxDBDatasetEstatisticas);
+
+    // Mostrar o relatório
     DataModule2.frxReport3.ShowReport;
 
     // Log do relatório gerado
@@ -483,11 +501,11 @@ begin
       TLogService.Instance.LogSistema('Erro ao gerar relatório de movimentações: ' + E.Message, 'ERRO');
     end;
   end;
-end
+end;
   finally
 
   end;
-end;
+  end;
 
 procedure TFormDashboard.AtualizarGraficoDepreciacao;
 var

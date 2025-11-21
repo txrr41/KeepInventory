@@ -46,7 +46,7 @@ begin
     Q.ParamByName('fk_id_patrimonios').AsInteger := AMovimentacaoModel.IdPatrimonio;
     Q.ParamByName('fk_id_origem').AsInteger := AMovimentacaoModel.IdOrigem;
     Q.ParamByName('fk_id_destino').AsInteger := AMovimentacaoModel.IdDestino;
-    Q.ParamByName('quantidade').AsInteger := AMovimentacaoModel.Quantidade;
+    Q.ParamByName('quantidade').AsInteger := 1;
     Q.ParamByName('fk_id_usuarios').AsInteger := AMovimentacaoModel.IdUsuario;
     Q.ParamByName('data_movimentacao').AsDateTime := AMovimentacaoModel.DataMovimentacao;
 
@@ -79,7 +79,7 @@ begin
     Q.ParamByName('fk_id_patrimonios').AsInteger := AMovimentacaoModel.IdPatrimonio;
     Q.ParamByName('fk_id_origem').AsInteger := AMovimentacaoModel.IdOrigem;
     Q.ParamByName('fk_id_destino').AsInteger := AMovimentacaoModel.IdDestino;
-    Q.ParamByName('quantidade').AsInteger := AMovimentacaoModel.Quantidade;
+    Q.ParamByName('quantidade').AsInteger := 1;
     Q.ParamByName('status').AsString := AMovimentacaoModel.Status;
     Q.ParamByName('fk_id_usuarios').AsInteger := AMovimentacaoModel.IdUsuario;
     Q.ParamByName('data_movimentacao').AsDateTime := AMovimentacaoModel.DataMovimentacao;
@@ -123,7 +123,7 @@ Query.SQL.Text :=
   '  p.nome AS patrimonio, ' +            // ? MOSTRA O NOME
   '  so.nome AS sala_origem, ' +          // ? MOSTRA O NOME
   '  sd.nome AS sala_destino, ' +         // ? MOSTRA O NOME
-  '  m.quantidade, ' +
+  '  1 as quantidade, ' +
   '  m.status, ' +
   '  m.fk_id_patrimonios, ' +             // ? SALVA O ID (oculto)
   '  m.fk_id_origem, ' +                  // ? SALVA O ID (oculto)
@@ -156,7 +156,7 @@ begin
       '  p.nome AS patrimonio, ' +
       '  so.nome AS sala_origem, ' +
       '  sd.nome AS sala_destino, ' +
-      '  m.quantidade, ' +
+      '  1 as quantidade, ' +
       '  m.status, ' +
       '  m.fk_id_patrimonios, ' +
       '  m.fk_id_origem, ' +

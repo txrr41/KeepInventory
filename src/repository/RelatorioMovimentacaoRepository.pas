@@ -76,8 +76,9 @@ begin
     '  po.nome AS predio_origem, ' +
     '  sd.nome AS sala_destino, ' +
     '  pd.nome AS predio_destino, ' +
-    '  m.quantidade, ' +
+    '  1 as quantidade, ' +
     '  m.status, ' +
+    '  m.ativo, ' +
     '  COALESCE(m.observacoes, '''') AS observacoes, ' +
     '  m.fk_id_patrimonios, ' +
     '  m.fk_id_origem, ' +
@@ -135,6 +136,9 @@ begin
 
   try
     FQueryMovimentacao.Open;
+    // Log para depuração
+    if FQueryMovimentacao.RecordCount > 0 then
+      FQueryMovimentacao.First;
   except
     on E: Exception do
     begin
@@ -147,66 +151,92 @@ begin
   FQueryEstatisticas.Close;
   FQueryEstatisticas.SQL.Clear;
 
+  // Query com estatísticas reais
   SQLBase :=
     'SELECT ' +
     '  COUNT(*) as total_movimentacoes, ' +
     '  COUNT(DISTINCT m.fk_id_patrimonios) as itens_distintos, ' +
     '  COUNT(DISTINCT m.fk_id_destino) as locais_distintos, ' +
-    '  SUM(m.quantidade) as total_quantidade, ' +
-    '  (SELECT p.nome ' +
-    '   FROM movimentacoes m2 ' +
-    '   INNER JOIN patrimonios p ON m2.fk_id_patrimonios = p.id ' +
-    '   WHERE m2.ativo = true';
+    '  COUNT(*) as total_quantidade, ' +
+    '  (SELECT p.nome FROM patrimonios p ' +
+    '   INNER JOIN movimentacoes m2 ON p.id = m2.fk_id_patrimonios ' +
+    '   WHERE m2.ativo = true ' +
+    '   GROUP BY p.id, p.nome ' +
+    '   ORDER BY COUNT(m2.id) DESC LIMIT 1) as item_mais_movimentado, ' +
+    '  (SELECT sd.nome || '' - '' || pd.nome ' +
+    '   FROM movimentacoes m3 ' +
+    '   INNER JOIN salas sd ON m3.fk_id_destino = sd.id ' +
+    '   INNER JOIN predios pd ON sd.fk_id_predios = pd.id ' +
+    '   WHERE m3.ativo = true ' +
+    '   GROUP BY sd.id, sd.nome, pd.id, pd.nome ' +
+    '   ORDER BY COUNT(m3.id) DESC LIMIT 1) as local_mais_recebeu ' +
+    'FROM movimentacoes m ' +
+    'INNER JOIN usuarios u ON m.fk_id_usuarios = u.id ' +
+    'INNER JOIN patrimonios p ON m.fk_id_patrimonios = p.id ' +
+    'INNER JOIN salas so ON m.fk_id_origem = so.id ' +
+    'INNER JOIN predios po ON so.fk_id_predios = po.id ' +
+    'INNER JOIN salas sd ON m.fk_id_destino = sd.id ' +
+    'INNER JOIN predios pd ON sd.fk_id_predios = pd.id ' +
+    'WHERE m.ativo = true';
 
   WhereClause := '';
   if Trim(AItemFilter) <> '' then
     WhereClause := ' AND (p.nome ILIKE :itemFilter2 OR p.tipo ILIKE :itemFilter2 OR p.numero_serie ILIKE :itemFilter2)';
 
   if (ADataInicio > 0) and (ADataFim > 0) then
-    WhereClause := WhereClause + ' AND m2.data_movimentacao BETWEEN :dataInicio2 AND :dataFim2'
+    WhereClause := WhereClause + ' AND m.data_movimentacao BETWEEN :dataInicio2 AND :dataFim2'
   else if ADataInicio > 0 then
-    WhereClause := WhereClause + ' AND m2.data_movimentacao >= :dataInicio2'
+    WhereClause := WhereClause + ' AND m.data_movimentacao >= :dataInicio2'
   else if ADataFim > 0 then
-    WhereClause := WhereClause + ' AND m2.data_movimentacao <= :dataFim2';
+    WhereClause := WhereClause + ' AND m.data_movimentacao <= :dataFim2';
 
-  SQLBase := SQLBase + WhereClause +
-    '   GROUP BY p.nome ' +
-    '   ORDER BY COUNT(*) DESC, SUM(m2.quantidade) DESC ' +
-    '   LIMIT 1) as item_mais_movimentado, ' +
-    '  (SELECT sd.nome || '' - '' || pd.nome ' +
-    '   FROM movimentacoes m3 ' +
-    '   INNER JOIN salas sd ON m3.fk_id_destino = sd.id ' +
-    '   INNER JOIN predios pd ON sd.fk_id_predios = pd.id ' +
-    '   WHERE m3.ativo = true';
-
-  WhereClause := '';
+  // Atualizar as subqueries para considerar os filtros também
   if Trim(AItemFilter) <> '' then
-    WhereClause := ' AND EXISTS (SELECT 1 FROM patrimonios p WHERE p.id = m3.fk_id_patrimonios AND (p.nome ILIKE :itemFilter3 OR p.tipo ILIKE :itemFilter3 OR p.numero_serie ILIKE :itemFilter3))';
+  begin
+    SQLBase := StringReplace(SQLBase,
+      'WHERE m2.ativo = true',
+      'WHERE m2.ativo = true AND EXISTS (SELECT 1 FROM patrimonios pf WHERE pf.id = m2.fk_id_patrimonios AND (pf.nome ILIKE :itemFilter2 OR pf.tipo ILIKE :itemFilter2 OR pf.numero_serie ILIKE :itemFilter2))',
+      [rfReplaceAll]);
+
+    SQLBase := StringReplace(SQLBase,
+      'WHERE m3.ativo = true',
+      'WHERE m3.ativo = true AND EXISTS (SELECT 1 FROM patrimonios pf2 WHERE pf2.id = m3.fk_id_patrimonios AND (pf2.nome ILIKE :itemFilter2 OR pf2.tipo ILIKE :itemFilter2 OR pf2.numero_serie ILIKE :itemFilter2))',
+      [rfReplaceAll]);
+  end;
 
   if (ADataInicio > 0) and (ADataFim > 0) then
-    WhereClause := WhereClause + ' AND m3.data_movimentacao BETWEEN :dataInicio3 AND :dataFim3'
+  begin
+    SQLBase := StringReplace(SQLBase,
+      'WHERE m2.ativo = true',
+      'WHERE m2.ativo = true AND m2.data_movimentacao BETWEEN :dataInicio2 AND :dataFim2',
+      [rfReplaceAll]);
+    SQLBase := StringReplace(SQLBase,
+      'WHERE m3.ativo = true',
+      'WHERE m3.ativo = true AND m3.data_movimentacao BETWEEN :dataInicio2 AND :dataFim2',
+      [rfReplaceAll]);
+  end
   else if ADataInicio > 0 then
-    WhereClause := WhereClause + ' AND m3.data_movimentacao >= :dataInicio3'
+  begin
+    SQLBase := StringReplace(SQLBase,
+      'WHERE m2.ativo = true',
+      'WHERE m2.ativo = true AND m2.data_movimentacao >= :dataInicio2',
+      [rfReplaceAll]);
+    SQLBase := StringReplace(SQLBase,
+      'WHERE m3.ativo = true',
+      'WHERE m3.ativo = true AND m3.data_movimentacao >= :dataInicio2',
+      [rfReplaceAll]);
+  end
   else if ADataFim > 0 then
-    WhereClause := WhereClause + ' AND m3.data_movimentacao <= :dataFim3';
-
-  SQLBase := SQLBase + WhereClause +
-    '   GROUP BY sd.nome, pd.nome ' +
-    '   ORDER BY COUNT(*) DESC ' +
-    '   LIMIT 1) as local_mais_recebeu ' +
-    'FROM movimentacoes m ' +
-    'WHERE m.ativo = true';
-
-  WhereClause := '';
-  if Trim(AItemFilter) <> '' then
-    WhereClause := ' AND EXISTS (SELECT 1 FROM patrimonios p WHERE p.id = m.fk_id_patrimonios AND (p.nome ILIKE :itemFilter4 OR p.tipo ILIKE :itemFilter4 OR p.numero_serie ILIKE :itemFilter4))';
-
-  if (ADataInicio > 0) and (ADataFim > 0) then
-    WhereClause := WhereClause + ' AND m.data_movimentacao BETWEEN :dataInicio4 AND :dataFim4'
-  else if ADataInicio > 0 then
-    WhereClause := WhereClause + ' AND m.data_movimentacao >= :dataInicio4'
-  else if ADataFim > 0 then
-    WhereClause := WhereClause + ' AND m.data_movimentacao <= :dataFim4';
+  begin
+    SQLBase := StringReplace(SQLBase,
+      'WHERE m2.ativo = true',
+      'WHERE m2.ativo = true AND m2.data_movimentacao <= :dataFim2',
+      [rfReplaceAll]);
+    SQLBase := StringReplace(SQLBase,
+      'WHERE m3.ativo = true',
+      'WHERE m3.ativo = true AND m3.data_movimentacao <= :dataFim2',
+      [rfReplaceAll]);
+  end;
 
   FQueryEstatisticas.SQL.Text := SQLBase + WhereClause;
 
@@ -214,34 +244,29 @@ begin
   if Trim(AItemFilter) <> '' then
   begin
     FQueryEstatisticas.ParamByName('itemFilter2').AsString := '%' + AItemFilter + '%';
-    FQueryEstatisticas.ParamByName('itemFilter3').AsString := '%' + AItemFilter + '%';
-    FQueryEstatisticas.ParamByName('itemFilter4').AsString := '%' + AItemFilter + '%';
   end;
 
   if (ADataInicio > 0) and (ADataFim > 0) then
   begin
     FQueryEstatisticas.ParamByName('dataInicio2').AsDate := ADataInicio;
     FQueryEstatisticas.ParamByName('dataFim2').AsDate := ADataFim;
-    FQueryEstatisticas.ParamByName('dataInicio3').AsDate := ADataInicio;
-    FQueryEstatisticas.ParamByName('dataFim3').AsDate := ADataFim;
-    FQueryEstatisticas.ParamByName('dataInicio4').AsDate := ADataInicio;
-    FQueryEstatisticas.ParamByName('dataFim4').AsDate := ADataFim;
   end
   else if ADataInicio > 0 then
   begin
     FQueryEstatisticas.ParamByName('dataInicio2').AsDate := ADataInicio;
-    FQueryEstatisticas.ParamByName('dataInicio3').AsDate := ADataInicio;
-    FQueryEstatisticas.ParamByName('dataInicio4').AsDate := ADataInicio;
   end
   else if ADataFim > 0 then
   begin
     FQueryEstatisticas.ParamByName('dataFim2').AsDate := ADataFim;
-    FQueryEstatisticas.ParamByName('dataFim3').AsDate := ADataFim;
-    FQueryEstatisticas.ParamByName('dataFim4').AsDate := ADataFim;
   end;
 
   try
     FQueryEstatisticas.Open;
+    // Log para depuração
+    if FQueryEstatisticas.RecordCount > 0 then
+    begin
+      FQueryEstatisticas.First;
+    end;
   except
     on E: Exception do
     begin
@@ -335,195 +360,211 @@ begin
 end;
 
 procedure TRelatorioMovimentacaoRepository.PrepararRelatorio(AfrxReport: TfrxReport; AItemFilter: string = ''; ADataInicio: TDate = 0; ADataFim: TDate = 0);
-var
-  SQLMovimentacao: string;
-  SQLEstatisticas: string;
-  WhereClause: string;
 begin
   try
-    // ========== QUERY DE MOVIMENTAÇÃO ==========
-    SQLMovimentacao :=
-      'SELECT ' +
-      '  m.id, ' +
-      '  m.data_movimentacao, ' +
-      '  u.nome AS usuario, ' +
-      '  p.nome AS patrimonio, ' +
-      '  p.tipo AS tipo_patrimonio, ' +
-      '  p.numero_serie, ' +
-      '  so.nome AS sala_origem, ' +
-      '  po.nome AS predio_origem, ' +
-      '  sd.nome AS sala_destino, ' +
-      '  pd.nome AS predio_destino, ' +
-      '  m.quantidade, ' +
-      '  m.status, ' +
-      '  COALESCE(m.observacoes, '''') AS observacoes, ' +
-      '  m.fk_id_patrimonios, ' +
-      '  m.fk_id_origem, ' +
-      '  m.fk_id_destino, ' +
-      '  m.fk_id_usuarios ' +
-      'FROM movimentacoes m ' +
-      'INNER JOIN usuarios u ON m.fk_id_usuarios = u.id ' +
-      'INNER JOIN patrimonios p ON m.fk_id_patrimonios = p.id ' +
-      'INNER JOIN salas so ON m.fk_id_origem = so.id ' +
-      'INNER JOIN predios po ON so.fk_id_predios = po.id ' +
-      'INNER JOIN salas sd ON m.fk_id_destino = sd.id ' +
-      'INNER JOIN predios pd ON sd.fk_id_predios = pd.id ' +
-      'WHERE m.ativo = true';
-
-    WhereClause := '';
-
-    if Trim(AItemFilter) <> '' then
-      WhereClause := WhereClause +
-        ' AND (p.nome ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.tipo ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.numero_serie ILIKE ' + QuotedStr('%' + AItemFilter + '%') + ')';
-
-    if ADataInicio > 0 then
-      WhereClause := WhereClause + ' AND m.data_movimentacao >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataInicio));
-
-    if ADataFim > 0 then
-      WhereClause := WhereClause + ' AND m.data_movimentacao <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataFim));
-
-    SQLMovimentacao := SQLMovimentacao + WhereClause + ' ORDER BY m.data_movimentacao DESC, m.id DESC';
-
+    // Atualiza diretamente as queries do DataModule2
     if Assigned(DataModule2.qryMovimentacao) then
     begin
       DataModule2.qryMovimentacao.Close;
-      DataModule2.qryMovimentacao.SQL.Text := SQLMovimentacao;
+
+      // Monta a SQL diretamente para movimentação
+      DataModule2.qryMovimentacao.SQL.Text :=
+        'SELECT ' +
+        '  m.id, ' +
+        '  m.data_movimentacao, ' +
+        '  u.nome AS usuario, ' +
+        '  p.nome AS patrimonio, ' +
+        '  p.tipo AS tipo_patrimonio, ' +
+        '  p.numero_serie, ' +
+        '  so.nome AS sala_origem, ' +
+        '  po.nome AS predio_origem, ' +
+        '  sd.nome AS sala_destino, ' +
+        '  pd.nome AS predio_destino, ' +
+        '  1 as quantidade, ' +
+        '  m.status, ' +
+        '  m.ativo, ' +
+        '  COALESCE(m.observacoes, '''') AS observacoes, ' +
+        '  m.fk_id_patrimonios, ' +
+        '  m.fk_id_origem, ' +
+        '  m.fk_id_destino, ' +
+        '  m.fk_id_usuarios ' +
+        'FROM movimentacoes m ' +
+        'INNER JOIN usuarios u ON m.fk_id_usuarios = u.id ' +
+        'INNER JOIN patrimonios p ON m.fk_id_patrimonios = p.id ' +
+        'INNER JOIN salas so ON m.fk_id_origem = so.id ' +
+        'INNER JOIN predios po ON so.fk_id_predios = po.id ' +
+        'INNER JOIN salas sd ON m.fk_id_destino = sd.id ' +
+        'INNER JOIN predios pd ON sd.fk_id_predios = pd.id ' +
+        'WHERE m.ativo = true';
+
+      // Aplica filtros se necessário
+      if Trim(AItemFilter) <> '' then
+        DataModule2.qryMovimentacao.SQL.Add(' AND (p.nome ILIKE :itemFilter OR p.tipo ILIKE :itemFilter OR p.numero_serie ILIKE :itemFilter)');
+
+      if (ADataInicio > 0) and (ADataFim > 0) then
+        DataModule2.qryMovimentacao.SQL.Add(' AND m.data_movimentacao BETWEEN :dataInicio AND :dataFim')
+      else if ADataInicio > 0 then
+        DataModule2.qryMovimentacao.SQL.Add(' AND m.data_movimentacao >= :dataInicio')
+      else if ADataFim > 0 then
+        DataModule2.qryMovimentacao.SQL.Add(' AND m.data_movimentacao <= :dataFim');
+
+      DataModule2.qryMovimentacao.SQL.Add(' ORDER BY m.data_movimentacao DESC, m.id DESC');
+
+      // Configura parâmetros
+      if Trim(AItemFilter) <> '' then
+        DataModule2.qryMovimentacao.ParamByName('itemFilter').AsString := '%' + AItemFilter + '%';
+
+      if (ADataInicio > 0) and (ADataFim > 0) then
+      begin
+        DataModule2.qryMovimentacao.ParamByName('dataInicio').AsDate := ADataInicio;
+        DataModule2.qryMovimentacao.ParamByName('dataFim').AsDate := ADataFim;
+      end
+      else if ADataInicio > 0 then
+        DataModule2.qryMovimentacao.ParamByName('dataInicio').AsDate := ADataInicio
+      else if ADataFim > 0 then
+        DataModule2.qryMovimentacao.ParamByName('dataFim').AsDate := ADataFim;
+
       DataModule2.qryMovimentacao.Open;
+
+      // Garantir que o dataset está no primeiro registro
+      DataModule2.qryMovimentacao.First;
     end;
-
-    // ========== QUERY DE ESTATÍSTICAS (SIMPLIFICADA - SEM JOINS) ==========
-
-    SQLEstatisticas := 'SELECT ' +
-      // Total de movimentações
-      '(SELECT COUNT(*) FROM movimentacoes m WHERE m.ativo = true';
-
-    if Trim(AItemFilter) <> '' then
-      SQLEstatisticas := SQLEstatisticas +
-        ' AND EXISTS (SELECT 1 FROM patrimonios p WHERE p.id = m.fk_id_patrimonios ' +
-        ' AND (p.nome ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.tipo ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.numero_serie ILIKE ' + QuotedStr('%' + AItemFilter + '%') + '))';
-
-    if ADataInicio > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataInicio));
-
-    if ADataFim > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataFim));
-
-    SQLEstatisticas := SQLEstatisticas + ') as total_movimentacoes, ' +
-
-      // Itens distintos
-      '(SELECT COUNT(DISTINCT fk_id_patrimonios) FROM movimentacoes m WHERE m.ativo = true';
-
-    if Trim(AItemFilter) <> '' then
-      SQLEstatisticas := SQLEstatisticas +
-        ' AND EXISTS (SELECT 1 FROM patrimonios p WHERE p.id = m.fk_id_patrimonios ' +
-        ' AND (p.nome ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.tipo ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.numero_serie ILIKE ' + QuotedStr('%' + AItemFilter + '%') + '))';
-
-    if ADataInicio > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataInicio));
-
-    if ADataFim > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataFim));
-
-    SQLEstatisticas := SQLEstatisticas + ') as itens_distintos, ' +
-
-      // Locais distintos
-      '(SELECT COUNT(DISTINCT fk_id_destino) FROM movimentacoes m WHERE m.ativo = true';
-
-    if Trim(AItemFilter) <> '' then
-      SQLEstatisticas := SQLEstatisticas +
-        ' AND EXISTS (SELECT 1 FROM patrimonios p WHERE p.id = m.fk_id_patrimonios ' +
-        ' AND (p.nome ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.tipo ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.numero_serie ILIKE ' + QuotedStr('%' + AItemFilter + '%') + '))';
-
-    if ADataInicio > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataInicio));
-
-    if ADataFim > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataFim));
-
-    SQLEstatisticas := SQLEstatisticas + ') as locais_distintos, ' +
-
-      // Quantidade total (SEM JOIN - direto da tabela movimentacoes)
-      '(SELECT COALESCE(SUM(quantidade), 0) FROM movimentacoes m WHERE m.ativo = true';
-
-    if Trim(AItemFilter) <> '' then
-      SQLEstatisticas := SQLEstatisticas +
-        ' AND EXISTS (SELECT 1 FROM patrimonios p WHERE p.id = m.fk_id_patrimonios ' +
-        ' AND (p.nome ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.tipo ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.numero_serie ILIKE ' + QuotedStr('%' + AItemFilter + '%') + '))';
-
-    if ADataInicio > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataInicio));
-
-    if ADataFim > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataFim));
-
-    SQLEstatisticas := SQLEstatisticas + ') as total_quantidade, ' +
-
-      // Item mais movimentado
-      '(SELECT p.nome FROM movimentacoes m ' +
-      'INNER JOIN patrimonios p ON m.fk_id_patrimonios = p.id ' +
-      'WHERE m.ativo = true';
-
-    if Trim(AItemFilter) <> '' then
-      SQLEstatisticas := SQLEstatisticas +
-        ' AND (p.nome ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.tipo ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.numero_serie ILIKE ' + QuotedStr('%' + AItemFilter + '%') + ')';
-
-    if ADataInicio > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataInicio));
-
-    if ADataFim > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataFim));
-
-    SQLEstatisticas := SQLEstatisticas +
-      ' GROUP BY p.nome ' +
-      ' ORDER BY COUNT(*) DESC, SUM(m.quantidade) DESC ' +
-      ' LIMIT 1) as item_mais_movimentado, ' +
-
-      // Local que mais recebeu
-      '(SELECT sd.nome || '' - '' || pd.nome ' +
-      'FROM movimentacoes m ' +
-      'INNER JOIN salas sd ON m.fk_id_destino = sd.id ' +
-      'INNER JOIN predios pd ON sd.fk_id_predios = pd.id ' +
-      'WHERE m.ativo = true';
-
-    if Trim(AItemFilter) <> '' then
-      SQLEstatisticas := SQLEstatisticas +
-        ' AND EXISTS (SELECT 1 FROM patrimonios p WHERE p.id = m.fk_id_patrimonios ' +
-        ' AND (p.nome ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.tipo ILIKE ' + QuotedStr('%' + AItemFilter + '%') +
-        ' OR p.numero_serie ILIKE ' + QuotedStr('%' + AItemFilter + '%') + '))';
-
-    if ADataInicio > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao >= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataInicio));
-
-    if ADataFim > 0 then
-      SQLEstatisticas := SQLEstatisticas + ' AND m.data_movimentacao <= ' + QuotedStr(FormatDateTime('yyyy-mm-dd', ADataFim));
-
-    SQLEstatisticas := SQLEstatisticas +
-      ' GROUP BY sd.nome, pd.nome ' +
-      ' ORDER BY COUNT(*) DESC ' +
-      ' LIMIT 1) as local_mais_recebeu';
 
     if Assigned(DataModule2.qryEstatisticas) then
     begin
       DataModule2.qryEstatisticas.Close;
-      DataModule2.qryEstatisticas.SQL.Text := SQLEstatisticas;
+
+      // Monta a SQL completa para estatísticas (com valores reais)
+      DataModule2.qryEstatisticas.SQL.Text :=
+        'SELECT ' +
+        '  COUNT(*) as total_movimentacoes, ' +
+        '  COUNT(DISTINCT m.fk_id_patrimonios) as itens_distintos, ' +
+        '  COUNT(DISTINCT m.fk_id_destino) as locais_distintos, ' +
+        '  COUNT(*) as total_quantidade, ' +
+        '  (SELECT p.nome FROM patrimonios p ' +
+        '   INNER JOIN movimentacoes m2 ON p.id = m2.fk_id_patrimonios ' +
+        '   WHERE m2.ativo = true ' +
+        '   GROUP BY p.id, p.nome ' +
+        '   ORDER BY COUNT(m2.id) DESC LIMIT 1) as item_mais_movimentado, ' +
+        '  (SELECT sd.nome || '' - '' || pd.nome ' +
+        '   FROM movimentacoes m3 ' +
+        '   INNER JOIN salas sd ON m3.fk_id_destino = sd.id ' +
+        '   INNER JOIN predios pd ON sd.fk_id_predios = pd.id ' +
+        '   WHERE m3.ativo = true ' +
+        '   GROUP BY sd.id, sd.nome, pd.id, pd.nome ' +
+        '   ORDER BY COUNT(m3.id) DESC LIMIT 1) as local_mais_recebeu ' +
+        'FROM movimentacoes m ' +
+        'INNER JOIN usuarios u ON m.fk_id_usuarios = u.id ' +
+        'INNER JOIN patrimonios p ON m.fk_id_patrimonios = p.id ' +
+        'INNER JOIN salas so ON m.fk_id_origem = so.id ' +
+        'INNER JOIN predios po ON so.fk_id_predios = po.id ' +
+        'INNER JOIN salas sd ON m.fk_id_destino = sd.id ' +
+        'INNER JOIN predios pd ON sd.fk_id_predios = pd.id ' +
+        'WHERE m.ativo = true';
+
+      // Prepara a variável SQL para aplicar filtros também nas subqueries
+      var SQLText := DataModule2.qryEstatisticas.SQL.Text;
+
+      // Atualizar as subqueries para considerar os filtros também
+      if Trim(AItemFilter) <> '' then
+      begin
+        SQLText := StringReplace(SQLText,
+          'WHERE m2.ativo = true',
+          'WHERE m2.ativo = true AND EXISTS (SELECT 1 FROM patrimonios pf WHERE pf.id = m2.fk_id_patrimonios AND (pf.nome ILIKE :itemFilter OR pf.tipo ILIKE :itemFilter OR pf.numero_serie ILIKE :itemFilter))',
+          [rfReplaceAll]);
+
+        SQLText := StringReplace(SQLText,
+          'WHERE m3.ativo = true',
+          'WHERE m3.ativo = true AND EXISTS (SELECT 1 FROM patrimonios pf2 WHERE pf2.id = m3.fk_id_patrimonios AND (pf2.nome ILIKE :itemFilter OR pf2.tipo ILIKE :itemFilter OR pf2.numero_serie ILIKE :itemFilter))',
+          [rfReplaceAll]);
+      end;
+
+      if (ADataInicio > 0) and (ADataFim > 0) then
+      begin
+        SQLText := StringReplace(SQLText,
+          'WHERE m2.ativo = true',
+          'WHERE m2.ativo = true AND m2.data_movimentacao BETWEEN :dataInicio AND :dataFim',
+          [rfReplaceAll]);
+        SQLText := StringReplace(SQLText,
+          'WHERE m3.ativo = true',
+          'WHERE m3.ativo = true AND m3.data_movimentacao BETWEEN :dataInicio AND :dataFim',
+          [rfReplaceAll]);
+      end
+      else if ADataInicio > 0 then
+      begin
+        SQLText := StringReplace(SQLText,
+          'WHERE m2.ativo = true',
+          'WHERE m2.ativo = true AND m2.data_movimentacao >= :dataInicio',
+          [rfReplaceAll]);
+        SQLText := StringReplace(SQLText,
+          'WHERE m3.ativo = true',
+          'WHERE m3.ativo = true AND m3.data_movimentacao >= :dataInicio',
+          [rfReplaceAll]);
+      end
+      else if ADataFim > 0 then
+      begin
+        SQLText := StringReplace(SQLText,
+          'WHERE m2.ativo = true',
+          'WHERE m2.ativo = true AND m2.data_movimentacao <= :dataFim',
+          [rfReplaceAll]);
+        SQLText := StringReplace(SQLText,
+          'WHERE m3.ativo = true',
+          'WHERE m3.ativo = true AND m3.data_movimentacao <= :dataFim',
+          [rfReplaceAll]);
+      end;
+
+      DataModule2.qryEstatisticas.SQL.Text := SQLText;
+
+      // Aplica os filtros na query principal
+      if Trim(AItemFilter) <> '' then
+        DataModule2.qryEstatisticas.SQL.Add(' AND (p.nome ILIKE :itemFilter OR p.tipo ILIKE :itemFilter OR p.numero_serie ILIKE :itemFilter)');
+
+      if (ADataInicio > 0) and (ADataFim > 0) then
+        DataModule2.qryEstatisticas.SQL.Add(' AND m.data_movimentacao BETWEEN :dataInicio AND :dataFim')
+      else if ADataInicio > 0 then
+        DataModule2.qryEstatisticas.SQL.Add(' AND m.data_movimentacao >= :dataInicio')
+      else if ADataFim > 0 then
+        DataModule2.qryEstatisticas.SQL.Add(' AND m.data_movimentacao <= :dataFim');
+
+      // Configura parâmetros
+      if Trim(AItemFilter) <> '' then
+        DataModule2.qryEstatisticas.ParamByName('itemFilter').AsString := '%' + AItemFilter + '%';
+
+      if (ADataInicio > 0) and (ADataFim > 0) then
+      begin
+        DataModule2.qryEstatisticas.ParamByName('dataInicio').AsDate := ADataInicio;
+        DataModule2.qryEstatisticas.ParamByName('dataFim').AsDate := ADataFim;
+      end
+      else if ADataInicio > 0 then
+        DataModule2.qryEstatisticas.ParamByName('dataInicio').AsDate := ADataInicio
+      else if ADataFim > 0 then
+        DataModule2.qryEstatisticas.ParamByName('dataFim').AsDate := ADataFim;
+
       DataModule2.qryEstatisticas.Open;
+
+      // Garantir que o dataset está no primeiro registro
+      DataModule2.qryEstatisticas.First;
     end;
 
-    // Associar os datasets ao relatório
+    // Associar os datasets ao relatório - método alternativo
     AfrxReport.DataSets.Clear;
+
+    // Configurar o dataset principal primeiro
+    DataModule2.FfrxDBDatasetMovimentacao.DataSet := DataModule2.qryMovimentacao;
+    DataModule2.FfrxDBDatasetEstatisticas.DataSet := DataModule2.qryEstatisticas;
+
+    // Adicionar datasets na ordem correta
+    AfrxReport.DataSets.Add(DataModule2.FfrxDBDatasetMovimentacao);
+    AfrxReport.DataSets.Add(DataModule2.FfrxDBDatasetEstatisticas);
+
+    // Forçar reset completo do relatório
+    AfrxReport.Clear;
+    AfrxReport.LoadFromFile('Reports\RelatorioMovimentacao.fr3');
+
+    // Reconfigurar datasets após carregar
+    AfrxReport.DataSets.Clear;
+    DataModule2.FfrxDBDatasetMovimentacao.DataSet := DataModule2.qryMovimentacao;
+    DataModule2.FfrxDBDatasetEstatisticas.DataSet := DataModule2.qryEstatisticas;
     AfrxReport.DataSets.Add(DataModule2.FfrxDBDatasetMovimentacao);
     AfrxReport.DataSets.Add(DataModule2.FfrxDBDatasetEstatisticas);
 
@@ -538,6 +579,9 @@ procedure TRelatorioMovimentacaoRepository.PrepararDatasets(
 begin
   try
     ConfigurarQuerys(AItemFilter, ADataInicio, ADataFim);
+
+    // Debug - mostrar quantos registros retornam
+
 
     // Associar os datasets aos parâmetros
     if Assigned(AfrxDBDatasetMovimentacao) then

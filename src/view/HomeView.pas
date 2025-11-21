@@ -11,31 +11,41 @@ uses
 type
   TFormHome = class(TForm)
     Panel1: TPanel;
-    Image2: TImage;
-    Image3: TImage;
-    Image4: TImage;
-    Image6: TImage;
-    Image1: TImage;
-    Image7: TImage;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
     Image8: TImage;
     Label7: TLabel;
-    Label8: TLabel;
     Panel2: TPanel;
     Panel3: TPanel;
-    Image9: TImage;
-    Image10: TImage;
-    Image11: TImage;
+    Panel4: TPanel;
+    Label8: TLabel;
+    Panel5: TPanel;
+    Image13: TImage;
+    Label12: TLabel;
+    Panel7: TPanel;
+    Label14: TLabel;
+    Image2: TImage;
+    Panel8: TPanel;
+    Label15: TLabel;
+    Image3: TImage;
+    Panel9: TPanel;
+    Label16: TLabel;
+    Image4: TImage;
+    Panel10: TPanel;
+    Label17: TLabel;
     Image5: TImage;
-    Label9: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-    Image12: TImage;
+    Panel11: TPanel;
+    Label18: TLabel;
+    Image6: TImage;
+    Panel12: TPanel;
+    Label19: TLabel;
+    Image9: TImage;
+    Panel13: TPanel;
+    Label20: TLabel;
+    Image10: TImage;
+    Panel14: TPanel;
+    Label21: TLabel;
+    Image11: TImage;
+    Image7: TImage;
+    Label1: TLabel;
     procedure Image1Click(Sender: TObject);
     procedure Image3Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);
@@ -131,10 +141,10 @@ end;
 
 procedure TFormHome.Image1Click(Sender: TObject);
 begin
-  if Panel1.Width = 50 then
-    Panel1.Width := 200
-  else if Panel1.Width = 200 then
-    Panel1.Width := 50;
+  if Panel1.Width = 59 then
+    Panel1.Width := 232
+  else if Panel1.Width = 232 then
+    Panel1.Width := 59;
 end;
 
 procedure TFormHome.Image2Click(Sender: TObject);
