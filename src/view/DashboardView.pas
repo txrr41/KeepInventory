@@ -312,6 +312,9 @@ var
   MaiorImpacto: TMaiorImpactoDTO;
   TipoSelecionado: string;
   MensagemErro: string;
+  ItemFilter: string;
+  DataInicio: TDate;
+  DataFim: TDate;
 begin
 
   if not DataModule2.FDConnection.Connected then
@@ -342,7 +345,6 @@ begin
       end
       else
       begin
-        // Log de sucesso na geração do relatório
         TLogService.Instance.LogRelatorio(
           TipoSelecionado,
           Format('Período: %s a %s', [
@@ -357,12 +359,6 @@ begin
         DateTimePickerFim.Date,
         TipoSelecionado
       );
-
-      ShowMessage(Format('DEBUG: %s - %s - R$ %.2f (%.0f%%)',
-    [MaiorImpacto.Nome,
-     MaiorImpacto.TipoOcorrencia,
-     MaiorImpacto.Valor,
-     MaiorImpacto.Percentual]));
 
       if MaiorImpacto.Valor > 0 then
       begin
@@ -379,139 +375,115 @@ begin
         DataModule2.frxReport1.Variables['MaiorImpactoPercentual'] := 0;
       end;
 
-      // ✅ MOSTRA O PRIMEIRO RELATÓRIO
       DataModule2.frxReport1.ShowReport;
     end
-  else if ComboBoxRelatorios.ItemIndex = 1 then
-begin
-  // Segundo relatório (frxReport2) - Relatorio de Status de Depreciacao
-  try
-    // Sem filtro de data
-    MensagemErro := ''; // Inicializa a variável out
-    FControllerStatusRela.PrepararRelatorioFastReport(
-      MensagemErro
-    );
+    else if ComboBoxRelatorios.ItemIndex = 1 then
+    begin
+      // Segundo relatório (frxReport2) - Relatorio de Status de Depreciacao
+      try
+        MensagemErro := '';
+        FControllerStatusRela.PrepararRelatorioFastReport(MensagemErro);
 
-    if MensagemErro <> '' then
-    begin
-      TLogService.Instance.LogSistema('Erro ao preparar relatório de status: ' + MensagemErro, 'ERRO');
-      ShowMessage('Erro ao preparar relatório: ' + MensagemErro);
-      Exit;
+        if MensagemErro <> '' then
+        begin
+          TLogService.Instance.LogSistema('Erro ao preparar relatório de status: ' + MensagemErro, 'ERRO');
+          ShowMessage('Erro ao preparar relatório: ' + MensagemErro);
+          Exit;
+        end
+        else
+        begin
+          TLogService.Instance.LogRelatorio(
+            'Status de Depreciação',
+            Format('Período: %s a %s', [
+              DateToStr(DateTimePickerInicio.Date),
+              DateToStr(DateTimePickerFim.Date)
+            ])
+          );
+        end;
+
+        DataModule2.frxReport2.Variables['DataInicio'] := DateTimePickerInicio.Date;
+        DataModule2.frxReport2.Variables['DataFim'] := DateTimePickerFim.Date;
+        DataModule2.frxReport2.Variables['TipoRelatorio'] := 'Status de Depreciação';
+        DataModule2.frxReport2.Variables['DataEmissao'] := Date;
+        DataModule2.frxReport2.Variables['UsuarioEmissao'] := TPermissoesHelper.GetUsuarioLogado.Nome;
+
+        DataModule2.frxReport2.ShowReport;
+
+      except
+        on E: Exception do
+          ShowMessage('Erro ao gerar segundo relatório: ' + E.Message);
+      end;
     end
-    else
+   else if ComboBoxRelatorios.ItemIndex = 2 then
+begin
+  // Terceiro relatório - Relatório de Movimentações
+  try
+    ItemFilter := '';
+    DataInicio := 0;
+    DataFim := 0;
+
+    // Obter filtro de item
+    if Assigned(ComboBoxFiltroItem) and (ComboBoxFiltroItem.ItemIndex > 0) then
     begin
-      TLogService.Instance.LogRelatorio(
-        'Status de Depreciação',
-        Format('Período: %s a %s', [
-          DateToStr(DateTimePickerInicio.Date),
-          DateToStr(DateTimePickerFim.Date)
-        ])
-      );
+      ItemFilter := ComboBoxFiltroItem.Text;
     end;
 
-    DataModule2.frxReport2.Variables['DataInicio'] := DateTimePickerInicio.Date;
-    DataModule2.frxReport2.Variables['DataFim'] := DateTimePickerFim.Date;
-    DataModule2.frxReport2.Variables['TipoRelatorio'] := 'Status de Depreciação';
-    DataModule2.frxReport2.Variables['DataEmissao'] := Date;
-    DataModule2.frxReport2.Variables['UsuarioEmissao'] := TPermissoesHelper.GetUsuarioLogado.Nome;
+    // Obter filtro de datas
+    if DateTimePickerInicio.Visible then
+      DataInicio := Trunc(DateTimePickerInicio.Date);
+    if DateTimePickerFim.Visible then
+      DataFim := Trunc(DateTimePickerFim.Date);
 
-    DataModule2.frxReport2.ShowReport;
+    // Validar período se ambas as datas estiverem preenchidas
+    if (DataInicio > 0) and (DataFim > 0) and (DataInicio > DataFim) then
+    begin
+      ShowMessage('A data inicial não pode ser maior que a data final!');
+      Exit;
+    end;
+
+    // Verificar se existem dados para o filtro aplicado
+    if not FControllerMovimentacao.VerificarDadosExistentes(ItemFilter, DataInicio, DataFim) then
+    begin
+      var Mensagem: string;
+      Mensagem := 'Não foram encontradas movimentações';
+      if ItemFilter <> '' then
+        Mensagem := Mensagem + ' para o item "' + ItemFilter + '"';
+      if (DataInicio > 0) or (DataFim > 0) then
+        Mensagem := Mensagem + ' no período especificado';
+      Mensagem := Mensagem + '.';
+
+      ShowMessage(Mensagem);
+      Exit;
+    end;
+
+    // Preparar o relatório de movimentação
+    FControllerMovimentacao.GerarRelatorio(DataModule2.frxReport3, ItemFilter, DataInicio, DataFim);
+
+    if ItemFilter <> '' then
+      DataModule2.frxReport3.Variables['ItemFiltro'] := QuotedStr(ItemFilter)
+    else
+      DataModule2.frxReport3.Variables['ItemFiltro'] := QuotedStr('Todos os itens');
+
+    DataModule2.frxReport3.ShowReport;
+
+    // Log do relatório gerado
+    TLogService.Instance.LogRelatorio(
+      'Movimentações',
+      Format('Item: %s | Período: %s a %s', [
+        IfThen(ItemFilter = '', 'Todos', ItemFilter),
+        IfThen(DataInicio > 0, DateToStr(DataInicio), 'Sem filtro'),
+        IfThen(DataFim > 0, DateToStr(DataFim), 'Sem filtro')
+      ])
+    );
 
   except
     on E: Exception do
-      ShowMessage('Erro ao gerar segundo relatório: ' + E.Message);
+    begin
+      ShowMessage('Erro ao gerar relatório de movimentações: ' + E.Message);
+      TLogService.Instance.LogSistema('Erro ao gerar relatório de movimentações: ' + E.Message, 'ERRO');
+    end;
   end;
 end
-  else if ComboBoxRelatorios.ItemIndex = 2 then
-  begin
-    // Terceiro relatório - Relatório de Movimentações
-    try
-      var ItemFilter: string;
-      var DataInicio: TDate;
-      var DataFim: TDate;
-
-      ItemFilter := '';
-      DataInicio := 0;
-      DataFim := 0;
-
-      // Obter filtro de item
-      if Assigned(ComboBoxFiltroItem) and (ComboBoxFiltroItem.ItemIndex > 0) then
-      begin
-        ItemFilter := ComboBoxFiltroItem.Text;
-      end;
-
-      // Obter filtro de datas
-      if DateTimePickerInicio.Visible and DateTimePickerInicio.Checked then
-        DataInicio := Trunc(DateTimePickerInicio.Date);
-      if DateTimePickerFim.Visible and DateTimePickerFim.Checked then
-        DataFim := Trunc(DateTimePickerFim.Date);
-
-      // Validar período se ambas as datas estiverem preenchidas
-      if (DataInicio > 0) and (DataFim > 0) and (DataInicio > DataFim) then
-      begin
-        ShowMessage('A data inicial não pode ser maior que a data final!');
-        Exit;
-      end;
-
-      // Verificar se existem dados para o filtro aplicado
-      if not FControllerMovimentacao.VerificarDadosExistentes(ItemFilter, DataInicio, DataFim) then
-      begin
-        var Mensagem: string;
-        Mensagem := 'Não foram encontradas movimentações';
-        if ItemFilter <> '' then
-          Mensagem := Mensagem + ' para o item "' + ItemFilter + '"';
-        if (DataInicio > 0) or (DataFim > 0) then
-          Mensagem := Mensagem + ' no período especificado';
-        Mensagem := Mensagem + '.';
-
-        ShowMessage(Mensagem);
-        Exit;
-      end;
-
-      // Preparar o relatório de movimentação
-      FControllerMovimentacao.GerarRelatorio(DataModule2.frxReport3, ItemFilter, DataInicio, DataFim);
-
-
-      DataModule2.frxReport3.Variables['ItemFiltro'] := QuotedStr(IfThen(ItemFilter = '', 'Todos os itens', ItemFilter));
-      if DataInicio > 0 then
-        DataModule2.frxReport3.Variables['DataInicio'] := DataInicio
-      else
-        DataModule2.frxReport3.Variables['DataInicio'] := Null;
-
-      if DataFim > 0 then
-        DataModule2.frxReport3.Variables['DataFim'] := DataFim
-      else
-        DataModule2.frxReport3.Variables['DataFim'] := Null;
-
-      DataModule2.frxReport3.Variables['DataEmissao'] := Trunc(Date);
-
-
-      DataModule2.frxReport3.ShowReport;
-
-      // Log do relatório gerado
-      TLogService.Instance.LogRelatorio(
-        'Movimentações',
-        Format('Item: %s | Período: %s a %s', [
-          IfThen(ItemFilter = '', 'Todos', ItemFilter),
-          IfThen(DataInicio > 0, DateToStr(DataInicio), 'Início'),
-          IfThen(DataFim > 0, DateToStr(DataFim), 'Fim')
-        ])
-      );
-
-    except
-      on E: Exception do
-      begin
-        ShowMessage('Erro ao gerar relatório de movimentações: ' + E.Message);
-        TLogService.Instance.LogSistema('Erro ao gerar relatório de movimentações: ' + E.Message, 'ERRO');
-      end;
-    end;
-  end
-  else
-  begin
-    ShowMessage('Selecione um relatório válido.');
-    Exit;
-  end;
-
   finally
 
   end;

@@ -49,10 +49,10 @@ type
     qryRelatoriostatus_texto: TWideMemoField;
     qryRelatoriodata_depreciacao_estimada: TSQLTimeStampField;
     FfrxDBDatasetMovimentacao: TfrxDBDataset;
-    FQueryMovimentacao: TFDQuery;
+    qryMovimentacao: TFDQuery;
     frxReport3: TfrxReport;
     FfrxDBDatasetEstatisticas: TfrxDBDataset;
-    FQueryEstatisticas: TFDQuery;
+    qryEstatisticas: TFDQuery;
   private
     { Private declarations }
   public

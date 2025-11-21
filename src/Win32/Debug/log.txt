@@ -159,3 +159,52 @@
 20/11/2025 18:19:08 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
 20/11/2025 18:19:22 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'itemFilter' not found
 20/11/2025 18:19:28 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 18:26:22 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 18:26:22 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 18:26:32 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 18:26:36 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'itemFilter' not found
+20/11/2025 18:26:47 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao gerar relatório de movimentações: Erro no controller do relatório de movimentação: Erro ao gerar relatório de movimentação: Erro ao preparar relatório: Parameter 'dataInicio' not found
+20/11/2025 18:37:08 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 18:37:08 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 18:37:22 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 20/11/2024 a 20/11/2025
+20/11/2025 18:37:28 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Cad | Período: 20/11/2024 a 20/11/2025
+20/11/2025 18:47:45 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 18:47:46 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 18:48:07 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 20/11/2024 a 20/11/2025
+20/11/2025 18:59:10 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 18:59:10 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 18:59:26 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 20/11/2024 a 20/11/2025
+20/11/2025 19:01:22 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 19:01:22 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 19:01:32 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 20/11/2024 a 20/11/2025
+20/11/2025 19:06:22 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 19:06:22 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 19:06:37 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 20/11/2024 a 20/11/2025
+20/11/2025 19:14:23 Usuário: suporte1 - Login realizado com sucesso
+20/11/2025 19:14:23 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+20/11/2025 19:15:13 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 20/11/2024 a 20/11/2025
+20/11/2025 19:15:47 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 20/11/2024 a 20/11/2025
+20/11/2025 19:16:03 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Cad | Período: 20/11/2024 a 20/11/2025
+20/11/2025 19:41:22 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Notebook | Período: 20/11/2024 a 20/11/2025
+21/11/2025 08:45:31 Usuário: suporte1 - Login realizado com sucesso
+21/11/2025 08:45:31 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 08:45:56 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 08:47:55 Usuário: suporte1 - Login realizado com sucesso
+21/11/2025 08:47:55 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 08:48:29 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 08:50:21 Usuário: suporte1 - Login realizado com sucesso
+21/11/2025 08:50:21 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 08:50:33 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 08:50:36 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 21/11/2024 a 21/11/2025
+21/11/2025 08:51:07 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 08:56:43 Usuário: suporte1 - Login realizado com sucesso
+21/11/2025 08:56:43 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 08:57:02 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 10:03:57 Usuário: suporte1 - Login realizado com sucesso
+21/11/2025 10:03:57 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+21/11/2025 10:04:38 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 10:04:41 Usuário: suporte1 (ID: 1) - Gerou relatório -  Período: 21/11/2024 a 21/11/2025
+21/11/2025 10:04:51 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 21/11/2024 a 21/11/2025
+21/11/2025 10:05:28 Usuário: suporte1 (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 21/11/2024 a 21/11/2025
+21/11/2025 10:22:40 Usuário: suporte1 - Login realizado com sucesso
+21/11/2025 10:22:40 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
