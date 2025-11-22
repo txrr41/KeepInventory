@@ -11,9 +11,11 @@ TPatrimonioRepository = class
 public
   procedure AdicionarPatrimonio(APatrimonioModel: TPatrimonioConfig);
   procedure ExcluirPatrimonio(AId: Integer);
+  procedure RecuperarPatrimonio(AId: Integer);
   procedure EditarPatrimonio(APatrimonioModel: TPatrimonioConfig);
   function ListarNomesSalas: TStringList;
   function ListarPatrimonio: TDataSet;
+  function ListarPatrimoniosInativos: TDataSet;
   function PesquisarPatrimonio(const aSearch: String): TDataSet;
 
   // Novos m�todos para importa��o
@@ -103,6 +105,22 @@ begin
   try
     Q.Connection := DataModule2.FDConnection;
     Q.SQL.Text := 'UPDATE patrimonios SET ativo = false WHERE id = :id';
+    Q.ParamByName('id').AsInteger := AId;
+    Q.ExecSQL;
+    Q.Close;
+  finally
+    Q.Free;
+  end;
+end;
+
+procedure TPatrimonioRepository.RecuperarPatrimonio(AId: Integer);
+var
+  Q: TFDQuery;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text := 'UPDATE patrimonios SET ativo = true WHERE id = :id';
     Q.ParamByName('id').AsInteger := AId;
     Q.ExecSQL;
     Q.Close;
@@ -268,6 +286,36 @@ begin
     'FROM patrimonios p ' +
     'INNER JOIN salas s ON p.fk_id_salas = s.id ' +
     'WHERE p.ativo = true ' +
+    'ORDER BY p.id';
+
+  Query.Open;
+  Result := Query;
+end;
+
+function TPatrimonioRepository.ListarPatrimoniosInativos: TDataSet;
+var
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.Create(nil);
+  Query.Connection := DataModule2.FDConnection;
+
+  Query.SQL.Text :=
+    'SELECT ' +
+    '  p.id, ' +
+    '  p.nome, ' +
+    '  p.tipo, ' +
+    '  p.situacao, ' +
+    '  p.modelo, ' +
+    '  p.valor_aquisicao, ' +
+    '  p.valor_atual, ' +
+    '  p.quantidade, ' +
+    '  p.data_aquisicao, ' +
+    '  p.numero_serie, ' +
+    '  s.nome AS nome_sala, ' +
+    '  p.fk_id_salas ' +
+    'FROM patrimonios p ' +
+    'INNER JOIN salas s ON p.fk_id_salas = s.id ' +
+    'WHERE p.ativo = false ' +
     'ORDER BY p.id';
 
   Query.Open;

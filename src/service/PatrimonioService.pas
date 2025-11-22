@@ -7,13 +7,18 @@ PatrimonioDTO, PatrimonioModel, PatrimonioRepository, System.Classes, Data.DB, L
 
 Type
 TPatrimonioService = class
+private
+  FRepository: TPatrimonioRepository;
 public
+  constructor Create;
   procedure AdicionarPatrimonio(APatrimonioModel: TPatrimonioConfig);
   procedure ExcluirPatrimonio(AId: Integer);
+  procedure RecuperarPatrimonio(AId: Integer);
   procedure EditarPatrimonio(APatrimonioModel: TPatrimonioConfig);
   function PesquisarPatrimonio(const aSearch: String): TDataSet;
   function ObterNomesSalas: TStringList;
   function ListarPatrimonio: TDataSet;
+  function ListarPatrimoniosInativos: TDataSet;
   function GetNomePatrimonioById(AId: Integer): string;
 
   // Novos m�todos para importa��o
@@ -28,9 +33,14 @@ implementation
 
 { TPatrimonioService }
 
+constructor TPatrimonioService.Create;
+begin
+  FRepository := TPatrimonioRepository.Create;
+end;
+
 procedure TPatrimonioService.AdicionarPatrimonio(APatrimonioModel: TPatrimonioConfig);
 begin
-  FPatrimonioRepository.AdicionarPatrimonio(APatrimonioModel);
+  FRepository.AdicionarPatrimonio(APatrimonioModel);
 
   // Log da operação
   TLogService.Instance.LogCadastro(
@@ -43,7 +53,7 @@ end;
 
 procedure TPatrimonioService.EditarPatrimonio(APatrimonioModel: TPatrimonioConfig);
 begin
-  FPatrimonioRepository.EditarPatrimonio(APatrimonioModel);
+  FRepository.EditarPatrimonio(APatrimonioModel);
 
   // Log da operação
   TLogService.Instance.LogAlteracao(
@@ -59,7 +69,7 @@ var
 begin
   // Busca o nome do patrimônio antes de excluir para o log
   NomePatrimonio := GetNomePatrimonioById(AId);
-  FPatrimonioRepository.ExcluirPatrimonio(AId);
+  FRepository.ExcluirPatrimonio(AId);
 
   // Log da operação
   TLogService.Instance.LogExclusao(
@@ -69,30 +79,40 @@ begin
   );
 end;
 
+procedure TPatrimonioService.RecuperarPatrimonio(AId: Integer);
+begin
+  FRepository.RecuperarPatrimonio(AId);
+end;
+
 function TPatrimonioService.ListarPatrimonio: TDataSet;
 begin
-  Result := FPatrimonioRepository.ListarPatrimonio;
+  Result := FRepository.ListarPatrimonio;
+end;
+
+function TPatrimonioService.ListarPatrimoniosInativos: TDataSet;
+begin
+  Result := FRepository.ListarPatrimoniosInativos;
 end;
 
 function TPatrimonioService.ObterNomesSalas: TStringList;
 begin
-  Result := FPatrimonioRepository.ListarNomesSalas;
+  Result := FRepository.ListarNomesSalas;
 end;
 
 function TPatrimonioService.PesquisarPatrimonio(const aSearch: String): TDataSet;
 begin
-  Result := FPatrimonioRepository.PesquisarPatrimonio(aSearch);
+  Result := FRepository.PesquisarPatrimonio(aSearch);
 end;
 
 procedure TPatrimonioService.ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
   var TotalImportados, TotalErros: Integer; Erros: TStringList);
 begin
-  FPatrimonioRepository.ImportarPatrimonios(Itens, TotalImportados, TotalErros, Erros);
+  FRepository.ImportarPatrimonios(Itens, TotalImportados, TotalErros, Erros);
 end;
 
 function TPatrimonioService.GetNomePatrimonioById(AId: Integer): string;
 begin
-  Result := FPatrimonioRepository.GetNomePatrimonioById(AId);
+  Result := FRepository.GetNomePatrimonioById(AId);
 end;
 
 end.

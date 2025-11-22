@@ -43,7 +43,6 @@ type
     DBGridPatrimonio: TDBGrid;
     SearchBox1: TSearchBox;
     EditNomePatri: TEdit;
-    EdtTipoPatri: TEdit;
     CbSituacaoPatri: TComboBox;
     Label79: TLabel;
     EdtVAQPatri: TEdit;
@@ -194,9 +193,6 @@ type
     Label4: TLabel;
     Panel8: TPanel;
     Label12: TLabel;
-    Panel9: TPanel;
-    Label14: TLabel;
-    BtnFiltrarEmpresa: TSpeedButton;
     BtnExcluirEmpresa: TSpeedButton;
     BtnEditarEmpresa: TSpeedButton;
     BtnAdicionarEmpresa: TSpeedButton;
@@ -205,13 +201,40 @@ type
     Shape2: TShape;
     Shape3: TShape;
     Shape4: TShape;
-    Shape5: TShape;
     Panel4: TPanel;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
     Image4: TImage;
     Image5: TImage;
+    DSPredio: TDataSource;
+    DSPatrimonio: TDataSource;
+    DSSalas: TDataSource;
+    CbTipoPatrimonio: TComboBox;
+    CheckBoxRecuperarEmp: TCheckBox;
+    Panel9: TPanel;
+    BtnFiltrarEmpresa: TSpeedButton;
+    Shape5: TShape;
+    Label14: TLabel;
+    Panel34: TPanel;
+    Label5: TLabel;
+    Shape7: TShape;
+    CheckBoxRecuperarPredio: TCheckBox;
+    Panel36: TPanel;
+    Label7: TLabel;
+    Shape14: TShape;
+    Panel35: TPanel;
+    Label6: TLabel;
+    Shape9: TShape;
+    CheckBoxRecuperarSala: TCheckBox;
+    CheckBoxRecuperarPatri: TCheckBox;
+    BtnRecuperarPatrimonio: TSpeedButton;
+    BtnRecuperarSala: TSpeedButton;
+    BtnRecuperarEmpresa: TSpeedButton;
+    Panel39: TPanel;
+    Label8: TLabel;
+    Shape16: TShape;
+    BtnRecuperarPredio: TSpeedButton;
     procedure PageControl1Change(Sender: TObject);
     procedure BtnEnviarClick(Sender: TObject);
     procedure BtnConfirmarEdClick(Sender: TObject);
@@ -220,6 +243,7 @@ type
     procedure BtnExcluirEmpresaClick(Sender: TObject);
     procedure BtnAtualizarEmpresaClick(Sender: TObject);
     procedure BtnFiltrarEmpresaClick(Sender: TObject);
+    procedure CheckBoxRecuperarEmpClick(Sender: TObject);
     procedure edtPesquisarChange(Sender: TObject);
     procedure BtnConfirmarEdPredioClick(Sender: TObject);
     procedure BtnEnviarPredioClick(Sender: TObject);
@@ -228,6 +252,7 @@ type
     procedure BtnExcluirPredioClick(Sender: TObject);
     procedure BtnAtualizarPredioClick(Sender: TObject);
     procedure BtnFiltrarPredioClick(Sender: TObject);
+    procedure CheckBoxRecuperarPredioClick(Sender: TObject);
     procedure edtPesquisarPredioChange(Sender: TObject);
     procedure BtnEnviarSalaClick(Sender: TObject);
     procedure BtnConfirmarEdtSalaClick(Sender: TObject);
@@ -236,6 +261,7 @@ type
     procedure BtnExcluirSalaClick(Sender: TObject);
     procedure BtnAtualizarSalaClick(Sender: TObject);
     procedure BtnFiltrarSalaClick(Sender: TObject);
+    procedure CheckBoxRecuperarSalaClick(Sender: TObject);
     procedure EdtPesquisarSalaChange(Sender: TObject);
     procedure BtnConfirmarEdPatriClick(Sender: TObject);
     procedure BtnEnviarPatrimonioClick(Sender: TObject);
@@ -245,6 +271,7 @@ type
     procedure SpeedButton5Click(Sender: TObject);
     procedure SpeedButton4Click(Sender: TObject);
     procedure SearchBox1Change(Sender: TObject);
+    procedure CheckBoxRecuperarPatriClick(Sender: TObject);
     function  CarregarObjeto : TEmpresaDTO;
     procedure AtualizarTabelaP;
     procedure AtualizarTabelaE;
@@ -262,8 +289,13 @@ type
     procedure EdtVAPatriKeyPress(Sender: TObject; var Key: Char);
     procedure EdtVAQPatriExit(Sender: TObject);
     procedure EdtVAPatriExit(Sender: TObject);
- private
-          procedure AtualizarTabelaPatrimonio;
+    procedure BtnRecuperarEmpresaClick(Sender: TObject);
+    procedure BtnRecuperarPredioClick(Sender: TObject);
+    procedure BtnRecuperarSalaClick(Sender: TObject);
+    procedure BtnRecuperarPatrimonioClick(Sender: TObject);
+
+     private
+    procedure AtualizarTabelaPatrimonio;
     procedure BtnAtualizarPatrimonioClick(Sender: TObject);
     procedure BtnExcluirPatrimonioClick(Sender: TObject);
     procedure BtnFiltrarPatrimonioClick(Sender: TObject);
@@ -273,12 +305,21 @@ type
     procedure PopularComboBoxSalas;
     function LimparValorMoeda(const Texto: string): Currency;
     function FormatarValorBrasileiro(Valor: Currency): String;
-
-    // Controle de estado dos campos
     procedure SetEstadoCamposPatrimonio(Habilitado: Boolean);
     procedure SetEstadoCamposSala(Habilitado: Boolean);
     procedure SetEstadoCamposPredio(Habilitado: Boolean);
     procedure SetEstadoCamposEmpresa(Habilitado: Boolean);
+
+    procedure PopularComboBoxTiposPatrimonio;
+    function VerificarDependenciasSala(IdSala: Integer): TStringList;
+    function VerificarDependenciasPredio(IdPredio: Integer): TStringList;
+    function VerificarDependenciasEmpresa(IdEmpresa: Integer): TStringList;
+    private
+    FEmpresaController: TEmpresaController;
+    FPredioController: TPredioController;
+    FSalaController: TSalaController;
+    FPatrimonioController: TPatrimonioController;
+
 
     { Private declarations }
   end;
@@ -306,9 +347,15 @@ begin
   // Usuario e FUsuarioLogado removidos - logging movido para services
 
   // Cria os controllers UMA VEZ
-  // FLogController removido - logging movido para services
+  FEmpresaController := TEmpresaController.Create;
+  FPredioController := TPredioController.Create;
   FSalaController := TSalaController.Create;
   FPatrimonioController := TPatrimonioController.Create;
+
+  // Criar DataSources separados para cada grid
+  DSPredio := TDataSource.Create(Self);
+  DSSalas := TDataSource.Create(Self);
+  DSPatrimonio := TDataSource.Create(Self);
 
 
 
@@ -404,7 +451,7 @@ begin
 
     // Preenche o DTO
     Dto.FNome := EditNomePatri.Text;
-    Dto.FTipo := EdtTipoPatri.Text;
+    Dto.FTipo := CbTipoPatrimonio.Text;
     Dto.FSituacao := CBSituacaoPatri.Text;
     Dto.FModelo := EdtModelo.Text;
     Dto.FValorAquisicao := ValorAquisicao;
@@ -529,15 +576,15 @@ end;
 
 procedure TFormCadastro.edtPesquisarPredioChange(Sender: TObject);
 begin
-  DataSEmpresa.DataSet := ControllerPredio.PesquisarPredio(edtPesquisarPredio.Text);
-  DBGridPredio.DataSource := DataSEmpresa;
+  DSPredio.DataSet := ControllerPredio.PesquisarPredio(edtPesquisarPredio.Text);
+  DBGridPredio.DataSource := DSPredio;
 
 end;
 
 procedure TFormCadastro.EdtPesquisarSalaChange(Sender: TObject);
 begin
- DataSEmpresa.DataSet := FSalaController.PesquisarSala(edtPesquisarSala.Text);
-  DBGridSalas.DataSource := DataSEmpresa;
+ DSSalas.DataSet := FSalaController.PesquisarSala(edtPesquisarSala.Text);
+  DBGridSalas.DataSource := DSSalas;
 
 end;
 
@@ -643,6 +690,9 @@ end;
 procedure TFormCadastro.FormShow(Sender: TObject);
 begin
   TPermissoesHelper.AplicarPermissoesCadastros(PageControl1);
+
+  // Popular ComboBox de tipos de patrimônio
+  PopularComboBoxTiposPatrimonio;
 
   // Inicializar campos desabilitados
   SetEstadoCamposPatrimonio(False);
@@ -789,7 +839,7 @@ begin
     SelectedID := Integer(NativeInt(ComboBoxPatrimonio.Items.Objects[ComboBoxPatrimonio.ItemIndex]));
     Dto.FIdSala := SelectedID;
     Dto.FNome := EditNomePatri.Text;
-    Dto.FTipo := EdtTipoPatri.Text;
+    Dto.FTipo := CbTipoPatrimonio.Text;
     Dto.FSituacao := CBSituacaoPatri.Text;
     Dto.FModelo := EdtModelo.Text;
 
@@ -898,11 +948,40 @@ var
   IdUser: Integer;
   Controller: TEmpresaController;
   Emp: String;
+  Dependencias: TStringList;
+  Mensagem: String;
+  i: Integer;
 begin
   Emp := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
-  if MessageDlg('A Empresa ' + Emp + ' será excluída, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-  begin
-    IdUser := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
+  IdUser := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
+
+  try
+    // Verificar dependências antes de excluir
+    Dependencias := VerificarDependenciasEmpresa(IdUser);
+
+    if Dependencias.Count > 0 then
+    begin
+      // Construir mensagem de aviso
+      Mensagem := 'ATENÇÃO! Esta empresa possui dependências:' + sLineBreak + sLineBreak;
+
+      for i := 0 to Dependencias.Count - 1 do
+        Mensagem := Mensagem + '• ' + Dependencias[i] + sLineBreak;
+
+      Mensagem := Mensagem + sLineBreak +
+                  'Ao excluir esta empresa, os itens relacionados também serão afetados.' + sLineBreak + sLineBreak +
+                  'Deseja continuar com a exclusão?';
+
+      if MessageDlg(Mensagem, mtWarning, [mbYes, mbNo], 0) <> mrYes then
+        Exit;
+    end
+    else
+    begin
+      // Sem dependências, apenas confirmação simples
+      if MessageDlg('A Empresa ' + Emp + ' será excluída, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+        Exit;
+    end;
+
+    // Prosseguir com a exclusão
     Controller := TEmpresaController.Create;
     try
       Controller.ExcluirEmpresa(IdUser);
@@ -914,9 +993,14 @@ begin
     finally
       Controller.Free;
     end;
-  end;
 
+  finally
+    Dependencias.Free;
+  end;
 end;
+
+
+
 
 procedure TFormCadastro.BtnExcluirPatrimonioClick(Sender: TObject);
 var
@@ -937,50 +1021,211 @@ begin
   end;
 end;
 
-procedure TFormCadastro.BtnExcluirPredioClick(Sender: TObject);
+procedure TFormCadastro.BtnRecuperarEmpresaClick(Sender: TObject);
+var
+  IdUser: Integer;
+  Controller: TEmpresaController;
+  Emp: String;
+begin
+  Emp := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
+  IdUser := DBGrid1.DataSource.DataSet.FieldByName('id').AsInteger;
+
+  if MessageDlg('A Empresa ' + Emp + ' será recuperada, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+    Exit;
+
+  try
+    Controller := TEmpresaController.Create;
+    try
+      Controller.RecuperarEmpresa(IdUser);
+      CheckBoxRecuperarEmp.Checked := False;
+      CheckBoxRecuperarEmpClick(nil);
+      ShowMessage('Empresa recuperada com sucesso!');
+    finally
+      Controller.Free;
+    end;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao recuperar empresa: ' + E.Message);
+  end;
+end;
+
+procedure TFormCadastro.BtnRecuperarPatrimonioClick(Sender: TObject);
+var
+  IdPatrimonio: Integer;
+  Patrimonio: String;
+begin
+  Patrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
+  IdPatrimonio := DBGridPatrimonio.DataSource.DataSet.FieldByName('id').AsInteger;
+
+  if MessageDlg('O Patrimônio ' + Patrimonio + ' será recuperado, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+    Exit;
+
+  try
+    FPatrimonioController.RecuperarPatrimonio(IdPatrimonio);
+    CheckBoxRecuperarPatri.Checked := False;
+    CheckBoxRecuperarPatriClick(nil);
+    ShowMessage('Patrimônio recuperado com sucesso!');
+  except
+    on E: Exception do
+      ShowMessage('Erro ao recuperar patrimônio: ' + E.Message);
+  end;
+end;
+
+procedure TFormCadastro.BtnRecuperarPredioClick(Sender: TObject);
 var
   IdPredio: Integer;
   Predio: String;
 begin
   Predio := DBGridPredio.DataSource.DataSet.FieldByName('nome').AsString;
-  if MessageDlg('O Prédio ' + Predio + ' será excluído, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-  begin
-    IdPredio := DBGridPredio.DataSource.DataSet.FieldByName('id').AsInteger;
-    ControllerPredio.ExcluirPredio(IdPredio);
+  IdPredio := DBGridPredio.DataSource.DataSet.FieldByName('id').AsInteger;
 
-    // LOG: Excluiu prédio
-    // Log removido - movido para Controller:Excluiu prédio - ' + Predio + ' (ID: ' + IntToStr(IdPredio) + ')
-    AtualizarTabelaP;
-    ShowMessage('Prédio excluído com sucesso!');
+  if MessageDlg('O Prédio ' + Predio + ' será recuperado, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+    Exit;
+
+  try
+    FPredioController.RecuperarPredio(IdPredio);
+    CheckBoxRecuperarPredio.Checked := False;
+    CheckBoxRecuperarPredioClick(nil);
+    ShowMessage('Prédio recuperado com sucesso!');
+  except
+    on E: Exception do
+      ShowMessage('Erro ao recuperar prédio: ' + E.Message);
   end;
-
 end;
 
-procedure TFormCadastro.BtnExcluirSalaClick(Sender: TObject);
+procedure TFormCadastro.BtnRecuperarSalaClick(Sender: TObject);
 var
   IdSala: Integer;
   Sala: String;
 begin
   Sala := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;
-  if MessageDlg('A Sala ' + Sala + ' será excluída, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-  begin
-    IdSala := DBGridSalas.DataSource.DataSet.FieldByName('id').AsInteger;
+  IdSala := DBGridSalas.DataSource.DataSet.FieldByName('id').AsInteger;
+
+  if MessageDlg('A Sala ' + Sala + ' será recuperada, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+    Exit;
+
+  try
+    FSalaController.RecuperarSala(IdSala);
+    CheckBoxRecuperarSala.Checked := False;
+    CheckBoxRecuperarSalaClick(nil);
+    ShowMessage('Sala recuperada com sucesso!');
+  except
+    on E: Exception do
+      ShowMessage('Erro ao recuperar sala: ' + E.Message);
+  end;
+end;
+
+procedure TFormCadastro.BtnExcluirPredioClick(Sender: TObject);
+var
+  IdPredio: Integer;
+  Predio: String;
+  Dependencias: TStringList;
+  Mensagem: String;
+  i: Integer;
+begin
+  Predio := DBGridPredio.DataSource.DataSet.FieldByName('nome').AsString;
+  IdPredio := DBGridPredio.DataSource.DataSet.FieldByName('id').AsInteger;
+
+  try
+    // Verificar dependências antes de excluir
+    Dependencias := VerificarDependenciasPredio(IdPredio);
+
+    if Dependencias.Count > 0 then
+    begin
+      // Construir mensagem de aviso
+      Mensagem := 'ATENÇÃO! Este prédio possui dependências:' + sLineBreak + sLineBreak;
+
+      for i := 0 to Dependencias.Count - 1 do
+        Mensagem := Mensagem + '• ' + Dependencias[i] + sLineBreak;
+
+      Mensagem := Mensagem + sLineBreak +
+                  'Ao excluir este prédio, os itens relacionados também serão afetados.' + sLineBreak + sLineBreak +
+                  'Deseja continuar com a exclusão?';
+
+      if MessageDlg(Mensagem, mtWarning, [mbYes, mbNo], 0) <> mrYes then
+        Exit;
+    end
+    else
+    begin
+      // Sem dependências, apenas confirmação simples
+      if MessageDlg('O Prédio ' + Predio + ' será excluído, deseja continuar?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+        Exit;
+    end;
+
+    // Prosseguir com a exclusão
+    FPredioController.ExcluirPredio(IdPredio);
+
+    // LOG: Excluiu prédio
+    // Log removido - movido para Controller:Excluiu prédio - ' + Predio + ' (ID: ' + IntToStr(IdPredio) + ')
+    AtualizarTabelaP;
+    ShowMessage('Prédio excluído com sucesso!');
+
+  finally
+    Dependencias.Free;
+  end;
+end;
+
+
+
+
+procedure TFormCadastro.BtnExcluirSalaClick(Sender: TObject);
+var
+  IdSala: Integer;
+  Sala: String;
+  Dependencias: TStringList;
+  Mensagem: String;
+  i: Integer;
+begin
+  Sala := DBGridSalas.DataSource.DataSet.FieldByName('nome').AsString;
+  IdSala := DBGridSalas.DataSource.DataSet.FieldByName('id').AsInteger;
+
+  try
+    // Verificar dependências antes de excluir
+    Dependencias := VerificarDependenciasSala(IdSala);
+
+    if Dependencias.Count > 0 then
+    begin
+      // Construir mensagem de aviso
+      Mensagem := 'ATENÇÃO! Esta sala possui dependências:' + sLineBreak + sLineBreak;
+
+      for i := 0 to Dependencias.Count - 1 do
+        Mensagem := Mensagem + '• ' + Dependencias[i] + sLineBreak;
+
+      Mensagem := Mensagem + sLineBreak +
+                  'Ao excluir esta sala, os itens relacionados também serão afetados.' + sLineBreak + sLineBreak +
+                  'Deseja continuar com a exclusão?';
+
+      if MessageDlg(Mensagem, mtWarning, [mbYes, mbNo], 0) <> mrYes then
+        Exit;
+    end
+    else
+    begin
+      // Sem dependências, confirmação simples
+      if MessageDlg('A Sala ' + Sala + ' será excluída, deseja continuar?',
+                    mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+        Exit;
+    end;
+
+    // Executar exclusão
     FSalaController.ExcluirSala(IdSala);
 
     // LOG: Excluiu sala
     // Log removido - movido para Controller:Excluiu sala - ' + Sala + ' (ID: ' + IntToStr(IdSala) + ')
     AtualizarTabelaS;
     ShowMessage('Sala excluída com sucesso!');
-  end;
 
+  finally
+    Dependencias.Free;
+  end;
 end;
+
 
 
 
 procedure TFormCadastro.SearchBox1Change(Sender: TObject);
 begin
-  DataSEmpresa.DataSet := FPatrimonioController.PesquisarPatrimonio(SearchBox1.Text);
-  DBGridPatrimonio.DataSource := DataSEmpresa;
+  DSPatrimonio.DataSet := FPatrimonioController.PesquisarPatrimonio(SearchBox1.Text);
+  DBGridPatrimonio.DataSource := DSPatrimonio;
 
  end;
 
@@ -1034,7 +1279,7 @@ begin
 
   try
     EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
-    EdtTipoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString;
+    CbTipoPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString;
     CBSituacaoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('situacao').AsString;
     EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
     EdtVAQPatri.Text := FormatarValorBrasileiro(DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsCurrency);
@@ -1203,8 +1448,8 @@ var
 begin
   Controller := TPredioController.Create;
   try
-    DataSEmpresa.DataSet := Controller.ListarPredio;
-    DbGridPredio.DataSource := DataSEmpresa;
+    DSPredio.DataSet := Controller.ListarPredio;
+    DbGridPredio.DataSource := DSPredio;
   finally
     Controller.Free;
   end;
@@ -1212,20 +1457,20 @@ end;
 
 procedure TFormCadastro.AtualizarTabelaS;
 begin
-  DataSEmpresa.DataSet := FSalaController.ListarSala;
-  DbGridSalas.DataSource := DataSEmpresa;
+  DSSalas.DataSet := FSalaController.ListarSala;
+  DbGridSalas.DataSource := DSSalas;
 end;
 
 procedure TFormCadastro.AtualizarTabelaPatrimonio;
 begin
-  DataSEmpresa.DataSet := FPatrimonioController.ListarPatrimonio;
-  DBGridPatrimonio.DataSource := DataSEmpresa;
+  DSPatrimonio.DataSet := FPatrimonioController.ListarPatrimonio;
+  DBGridPatrimonio.DataSource := DSPatrimonio;
 end;
 
 procedure TFormCadastro.LimparCamposPatrimonio;
 begin
   EditNomePatri.Text := '';
-  EdtTipoPatri.Text := '';
+  CbTipoPatrimonio.ItemIndex := -1;
   EdtModelo.Text := '';
   ComboBoxPatrimonio.ItemIndex := -1;
   CBSituacaoPatri.ItemIndex := -1;
@@ -1310,19 +1555,20 @@ procedure TFormCadastro.PageControl1Change(Sender: TObject);
 begin
   if PageControl1.ActivePage = TabSheet1 then
   begin
+    AtualizarTabelaE;
   end
   else if PageControl1.ActivePage = TabSheet2 then
   begin
     AtualizarTabelaP;
-end
+  end
   else if PageControl1.ActivePage = TabSheet3 then
   begin
     AtualizarTabelaS;
-end
+  end
   else if PageControl1.ActivePage = TabSheet4 then
   begin
     AtualizarTabelaPatrimonio;
-end;
+  end;
 end;
 
 procedure TFormCadastro.PopularComboBox;
@@ -1333,6 +1579,104 @@ end;
 procedure TFormCadastro.PopularComboBoxSalas;
 begin
   FPatrimonioController.PopularComboBox(ComboBoxPatrimonio);
+end;
+
+procedure TFormCadastro.PopularComboBoxTiposPatrimonio;
+begin
+  // Adicionar tipos de patrimônio ao ComboBox
+  CbTipoPatrimonio.Items.Clear;
+  CbTipoPatrimonio.Items.Add('Eletrônico');
+  CbTipoPatrimonio.Items.Add('Móveis');
+  CbTipoPatrimonio.Items.Add('Imóveis');
+  CbTipoPatrimonio.Items.Add('Veículos');
+  CbTipoPatrimonio.Items.Add('Máquinas e Equipamentos');
+  CbTipoPatrimonio.Items.Add('Ferramentas');
+  CbTipoPatrimonio.Items.Add('Computadores e Periféricos');
+  CbTipoPatrimonio.Items.Add('Móveis de Escritório');
+  CbTipoPatrimonio.Items.Add('Equipamentos de Informática');
+  CbTipoPatrimonio.Items.Add('Utensílios');
+  CbTipoPatrimonio.Items.Add('Software');
+  CbTipoPatrimonio.Items.Add('Outros');
+end;
+
+function TFormCadastro.VerificarDependenciasSala(IdSala: Integer): TStringList;
+var
+  Dependencias: TStringList;
+  TotalPatrimonios: Integer;
+begin
+  Dependencias := TStringList.Create;
+  Result := Dependencias;
+
+  try
+    // Verificar patrimônios na sala usando o controller
+    TotalPatrimonios := FSalaController.ContarPatrimoniosPorSala(IdSala);
+    if TotalPatrimonios > 0 then
+      Dependencias.Add(Format('%d patrimônio(s) nesta sala', [TotalPatrimonios]));
+
+  except
+    on E: Exception do
+    begin
+      Dependencias.Free;
+      raise Exception.Create('Erro ao verificar dependências da sala: ' + E.Message);
+    end;
+  end;
+end;
+
+function TFormCadastro.VerificarDependenciasPredio(IdPredio: Integer): TStringList;
+var
+  Dependencias: TStringList;
+  TotalSalas, TotalPatrimonios: Integer;
+begin
+  Dependencias := TStringList.Create;
+  Result := Dependencias;
+
+  try
+    // Verificar salas no prédio usando o controller
+    TotalSalas := ControllerPredio.ContarSalasPorPredio(IdPredio);
+    if TotalSalas > 0 then
+      Dependencias.Add(Format('%d sala(s) neste prédio', [TotalSalas]));
+
+    // Verificar patrimônios nas salas do prédio
+    TotalPatrimonios := ControllerPredio.ContarPatrimoniosPorPredio(IdPredio);
+    if TotalPatrimonios > 0 then
+      Dependencias.Add(Format('%d patrimônio(s) nas salas deste prédio', [TotalPatrimonios]));
+
+  except
+    on E: Exception do
+    begin
+      Dependencias.Free;
+      raise Exception.Create('Erro ao verificar dependências do prédio: ' + E.Message);
+    end;
+  end;
+end;
+
+function TFormCadastro.VerificarDependenciasEmpresa(IdEmpresa: Integer): TStringList;
+var
+  Dependencias: TStringList;
+  TotalPredios: Integer;
+  Controller: TEmpresaController;
+begin
+  Dependencias := TStringList.Create;
+  Result := Dependencias;
+
+  try
+    Controller := TEmpresaController.Create;
+    try
+      // Verificar prédios da empresa usando o controller
+      TotalPredios := Controller.ContarPrediosPorEmpresa(IdEmpresa);
+      if TotalPredios > 0 then
+        Dependencias.Add(Format('%d prédio(s) nesta empresa', [TotalPredios]));
+    finally
+      Controller.Free;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Dependencias.Free;
+      raise Exception.Create('Erro ao verificar dependências da empresa: ' + E.Message);
+    end;
+  end;
 end;
 
 // Eventos de botões (mantidos)
@@ -1412,24 +1756,28 @@ end;
 
 procedure TFormCadastro.BtnEditarEmpresaClick(Sender: TObject);
 begin
-  BtnConfirmarEdPatri.Visible := True;
-  BtnEnviarPatrimonio.Visible := False;
+  BtnConfirmarEd.Visible := True;
+  BtnEnviar.Visible := False;
 
-  EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
-    EdtTipoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString;
-    CBSituacaoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('situacao').AsString;
-    EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
+  try
+    // Carregar dados da empresa nos campos
+    EditFantasia.Text := DBGrid1.DataSource.DataSet.FieldByName('nome_fantasia').AsString;
+    EditRazao.Text := DBGrid1.DataSource.DataSet.FieldByName('razao_social').AsString;
+    EditCnpj.Text := DBGrid1.DataSource.DataSet.FieldByName('cnpj').AsString;
+    EditTelefone.Text := DBGrid1.DataSource.DataSet.FieldByName('telefone').AsString;
+    EditCep.Text := DBGrid1.DataSource.DataSet.FieldByName('cep').AsString;
+    EditRua.Text := DBGrid1.DataSource.DataSet.FieldByName('rua').AsString;
+    EditCidade.Text := DBGrid1.DataSource.DataSet.FieldByName('cidade').AsString;
+    EditEstado.Text := DBGrid1.DataSource.DataSet.FieldByName('estado').AsString;
+    EditNumero.Text := DBGrid1.DataSource.DataSet.FieldByName('numero').AsString;
+    EditBairro.Text := DBGrid1.DataSource.DataSet.FieldByName('bairro').AsString;
 
-    // ✅ USA formatação brasileira unificada
-    EdtVAQPatri.Text := FormatarValorBrasileiro(DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_aquisicao').AsCurrency);
-    EdtVAPatri.Text := FormatarValorBrasileiro(DBGridPatrimonio.DataSource.DataSet.FieldByName('valor_atual').AsCurrency);
-
-    EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
-    EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
-    ComboBoxPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;
-    PopularComboBoxSalas;
-
-
+    // Habilitar campos para edição
+    SetEstadoCamposEmpresa(True);
+  except
+    on E: Exception do
+      ShowMessage('Erro ao carregar dados da empresa: ' + E.Message);
+  end;
 end;
 
 
@@ -1439,16 +1787,26 @@ end;
 
 
 procedure TFormCadastro.BtnEditarPatrimonioClick(Sender: TObject);
+var
+  NomeSala: String;
+  i: Integer;
 begin
   BtnConfirmarEdPatri.Visible := True;
   BtnEnviarPatrimonio.Visible := False;
 
   try
+    // Popular os ComboBox primeiro
+    PopularComboBoxSalas;
+    PopularComboBoxTiposPatrimonio;
+
     // Habilitar campos para edição
     SetEstadoCamposPatrimonio(True);
 
     EditNomePatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome').AsString;
-    EdtTipoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString;
+
+    // Carregar o tipo de patrimônio no ComboBox
+    CbTipoPatrimonio.ItemIndex := CbTipoPatrimonio.Items.IndexOf(DBGridPatrimonio.DataSource.DataSet.FieldByName('tipo').AsString);
+
     CBSituacaoPatri.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('situacao').AsString;
     EdtModelo.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('modelo').AsString;
 
@@ -1458,9 +1816,28 @@ begin
 
     EdtDAPatri.Text := DateToStr(DBGridPatrimonio.DataSource.DataSet.FieldByName('data_aquisicao').AsDateTime);
     EdtNS.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('numero_serie').AsString;
-    ComboBoxPatrimonio.Text := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;
-    PopularComboBoxSalas;
-  finally
+
+    // ✅ CORREÇÃO: Buscar sala no ComboBox de forma segura
+    NomeSala := DBGridPatrimonio.DataSource.DataSet.FieldByName('nome_sala').AsString;
+    ComboBoxPatrimonio.ItemIndex := -1; // Limpar seleção primeiro
+
+    // Procurar a sala no ComboBox
+    for i := 0 to ComboBoxPatrimonio.Items.Count - 1 do
+    begin
+      if ComboBoxPatrimonio.Items[i] = NomeSala then
+      begin
+        ComboBoxPatrimonio.ItemIndex := i;
+        Break;
+      end;
+    end;
+
+    // Se não encontrou, deixar o ComboBox sem seleção
+    if ComboBoxPatrimonio.ItemIndex = -1 then
+      ComboBoxPatrimonio.Text := '';
+
+  except
+    on E: Exception do
+      ShowMessage('Erro ao carregar dados do patrimônio: ' + E.Message);
   end;
 end;
 
@@ -1512,9 +1889,61 @@ begin
     edtPesquisar.Visible := True;
 end;
 
+procedure TFormCadastro.CheckBoxRecuperarEmpClick(Sender: TObject);
+begin
+  Panel34.Visible := CheckBoxRecuperarEmp.Checked;
+
+  if CheckBoxRecuperarEmp.Checked then
+  begin
+    try
+      DataSEmpresa.DataSet := FEmpresaController.ListarEmpresaInativas;
+      DataSEmpresa.DataSet.Open;
+    except
+      on E: Exception do
+        ShowMessage('Erro ao carregar empresas inativas: ' + E.Message);
+    end;
+  end
+  else
+  begin
+    try
+      DataSEmpresa.DataSet := FEmpresaController.ListarEmpresa;
+      DataSEmpresa.DataSet.Open;
+    except
+      on E: Exception do
+        ShowMessage('Erro ao carregar empresas: ' + E.Message);
+    end;
+  end;
+end;
+
 procedure TFormCadastro.BtnFiltrarPatrimonioClick(Sender: TObject);
 begin
   SearchBox1.Visible := True;
+end;
+
+procedure TFormCadastro.CheckBoxRecuperarPatriClick(Sender: TObject);
+begin
+  Panel35.Visible := CheckBoxRecuperarPatri.Checked;
+
+  if CheckBoxRecuperarPatri.Checked then
+  begin
+    try
+      DSPatrimonio.DataSet := FPatrimonioController.ListarPatrimoniosInativos;
+      DSPatrimonio.DataSet.Open;
+    except
+      on E: Exception do
+        ShowMessage('Erro ao carregar patrimônios inativos: ' + E.Message);
+    end;
+  end
+  else
+  begin
+    try
+      DSPatrimonio.DataSet := FPatrimonioController.ListarPatrimonio;
+      DSPatrimonio.DataSet.Open;
+    except
+      on E: Exception do
+        ShowMessage('Erro ao carregar patrimônios: ' + E.Message);
+    end;
+  end;
 end;
 
 procedure TFormCadastro.BtnFiltrarPredioClick(Sender: TObject);
@@ -1522,9 +1951,61 @@ begin
   edtPesquisarPredio.Visible := True;
 end;
 
+procedure TFormCadastro.CheckBoxRecuperarPredioClick(Sender: TObject);
+begin
+  Panel39.Visible := CheckBoxRecuperarPredio.Checked;
+
+  if CheckBoxRecuperarPredio.Checked then
+  begin
+    try
+      DSPredio.DataSet := FPredioController.ListarPredioInativos;
+      DSPredio.DataSet.Open;
+    except
+      on E: Exception do
+        ShowMessage('Erro ao carregar prédios inativos: ' + E.Message);
+    end;
+  end
+  else
+  begin
+    try
+      DSPredio.DataSet := FPredioController.ListarPredio;
+      DSPredio.DataSet.Open;
+    except
+      on E: Exception do
+        ShowMessage('Erro ao carregar prédios: ' + E.Message);
+    end;
+  end;
+end;
+
 procedure TFormCadastro.BtnFiltrarSalaClick(Sender: TObject);
 begin
   edtPesquisarSala.Visible := True;
+end;
+
+procedure TFormCadastro.CheckBoxRecuperarSalaClick(Sender: TObject);
+begin
+  Panel36.Visible := CheckBoxRecuperarSala.Checked;
+
+  if CheckBoxRecuperarSala.Checked then
+  begin
+    try
+      DSSalas.DataSet := FSalaController.ListarSalasInativas;
+      DSSalas.DataSet.Open;
+    except
+      on E: Exception do
+        ShowMessage('Erro ao carregar salas inativas: ' + E.Message);
+    end;
+  end
+  else
+  begin
+    try
+      DSSalas.DataSet := FSalaController.ListarSala;
+      DSSalas.DataSet.Open;
+    except
+      on E: Exception do
+        ShowMessage('Erro ao carregar salas: ' + E.Message);
+    end;
+  end;
 end;
 
 // Funções de controle de estado dos campos
@@ -1532,7 +2013,7 @@ procedure TFormCadastro.SetEstadoCamposPatrimonio(Habilitado: Boolean);
 begin
   // Habilitar/Desabilitar campos de Patrimônio
   EditNomePatri.Enabled := Habilitado;
-  EdtTipoPatri.Enabled := Habilitado;
+  CbTipoPatrimonio.Enabled := Habilitado;
   CbSituacaoPatri.Enabled := Habilitado;
   EdtVAQPatri.Enabled := Habilitado;
   EdtVAPatri.Enabled := Habilitado;
@@ -1545,7 +2026,7 @@ begin
   if Habilitado then
   begin
     EditNomePatri.Color := clWindow;
-    EdtTipoPatri.Color := clWindow;
+    CbTipoPatrimonio.Color := clWindow;
     CbSituacaoPatri.Color := clWindow;
     EdtVAQPatri.Color := clWindow;
     EdtVAPatri.Color := clWindow;
@@ -1557,7 +2038,7 @@ begin
   else
   begin
     EditNomePatri.Color := clBtnFace;
-    EdtTipoPatri.Color := clBtnFace;
+    CbTipoPatrimonio.Color := clBtnFace;
     CbSituacaoPatri.Color := clBtnFace;
     EdtVAQPatri.Color := clBtnFace;
     EdtVAPatri.Color := clBtnFace;
@@ -1678,5 +2159,7 @@ begin
     EditBairro.Color := clBtnFace;
   end;
 end;
+
+
 
 end.

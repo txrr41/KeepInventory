@@ -12,8 +12,11 @@ type
     procedure AdicionarEmpresa(EmpModel: TEmpresaConfig);
     procedure EditarEmpresa(EmpModel: TEmpresaConfig);
     procedure ExcluirEmpresa(AId: Integer);
+    procedure RecuperarEmpresa(AId: Integer);
     function PesquisarEmpresa(const aSearch: String): TDataSet;
     Function ListarEmpresa: TDataSet;
+    Function ListarEmpresaInativas: TDataSet;
+    function ContarPrediosPorEmpresa(IdEmpresa: Integer): Integer;
   end;
 
 implementation
@@ -74,6 +77,22 @@ begin
  end;
 end;
 
+procedure TEmpresaRepository.RecuperarEmpresa(AId: Integer);
+var
+ Q: TFDQuery;
+begin
+ Q := TFDQuery.Create(nil);
+ try
+   Q.Connection := DataModule2.FDConnection;
+   Q.SQL.Text := 'UPDATE empresas SET ativo = true WHERE id = :id';
+   Q.ParamByName('id').AsInteger := AId;
+   Q.ExecSQL;
+   Q.Close;
+ finally
+  Q.Free;
+ end;
+end;
+
 function TEmpresaRepository.ListarEmpresa: TDataSet;
 var
 Q: TFDQuery;
@@ -81,6 +100,17 @@ begin
  Q := TFDQuery.Create(nil);
  Q.Connection := DataModule2.FDConnection;
  Q.SQL.Text := 'SELECT * FROM empresas WHERE ativo = true ORDER BY id ';
+ Q.Open;
+ Result := Q;
+end;
+
+function TEmpresaRepository.ListarEmpresaInativas: TDataSet;
+var
+Q: TFDQuery;
+begin
+ Q := TFDQuery.Create(nil);
+ Q.Connection := DataModule2.FDConnection;
+ Q.SQL.Text := 'SELECT * FROM empresas WHERE ativo = false ORDER BY id ';
  Q.Open;
  Result := Q;
 end;
@@ -136,6 +166,26 @@ begin
     Q.ParamByName('cep').AsString := EmpModel.Cep;
 
     Q.ExecSQL;
+    Q.Close;
+  finally
+    Q.Free;
+  end;
+end;
+
+function TEmpresaRepository.ContarPrediosPorEmpresa(IdEmpresa: Integer): Integer;
+var
+  Q: TFDQuery;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text :=
+      'SELECT COUNT(*) as total ' +
+      'FROM predios ' +
+      'WHERE fk_id_empresas = :id_empresa AND ativo = true';
+    Q.ParamByName('id_empresa').AsInteger := IdEmpresa;
+    Q.Open;
+    Result := Q.FieldByName('total').AsInteger;
     Q.Close;
   finally
     Q.Free;

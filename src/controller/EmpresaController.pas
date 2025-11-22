@@ -17,8 +17,11 @@ TEmpresaController = class
   procedure EditarEmpresa (AEmpresaDTO: TEmpresaDTO);
   function DtoForModel(AEmpresaDTO: TEmpresaDTO): TEmpresaConfig;
   procedure ExcluirEmpresa(AId: Integer);
+  procedure RecuperarEmpresa(AId: Integer);
   function PesquisarEmpresa (const aSearch: String): TDataSet;
   function ListarEmpresa: TDataSet;
+  function ListarEmpresaInativas: TDataSet;
+  function ContarPrediosPorEmpresa(IdEmpresa: Integer): Integer;
 end;
 
 
@@ -81,14 +84,29 @@ begin
    FService.ExcluirEmpresa(AId);
 end;
 
+procedure TEmpresaController.RecuperarEmpresa(AId: Integer);
+begin
+   FService.RecuperarEmpresa(AId);
+end;
+
 function TEmpresaController.ListarEmpresa: TDataSet;
 begin
  Result := FService.ListarEmpresa;
 end;
 
+function TEmpresaController.ListarEmpresaInativas: TDataSet;
+begin
+ Result := FService.ListarEmpresaInativas;
+end;
+
 function TEmpresaController.PesquisarEmpresa(const aSearch: String): TDataSet;
 begin
 Result := FService.PesquisarEmpresa(aSearch);
+end;
+
+function TEmpresaController.ContarPrediosPorEmpresa(IdEmpresa: Integer): Integer;
+begin
+  Result := FService.ContarPrediosPorEmpresa(IdEmpresa);
 end;
 
 end.

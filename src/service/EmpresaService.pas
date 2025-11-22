@@ -13,8 +13,11 @@ Type
   procedure AdicionarEmpresa(AEmpModel: TEmpresaConfig);
   procedure EditarEmpresa(AEmpModel: TEmpresaConfig);
   procedure ExcluirEmpresa(AId: Integer);
+  procedure RecuperarEmpresa(AId: Integer);
   function PesquisarEmpresa(const aSearch: String): TDataSet;
   function ListarEmpresa: TDataSet;
+  function ListarEmpresaInativas: TDataSet;
+  function ContarPrediosPorEmpresa(IdEmpresa: Integer): Integer;
   constructor Create;
   destructor destroy; override;
 end;
@@ -26,26 +29,26 @@ implementation
 procedure TEmpresaService.AdicionarEmpresa(AEmpModel: TEmpresaConfig);
 begin
  if (AEmpModel.NomeFan = '') then begin
-    raise Exception.Create('O campo nome fantasia é obrigatorio');
+    raise Exception.Create('O campo nome fantasia ï¿½ obrigatorio');
 
  end else if (AEmpModel.Razao = '') then begin
-     raise Exception.Create('O campo razao social é obrigatorio');
+     raise Exception.Create('O campo razao social ï¿½ obrigatorio');
  end else if (AEmpModel.Cnpj = '') then begin
-     raise Exception.Create('O campo cnpj é obrigatorio');
+     raise Exception.Create('O campo cnpj ï¿½ obrigatorio');
  end else if (AEmpModel.Telefone = '') then begin
-     raise Exception.Create('O campo telefone é obrigatorio');
+     raise Exception.Create('O campo telefone ï¿½ obrigatorio');
  end else if (AEmpModel.Cep = '') then begin
-     raise Exception.Create('O campo cep é obrigatorio');
+     raise Exception.Create('O campo cep ï¿½ obrigatorio');
  end else if (AEmpModel.Rua = '') then begin
-     raise Exception.Create('O campo rua é obrigatorio');
+     raise Exception.Create('O campo rua ï¿½ obrigatorio');
  end else if IntToStr(AEmpModel.Numero) = '' then begin
-     raise Exception.Create('O campo número é obrigatorio');
+     raise Exception.Create('O campo nï¿½mero ï¿½ obrigatorio');
  end else if (AEmpModel.Bairro = '') then begin
-     raise Exception.Create('O campo bairro é obrigatorio');
+     raise Exception.Create('O campo bairro ï¿½ obrigatorio');
  end else if (AEmpModel.Cidade = '') then begin
-     raise Exception.Create('O campo cidade é obrigatorio');
+     raise Exception.Create('O campo cidade ï¿½ obrigatorio');
  end else if (AEmpModel.Estado = '') then begin
-     raise Exception.Create('O campo estado é obrigatorio');
+     raise Exception.Create('O campo estado ï¿½ obrigatorio');
  end;
 
   FRepository.AdicionarEmpresa(AEmpModel)
@@ -72,14 +75,29 @@ begin
     FRepository.ExcluirEmpresa(AId);
 end;
 
+procedure TEmpresaService.RecuperarEmpresa(AId: Integer);
+begin
+    FRepository.RecuperarEmpresa(AId);
+end;
+
 function TEmpresaService.ListarEmpresa: TDataSet;
 begin
   Result := FRepository.ListarEmpresa;
 end;
 
+function TEmpresaService.ListarEmpresaInativas: TDataSet;
+begin
+  Result := FRepository.ListarEmpresaInativas;
+end;
+
 function TEmpresaService.PesquisarEmpresa(const aSearch: String): TDataSet;
 begin
    Result := FRepository.PesquisarEmpresa(aSearch);
+end;
+
+function TEmpresaService.ContarPrediosPorEmpresa(IdEmpresa: Integer): Integer;
+begin
+  Result := FRepository.ContarPrediosPorEmpresa(IdEmpresa);
 end;
 
 end.

@@ -12,8 +12,12 @@ public
 procedure AdicionarPredio(PrModel: TPredioConfig);
 procedure EditarPredio (APredioConfig: TPredioConfig);
 procedure ExcluirPredio (AId: Integer);
+procedure RecuperarPredio (AId: Integer);
 function ListarPredio: TDataSet;
+function ListarPredioInativos: TDataSet;
 function PesquisarPredio (const aSearch: String): TDataSet;
+function ContarSalasPorPredio(IdPredio: Integer): Integer;
+function ContarPatrimoniosPorPredio(IdPredio: Integer): Integer;
 end;
 
  var
@@ -93,6 +97,22 @@ begin
  end;
 end;
 
+procedure TPredioRepository.RecuperarPredio(AId: Integer);
+var
+ Q: TFDQuery;
+begin
+ Q := TFDQuery.Create(nil);
+ try
+   Q.Connection := DataModule2.FDConnection;
+   Q.SQL.Text := 'UPDATE predios SET ativo = true WHERE id = :id';
+   Q.ParamByName('id').AsInteger := AId;
+   Q.ExecSQL;
+   Q.Close;
+ finally
+  Q.Free;
+ end;
+end;
+
 function TPredioRepository.ListarPredio: TDataSet;
 var
 Q: TFDQuery;
@@ -101,6 +121,22 @@ Q := TFDQuery.Create(nil);
 try
   Q.Connection := DataModule2.FDConnection;
   Q.Sql.Text := 'SELECT * FROM predios WHERE ativo = true ORDER BY id ';
+  Q.Open;
+
+  Result := Q;
+finally
+
+end;
+end;
+
+function TPredioRepository.ListarPredioInativos: TDataSet;
+var
+Q: TFDQuery;
+begin
+Q := TFDQuery.Create(nil);
+try
+  Q.Connection := DataModule2.FDConnection;
+  Q.Sql.Text := 'SELECT * FROM predios WHERE ativo = false ORDER BY id ';
   Q.Open;
 
   Result := Q;
@@ -133,6 +169,47 @@ begin
   except
     Q.Free;
     raise;
+  end;
+end;
+
+function TPredioRepository.ContarSalasPorPredio(IdPredio: Integer): Integer;
+var
+  Q: TFDQuery;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text :=
+      'SELECT COUNT(*) as total ' +
+      'FROM salas ' +
+      'WHERE fk_id_predios = :id_predio AND ativo = true';
+    Q.ParamByName('id_predio').AsInteger := IdPredio;
+    Q.Open;
+    Result := Q.FieldByName('total').AsInteger;
+    Q.Close;
+  finally
+    Q.Free;
+  end;
+end;
+
+function TPredioRepository.ContarPatrimoniosPorPredio(IdPredio: Integer): Integer;
+var
+  Q: TFDQuery;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text :=
+      'SELECT COUNT(*) as total ' +
+      'FROM patrimonios p ' +
+      'INNER JOIN salas s ON p.fk_id_salas = s.id ' +
+      'WHERE s.fk_id_predios = :id_predio AND p.ativo = true AND s.ativo = true';
+    Q.ParamByName('id_predio').AsInteger := IdPredio;
+    Q.Open;
+    Result := Q.FieldByName('total').AsInteger;
+    Q.Close;
+  finally
+    Q.Free;
   end;
 end;
 

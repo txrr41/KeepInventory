@@ -7,14 +7,20 @@ SalaModel, SalaDTO, SalaService, System.SysUtils, Vcl.StdCtrls, System.Classes, 
 
 type
 TSalaController = class
+private
+  FService: TSalaService;
 public
-procedure PopularComboBox (AComboBox: TComboBox);
-procedure AdicionarSala (ASalaDTO: TSalaDTO);
-procedure ExcluirSala (AId: Integer);
-procedure EditarSala (ASalaDTO: TSalaDTO);
-function PesquisarSala (const aSearch: String): TDataSet;
-function ListarSala: TDataSet;
-function DtoForModel(ASalaDTO: TSalaDTO): TSalaConfig;
+  constructor Create;
+  procedure PopularComboBox (AComboBox: TComboBox);
+  procedure AdicionarSala (ASalaDTO: TSalaDTO);
+  procedure ExcluirSala (AId: Integer);
+  procedure RecuperarSala (AId: Integer);
+  procedure EditarSala (ASalaDTO: TSalaDTO);
+  function PesquisarSala (const aSearch: String): TDataSet;
+  function ListarSala: TDataSet;
+  function ListarSalasInativas: TDataSet;
+  function DtoForModel(ASalaDTO: TSalaDTO): TSalaConfig;
+  function ContarPatrimoniosPorSala(IdSala: Integer): Integer;
 end;
 
 
@@ -25,12 +31,17 @@ implementation
 
 { TSalaController }
 
+constructor TSalaController.Create;
+begin
+  FService := TSalaService.Create;
+end;
+
 procedure TSalaController.AdicionarSala(ASalaDTO: TSalaDTO);
 var
 SalaModel: TSalaConfig;
 begin
    SalaModel := DtoForModel(ASalaDto);
-   FSalaService.AdicionarSala(SalaModel);
+   FService.AdicionarSala(SalaModel);
 end;
 
 function TSalaController.DtoForModel(ASalaDTO: TSalaDTO): TSalaConfig;
@@ -54,22 +65,32 @@ var
 SalaModel: TSalaConfig;
 begin
    SalaModel := DtoForModel(ASalaDto);
-   FSalaService.EditarSala(SalaModel);
+   FService.EditarSala(SalaModel);
 end;
 
 procedure TSalaController.ExcluirSala(AId: Integer);
 begin
-FSalaService.ExcluirSala(AId);
+FService.ExcluirSala(AId);
+end;
+
+procedure TSalaController.RecuperarSala(AId: Integer);
+begin
+FService.RecuperarSala(AId);
 end;
 
 function TSalaController.ListarSala: TDataSet;
 begin
- result := FSalaService.ListarSala;
+ result := FService.ListarSala;
+end;
+
+function TSalaController.ListarSalasInativas: TDataSet;
+begin
+ result := FService.ListarSalasInativas;
 end;
 
 function TSalaController.PesquisarSala(const aSearch: String): TDataSet;
 begin
- result := FSalaService.PesquisarSala(aSearch);
+ result := FService.PesquisarSala(aSearch);
 end;
 
 procedure TSalaController.PopularComboBox(AComboBox: TComboBox);
@@ -77,7 +98,7 @@ var
   NomesComIDs: TStringList;
 begin
 
-  NomesComIDs := FSalaService.ObterNomesPredios;
+  NomesComIDs := FService.ObterNomesPredios;
   try
     AComboBox.Items.Clear;
     AComboBox.Items.Assign(NomesComIDs);
@@ -85,5 +106,10 @@ begin
 
     NomesComIDs.Free;
   end;
+end;
+
+function TSalaController.ContarPatrimoniosPorSala(IdSala: Integer): Integer;
+begin
+  Result := FService.ContarPatrimoniosPorSala(IdSala);
 end;
 end.

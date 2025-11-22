@@ -10,10 +10,13 @@ TSalaRepository = class
 public
 procedure AdicionarSala (ASalaModel: TSalaConfig);
 procedure ExcluirSala (AId: Integer);
+procedure RecuperarSala (AId: Integer);
 procedure EditarSala (ASalaModel: TSalaConfig);
 function ListarNomesPredios: TStringList;
 function ListarSala: TDataSet;
+function ListarSalasInativas: TDataSet;
 function PesquisarSala (const aSearch: String): TDataSet;
+function ContarPatrimoniosPorSala(IdSala: Integer): Integer;
 
 end;
 
@@ -91,6 +94,22 @@ begin
  end;
 end;
 
+procedure TSalaRepository.RecuperarSala(AId: Integer);
+var
+ Q: TFDQuery;
+begin
+ Q := TFDQuery.Create(nil);
+ try
+   Q.Connection := DataModule2.FDConnection;
+   Q.SQL.Text := 'UPDATE salas SET ativo = true WHERE id = :id';
+   Q.ParamByName('id').AsInteger := AId;
+   Q.ExecSQL;
+   Q.Close;
+ finally
+  Q.Free;
+ end;
+end;
+
 function TSalaRepository.ListarNomesPredios: TStringList;
 var
   Query: TFDQuery;
@@ -141,6 +160,31 @@ begin
   Query.Open;
   Result := Query;
 end;
+
+function TSalaRepository.ListarSalasInativas: TDataSet;
+var
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.Create(nil);
+  Query.Connection := DataModule2.FDConnection;
+
+  Query.SQL.Text :=
+    'SELECT ' +
+    '  s.id, ' +
+    '  s.nome AS nome, ' +
+    '  p.nome AS nome_predio, ' +
+    '  s.situacao, ' +
+    '  s.tipo, ' +
+    '  s.observacao, ' +
+    '  s.fk_id_predios ' +
+    'FROM salas s ' +
+    'INNER JOIN predios p ON s.fk_id_predios = p.id ' +
+     'WHERE s.ativo = false ' +
+    'ORDER BY s.id';
+
+  Query.Open;
+  Result := Query;
+end;
 function TSalaRepository.PesquisarSala(const aSearch: String): TDataSet;
 var
   Q: TFDQuery;
@@ -166,6 +210,27 @@ begin
     raise;
   end;
 end;
+
+function TSalaRepository.ContarPatrimoniosPorSala(IdSala: Integer): Integer;
+var
+  Q: TFDQuery;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text :=
+      'SELECT COUNT(*) as total ' +
+      'FROM patrimonios ' +
+      'WHERE fk_id_salas = :id_sala AND ativo = true';
+    Q.ParamByName('id_sala').AsInteger := IdSala;
+    Q.Open;
+    Result := Q.FieldByName('total').AsInteger;
+    Q.Close;
+  finally
+    Q.Free;
+  end;
+end;
+
 { TSalaRepository }
 
 

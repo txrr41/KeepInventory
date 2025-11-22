@@ -8,13 +8,18 @@ Vcl.StdCtrls, System.Classes, DATA.DB, PatrimonioImportacaoCSV;
 
 type
 TPatrimonioController = class
+private
+  FService: TPatrimonioService;
 public
+  constructor Create;
   procedure PopularComboBox(AComboBox: TComboBox);
   procedure AdicionarPatrimonio(APatrimonioDTO: TPatrimonioDTO);
   procedure ExcluirPatrimonio(AId: Integer);
+  procedure RecuperarPatrimonio(AId: Integer);
   procedure EditarPatrimonio(APatrimonioDTO: TPatrimonioDTO);
   function PesquisarPatrimonio(const aSearch: String): TDataSet;
   function ListarPatrimonio: TDataSet;
+  function ListarPatrimoniosInativos: TDataSet;
   function DtoForModel(APatrimonioDTO: TPatrimonioDTO): TPatrimonioConfig;
 
   // Novos m�todos para importa��o CSV
@@ -30,12 +35,17 @@ implementation
 
 { TPatrimonioController }
 
+constructor TPatrimonioController.Create;
+begin
+  FService := TPatrimonioService.Create;
+end;
+
 procedure TPatrimonioController.AdicionarPatrimonio(APatrimonioDTO: TPatrimonioDTO);
 var
   PatrimonioModel: TPatrimonioConfig;
 begin
   PatrimonioModel := DtoForModel(APatrimonioDTO);
-  FPatrimonioService.AdicionarPatrimonio(PatrimonioModel);
+  FService.AdicionarPatrimonio(PatrimonioModel);
 
   // Log movido para o Service
 end;
@@ -73,31 +83,41 @@ end;
 
 procedure TPatrimonioController.ExcluirPatrimonio(AId: Integer);
 begin
-  FPatrimonioService.ExcluirPatrimonio(AId);
+  FService.ExcluirPatrimonio(AId);
   // Log movido para o Service
 end;
 
 function TPatrimonioController.ListarPatrimonio: TDataSet;
 begin
-  Result := FPatrimonioService.ListarPatrimonio;
+  Result := FService.ListarPatrimonio;
+end;
+
+function TPatrimonioController.ListarPatrimoniosInativos: TDataSet;
+begin
+  Result := FService.ListarPatrimoniosInativos;
 end;
 
 function TPatrimonioController.PesquisarPatrimonio(const aSearch: String): TDataSet;
 begin
-  Result := FPatrimonioService.PesquisarPatrimonio(aSearch);
+  Result := FService.PesquisarPatrimonio(aSearch);
 end;
 
 procedure TPatrimonioController.PopularComboBox(AComboBox: TComboBox);
 var
   NomesComIDs: TStringList;
 begin
-  NomesComIDs := FPatrimonioService.ObterNomesSalas;
+  NomesComIDs := FService.ObterNomesSalas;
   try
     AComboBox.Items.Clear;
     AComboBox.Items.Assign(NomesComIDs);
   finally
     NomesComIDs.Free;
   end;
+end;
+
+procedure TPatrimonioController.RecuperarPatrimonio(AId: Integer);
+begin
+  FService.RecuperarPatrimonio(AId);
 end;
 
 function TPatrimonioController.ImportarPatrimoniosCSV(const ArquivoCSV: string;
@@ -129,7 +149,7 @@ begin
     // Se houver itens v�lidos, importa para o banco
     if Length(Itens) > 0 then
     begin
-      FPatrimonioService.ImportarPatrimonios(Itens, TotalImportados, TotalErros, Erros);
+      FService.ImportarPatrimonios(Itens, TotalImportados, TotalErros, Erros);
       Result := True;
     end
     else if Erros.Count = 0 then

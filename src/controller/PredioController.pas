@@ -8,14 +8,20 @@ PredioDto, PredioModel, PredioService, Data.DB;
 type
 TPredioController = class
 private
+  FService: TPredioService;
 
 public
+  constructor Create;
   procedure AdicionarPredio (APredioDTO: GPredioDTO);
   procedure EditarPredio (APredioDTO: GPredioDTO);
   procedure ExcluirPredio (AId: Integer);
+  procedure RecuperarPredio (AId: Integer);
   function PesquisarPredio (const aSearch: String): TDataSet;
   function DtoForModel(APredioDTO: GPredioDTO): TPredioConfig;
   function ListarPredio: TDataSet;
+  function ListarPredioInativos: TDataSet;
+  function ContarSalasPorPredio(IdPredio: Integer): Integer;
+  function ContarPatrimoniosPorPredio(IdPredio: Integer): Integer;
   destructor destroy; override;
 end;
 
@@ -27,21 +33,24 @@ implementation
 
 { TPredioController }
 
+constructor TPredioController.Create;
+begin
+  FService := TPredioService.Create;
+end;
+
 procedure TPredioController.AdicionarPredio(APredioDTO: GPredioDTO);
 var
 PrModel: TPredioConfig;
 begin
   PrModel := DtoForModel(APredioDTO);
-  PService.AdicionarPredio(PrModel);
+  FService.AdicionarPredio(PrModel);
 end;
 
 
 destructor TPredioController.destroy;
 begin
-
-  PService.Free;
+  FService.Free;
   inherited;
-
 end;
 
 function TPredioController.DtoForModel(APredioDTO: GPredioDTO): TPredioConfig;
@@ -69,23 +78,43 @@ var
 PrModel: TPredioConfig;
 begin
    PrModel := DtoForModel(APredioDTO);
-   PService.EditarPredio(PrModel);
+   FService.EditarPredio(PrModel);
 end;
 
 procedure TPredioController.ExcluirPredio(AId: Integer);
 begin
-PService.ExcluirPredio(AId)
+FService.ExcluirPredio(AId);
+end;
+
+procedure TPredioController.RecuperarPredio(AId: Integer);
+begin
+FService.RecuperarPredio(AId);
 end;
 
 
 function TPredioController.ListarPredio: TDataSet;
 begin
-Result := PService.ListarPredio
+Result := FService.ListarPredio;
+end;
+
+function TPredioController.ListarPredioInativos: TDataSet;
+begin
+Result := FService.ListarPredioInativos;
 end;
 
 function TPredioController.PesquisarPredio(const aSearch: String): TDataSet;
 begin
-    result := PService.PesquisarPredio(aSearch);
+    result := FService.PesquisarPredio(aSearch);
+end;
+
+function TPredioController.ContarSalasPorPredio(IdPredio: Integer): Integer;
+begin
+  Result := FService.ContarSalasPorPredio(IdPredio);
+end;
+
+function TPredioController.ContarPatrimoniosPorPredio(IdPredio: Integer): Integer;
+begin
+  Result := FService.ContarPatrimoniosPorPredio(IdPredio);
 end;
 
 end.
