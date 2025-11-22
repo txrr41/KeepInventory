@@ -288,9 +288,11 @@ begin
     '  p.data_aquisicao, ' +
     '  p.numero_serie, ' +
     '  s.nome AS nome_sala, ' +
+    '  pred.nome AS nome_predio, ' +
     '  p.fk_id_salas ' +
     'FROM patrimonios p ' +
     'INNER JOIN salas s ON p.fk_id_salas = s.id ' +
+    'INNER JOIN predios pred ON s.fk_id_predios = pred.id ' +
     'WHERE p.ativo = true ' +
     'ORDER BY p.id';
 
@@ -318,9 +320,11 @@ begin
     '  p.data_aquisicao, ' +
     '  p.numero_serie, ' +
     '  s.nome AS nome_sala, ' +
+    '  pred.nome AS nome_predio, ' +
     '  p.fk_id_salas ' +
     'FROM patrimonios p ' +
     'INNER JOIN salas s ON p.fk_id_salas = s.id ' +
+    'INNER JOIN predios pred ON s.fk_id_predios = pred.id ' +
     'WHERE p.ativo = false ' +
     'ORDER BY p.id';
 
@@ -348,15 +352,18 @@ begin
       '  p.data_aquisicao, ' +
       '  p.numero_serie, ' +
       '  s.nome AS nome_sala, ' +
+      '  pred.nome AS nome_predio, ' +
       '  p.fk_id_salas ' +
       'FROM patrimonios p ' +
       'INNER JOIN salas s ON p.fk_id_salas = s.id ' +
+      'INNER JOIN predios pred ON s.fk_id_predios = pred.id ' +
       'WHERE p.ativo = true ' +
       '  AND (p.nome ILIKE :search ' +
       '       OR p.tipo ILIKE :search ' +
       '       OR p.situacao ILIKE :search ' +
       '       OR p.modelo ILIKE :search ' +
-      '       OR p.numero_serie ILIKE :search) ' +
+      '       OR p.numero_serie ILIKE :search ' +
+      '       OR pred.nome ILIKE :search) ' +
       'ORDER BY p.id';
 
     Q.ParamByName('search').AsString := '%' + Trim(aSearch) + '%';
@@ -377,23 +384,25 @@ begin
   try
     Q.Connection := DataModule2.FDConnection;
 
+    // ✅ CORREÇÃO: Query ajustada para calcular valor total corretamente
     Q.SQL.Text :=
       'SELECT ' +
       '  COUNT(*) as total_itens, ' +
-      '  COALESCE(SUM(valor_atual * quantidade), 0) as valor_total, ' +
-      '  COUNT(CASE WHEN situacao ILIKE ''%ativo%'' THEN 1 END) as patrimonios_ativos, ' +
-      '  COUNT(CASE WHEN situacao ILIKE ''%manutencao%'' THEN 1 END) as em_manutencao ' +
-      'FROM patrimonios';
+      '  COALESCE(SUM(valor_atual), 0) as valor_total, ' +
+      '  COUNT(CASE WHEN situacao ILIKE ''%manutencao%'' OR situacao ILIKE ''%manutenção%'' THEN 1 END) as em_manutencao ' +
+      'FROM patrimonios ' +
+      'WHERE ativo = true';
 
     Q.Open;
 
     Estatisticas.TotalItens := Q.FieldByName('total_itens').AsInteger;
     Estatisticas.ValorTotal := Q.FieldByName('valor_total').AsCurrency;
-    Estatisticas.PatrimoniosAtivos := Q.FieldByName('patrimonios_ativos').AsInteger;
+    Estatisticas.PatrimoniosAtivos := Q.FieldByName('total_itens').AsInteger; // Como já filtramos só ativos
     Estatisticas.EmManutencao := Q.FieldByName('em_manutencao').AsInteger;
 
     Q.Close;
 
+    // Query para ocorrências
     Q.SQL.Text :=
       'SELECT COUNT(*) as total_ocorrencias ' +
       'FROM ocorrencias ' +
@@ -435,7 +444,7 @@ begin
       'FROM patrimonios p ' +
       'INNER JOIN salas s ON p.fk_id_salas = s.id ' +
       'INNER JOIN predios pred ON s.fk_id_predios = pred.id ' +
-      'WHERE 1=1';
+      'WHERE p.ativo = true';
 
     if AFiltro.TextoBusca <> '' then
       SQL := SQL + ' AND (p.nome ILIKE :texto_busca OR p.tipo ILIKE :texto_busca OR p.numero_serie ILIKE :texto_busca OR pred.nome ILIKE :texto_busca OR s.nome ILIKE :texto_busca)';

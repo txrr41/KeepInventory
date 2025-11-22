@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls,
   Vcl.Imaging.pngimage, Vcl.StdCtrls, Vcl.WinXCtrls, Vcl.Buttons, Data.DB,
   Vcl.Grids, Vcl.DBGrids, ControlePatrimonioDTO, ControleDePatrimoniosController,
-  FireDAC.Comp.Client, DB;
+  FireDAC.Comp.Client, DB, Vcl.Themes, Vcl.Styles;
 
 type
   TFormControlePatrimonio = class(TForm)
@@ -84,6 +84,7 @@ type
     procedure CarregarDados;
     procedure AplicarFiltros;
     procedure LimparFiltros;
+    procedure DBGridAnalisePatrimonioDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
   public
     { Public declarations }
@@ -127,143 +128,81 @@ end;
 
 procedure TFormControlePatrimonio.FormShow(Sender: TObject);
 begin
+  // Configurar conexão
   FQueryDados.Connection := DataModule2.FDConnection;
-  DSControlePatrimonio.DataSet := nil; // Será configurado no CarregarDados
 
+  // ✅ Configurar datas padrão (data atual)
+  DateTimePicker1.Date := Date;
+  DateTimePicker2.Date := Date;
+
+  // Carregar combos
   FController.CarregarPredios(ComboBox3);
   FController.CarregarSalas(ComboBox2);
-  CarregarDados;
 
-  SearchBox1.OnInvokeSearch := SearchBox1InvokeSearch;
-  ComboBox3.OnChange := ComboBox3Change;
-  ComboBox2.OnChange := ComboBox2Change;
-  DateTimePicker1.OnChange := DateTimePicker1Change;
-  DateTimePicker2.OnChange := DateTimePicker2Change;
+  // Carregar dados
+  CarregarDados;
 end;
 
 procedure TFormControlePatrimonio.CarregarDados;
 var
   Filtro: TControlePatrimonioFiltroDTO;
 begin
-  Filtro.DataInicio := 0;
-  Filtro.DataFim := 0;
-  Filtro.IdPredio := 0;
-  Filtro.IdSala := 0;
-  Filtro.TextoBusca := '';
+  try
+    // Inicializar filtro vazio
+    Filtro.DataInicio := 0;
+    Filtro.DataFim := 0;
+    Filtro.IdPredio := 0;
+    Filtro.IdSala := 0;
+    Filtro.TextoBusca := '';
 
-  FController.AtualizarEstatisticas(
-    LabelTotalItens,
-    LabelValorTotal,
-    LabelPatrimoniosAtivos,
-    LabelEmManutencao,
-    LabelOcorrencias
-  );
+    // Atualizar estatísticas
+    FController.AtualizarEstatisticas(
+      LabelTotalItens,
+      LabelValorTotal,
+      LabelPatrimoniosAtivos,
+      LabelEmManutencao,
+      LabelOcorrencias
+    );
 
-  FController.CarregarDadosGrid(FQueryDados, Filtro);
-  DSControlePatrimonio.DataSet := FQueryDados;
+    // ✅ Desconectar DataSource
+    DSControlePatrimonio.DataSet := nil;
 
-  if Assigned(DSControlePatrimonio.DataSet) and not DSControlePatrimonio.DataSet.IsEmpty then
-  begin
-    DBGridAnalisePatrimonio.Columns.Clear;
+    // Carregar dados
+    FController.CarregarDadosGrid(FQueryDados, Filtro);
 
-    // Adiciona colunas apenas se os campos existirem no DataSet
-    if DSControlePatrimonio.DataSet.FindField('id') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'id';
-        Title.Caption := 'ID';
-        Width := 50;
-      end;
+    // Verificar se retornou dados
+    if FQueryDados.IsEmpty then
+    begin
+      ShowMessage('Nenhum patrimônio encontrado no banco de dados.');
+      Exit;
+    end;
 
-    if DSControlePatrimonio.DataSet.FindField('nome') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'nome';
-        Title.Caption := 'Nome';
-        Width := 150;
-      end;
+    // Conectar ao DataSource
+    DSControlePatrimonio.DataSet := FQueryDados;
 
-    if DSControlePatrimonio.DataSet.FindField('tipo') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'tipo';
-        Title.Caption := 'Tipo';
-        Width := 100;
-      end;
+    // ✅ Configurar colunas SOMENTE SE necessário
+  
 
-    if DSControlePatrimonio.DataSet.FindField('situacao') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'situacao';
-        Title.Caption := 'Situação';
-        Width := 80;
-      end;
+    // Configurar aparência do DBGrid - Versão compatível
+    DBGridAnalisePatrimonio.TitleFont.Style := [fsBold];
+    DBGridAnalisePatrimonio.TitleFont.Color := clBlack;
+    DBGridAnalisePatrimonio.BorderStyle := bsSingle;
 
-    if DSControlePatrimonio.DataSet.FindField('modelo') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'modelo';
-        Title.Caption := 'Modelo';
-        Width := 120;
-      end;
+    // Configurar opções de seleção
+    DBGridAnalisePatrimonio.Options := DBGridAnalisePatrimonio.Options + [dgRowSelect, dgAlwaysShowSelection];
+    DBGridAnalisePatrimonio.Color := clWhite; // Branco para linhas normais
 
-    if DSControlePatrimonio.DataSet.FindField('valor_atual') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'valor_atual';
-        Title.Caption := 'Valor Atual';
-        Width := 80;
-        if Assigned(Field) and (Field is TCurrencyField) then
-          TCurrencyField(Field).DisplayFormat := 'R$ #,##0.00';
-      end;
+    // Atribuir evento de desenho personalizado para zebrado e seleção
+    DBGridAnalisePatrimonio.OnDrawColumnCell := DBGridAnalisePatrimonioDrawColumnCell;
 
-    if DSControlePatrimonio.DataSet.FindField('numero_serie') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'numero_serie';
-        Title.Caption := 'Número de Série';
-        Width := 120;
-      end;
+    // Forçar refresh
+    DBGridAnalisePatrimonio.Refresh;
 
-    if DSControlePatrimonio.DataSet.FindField('data_aquisicao') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'data_aquisicao';
-        Title.Caption := 'Data Aquisição';
-        Width := 90;
-      end;
-
-    if DSControlePatrimonio.DataSet.FindField('nome_predio') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'nome_predio';
-        Title.Caption := 'Prédio';
-        Width := 100;
-      end;
-
-    if DSControlePatrimonio.DataSet.FindField('nome_sala') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'nome_sala';
-        Title.Caption := 'Sala';
-        Width := 100;
-      end;
-
-    if DSControlePatrimonio.DataSet.FindField('ultima_movimentacao') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'ultima_movimentacao';
-        Title.Caption := 'Última Movimentação';
-        Width := 100;
-      end;
-
-    if DSControlePatrimonio.DataSet.FindField('total_ocorrencias') <> nil then
-      with DBGridAnalisePatrimonio.Columns.Add do
-      begin
-        FieldName := 'total_ocorrencias';
-        Title.Caption := 'Ocorrências';
-        Width := 60;
-      end;
+  except
+    on E: Exception do
+    begin
+      ShowMessage('ERRO em CarregarDados: ' + E.Message);
+    end;
   end;
 end;
 
@@ -272,27 +211,73 @@ var
   Filtro: TControlePatrimonioFiltroDTO;
   IdPredioSelecionado, IdSalaSelecionado: Integer;
 begin
-  Filtro.TextoBusca := SearchBox1.Text;
-  Filtro.DataInicio := DateTimePicker1.Date;
-  Filtro.DataFim := DateTimePicker2.Date;
+  try
+    // Desconectar temporariamente
+    DBGridAnalisePatrimonio.DataSource := nil;
 
-  IdPredioSelecionado := FController.ExtrairIdDoItem(ComboBox3.Text);
-  if ComboBox3.ItemIndex > 0 then
-    Filtro.IdPredio := IdPredioSelecionado
-  else
+    // ✅ Inicializar tudo com zero
+    Filtro.TextoBusca := '';
+    Filtro.DataInicio := 0;
+    Filtro.DataFim := 0;
     Filtro.IdPredio := 0;
-
-  IdSalaSelecionado := FController.ExtrairIdDoItem(ComboBox2.Text);
-  if ComboBox2.ItemIndex > 0 then
-    Filtro.IdSala := IdSalaSelecionado
-  else
     Filtro.IdSala := 0;
 
-  FController.CarregarDadosGrid(FQueryDados, Filtro);
-  DSControlePatrimonio.DataSet := FQueryDados;
+    // Texto de busca
+    if Trim(SearchBox1.Text) <> '' then
+      Filtro.TextoBusca := Trim(SearchBox1.Text);
 
-  if Assigned(FQueryDados) and FQueryDados.IsEmpty and (Filtro.IdSala > 0) then
-    ShowMessage('Não foram encontrados patrimônios para a sala selecionada.');
+    // ✅ CORREÇÃO: Só usar datas se o painel de filtros estiver expandido
+    // E se as datas forem diferentes da data atual (indicando que o usuário mudou)
+    if (PanelFiltro.Height > 100) then  // Filtros avançados visíveis
+    begin
+      if (DateTimePicker1.Date <> Date) or (DateTimePicker2.Date <> Date) then
+      begin
+        Filtro.DataInicio := Trunc(DateTimePicker1.Date);
+        Filtro.DataFim := Trunc(DateTimePicker2.Date);
+      end;
+    end;
+
+    // Filtro de Prédio
+    if ComboBox3.ItemIndex > 0 then
+    begin
+      IdPredioSelecionado := FController.ExtrairIdDoItem(ComboBox3.Text);
+      Filtro.IdPredio := IdPredioSelecionado;
+    end;
+
+    // Filtro de Sala
+    if ComboBox2.ItemIndex > 0 then
+    begin
+      IdSalaSelecionado := FController.ExtrairIdDoItem(ComboBox2.Text);
+      Filtro.IdSala := IdSalaSelecionado;
+    end;
+
+    // Carregar dados com filtro - usa método direto para evitar problemas de parâmetro
+    FController.CarregarDadosParaQuery(FQueryDados, Filtro);
+
+    // Reconectar
+    DBGridAnalisePatrimonio.DataSource := DSControlePatrimonio;
+    DSControlePatrimonio.DataSet := FQueryDados;
+
+    // Mensagem se não encontrou resultados
+    if Assigned(FQueryDados) and FQueryDados.IsEmpty then
+    begin
+      if Filtro.IdSala > 0 then
+        ShowMessage('Não foram encontrados patrimônios para a sala selecionada.')
+      else if Filtro.IdPredio > 0 then
+        ShowMessage('Não foram encontrados patrimônios para o prédio selecionado.')
+      else if Filtro.TextoBusca <> '' then
+        ShowMessage('Nenhum patrimônio encontrado com o termo: "' + Filtro.TextoBusca + '"')
+      else
+        ShowMessage('Nenhum patrimônio encontrado com os filtros aplicados.');
+    end;
+
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Erro ao aplicar filtros: ' + E.Message);
+      DBGridAnalisePatrimonio.DataSource := DSControlePatrimonio;
+    end;
+  end;
 end;
 
 procedure TFormControlePatrimonio.LimparFiltros;
@@ -348,6 +333,33 @@ begin
   if DateTimePicker2.Date < DateTimePicker1.Date then
     DateTimePicker1.Date := DateTimePicker2.Date;
   AplicarFiltros;
+end;
+
+procedure TFormControlePatrimonio.DBGridAnalisePatrimonioDrawColumnCell(
+  Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  // Configurar zebrado para linhas não selecionadas
+  if gdSelected in State then
+  begin
+    // Cor para linha selecionada - azul claro
+    TDBGrid(Sender).Canvas.Brush.Color := RGB(230, 243, 255);
+    TDBGrid(Sender).Canvas.Font.Color := clBlack;
+  end
+  else
+  begin
+    // Zebrado para linhas normais
+    if Odd(TDBGrid(Sender).DataSource.DataSet.RecNo) then
+      TDBGrid(Sender).Canvas.Brush.Color := RGB(248, 248, 248) // Cinza muito claro
+    else
+      TDBGrid(Sender).Canvas.Brush.Color := clWhite;
+  end;
+
+  // Preencher o fundo
+  TDBGrid(Sender).Canvas.FillRect(Rect);
+
+  // Desenhar o texto da célula
+  TDBGrid(Sender).DefaultDrawColumnCell(Rect, DataCol, Column, State);
 end;
 
 end.

@@ -487,7 +487,7 @@ begin
     Dto.FNumero := StrToInt(EdtNumeroPredio.Text);
     Dto.FBairro := EdtBairroPredio.Text;
 
-    ControllerPredio.AdicionarPredio(Dto);
+    FPredioController.AdicionarPredio(Dto);
 
     // LOG: Cadastrou prédio
     // Log removido - movido para Controller:Cadastrou prédio - ' + EdtNamePredio.Text + ' (' + EdtCidadePredio.Text + ')
@@ -576,7 +576,7 @@ end;
 
 procedure TFormCadastro.edtPesquisarPredioChange(Sender: TObject);
 begin
-  DSPredio.DataSet := ControllerPredio.PesquisarPredio(edtPesquisarPredio.Text);
+  DSPredio.DataSet := FPredioController.PesquisarPredio(edtPesquisarPredio.Text);
   DBGridPredio.DataSource := DSPredio;
 
 end;
@@ -895,7 +895,7 @@ begin
   Dto.FBairro := EdtBairroPredio.Text;
   Dto.FId := IdPredio;
 
-  ControllerPredio.EditarPredio(Dto);
+  FPredioController.EditarPredio(Dto);
 
   // LOG: Alterou prédio
   // Log removido - movido para Controller:Alterou prédio - ' + NomePredio + ' (ID: ' + IntToStr(IdPredio) + ')
@@ -1632,12 +1632,12 @@ begin
 
   try
     // Verificar salas no prédio usando o controller
-    TotalSalas := ControllerPredio.ContarSalasPorPredio(IdPredio);
+    TotalSalas := FPredioController.ContarSalasPorPredio(IdPredio);
     if TotalSalas > 0 then
       Dependencias.Add(Format('%d sala(s) neste prédio', [TotalSalas]));
 
     // Verificar patrimônios nas salas do prédio
-    TotalPatrimonios := ControllerPredio.ContarPatrimoniosPorPredio(IdPredio);
+    TotalPatrimonios := FPredioController.ContarPatrimoniosPorPredio(IdPredio);
     if TotalPatrimonios > 0 then
       Dependencias.Add(Format('%d patrimônio(s) nas salas deste prédio', [TotalPatrimonios]));
 
