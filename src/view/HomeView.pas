@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Skia, Vcl.StdCtrls,
   Vcl.ComCtrls, CadastrosView, EmpresaController, Data.DB, PedidoMoviView, MovimentacoesView, RegistroOcorrenciaView, AnaliseOcorrenciaView,
-  Vcl.Imaging.pngimage, CadastroUsuarioView, PermissoesHelper, UsuarioModel, DashboardView, RastreamentoView;
+  Vcl.Imaging.pngimage, CadastroUsuarioView, PermissoesHelper, UsuarioModel, DashboardView, RastreamentoView,
+  Vcl.Buttons, ControleDePatrimoniosView;
 
 type
   TFormHome = class(TForm)
@@ -20,12 +21,11 @@ type
     Panel5: TPanel;
     Image13: TImage;
     Label12: TLabel;
-    Panel7: TPanel;
+    PanelCadastros: TPanel;
     Label14: TLabel;
     Image2: TImage;
     Panel8: TPanel;
     Label15: TLabel;
-    Image3: TImage;
     Panel9: TPanel;
     Label16: TLabel;
     Image4: TImage;
@@ -46,8 +46,10 @@ type
     Image11: TImage;
     Image7: TImage;
     Label1: TLabel;
-    procedure Image1Click(Sender: TObject);
-    procedure Image3Click(Sender: TObject);
+    Image1: TImage;
+    BtnMenuPatrimonio: TSpeedButton;
+    procedure Image2211(Sender: TObject);
+    procedure ImageeClick(Sender: TObject);
     procedure Image8Click(Sender: TObject);
     procedure Image5Click(Sender: TObject);
     procedure Image6Click(Sender: TObject);
@@ -57,6 +59,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure Image2Click(Sender: TObject);
     procedure Image7Click(Sender: TObject);
+    procedure BtnMenuPatrimonioClick(Sender: TObject);
 
   private
     ActiveForm: TForm;
@@ -86,6 +89,22 @@ begin
   end;
 end;
 
+procedure TFormHome.BtnMenuPatrimonioClick(Sender: TObject);
+var
+Dash: TFormControlePatrimonio;
+begin
+
+ LimparPanel;
+
+ Dash := TFormControlePatrimonio.Create(self);
+ Dash.Parent := Self.Panel3;
+ Dash.Align := alClient;
+ Dash.BorderStyle := bsNone;
+ Dash.Show;
+
+
+end;
+
 procedure TFormHome.FormCreate(Sender: TObject);
 var
   Usuario: TUsuarioModel;
@@ -108,7 +127,7 @@ begin
   Dash.BorderStyle := bsNone;
   Dash.Show;
 
-  Image3.Visible := Usuario.PermCadastros;
+  PanelCadastros.Visible := Usuario.PermCadastros;
   Image5.Visible := Usuario.PermMovimentacoes;
   Image6.Visible := Usuario.PermMovimentacoes;
   Image10.Visible := Usuario.PermOcorrencias;
@@ -139,7 +158,7 @@ begin
   Analise.Show;
 end;
 
-procedure TFormHome.Image1Click(Sender: TObject);
+procedure TFormHome.Image2211(Sender: TObject);
 begin
   if Panel1.Width = 59 then
     Panel1.Width := 232
@@ -162,7 +181,7 @@ begin
 
 end;
 
-procedure TFormHome.Image3Click(Sender: TObject);
+procedure TFormHome.ImageeClick(Sender: TObject);
 var
   Cad: TFormCadastro;
   Controller: TEmpresaController;

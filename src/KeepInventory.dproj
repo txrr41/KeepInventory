@@ -250,6 +250,13 @@
         <DCCReference Include="repository\RelatorioMovimentacaoRepository.pas"/>
         <DCCReference Include="controller\RelatorioMovimentacaoController.pas"/>
         <DCCReference Include="service\RelatorioMovimentacaoService.pas"/>
+        <DCCReference Include="view\ControleDePatrimoniosView.pas">
+            <Form>FormControlePatrimonio</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="controller\ControleDePatrimoniosController.pas"/>
+        <DCCReference Include="dto\ControlePatrimonioDTO.pas"/>
+        <DCCReference Include="service\ControleDePatrimoniosService.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

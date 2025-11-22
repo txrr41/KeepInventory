@@ -1,10 +1,10 @@
-unit PatrimonioRepository;
+﻿unit PatrimonioRepository;
 
 interface
 
 uses
 PatrimonioDTO, PatrimonioModel, DB, FireDAC.Comp.Client, Data.DB,
-System.SysUtils, System.Classes;
+System.SysUtils, System.Classes, ControlePatrimonioDTO;
 
 Type
 TPatrimonioRepository = class
@@ -23,6 +23,12 @@ public
   function GetNomePatrimonioById(AId: Integer): string;
   procedure ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
     var TotalImportados, TotalErros: Integer; Erros: TStringList);
+
+  // M�todos para Controle de Patrim�nios
+  function ObterEstatisticas: TControlePatrimonioDTO;
+  function ObterPatrimoniosParaGrid(AFiltro: TControlePatrimonioFiltroDTO): TDataSet;
+  function ObterPredios: TStringList;
+  function ObterSalas(AIdPredio: Integer = 0): TStringList;
 end;
 
 var
@@ -359,6 +365,177 @@ begin
   except
     Q.Free;
     raise;
+  end;
+end;
+
+function TPatrimonioRepository.ObterEstatisticas: TControlePatrimonioDTO;
+var
+  Q: TFDQuery;
+  Estatisticas: TControlePatrimonioDTO;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+
+    Q.SQL.Text :=
+      'SELECT ' +
+      '  COUNT(*) as total_itens, ' +
+      '  COALESCE(SUM(valor_atual * quantidade), 0) as valor_total, ' +
+      '  COUNT(CASE WHEN situacao ILIKE ''%ativo%'' THEN 1 END) as patrimonios_ativos, ' +
+      '  COUNT(CASE WHEN situacao ILIKE ''%manutencao%'' THEN 1 END) as em_manutencao ' +
+      'FROM patrimonios';
+
+    Q.Open;
+
+    Estatisticas.TotalItens := Q.FieldByName('total_itens').AsInteger;
+    Estatisticas.ValorTotal := Q.FieldByName('valor_total').AsCurrency;
+    Estatisticas.PatrimoniosAtivos := Q.FieldByName('patrimonios_ativos').AsInteger;
+    Estatisticas.EmManutencao := Q.FieldByName('em_manutencao').AsInteger;
+
+    Q.Close;
+
+    Q.SQL.Text :=
+      'SELECT COUNT(*) as total_ocorrencias ' +
+      'FROM ocorrencias ' +
+      'WHERE status IN (''ANALISADA'', ''PENDENTE'')';
+
+    Q.Open;
+    Estatisticas.TotalOcorrencias := Q.FieldByName('total_ocorrencias').AsInteger;
+
+    Result := Estatisticas;
+  finally
+    Q.Free;
+  end;
+end;
+
+function TPatrimonioRepository.ObterPatrimoniosParaGrid(
+  AFiltro: TControlePatrimonioFiltroDTO): TDataSet;
+var
+  Q: TFDQuery;
+  SQL: string;
+begin
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+
+    SQL :=
+      'SELECT ' +
+      '  p.id, ' +
+      '  p.nome, ' +
+      '  p.tipo, ' +
+      '  p.situacao, ' +
+      '  p.modelo, ' +
+      '  p.valor_atual, ' +
+      '  p.numero_serie, ' +
+      '  p.data_aquisicao, ' +
+      '  pred.nome AS nome_predio, ' +
+      '  s.nome AS nome_sala, ' +
+      '  (SELECT MAX(data_movimentacao) FROM movimentacoes WHERE fk_id_patrimonios = p.id) AS ultima_movimentacao, ' +
+      '  (SELECT COUNT(*) FROM ocorrencias WHERE fk_id_patrimonios = p.id AND status IN (''ANALISADA'', ''PENDENTE'')) AS total_ocorrencias ' +
+      'FROM patrimonios p ' +
+      'INNER JOIN salas s ON p.fk_id_salas = s.id ' +
+      'INNER JOIN predios pred ON s.fk_id_predios = pred.id ' +
+      'WHERE 1=1';
+
+    if AFiltro.TextoBusca <> '' then
+      SQL := SQL + ' AND (p.nome ILIKE :texto_busca OR p.tipo ILIKE :texto_busca OR p.numero_serie ILIKE :texto_busca OR pred.nome ILIKE :texto_busca OR s.nome ILIKE :texto_busca)';
+
+    if (AFiltro.DataInicio > 0) and (AFiltro.DataFim > 0) then
+      SQL := SQL + ' AND p.data_aquisicao BETWEEN :data_inicio AND :data_fim';
+
+    if AFiltro.IdPredio > 0 then
+      SQL := SQL + ' AND pred.id = :id_predio';
+
+    if AFiltro.IdSala > 0 then
+      SQL := SQL + ' AND s.id = :id_sala';
+
+    SQL := SQL + ' ORDER BY p.id';
+
+    Q.SQL.Text := SQL;
+
+    if AFiltro.TextoBusca <> '' then
+      Q.ParamByName('texto_busca').AsString := '%' + AFiltro.TextoBusca + '%';
+
+    if (AFiltro.DataInicio > 0) and (AFiltro.DataFim > 0) then
+    begin
+      Q.ParamByName('data_inicio').AsDate := AFiltro.DataInicio;
+      Q.ParamByName('data_fim').AsDate := AFiltro.DataFim;
+    end;
+
+    if AFiltro.IdPredio > 0 then
+      Q.ParamByName('id_predio').AsInteger := AFiltro.IdPredio;
+
+    if AFiltro.IdSala > 0 then
+      Q.ParamByName('id_sala').AsInteger := AFiltro.IdSala;
+
+    Q.Open;
+    Result := Q;
+  except
+    Q.Free;
+    raise;
+  end;
+end;
+
+function TPatrimonioRepository.ObterPredios: TStringList;
+var
+  Q: TFDQuery;
+begin
+  Result := TStringList.Create;
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+    Q.SQL.Text := 'SELECT id, nome FROM predios ORDER BY nome';
+    Q.Open;
+
+    while not Q.Eof do
+    begin
+      Result.Add('[' + Q.FieldByName('id').AsString + '] ' + Q.FieldByName('nome').AsString);
+      Q.Next;
+    end;
+  finally
+    Q.Free;
+  end;
+end;
+
+function TPatrimonioRepository.ObterSalas(AIdPredio: Integer = 0): TStringList;
+var
+  Q: TFDQuery;
+begin
+  Result := TStringList.Create;
+  Q := TFDQuery.Create(nil);
+  try
+    Q.Connection := DataModule2.FDConnection;
+
+    if AIdPredio > 0 then
+    begin
+      Q.SQL.Text :=
+        'SELECT id, nome FROM salas ' +
+        'WHERE fk_id_predios = :id_predio ' +
+        'ORDER BY nome';
+      Q.ParamByName('id_predio').AsInteger := AIdPredio;
+    end
+    else
+    begin
+      Q.SQL.Text :=
+        'SELECT s.id, s.nome, p.nome AS nome_predio ' +
+        'FROM salas s ' +
+        'INNER JOIN predios p ON s.fk_id_predios = p.id ' +
+        'ORDER BY p.nome, s.nome';
+    end;
+
+    Q.Open;
+
+    while not Q.Eof do
+    begin
+      if AIdPredio > 0 then
+        Result.Add('[' + Q.FieldByName('id').AsString + '] ' + Q.FieldByName('nome').AsString)
+      else
+        Result.Add('[' + Q.FieldByName('id').AsString + '] ' + Q.FieldByName('nome').AsString + ' - ' + Q.FieldByName('nome_predio').AsString);
+
+      Q.Next;
+    end;
+  finally
+    Q.Free;
   end;
 end;
 

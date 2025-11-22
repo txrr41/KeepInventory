@@ -10,7 +10,8 @@ uses
   VclTee.TeeGDIPlus, Vcl.WinXPanels, DepreciacaoController, DepreciacaoModel,
   Vcl.Imaging.pngimage, RelatorioDepreciacaoController, DB, RelatorioDepreciacaoItemModel,
   Vcl.Buttons, frxClass, DateUtils, frxDBSet, frxDesgn, frxChart, LogService,
-  RelatorioStatusDepreciacaoController, RelatorioMovimentacaoController, PermissoesHelper;
+  RelatorioStatusDepreciacaoController, RelatorioMovimentacaoController, PermissoesHelper,
+  Vcl.WinXPickers, Vcl.FileCtrl;
 
 type
   TFormDashboard = class(TForm)

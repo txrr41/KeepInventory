@@ -100,7 +100,11 @@ uses
   RelatorioMovimentacaoModel in 'model\RelatorioMovimentacaoModel.pas',
   RelatorioMovimentacaoRepository in 'repository\RelatorioMovimentacaoRepository.pas',
   RelatorioMovimentacaoController in 'controller\RelatorioMovimentacaoController.pas',
-  RelatorioMovimentacaoService in 'service\RelatorioMovimentacaoService.pas';
+  RelatorioMovimentacaoService in 'service\RelatorioMovimentacaoService.pas',
+  ControleDePatrimoniosView in 'view\ControleDePatrimoniosView.pas' {FormControlePatrimonio},
+  ControleDePatrimoniosController in 'controller\ControleDePatrimoniosController.pas',
+  ControlePatrimonioDTO in 'dto\ControlePatrimonioDTO.pas',
+  ControleDePatrimoniosService in 'service\ControleDePatrimoniosService.pas';
 
 {$R *.res}
 
@@ -120,5 +124,6 @@ begin
   Application.CreateForm(TFormCadastroUsuario, FormCadastroUsuario);
   Application.CreateForm(TFormDashboard, FormDashboard);
   Application.CreateForm(TFormRastreamento, FormRastreamento);
+  Application.CreateForm(TFormControlePatrimonio, FormControlePatrimonio);
   Application.Run;
 end.
