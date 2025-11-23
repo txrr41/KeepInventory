@@ -1,4 +1,4 @@
-unit PedidoMoviView;
+﻿unit PedidoMoviView;
 
 interface
 
@@ -7,28 +7,12 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.WinXCtrls, Vcl.WinXCalendars,
   Vcl.Buttons, Vcl.NumberBox, PedidoMoviCOntroller, MovimentacaoDTO, LoginModel,
-  FireDAC.Comp.Client, FireDAC.Stan.Param, GlobalUserDTO, PermissoesHelper;
+  FireDAC.Comp.Client, FireDAC.Stan.Param, GlobalUserDTO, PermissoesHelper,
+  Vcl.Imaging.pngimage;
 
 type
   TFormPedidoMovi = class(TForm)
     PanelMoviment: TPanel;
-    Panel2: TPanel;
-    Label1: TLabel;
-    Panel1: TPanel;
-    Label2: TLabel;
-    Label3: TLabel;
-    SearchBox1: TSearchBox;
-    Panel6: TPanel;
-    Label4: TLabel;
-    Panel7: TPanel;
-    Label5: TLabel;
-    CalendarPicker1: TCalendarPicker;
-    CalendarPicker2: TCalendarPicker;
-    Shape1: TShape;
-    Panel5: TPanel;
-    SpeedButton1: TSpeedButton;
-    Shape2: TShape;
-    BtnLimparFIltroMovi: TSpeedButton;
     PanelAddMovi: TPanel;
     CbItemMovi: TComboBox;
     Label10: TLabel;
@@ -36,11 +20,11 @@ type
     CbDestinoMovi: TComboBox;
     CbOrigemMovi: TComboBox;
     DataSource1: TDataSource;
-    DBGrid1: TDBGrid;
     Button1: TButton;
     Button2: TButton;
     Label14: TLabel;
-    Panel3: TPanel;
+    Panel5: TPanel;
+    DBGrid1: TDBGrid;
     Panel4: TPanel;
     Panel9: TPanel;
     Shape3: TShape;
@@ -58,6 +42,13 @@ type
     Shape6: TShape;
     Label9: TLabel;
     BtnAtualizarMovi: TSpeedButton;
+    SearchBox1: TSearchBox;
+    Image1: TImage;
+    Shape7: TShape;
+    Shape8: TShape;
+    Image6: TImage;
+    Label1: TLabel;
+    Label2: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure BtnAdicionarMoviClick(Sender: TObject);
     procedure BtnEditarMoviClick(Sender: TObject);
@@ -347,8 +338,6 @@ end;
 procedure TFormPedidoMovi.BtnLimparFIltroMoviClick(Sender: TObject);
 begin
   SearchBox1.Text := '';
-  CalendarPicker1.Date := 0;
-  CalendarPicker2.Date := 0;
   CarregarGrid;
   LimparCampos;
 end;
@@ -382,12 +371,12 @@ begin
 
     FPedidoMoviController.AdicionarMovimentacao(MovimentacaoDTO);
 
-    ShowMessage('Movimenta��o cadastrada com sucesso!');
+    ShowMessage('Movimentação cadastrada com sucesso!');
     CarregarGrid;
     LimparCampos;
   except
     on E: Exception do
-      ShowMessage('Erro ao adicionar movimenta��o: ' + E.Message);
+      ShowMessage('Erro ao adicionar movimentação: ' + E.Message);
   end;
 end;
 procedure TFormPedidoMovi.Button2Click(Sender: TObject);
@@ -396,14 +385,14 @@ var
 begin
   if FIdMovimentacaoSelecionada = 0 then
   begin
-    ShowMessage('Selecione uma movimenta��o para editar!');
+    ShowMessage('Selecione uma movimentação para editar!');
     Exit;
   end;
 
   if not ValidarCampos then
     Exit;
 
-  if MessageDlg('Deseja realmente editar esta movimenta��o?',
+  if MessageDlg('Deseja realmente editar esta movimentação?',
      mtConfirmation, [mbYes, mbNo], 0) = mrNo then
     Exit;
 
@@ -417,12 +406,12 @@ begin
 
     FPedidoMoviController.EditarMovimentacao(MovimentacaoDTO);
 
-    ShowMessage('Movimenta��o atualizada com sucesso!');
+    ShowMessage('Movimentação atualizada com sucesso!');
     CarregarGrid;
     LimparCampos;
   except
     on E: Exception do
-      ShowMessage('Erro ao editar movimenta��o: ' + E.Message);
+      ShowMessage('Erro ao editar movimentação: ' + E.Message);
   end;
 end;
 

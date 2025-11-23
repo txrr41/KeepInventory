@@ -13,7 +13,6 @@ type
   TFormControlePatrimonio = class(TForm)
     Panel1: TPanel;
     Shape1: TShape;
-    Shape2: TShape;
     Shape3: TShape;
     Shape4: TShape;
     Shape5: TShape;
@@ -68,6 +67,7 @@ type
     Panel3: TPanel;
     DBGridAnalisePatrimonio: TDBGrid;
     DSControlePatrimonio: TDataSource;
+    Shape2: TShape;
     procedure BtnFiltroClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);

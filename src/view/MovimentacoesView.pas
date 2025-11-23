@@ -1,51 +1,45 @@
-unit MovimentacoesView;
+﻿unit MovimentacoesView;
 
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.WinXCtrls,
-  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Skia, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.Client, FireDAC.Stan.Param, PedidoMoviController, PendenciaController, MovimentacaoModel, PermissoesHelper, UsuarioModel, LogService;
+  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Skia, Vcl.Grids, Vcl.DBGrids, FireDAC.Comp.Client, FireDAC.Stan.Param, PedidoMoviController, PendenciaController, MovimentacaoModel, PermissoesHelper, UsuarioModel, LogService,
+  Vcl.Imaging.pngimage;
 
 type
   TFormMovi = class(TForm)
     Panel1: TPanel;
-    Label7: TLabel;
     Panel2: TPanel;
-    Panel3: TPanel;
-    Panel4: TPanel;
-    Panel6: TPanel;
-    Shape1: TShape;
-    Label2: TLabel;
-    BtnExcluirMovi: TSpeedButton;
-    Panel7: TPanel;
-    Shape2: TShape;
-    BtnPesquisarMovi: TSpeedButton;
-    Label3: TLabel;
-    Panel8: TPanel;
-    Shape4: TShape;
-    BtnPendencias: TSpeedButton;
-    Label4: TLabel;
-    Panel5: TPanel;
-    Shape3: TShape;
-    Label1: TLabel;
-    BtnAddMovi: TSpeedButton;
     SearchBox1: TSearchBox;
     DataSource1: TDataSource;
     DbGridPendencias: TDBGrid;
     PanelPendencias: TPanel;
-    Image1: TImage;
-    Label8: TLabel;
     Panel9: TPanel;
-    DBGridMovi: TDBGrid;
     Panel10: TPanel;
-    Shape5: TShape;
     Label5: TLabel;
-    BtnAceitarPendencia: TSpeedButton;
     Panel11: TPanel;
-    Shape6: TShape;
     Label6: TLabel;
+    Shape6: TShape;
+    Shape5: TShape;
+    DBGridMovi: TDBGrid;
+    Panel12: TPanel;
+    Label8: TLabel;
+    Image1: TImage;
+    Image2: TImage;
+    Shape7: TShape;
+    Shape8: TShape;
+    Label7: TLabel;
+    Label9: TLabel;
+    Image6: TImage;
+    Image3: TImage;
+    Panel3: TPanel;
+    BtnPendencias: TSpeedButton;
+    Shape11: TShape;
+    BtnAceitarPendencia: TSpeedButton;
     BtnRecusarPendencia: TSpeedButton;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure BtnPendenciasClick(Sender: TObject);
     procedure Image1Click(Sender: TObject);
@@ -122,10 +116,9 @@ var
 begin
   Usuario := TPermissoesHelper.GetUsuarioLogado;
 
-  // Verifica se tem permiss�o de movimenta��es E de excluir
   if not (Usuario.PermMovimentacoes and Usuario.PermMovExcluir) then
   begin
-    ShowMessage('Voc� n�o tem permiss�o para excluir movimenta��es!');
+    ShowMessage('Você não tem permissão para excluir movimentações!');
     Exit;
   end;
 

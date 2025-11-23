@@ -14,6 +14,7 @@ type
     constructor Create(AConnection: TFDConnection);
     function ListarTodos: TObjectList<TRastreioModel>;
     function BuscarPorId(AId: Integer): TRastreioModel;
+    function BuscarDetalhesPorId(AId: Integer): TRastreioModel;
   end;
 
 implementation
@@ -105,6 +106,59 @@ begin
         Result.Longitude := Query.FieldByName('longitude').AsFloat
       else
         Result.Longitude := 0;
+    end;
+  finally
+    Query.Free;
+  end;
+end;
+
+function TRastreioRepository.BuscarDetalhesPorId(AId: Integer): TRastreioModel;
+var
+  Query: TFDQuery;
+begin
+  Result := nil;
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := FConnection;
+    Query.SQL.Text :=
+      'SELECT p.id, p.nome, p.tipo, p.situacao, p.modelo, ' +
+      '       p.latitude, p.longitude, pred.nome as predio, sal.nome as sala ' +
+      'FROM patrimonios p ' +
+      'LEFT JOIN salas sal ON p.fk_id_salas = sal.id ' +
+      'LEFT JOIN predios pred ON sal.fk_id_predios = pred.id ' +
+      'WHERE p.id = :id AND p.ativo = true';
+
+    Query.ParamByName('id').AsInteger := AId;
+    Query.Open;
+
+    if not Query.IsEmpty then
+    begin
+      Result := TRastreioModel.Create;
+      Result.Id := Query.FieldByName('id').AsInteger;
+      Result.Nome := Query.FieldByName('nome').AsString;
+      Result.Tipo := Query.FieldByName('tipo').AsString;
+      Result.Situacao := Query.FieldByName('situacao').AsString;
+      Result.Modelo := Query.FieldByName('modelo').AsString;
+
+      if not Query.FieldByName('latitude').IsNull then
+        Result.Latitude := Query.FieldByName('latitude').AsFloat
+      else
+        Result.Latitude := 0;
+
+      if not Query.FieldByName('longitude').IsNull then
+        Result.Longitude := Query.FieldByName('longitude').AsFloat
+      else
+        Result.Longitude := 0;
+
+      if not Query.FieldByName('predio').IsNull then
+        Result.Predio := Query.FieldByName('predio').AsString
+      else
+        Result.Predio := 'Não informado';
+
+      if not Query.FieldByName('sala').IsNull then
+        Result.Sala := Query.FieldByName('sala').AsString
+      else
+        Result.Sala := 'Não informada';
     end;
   finally
     Query.Free;

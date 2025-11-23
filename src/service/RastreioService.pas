@@ -18,6 +18,7 @@ type
     function BuscarPorId(AId: Integer): TRastreioModel;
     function ObterLocalizacao(ARastreio: TRastreioModel;
       out Latitude, Longitude: Double; out Mensagem: string): Boolean;
+    function BuscarDetalhesPorId(AId: Integer): TRastreioModel;
   end;
 
 implementation
@@ -68,6 +69,11 @@ begin
   Longitude := ARastreio.Longitude;
   Result := True;
   Mensagem := Format('%s - %s', [ARastreio.Nome, ARastreio.Tipo]);
+end;
+
+function TRastreioService.BuscarDetalhesPorId(AId: Integer): TRastreioModel;
+begin
+  Result := FRepository.BuscarDetalhesPorId(AId);
 end;
 
 end.

@@ -13,6 +13,8 @@ type
     FCodigoRastreio: string;
     FLatitude: Double;
     FLongitude: Double;
+    FPredio: string;
+    FSala: string;
   public
     property Id: Integer read FId write FId;
     property Nome: string read FNome write FNome;
@@ -22,6 +24,8 @@ type
     property CodigoRastreio: string read FCodigoRastreio write FCodigoRastreio;
     property Latitude: Double read FLatitude write FLatitude;
     property Longitude: Double read FLongitude write FLongitude;
+    property Predio: string read FPredio write FPredio;
+    property Sala: string read FSala write FSala;
   end;
 
 implementation

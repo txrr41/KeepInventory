@@ -17,6 +17,7 @@ type
     function CarregarPatrimonios: TObjectList<TRastreioModel>;
     function LocalizarPatrimonio(APatrimonioId: Integer;
       out Latitude, Longitude: Double; out Descricao: string): Boolean;
+    function BuscarDetalhesPatrimonio(AId: Integer): TRastreioModel;
   end;
 
 implementation
@@ -51,11 +52,16 @@ begin
     end
     else
     begin
-      Descricao := 'Patrimônio não encontrado!';
+      Descricao := 'Patrimï¿½nio nï¿½o encontrado!';
     end;
   finally
     Rastreio.Free;
   end;
+end;
+
+function TRastreioController.BuscarDetalhesPatrimonio(AId: Integer): TRastreioModel;
+begin
+  Result := FService.BuscarDetalhesPorId(AId);
 end;
 
 end.

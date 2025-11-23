@@ -430,3 +430,47 @@
 22/11/2025 18:46:43 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
 22/11/2025 18:54:51 Usuário: suporte1 - Login realizado com sucesso
 22/11/2025 18:54:52 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 18:59:00 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 18:59:00 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 19:00:20 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 19:00:20 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 19:01:50 Usuário: suporte1 (ID: 1) - Acessou o módulo de MovimentaÃ§Ãµes
+22/11/2025 19:36:38 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 19:36:38 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 19:36:41 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+22/11/2025 19:37:38 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 19:37:38 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 19:37:39 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+22/11/2025 19:38:42 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+22/11/2025 19:39:28 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 21:50:36 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 21:50:36 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 21:52:45 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+22/11/2025 21:53:15 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+22/11/2025 21:53:20 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+22/11/2025 22:50:31 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 22:50:31 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 22:55:26 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 22:55:26 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 22:56:37 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 22:56:37 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 22:57:23 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 22:57:23 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 23:00:47 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 23:00:47 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 23:05:27 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 23:05:28 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 23:09:15 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 23:09:15 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 23:11:41 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 23:11:41 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 23:40:33 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 23:40:33 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 23:41:44 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 23:41:44 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+22/11/2025 23:42:23 Usuário: suporte1 - Login realizado com sucesso
+22/11/2025 23:42:23 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+23/11/2025 00:06:48 Usuário: suporte1 - Login realizado com sucesso
+23/11/2025 00:06:49 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+23/11/2025 00:17:29 Usuário: suporte1 - Login realizado com sucesso
+23/11/2025 00:17:29 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard

@@ -8,27 +8,61 @@ uses
   Vcl.StdCtrls, Vcl.OleCtrls, SHDocVw, Vcl.ExtCtrls,
   FireDAC.Comp.Client, System.Generics.Collections, RastreioModel,
   RastreioController, MSHTML, System.Win.Registry, DB, Vcl.Buttons,
-  Vcl.Imaging.pngimage;
+  Vcl.Imaging.pngimage, System.Net.HttpClient, System.JSON;
 
 type
   TFormRastreamento = class(TForm)
     Panel1: TPanel;
     Panel2: TPanel;
-    WebBrowser1: TWebBrowser;
     Panel10: TPanel;
     Label5: TLabel;
     Panel11: TPanel;
     Label4: TLabel;
-    Panel12: TPanel;
-    Label3: TLabel;
     ComboBoxPatrimonios: TComboBox;
-    BtnLocalizar: TSpeedButton;
-    Shape5: TShape;
     Panel9: TPanel;
     Panel7: TPanel;
     Label15: TLabel;
+    WebBrowser1: TWebBrowser;
+    Label1: TLabel;
+    Image6: TImage;
+    BtnLocalizar: TSpeedButton;
+    Shape3: TShape;
+    Panel3: TPanel;
+    PanelLocalInfo: TPanel;
+    Shape1: TShape;
+    Shape2: TShape;
     Image1: TImage;
+    Label2: TLabel;
+    LabelPatrimonioLocalizado: TLabel;
+    Panel5: TPanel;
+    Panel6: TPanel;
+    Panel8: TPanel;
+    Shape4: TShape;
+    Shape5: TShape;
+    Shape6: TShape;
+    Label3: TLabel;
+    LabelPredioLocalizado: TLabel;
+    Image2: TImage;
+    Label7: TLabel;
+    LabelSalaLocalizada: TLabel;
+    Image3: TImage;
+    Label9: TLabel;
+    LabelEnderecoLocalizado: TLabel;
+    Image4: TImage;
+    Image5: TImage;
     Labelinfo: TLabel;
+    PanelInfo: TPanel;
+    Shape7: TShape;
+    Shape8: TShape;
+    Image7: TImage;
+    Label6: TLabel;
+    Label8: TLabel;
+    Image8: TImage;
+    PanelSemLoc: TPanel;
+    Shape9: TShape;
+    Image9: TImage;
+    Label10: TLabel;
+    Label11: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
@@ -40,6 +74,7 @@ type
     procedure AtualizarPosicaoMapa(const Latitude, Longitude: Double;
       const Descricao: string);
       procedure ConfigurarModoNavegador;
+    function ObterEnderecoPorCoordenadas(const Latitude, Longitude: Double): string;
 
   public
     property Controller: TRastreioController read FController write FController;
@@ -66,6 +101,8 @@ begin
   Application.ProcessMessages;
   Sleep(200);
 
+  PanelLocalInfo.Visible := False;
+
   CarregarMapa;
   CarregarComboPatrimonios;
 end;
@@ -80,6 +117,8 @@ var
   PatrimonioId: Integer;
   Latitude, Longitude: Double;
   Descricao: string;
+  RastreioDetalhado: TRastreioModel;
+  Endereco: string;
 begin
   if ComboBoxPatrimonios.ItemIndex = -1 then
   begin
@@ -94,12 +133,34 @@ begin
     AtualizarPosicaoMapa(Latitude, Longitude, Descricao);
     LabelInfo.Caption := 'Localização atualizada: ' + Descricao;
     LabelInfo.Font.Color := clGreen;
+
+    RastreioDetalhado := FController.BuscarDetalhesPatrimonio(PatrimonioId);
+    if RastreioDetalhado <> nil then
+    begin
+      try
+        PanelLocalInfo.Visible := True;
+        PanelInfo.Visible := True;
+        PanelSemLoc.Visible := False;
+
+        LabelPatrimonioLocalizado.Caption := RastreioDetalhado.Nome;
+        LabelPredioLocalizado.Caption := RastreioDetalhado.Predio;
+        LabelSalaLocalizada.Caption := RastreioDetalhado.Sala;
+
+        Endereco := ObterEnderecoPorCoordenadas(RastreioDetalhado.Latitude, RastreioDetalhado.Longitude);
+        LabelEnderecoLocalizado.Caption := Endereco;
+      finally
+        RastreioDetalhado.Free;
+      end;
+    end;
   end
   else
   begin
     ShowMessage(Descricao);
     LabelInfo.Caption := Descricao;
     LabelInfo.Font.Color := clRed;
+    PanelLocalInfo.Visible := False;
+    PanelInfo.Visible := False;
+    PanelSemLoc.Visible := True;
   end;
 end;
 
@@ -220,7 +281,7 @@ begin
 
   for Rastreio in FRastreios do
   begin
-    // ✅ MOSTRA SE TEM LOCALIZAÇÃO OU NÃO
+
     if (Rastreio.Latitude <> 0) and (Rastreio.Longitude <> 0) then
       ItemTexto := Format('%s - %s [COM LOCALIZAÇÃO]',
         [Rastreio.Nome, Rastreio.Tipo])
@@ -263,6 +324,26 @@ begin
         ShowMessage('Erro ao atualizar mapa: ' + E.Message);
     end;
   end;
+end;
+
+function TFormRastreamento.ObterEnderecoPorCoordenadas(const Latitude, Longitude: Double): string;
+begin
+  if (Latitude = 0) and (Longitude = 0) then
+  begin
+    Result := 'Coordenadas não disponíveis';
+    Exit;
+  end;
+
+  if (Latitude > -30) and (Latitude < -20) and (Longitude > -60) and (Longitude < -40) then
+    Result := Format('Localização em Curitiba/PR (%.4f°, %.4f°)', [Latitude, Longitude])
+  else if (Latitude > -25) and (Latitude < -22) and (Longitude > -47) and (Longitude < -46) then
+    Result := Format('Localização em São Paulo/SP (%.4f°, %.4f°)', [Latitude, Longitude])
+  else if (Latitude > -23) and (Latitude < -22) and (Longitude > -44) and (Longitude < -43) then
+    Result := Format('Localização no Rio de Janeiro/RJ (%.4f°, %.4f°)', [Latitude, Longitude])
+  else if (Latitude > -16) and (Latitude < -15) and (Longitude > -48) and (Longitude < -47) then
+    Result := Format('Localização em Brasília/DF (%.4f°, %.4f°)', [Latitude, Longitude])
+  else
+    Result := Format('Localização: %.4f°, %.4f°', [Latitude, Longitude]);
 end;
 
 end.
