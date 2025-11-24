@@ -17,6 +17,7 @@ type
     function ListarSalasDoPatrimonio(AIdPatrimonio: Integer): TStringList;
     function ListarPatrimonios: TStringList;
     function ListarSalas: TStringList;
+    function ObterLocalizacaoAtualPatrimonio(AIdPatrimonio: Integer): String;
   end;
 
 var
@@ -302,6 +303,54 @@ begin
     // Adiciona APENAS a sala atual do patrimônio
     Result.AddObject(SalaNome, TObject(SalaID));
 
+  finally
+    Query.Free;
+  end;
+end;
+
+function TMovimentacaoRepository.ObterLocalizacaoAtualPatrimonio(AIdPatrimonio: Integer): String;
+var
+  Query: TFDQuery;
+begin
+  Result := 'Sem localização definida';
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := DataModule2.FDConnection;
+
+    // Primeiro verifica se há movimentações para o patrimônio
+    Query.SQL.Text :=
+      'SELECT s.nome ' +
+      'FROM movimentacoes m ' +
+      'INNER JOIN salas s ON s.id = m.fk_id_destino ' +
+      'WHERE m.fk_id_patrimonios = :IdPatrimonio ' +
+      'ORDER BY m.data_movimentacao DESC, m.id DESC ' +
+      'LIMIT 1';
+
+    Query.ParamByName('IdPatrimonio').AsInteger := AIdPatrimonio;
+    Query.Open;
+
+    if not Query.IsEmpty then
+    begin
+      Result := Query.FieldByName('nome').AsString;
+    end
+    else
+    begin
+      // Caso não tenha movimentações, busca a sala do cadastro do patrimônio
+      Query.Close;
+      Query.SQL.Text :=
+        'SELECT s.nome ' +
+        'FROM patrimonios p ' +
+        'INNER JOIN salas s ON s.id = p.fk_id_salas ' +
+        'WHERE p.id = :IdPatrimonio';
+
+      Query.ParamByName('IdPatrimonio').AsInteger := AIdPatrimonio;
+      Query.Open;
+
+      if not Query.IsEmpty then
+        Result := Query.FieldByName('nome').AsString
+      else
+        Result := 'Sem localização definida';
+    end;
   finally
     Query.Free;
   end;

@@ -18,6 +18,7 @@ type
     function ListarMovimentacoes: TDataSet;
     function DtoForModel(AMovimentacaoDTO: TMovimentacaoDTO): TMovimentacaoConfig;
     procedure PopularComboBoxSalasDoPatrimonio(AComboBox: TComboBox; AIdPatrimonio: Integer);
+    function ObterLocalizacaoAtualPatrimonio(AIdPatrimonio: Integer): String;
   end;
 
 var
@@ -130,6 +131,11 @@ begin
   finally
     NomesComIDs.Free;
   end;
+end;
+
+function TPedidoMoviController.ObterLocalizacaoAtualPatrimonio(AIdPatrimonio: Integer): String;
+begin
+  Result := FMovimentacaoService.ObterLocalizacaoAtualPatrimonio(AIdPatrimonio);
 end;
 
 end.

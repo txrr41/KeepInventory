@@ -22,47 +22,74 @@ type
     Chart1: TChart;
     Series1: TBarSeries;
     ComboBoxTipo: TComboBox;
-    Panel5: TPanel;
-    Panel6: TPanel;
-    Panel4: TPanel;
-    Panel3: TPanel;
-    Shape1: TShape;
-    Shape2: TShape;
-    Shape3: TShape;
-    Shape4: TShape;
-    LabelTituloTaxa: TLabel;
-    LabelTituloDepreciado: TLabel;
-    LabelValorDepreciado: TLabel;
-    LabelValorOriginal: TLabel;
-    LabelValorAtual: TLabel;
-    LabelTaxaDepreciacao: TLabel;
-    LabelTituloOriginal: TLabel;
-    LabelTituloAtual: TLabel;
     Panel7: TPanel;
-    Label15: TLabel;
     Panel8: TPanel;
-    ChartDepreciacao: TChart;
-    BarSeries1: THorizBarSeries;
-    Panel9: TPanel;
-    Panel10: TPanel;
+    PanelRelatorio: TPanel;
     ComboBoxRelatorios: TComboBox;
     Panel11: TPanel;
-    Shape5: TShape;
     Label4: TLabel;
     Panel12: TPanel;
     Label3: TLabel;
     Label5: TLabel;
     DateTimePickerFim: TDateTimePicker;
     DateTimePickerInicio: TDateTimePicker;
-    BtnGerarRelatorio: TSpeedButton;
     ComboBoxFiltroItem: TComboBox;
-    LabelFiltroItem: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Image6: TImage;
+    Shape2: TShape;
+    Shape1: TShape;
+    Shape6: TShape;
+    Shape7: TShape;
+    Shape8: TShape;
+    Shape9: TShape;
+    LabelValorOriginal: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Shape12: TShape;
+    Image1: TImage;
+    Image2: TImage;
+    LabelValorAtual: TLabel;
+    Label10: TLabel;
+    Shape10: TShape;
+    Image3: TImage;
+    Label11: TLabel;
+    LabelValorDepreciado: TLabel;
+    Label13: TLabel;
+    Shape11: TShape;
+    Image4: TImage;
+    Label12: TLabel;
+    LabelTaxaDepreciacao: TLabel;
+    ChartDepreciacao: TChart;
+    BarSeries1: THorizBarSeries;
+    Panel3: TPanel;
+    Shape3: TShape;
+    Label14: TLabel;
+    Label15: TLabel;
+    Image5: TImage;
+    SpeedButton1: TSpeedButton;
+    Label16: TLabel;
+    Image7: TImage;
+    Image8: TImage;
+    Panel4: TPanel;
+    Label17: TLabel;
+    LabelDataInicio: TLabel;
+    Label1DataFim: TLabel;
+    ImageDataInicio: TImage;
+    ImageDataFim: TImage;
+    LabelFiltroPredio: TLabel;
+    BtnGerarRelatorio: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    Shape4: TShape;
+    Shape5: TShape;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ComboBoxTipoChange(Sender: TObject);
     procedure BtnGerarRelatorioClick(Sender: TObject);
     procedure ComboBoxRelatoriosChange(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure SpeedButton2Click(Sender: TObject);
   private
     FController: TDashboardController;
     FDepreciacaoController: TDepreciacaoController;
@@ -212,33 +239,7 @@ end;
 procedure TFormDashboard.ConfigurarCards;
 begin
 
-  LabelTituloOriginal.Caption := 'Valor Original Total';
-  LabelTituloOriginal.Font.Size := 9;
-  LabelTituloOriginal.Font.Color := clGray;
-  LabelValorOriginal.Font.Size := 16;
-  LabelValorOriginal.Font.Style := [fsBold];
-  LabelValorOriginal.Font.Color := clBlue;
 
-  LabelTituloAtual.Caption := 'Valor Atual Total';
-  LabelTituloAtual.Font.Size := 9;
-  LabelTituloAtual.Font.Color := clGray;
-  LabelValorAtual.Font.Size := 16;
-  LabelValorAtual.Font.Style := [fsBold];
-  LabelValorAtual.Font.Color := clGreen;
-
-  LabelTituloDepreciado.Caption := 'Total Depreciado';
-  LabelTituloDepreciado.Font.Size := 9;
-  LabelTituloDepreciado.Font.Color := clGray;
-  LabelValorDepreciado.Font.Size := 16;
-  LabelValorDepreciado.Font.Style := [fsBold];
-  LabelValorDepreciado.Font.Color := clRed;
-
-  LabelTituloTaxa.Caption := 'Taxa Média Depreciação';
-  LabelTituloTaxa.Font.Size := 9;
-  LabelTituloTaxa.Font.Color := clGray;
-  LabelTaxaDepreciacao.Font.Size := 16;
-  LabelTaxaDepreciacao.Font.Style := [fsBold];
-  LabelTaxaDepreciacao.Font.Color := clMaroon;
 end;
 
 procedure TFormDashboard.ConfigurarFiltrosPadrao;
@@ -431,8 +432,10 @@ begin
 
     // Obter filtro de datas
     if DateTimePickerInicio.Visible then
+
       DataInicio := Trunc(DateTimePickerInicio.Date);
     if DateTimePickerFim.Visible then
+
       DataFim := Trunc(DateTimePickerFim.Date);
 
     // Validar período se ambas as datas estiverem preenchidas
@@ -560,6 +563,16 @@ begin
   end;
 end;
 
+procedure TFormDashboard.SpeedButton1Click(Sender: TObject);
+begin
+PanelRelatorio.Visible := True;
+end;
+
+procedure TFormDashboard.SpeedButton2Click(Sender: TObject);
+begin
+PanelRelatorio.Visible := False;
+end;
+
 procedure TFormDashboard.CarregarComboTipo;
 var
   Tipos: TStringList;
@@ -567,7 +580,7 @@ var
 begin
   ComboBoxRelatorios.Items.Clear;
   ComboBoxRelatorios.Items.Add('Relatorio de depreciacao de bens');
-  ComboBoxRelatorios.Items.Add('Segundo relatório (frxReport2)');
+  ComboBoxRelatorios.Items.Add('Planejamento de reposição');
   ComboBoxRelatorios.Items.Add('Relatório de Movimentações');
 
   // ✅ USA O CONTROLLER - Sem contato direto com banco
@@ -592,47 +605,71 @@ end;
 
 procedure TFormDashboard.ComboBoxRelatoriosChange(Sender: TObject);
 begin
-  // Relatório 2 (índice 1) não usa filtro de data, mas os outros usam
-  DateTimePickerInicio.Visible := (ComboBoxRelatorios.ItemIndex <> 1);
-  DateTimePickerFim.Visible := (ComboBoxRelatorios.ItemIndex <> 1);
-
-  // Se for relatório 2, também esconde os labels associados
-  Label3.Visible := (ComboBoxRelatorios.ItemIndex <> 1); // Label "Data Início"
-  Label4.Visible := (ComboBoxRelatorios.ItemIndex <> 1); // Label "Data Fim"
-  Label5.Visible := (ComboBoxRelatorios.ItemIndex <> 1); // Label "Período"
-
-  // Mostrar/ocultar componentes do relatório de movimentação (índice 2)
-  if ComboBoxRelatorios.ItemIndex = 2 then
-  begin
-    // Criar componentes se não existirem
-    if not Assigned(ComboBoxFiltroItem) then
+  // Controle de visibilidade das datas e suas labels/ícones
+  case ComboBoxRelatorios.ItemIndex of
+    0: // Relatorio de depreciacao de bens
     begin
-      ComboBoxFiltroItem := TComboBox.Create(Self);
-      ComboBoxFiltroItem.Parent := Panel10; // Painel onde estão os filtros
-      ComboBoxFiltroItem.Left := DateTimePickerInicio.Left;
-      ComboBoxFiltroItem.Top := DateTimePickerInicio.Top + DateTimePickerInicio.Height + 10;
-      ComboBoxFiltroItem.Width := 200;
-      ComboBoxFiltroItem.Style := csDropDownList;
+      // Esconder ComboBox de itens e sua label
+      if Assigned(ComboBoxFiltroItem) then
+        ComboBoxFiltroItem.Visible := False;
+      LabelFiltroPredio.Visible := False;
 
-      LabelFiltroItem := TLabel.Create(Self);
-      LabelFiltroItem.Parent := Panel10;
-      LabelFiltroItem.Left := DateTimePickerInicio.Left;
-      LabelFiltroItem.Top := ComboBoxFiltroItem.Top - 20;
-      LabelFiltroItem.Caption := 'Filtrar por Item:';
-      LabelFiltroItem.Font.Style := [fsBold];
+      // Mostrar datas
+      DateTimePickerInicio.Visible := True;
+      DateTimePickerFim.Visible := True;
+      LabelDataInicio.Visible := True;
+      Label1DataFim.Visible := True;
+      ImageDataInicio.Visible := True;
+      ImageDataFim.Visible := True;
     end;
 
-    ComboBoxFiltroItem.Visible := True;
-    LabelFiltroItem.Visible := True;
-    CarregarComboItens; // Carregar itens disponíveis
-  end
-  else
-  begin
-    // Esconder componentes do relatório de movimentação
-    if Assigned(ComboBoxFiltroItem) then
-      ComboBoxFiltroItem.Visible := False;
-    if Assigned(LabelFiltroItem) then
-      LabelFiltroItem.Visible := False;
+    1: // Planejamento de reposição
+    begin
+      // Esconder datas e labels/ícones
+      DateTimePickerInicio.Visible := False;
+      DateTimePickerFim.Visible := False;
+      LabelDataInicio.Visible := False;
+      Label1DataFim.Visible := False;
+      ImageDataInicio.Visible := False;
+      ImageDataFim.Visible := False;
+
+      // Esconder ComboBox de itens e sua label
+      if Assigned(ComboBoxFiltroItem) then
+        ComboBoxFiltroItem.Visible := False;
+      LabelFiltroPredio.Visible := False;
+    end;
+
+    2: // Relatório de Movimentações
+    begin
+      // Mostrar datas e labels/ícones
+      DateTimePickerInicio.Visible := True;
+      DateTimePickerFim.Visible := True;
+      LabelDataInicio.Visible := True;
+      Label1DataFim.Visible := True;
+      ImageDataInicio.Visible := True;
+      ImageDataFim.Visible := True;
+
+      // Criar ComboBox de itens se ainda não existir
+      if not Assigned(ComboBoxFiltroItem) then
+      begin
+        ComboBoxFiltroItem := TComboBox.Create(Self);
+        ComboBoxFiltroItem.Parent := PanelRelatorio;
+        ComboBoxFiltroItem.Left := 32;
+        ComboBoxFiltroItem.Top := 211;
+        ComboBoxFiltroItem.Width := 225;
+        ComboBoxFiltroItem.Height := 23;
+        ComboBoxFiltroItem.Style := csDropDownList;
+        ComboBoxFiltroItem.TabOrder := 5;
+      end;
+
+      // Sempre carregar os dados quando o relatório de movimentações for selecionado
+      ComboBoxFiltroItem.Visible := True;
+      LabelFiltroPredio.Visible := True;
+      LabelFiltroPredio.Caption := 'Filtrar por Item (Opcional)';
+
+      // Carregar os dados do combo box
+      CarregarComboItens;
+    end;
   end;
 end;
 
@@ -646,29 +683,55 @@ begin
   ComboBoxFiltroItem.Items.Clear;
 
   try
+    // Verificar se a conexão está ativa
+    if not DataModule2.FDConnection.Connected then
+    begin
+      ComboBoxFiltroItem.Items.Add('Sem conexão com BD');
+      ComboBoxFiltroItem.ItemIndex := 0;
+      Exit;
+    end;
+
     if Assigned(FControllerMovimentacao) then
     begin
-      ItemsList := FControllerMovimentacao.CarregarItens;
       try
-        ComboBoxFiltroItem.Items.AddStrings(ItemsList);
-        // Selecionar primeiro item (Todos) por padrão
-        ComboBoxFiltroItem.ItemIndex := 0;
-      finally
-        ItemsList.Free;
+        ItemsList := FControllerMovimentacao.CarregarItens;
+        try
+          if Assigned(ItemsList) and (ItemsList.Count > 0) then
+          begin
+            ComboBoxFiltroItem.Items.AddStrings(ItemsList);
+            ComboBoxFiltroItem.ItemIndex := 0;
+
+            // Log para debug (remover depois se quiser)
+            TLogService.Instance.LogSistema('ComboBox de itens carregado: ' + IntToStr(ItemsList.Count) + ' itens', 'DEBUG');
+          end
+          else
+          begin
+            ComboBoxFiltroItem.Items.Add('Nenhum item encontrado');
+            ComboBoxFiltroItem.ItemIndex := 0;
+            end;
+        finally
+          ItemsList.Free;
+        end;
+      except
+        on E: Exception do
+        begin
+          TLogService.Instance.LogSistema('Erro ao carregar itens do controller: ' + E.Message, 'ERRO');
+          ComboBoxFiltroItem.Items.Add('Erro ao carregar');
+          ComboBoxFiltroItem.ItemIndex := 0;
+        end;
       end;
     end
     else
     begin
-      // Fallback caso o controller não esteja disponível
-      ComboBoxFiltroItem.Items.Add('Todos');
+      ComboBoxFiltroItem.Items.Add('Controller não inicializado');
       ComboBoxFiltroItem.ItemIndex := 0;
     end;
 
   except
     on E: Exception do
     begin
-      ShowMessage('Erro ao carregar itens: ' + E.Message);
-      // Adicionar opção padrão em caso de erro
+      TLogService.Instance.LogSistema('Erro geral ao carregar itens: ' + E.Message, 'ERRO');
+
       if ComboBoxFiltroItem.Items.Count = 0 then
       begin
         ComboBoxFiltroItem.Items.Add('Todos');
@@ -677,5 +740,4 @@ begin
     end;
   end;
 end;
-
 end.

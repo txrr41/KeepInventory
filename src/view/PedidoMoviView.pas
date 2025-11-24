@@ -13,42 +13,77 @@ uses
 type
   TFormPedidoMovi = class(TForm)
     PanelMoviment: TPanel;
-    PanelAddMovi: TPanel;
-    CbItemMovi: TComboBox;
-    Label10: TLabel;
-    Label11: TLabel;
-    CbDestinoMovi: TComboBox;
-    CbOrigemMovi: TComboBox;
     DataSource1: TDataSource;
-    Button1: TButton;
-    Button2: TButton;
-    Label14: TLabel;
     Panel5: TPanel;
     DBGrid1: TDBGrid;
-    Panel4: TPanel;
-    Panel9: TPanel;
-    Shape3: TShape;
-    Label6: TLabel;
-    BtnAdicionarMovi: TSpeedButton;
-    Panel10: TPanel;
-    Shape4: TShape;
-    Label7: TLabel;
-    BtnEditarMovi: TSpeedButton;
-    Panel11: TPanel;
-    Shape5: TShape;
-    Label8: TLabel;
-    BtnExcluirMovi: TSpeedButton;
-    Panel12: TPanel;
-    Shape6: TShape;
-    Label9: TLabel;
-    BtnAtualizarMovi: TSpeedButton;
     SearchBox1: TSearchBox;
-    Image1: TImage;
-    Shape7: TShape;
-    Shape8: TShape;
-    Image6: TImage;
     Label1: TLabel;
+    Panel8: TPanel;
+    Panel32: TPanel;
+    Shape1: TShape;
+    Label72: TLabel;
+    Image5: TImage;
+    BtnAtualizarMovi: TSpeedButton;
+    Panel30: TPanel;
+    Shape2: TShape;
+    Label69: TLabel;
+    Image4: TImage;
+    Panel28: TPanel;
+    Label51: TLabel;
+    Image2: TImage;
+    Panel7: TPanel;
+    Label3: TLabel;
+    Label12: TLabel;
+    Image1: TImage;
+    Panel1: TPanel;
     Label2: TLabel;
+    Image3: TImage;
+    Shape8: TShape;
+    Shape7: TShape;
+    Label4: TLabel;
+    Image6: TImage;
+    BtnAdicionarMovi: TSpeedButton;
+    BtnEditarMovi: TSpeedButton;
+    BtnExcluirMovi: TSpeedButton;
+    PanelAddMovi: TPanel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label6: TLabel;
+    CbItemMovi: TComboBox;
+    CbDestinoMovi: TComboBox;
+    CbOrigemMovi: TComboBox;
+    Panel4: TPanel;
+    Label5: TLabel;
+    Image7: TImage;
+    Image8: TImage;
+    Panel2: TPanel;
+    Label7: TLabel;
+    Panel3: TPanel;
+    Label9: TLabel;
+    Panel6: TPanel;
+    Label15: TLabel;
+    Label8: TLabel;
+    Shape6: TShape;
+    Image9: TImage;
+    Label16: TLabel;
+    Label17: TLabel;
+    Image10: TImage;
+    Image11: TImage;
+    BtnCancelarMovi: TSpeedButton;
+    BtnEnviarMovi: TSpeedButton;
+    Shape5: TShape;
+    BtnConfirmarEd: TSpeedButton;
+    Shape3: TShape;
+    Shape4: TShape;
+    Shape9: TShape;
+    Label13: TLabel;
+    Image12: TImage;
+    Label14: TLabel;
+    LabelSalaOrigem: TLabel;
+    Image13: TImage;
+    Image14: TImage;
+    Label18: TLabel;
+    LabelSalaDestino: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure BtnAdicionarMoviClick(Sender: TObject);
     procedure BtnEditarMoviClick(Sender: TObject);
@@ -58,10 +93,13 @@ type
     procedure DBGrid1CellClick(Column: TColumn);
     procedure BtnLimparFIltroMoviClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure BtnEnviarMoviClick(Sender: TObject);
+    procedure BtnConfirmarEdClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure CbItemMoviChange(Sender: TObject);
+    procedure CbDestinoMoviChange(Sender: TObject);
+    procedure Image7Click(Sender: TObject);
+    procedure BtnCancelarMoviClick(Sender: TObject);
   private
     FPedidoMoviController: TPedidoMoviController;
     FIdMovimentacaoSelecionada: Integer;
@@ -106,6 +144,11 @@ begin
 CarregarGrid;
 end;
 
+procedure TFormPedidoMovi.Image7Click(Sender: TObject);
+begin
+PanelAddMovi.Visible := False;
+end;
+
 procedure TFormPedidoMovi.CarregarGrid;
 begin
   try
@@ -128,18 +171,48 @@ end;
 procedure TFormPedidoMovi.CbItemMoviChange(Sender: TObject);
 var
   IdPatrimonio: Integer;
+  LocalizacaoAtual: String;
 begin
-  if CbItemMovi.ItemIndex = -1 then Exit;
+  if CbItemMovi.ItemIndex = -1 then
+  begin
+    Label17.Caption := 'Nenhum item selecionado';
+    LabelSalaOrigem.Caption := 'Selecione um item';
+    LabelSalaDestino.Caption := 'Selecione um item';
+    Exit;
+  end;
 
   IdPatrimonio := Integer(CbItemMovi.Items.Objects[CbItemMovi.ItemIndex]);
 
-  // Origem: sala atual do item
+  LocalizacaoAtual := FPedidoMoviController.ObterLocalizacaoAtualPatrimonio(IdPatrimonio);
+  Label17.Caption := LocalizacaoAtual;
 
+  if LocalizacaoAtual = 'Sem localização definida' then
+    LabelSalaOrigem.Caption := 'Ainda não tem sala'
+  else
+    LabelSalaOrigem.Caption := LocalizacaoAtual;
+
+  LabelSalaDestino.Caption := 'Selecione um destino';
+
+  // Origem: sala atual do item
   FPedidoMoviController.PopularComboBoxSalasDoPatrimonio(CbOrigemMovi, IdPatrimonio);
 
-  // Destino: todas as salas poss�veis
+  // Destino: todas as salas possíveis
   FPedidoMoviController.PopularComboBoxSalas(CbDestinoMovi);
+end;
+
+procedure TFormPedidoMovi.CbDestinoMoviChange(Sender: TObject);
+var
+  SalaDestino: String;
+begin
+  if CbDestinoMovi.ItemIndex = -1 then
+  begin
+    LabelSalaDestino.Caption := 'Selecione um destino';
+    Exit;
   end;
+
+  SalaDestino := CbDestinoMovi.Text;
+  LabelSalaDestino.Caption := SalaDestino;
+end;
 
 
 
@@ -154,6 +227,10 @@ begin
   CbOrigemMovi.ItemIndex := -1;
   CbDestinoMovi.ItemIndex := -1;
   FIdMovimentacaoSelecionada := 0;
+
+  Label17.Caption := 'Nenhum item selecionado';
+  LabelSalaOrigem.Caption := 'Selecione um item';
+  LabelSalaDestino.Caption := 'Selecione um item';
 
   BtnAdicionarMovi.Enabled := True;
   BtnEditarMovi.Enabled := False;
@@ -215,21 +292,32 @@ begin
   if PanelAddMovi.Visible = False then
   begin
     PanelAddMovi.Visible := True;
-    Button1.Visible := True;
+    Panel2.Visible := True;
+    Panel3.Visible := False;
+    LimparCampos;
     PopularComboBox;
   end
   else
+  begin
     PanelAddMovi.Visible := False;
+    LimparCampos;
+  end;
 end;
 
 procedure TFormPedidoMovi.BtnEditarMoviClick(Sender: TObject);
 begin
-    PanelAddMovi.Visible := True;
-    Button2.Visible := True;
-    CbItemMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('fk_id_patrimonios').AsString;
-    CbDestinoMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('fk_id_destino').AsString;
-    CbOrigemMovi.Text := DBGrid1.DataSource.DataSet.FieldByName('fk_id_origem').AsString;
-    PopularComboBox;
+  if FIdMovimentacaoSelecionada = 0 then
+  begin
+    ShowMessage('Selecione uma movimentação para editar!');
+    Exit;
+  end;
+
+  PanelAddMovi.Visible := True;
+  Panel3.Visible := True;
+  Panel2.Visible := False;
+
+  PreencherCamposComGrid;
+  PopularComboBox;
 end;
 
 
@@ -332,7 +420,45 @@ begin
 end;
 
 procedure TFormPedidoMovi.PreencherCamposComGrid;
+var
+  IdPatrimonio, IdOrigem, IdDestino: Integer;
+  I: Integer;
 begin
+  if not Assigned(DataSource1.DataSet) or DataSource1.DataSet.IsEmpty then
+    Exit;
+
+  IdPatrimonio := DataSource1.DataSet.FieldByName('fk_id_patrimonios').AsInteger;
+  IdOrigem := DataSource1.DataSet.FieldByName('fk_id_origem').AsInteger;
+  IdDestino := DataSource1.DataSet.FieldByName('fk_id_destino').AsInteger;
+
+  PopularComboBox;
+
+  for I := 0 to CbItemMovi.Items.Count - 1 do
+  begin
+    if Integer(CbItemMovi.Items.Objects[I]) = IdPatrimonio then
+    begin
+      CbItemMovi.ItemIndex := I;
+      Break;
+    end;
+  end;
+
+  for I := 0 to CbOrigemMovi.Items.Count - 1 do
+  begin
+    if Integer(CbOrigemMovi.Items.Objects[I]) = IdOrigem then
+    begin
+      CbOrigemMovi.ItemIndex := I;
+      Break;
+    end;
+  end;
+
+  for I := 0 to CbDestinoMovi.Items.Count - 1 do
+  begin
+    if Integer(CbDestinoMovi.Items.Objects[I]) = IdDestino then
+    begin
+      CbDestinoMovi.ItemIndex := I;
+      Break;
+    end;
+  end;
 end;
 
 procedure TFormPedidoMovi.BtnLimparFIltroMoviClick(Sender: TObject);
@@ -342,7 +468,7 @@ begin
   LimparCampos;
 end;
 
-procedure TFormPedidoMovi.Button1Click(Sender: TObject);
+procedure TFormPedidoMovi.BtnEnviarMoviClick(Sender: TObject);
 var
   MovimentacaoDTO: TMovimentacaoDTO;
 begin
@@ -379,7 +505,12 @@ begin
       ShowMessage('Erro ao adicionar movimentação: ' + E.Message);
   end;
 end;
-procedure TFormPedidoMovi.Button2Click(Sender: TObject);
+procedure TFormPedidoMovi.BtnCancelarMoviClick(Sender: TObject);
+begin
+  LimparCampos;
+end;
+
+procedure TFormPedidoMovi.BtnConfirmarEdClick(Sender: TObject);
 var
   MovimentacaoDTO: TMovimentacaoDTO;
 begin

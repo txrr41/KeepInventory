@@ -16,6 +16,7 @@ type
     function ObterNomesSalas: TStringList;
     function ListarMovimentacoes: TDataSet;
     function ObterSalasDoPatrimonio(AIdPatrimonio: Integer): TStringList;
+    function ObterLocalizacaoAtualPatrimonio(AIdPatrimonio: Integer): String;
   end;
 
 var
@@ -67,6 +68,11 @@ function TMovimentacaoService.PesquisarMovimentacao(
   const aSearch: String): TDataSet;
 begin
   Result := FMovimentacaoRepository.PesquisarMovimentacao(aSearch);
+end;
+
+function TMovimentacaoService.ObterLocalizacaoAtualPatrimonio(AIdPatrimonio: Integer): String;
+begin
+  Result := FMovimentacaoRepository.ObterLocalizacaoAtualPatrimonio(AIdPatrimonio);
 end;
 
 end.

@@ -37,7 +37,7 @@ begin
     Result := FOcorrenciaService.RegistrarOcorrencia(DTO);
   except
     on E: Exception do
-      raise Exception.Create('Erro ao registrar ocorrência: ' + E.Message);
+      raise Exception.Create('Erro ao registrar ocorrï¿½ncia: ' + E.Message);
   end;
 end;
 
@@ -47,7 +47,7 @@ begin
     Result := FOcorrenciaService.EditarOcorrencia(DTO);
   except
     on E: Exception do
-      raise Exception.Create('Erro ao editar ocorrência: ' + E.Message);
+      raise Exception.Create('Erro ao editar ocorrï¿½ncia: ' + E.Message);
   end;
 end;
 
@@ -57,7 +57,7 @@ begin
     Result := FOcorrenciaService.ExcluirOcorrencia(Id);
   except
     on E: Exception do
-      raise Exception.Create('Erro ao excluir ocorrência: ' + E.Message);
+      raise Exception.Create('Erro ao excluir ocorrï¿½ncia: ' + E.Message);
   end;
 end;
 
@@ -67,7 +67,7 @@ begin
     Result := FOcorrenciaService.AvaliarOcorrencia(DTO);
   except
     on E: Exception do
-      raise Exception.Create('Erro ao avaliar ocorrência: ' + E.Message);
+      raise Exception.Create('Erro ao avaliar ocorrï¿½ncia: ' + E.Message);
   end;
 end;
 
@@ -77,7 +77,7 @@ begin
     Result := FOcorrenciaService.ListarTodas;
   except
     on E: Exception do
-      raise Exception.Create('Erro ao listar ocorrências: ' + E.Message);
+      raise Exception.Create('Erro ao listar ocorrï¿½ncias: ' + E.Message);
   end;
 end;
 
@@ -87,7 +87,7 @@ begin
     Result := FOcorrenciaService.ListarPendentes;
   except
     on E: Exception do
-      raise Exception.Create('Erro ao listar ocorrências pendentes: ' + E.Message);
+      raise Exception.Create('Erro ao listar ocorrï¿½ncias pendentes: ' + E.Message);
   end;
 end;
 
@@ -97,7 +97,7 @@ begin
     Result := FOcorrenciaService.ListarPorPatrimonio(IdPatrimonio);
   except
     on E: Exception do
-      raise Exception.Create('Erro ao listar ocorrências do patrimônio: ' + E.Message);
+      raise Exception.Create('Erro ao listar ocorrï¿½ncias do patrimï¿½nio: ' + E.Message);
   end;
 end;
 
@@ -107,7 +107,7 @@ begin
     Result := FOcorrenciaService.BuscarPorId(Id);
   except
     on E: Exception do
-      raise Exception.Create('Erro ao buscar ocorrência: ' + E.Message);
+      raise Exception.Create('Erro ao buscar ocorrï¿½ncia: ' + E.Message);
   end;
 end;
 
@@ -117,19 +117,19 @@ begin
     FOcorrenciaRepository.PopularComboBoxPatrimonios(ComboBox);
   except
     on E: Exception do
-      raise Exception.Create('Erro ao popular patrimônios: ' + E.Message);
+      raise Exception.Create('Erro ao popular patrimï¿½nios: ' + E.Message);
   end;
 end;
 
 procedure TOcorrenciaController.PopularComboBoxTipos(ComboBox: TComboBox);
 begin
   ComboBox.Clear;
-  ComboBox.Items.Add('DANO_FISICO');
-  ComboBox.Items.Add('PERDA');
-  ComboBox.Items.Add('FURTO');
-  ComboBox.Items.Add('MAU_FUNCIONAMENTO');
-  ComboBox.Items.Add('DESGASTE_NATURAL');
-  ComboBox.Items.Add('VANDALISMO');
+  ComboBox.Items.Add('Dano FÃ­sico');
+  ComboBox.Items.Add('Perda');
+  ComboBox.Items.Add('Furto');
+  ComboBox.Items.Add('Mau Funcionamento');
+  ComboBox.Items.Add('Desgaste Natural');
+  ComboBox.Items.Add('Vandalismo');
   ComboBox.ItemIndex := -1;
 end;
 

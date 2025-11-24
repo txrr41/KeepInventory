@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.StdCtrls,
   Vcl.Grids, Vcl.DBGrids, Vcl.WinXCtrls, Vcl.Buttons, Vcl.NumberBox, Vcl.Mask,
-  AnaliseOcorrenciaController, OcorrenciaDTO, OcorrenciaModel, FireDAC.Comp.Client;
+  AnaliseOcorrenciaController, OcorrenciaDTO, OcorrenciaModel, FireDAC.Comp.Client,
+  Vcl.Imaging.pngimage;
 
 type
   TFormAnaliseOcorrencia = class(TForm)
@@ -15,7 +16,6 @@ type
     Label2: TLabel;
     Label4: TLabel;
     Panel4: TPanel;
-    Label1: TLabel;
     CbGravidadeA: TComboBox;
     Panel5: TPanel;
     Label5: TLabel;
@@ -41,8 +41,35 @@ type
     Label7: TLabel;
     MemoDetalhes: TMemo;
     DataSource1: TDataSource;
-    SpeedButton1: TSpeedButton;
+    BtnCancelarAnalise: TSpeedButton;
     BtnSalvarAnalise: TSpeedButton;
+    Label1: TLabel;
+    Label12: TLabel;
+    Image6: TImage;
+    Image1: TImage;
+    Label13: TLabel;
+    ShapeTipoOcorrencia: TShape;
+    LabelTipoOcorrencia: TLabel;
+    Shape4: TShape;
+    Shape5: TShape;
+    LabelItemAfetado: TLabel;
+    Label16: TLabel;
+    Image2: TImage;
+    Image3: TImage;
+    Label17: TLabel;
+    LabelResponsavel: TLabel;
+    Shape6: TShape;
+    Image4: TImage;
+    Label19: TLabel;
+    Label15: TLabel;
+    Label18: TLabel;
+    Image5: TImage;
+    Shape3: TShape;
+    Shape7: TShape;
+    Image7: TImage;
+    Label14: TLabel;
+    LabelDepreciaçaoAcumulada: TLabel;
+    Shape8: TShape;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -51,6 +78,7 @@ type
     procedure BtnSalvarAnaliseClick(Sender: TObject);
     procedure SearchBox1Change(Sender: TObject);
     procedure DBGridAnaliseCellClick(Column: TColumn);
+    procedure BtnCancelarAnaliseClick(Sender: TObject);
   private
     FIdOcorrenciaSelecionada: Integer;
     FIdPatrimonioSelecionado: Integer;
@@ -95,7 +123,7 @@ begin
     on E: Exception do
     begin
       ShowMessage('Erro ao carregar ocorrências: ' + E.Message);
-      DBGridAnalise.DataSource := nil;
+
     end;
   end;
 end;
@@ -289,10 +317,139 @@ end;
 procedure TFormAnaliseOcorrencia.DBGridAnaliseCellClick(Column: TColumn);
 var
   IdOcorrencia: Integer;
+  Ocorrencia: TOcorrenciaModel;
+  NomeUsuario: string;
+  TipoOcorrencia: string;
+  ValorPatrimonio: Currency;
+  DepreciacaoAcumulada: Currency;
+  Descricao: string;
+  NomePatrimonio: string;
 begin
   if not DataSource1.DataSet.IsEmpty then
   begin
     IdOcorrencia := DataSource1.DataSet.FieldByName('id').AsInteger;
+
+    try
+      Label13.Caption := 'Ocorrência #' + IntToStr(IdOcorrencia);
+
+      Descricao := '';
+      NomePatrimonio := '';
+      NomeUsuario := '';
+      TipoOcorrencia := '';
+
+  
+      if DataSource1.DataSet.FindField('descricao') <> nil then
+        Descricao := DataSource1.DataSet.FieldByName('descricao').AsString
+      else if DataSource1.DataSet.FindField('descricao_ocorrencia') <> nil then
+        Descricao := DataSource1.DataSet.FieldByName('descricao_ocorrencia').AsString;
+
+      if DataSource1.DataSet.FindField('patrimonio') <> nil then
+        NomePatrimonio := DataSource1.DataSet.FieldByName('patrimonio').AsString
+      else if DataSource1.DataSet.FindField('nome_patrimonio') <> nil then
+        NomePatrimonio := DataSource1.DataSet.FieldByName('nome_patrimonio').AsString
+      else if DataSource1.DataSet.FindField('patrimonio_nome') <> nil then
+        NomePatrimonio := DataSource1.DataSet.FieldByName('patrimonio_nome').AsString
+      else if DataSource1.DataSet.FindField('nome_item') <> nil then
+        NomePatrimonio := DataSource1.DataSet.FieldByName('nome_item').AsString
+      else if DataSource1.DataSet.FindField('item') <> nil then
+        NomePatrimonio := DataSource1.DataSet.FieldByName('item').AsString
+      else if DataSource1.DataSet.FindField('nome_bem') <> nil then
+        NomePatrimonio := DataSource1.DataSet.FieldByName('nome_bem').AsString;
+
+      if DataSource1.DataSet.FindField('usuario_relator') <> nil then
+        NomeUsuario := DataSource1.DataSet.FieldByName('usuario_relator').AsString
+      else if DataSource1.DataSet.FindField('nome_usuario') <> nil then
+        NomeUsuario := DataSource1.DataSet.FieldByName('nome_usuario').AsString
+      else if DataSource1.DataSet.FindField('usuario') <> nil then
+        NomeUsuario := DataSource1.DataSet.FieldByName('usuario').AsString
+      else if DataSource1.DataSet.FindField('responsavel') <> nil then
+        NomeUsuario := DataSource1.DataSet.FieldByName('responsavel').AsString
+      else if DataSource1.DataSet.FindField('nome_responsavel') <> nil then
+        NomeUsuario := DataSource1.DataSet.FieldByName('nome_responsavel').AsString
+      else if DataSource1.DataSet.FindField('relator_nome') <> nil then
+        NomeUsuario := DataSource1.DataSet.FieldByName('relator_nome').AsString
+      else if DataSource1.DataSet.FindField('nome_completo') <> nil then
+        NomeUsuario := DataSource1.DataSet.FieldByName('nome_completo').AsString;
+
+      if DataSource1.DataSet.FindField('tipo_ocorrencia') <> nil then
+        TipoOcorrencia := UpperCase(Trim(DataSource1.DataSet.FieldByName('tipo_ocorrencia').AsString))
+      else if DataSource1.DataSet.FindField('tipo') <> nil then
+        TipoOcorrencia := UpperCase(Trim(DataSource1.DataSet.FieldByName('tipo').AsString));
+
+      // Se ainda não encontrou o usuário, tenta em qualquer campo que possa ser o nome
+      if Trim(NomeUsuario) = '' then
+      begin
+        for var I := 0 to DataSource1.DataSet.FieldCount - 1 do
+        begin
+          var FieldName := LowerCase(DataSource1.DataSet.Fields[I].FieldName);
+          var FieldValue := DataSource1.DataSet.Fields[I].AsString;
+
+          if (Pos('nome', FieldName) > 0) or (Pos('user', FieldName) > 0) or (Pos('respons', FieldName) > 0) or (Pos('solicit', FieldName) > 0) then
+          begin
+            if Trim(FieldValue) <> '' then
+            begin
+              NomeUsuario := FieldValue;
+              Break;
+            end;
+          end;
+        end;
+      end;
+
+      if Trim(NomePatrimonio) = '' then
+        NomePatrimonio := 'Não encontrado';
+      if Trim(NomeUsuario) = '' then
+        NomeUsuario := 'Não encontrado';
+      if Trim(TipoOcorrencia) = '' then
+        TipoOcorrencia := 'NÃO INFORMADO';
+
+      LabelItemAfetado.Caption := NomePatrimonio;
+      LabelResponsavel.Caption := NomeUsuario;
+      Label15.Caption := Descricao;
+      LabelTipoOcorrencia.Caption := TipoOcorrencia;
+
+      Ocorrencia := FAnaliseOcorrenciaController.ObterDetalhesOcorrencia(IdOcorrencia);
+      if Assigned(Ocorrencia) then
+      begin
+        ValorPatrimonio := FAnaliseOcorrenciaController.ObterValorPatrimonio(Ocorrencia.IdPatrimonio);
+        DepreciacaoAcumulada := FAnaliseOcorrenciaController.CalcularDepreciacaoAcumulada(Ocorrencia.IdPatrimonio);
+
+        LabelDepreciaçaoAcumulada.Caption := FormatFloat('#,##0.00', DepreciacaoAcumulada) + '%';
+
+        if (TipoOcorrencia = 'FURTO') or (TipoOcorrencia = 'PERDA') then
+        begin
+          LabelTipoOcorrencia.Font.Color := clRed;
+          ShapeTipoOcorrencia.Brush.Color := $00DEDDFF;
+        end
+        else if TipoOcorrencia = 'DANO FISICO' then
+        begin
+          LabelTipoOcorrencia.Font.Color := $00804000;
+          ShapeTipoOcorrencia.Brush.Color := $00FFF0E6;
+        end
+        else if (TipoOcorrencia = 'MAU FUNCIONAMENTO') or (TipoOcorrencia = 'DESGASTE NATURAL') then
+        begin
+          LabelTipoOcorrencia.Font.Color := $00808080;
+          ShapeTipoOcorrencia.Brush.Color := $00F0F0F0;
+        end
+        else
+        begin
+          LabelTipoOcorrencia.Font.Color := clBlack;
+          ShapeTipoOcorrencia.Brush.Color := $00E6F3FF;
+        end;
+
+        Ocorrencia.Free;
+      end;
+
+    except
+      on E: Exception do
+      begin
+        LabelItemAfetado.Caption := 'Erro: ' + Copy(E.Message, 1, 30);
+        LabelResponsavel.Caption := 'Erro ao carregar';
+        Label15.Caption := 'Erro ao carregar';
+        LabelTipoOcorrencia.Caption := 'ERRO';
+        LabelDepreciaçaoAcumulada.Caption := '0,00%';
+      end;
+    end;
+
     CarregarDetalhesOcorrencia(IdOcorrencia);
   end;
 end;
@@ -344,6 +501,14 @@ begin
   CbResponsabilidadeA.Items.Add('Acidente');
   CbResponsabilidadeA.Items.Add('Vandalismo');
 
+  // Configura as labels iniciais como "Sem informação"
+  Label13.Caption := 'Ocorrência #';
+  LabelItemAfetado.Caption := 'Sem informação';
+  LabelResponsavel.Caption := 'Sem informação';
+  Label15.Caption := 'Sem informação';
+  LabelTipoOcorrencia.Caption := 'Sem informação';
+  LabelDepreciaçaoAcumulada.Caption := '0,00%';
+
   LimparCampos;
   AtualizarGrid;
 end;
@@ -375,14 +540,67 @@ begin
   CbGravidadeA.ItemIndex := -1;
   CbResponsabilidadeA.ItemIndex := -1;
   MemoDetalhes.Lines.Clear;
+
+  // Limpa as labels de informação do grid
+  Label13.Caption := 'Ocorrência #';
+  LabelItemAfetado.Caption := 'Sem informação';
+  LabelResponsavel.Caption := 'Sem informação';
+  Label15.Caption := 'Sem informação';
+  LabelTipoOcorrencia.Caption := 'Sem informação';
+  LabelDepreciaçaoAcumulada.Caption := '0,00%';
+
+  // Reseta a cor do shape para o padrão
+  ShapeTipoOcorrencia.Brush.Color := $00E6F3FF;
+  LabelTipoOcorrencia.Font.Color := clBlack;
 end;
 
 procedure TFormAnaliseOcorrencia.SearchBox1Change(Sender: TObject);
+var
+  OldDataSet: TDataSet;
+  NewDataSet: TDataSet;
 begin
-  if Trim(SearchBox1.Text) <> '' then
-    DataSource1.DataSet := FAnaliseOcorrenciaController.PesquisarOcorrencia(SearchBox1.Text)
-  else
-    AtualizarGrid;
+  try
+    // Evita pesquisa com texto muito curto
+    if (Length(Trim(SearchBox1.Text)) > 0) and (Length(Trim(SearchBox1.Text)) < 2) then
+      Exit;
+
+    // Libera o dataset anterior se existir
+    OldDataSet := DataSource1.DataSet;
+    DataSource1.DataSet := nil;
+
+    if Trim(SearchBox1.Text) <> '' then
+    begin
+      NewDataSet := FAnaliseOcorrenciaController.PesquisarOcorrencia(Trim(SearchBox1.Text));
+      DataSource1.DataSet := NewDataSet;
+      DBGridAnalise.DataSource := DataSource1;
+
+      // Limpa as labels de informação ao pesquisar
+      Label13.Caption := 'Ocorrência #';
+      LabelItemAfetado.Caption := 'Sem informação';
+      LabelResponsavel.Caption := 'Sem informação';
+      Label15.Caption := 'Sem informação';
+      LabelTipoOcorrencia.Caption := 'Sem informação';
+      LabelDepreciaçaoAcumulada.Caption := '0,00%';
+      ShapeTipoOcorrencia.Brush.Color := $00E6F3FF;
+      LabelTipoOcorrencia.Font.Color := clBlack;
+    end
+    else
+    begin
+      AtualizarGrid;
+    end;
+
+    // Libera o dataset antigo se for diferente do novo
+    if Assigned(OldDataSet) and (OldDataSet <> NewDataSet) then
+      OldDataSet.Free;
+
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Erro na pesquisa: ' + E.Message);
+      // Em caso de erro, volta com a lista completa
+      AtualizarGrid;
+    end;
+  end;
 end;
 
 procedure TFormAnaliseOcorrencia.AdicionarHistoricoDepreciacoes(AIdPatrimonio: Integer; ADetalhes: TStringList);
@@ -517,6 +735,11 @@ begin
   end;
 
   Result := True;
+end;
+
+procedure TFormAnaliseOcorrencia.BtnCancelarAnaliseClick(Sender: TObject);
+begin
+  LimparCampos;
 end;
 
 end.

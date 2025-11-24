@@ -1,4 +1,4 @@
-unit RegistroOcorrenciaView;
+﻿unit RegistroOcorrenciaView;
 
 interface
 
@@ -18,8 +18,6 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    Panel4: TPanel;
-    Label1: TLabel;
     CbPatrimonio: TComboBox;
     CbTipoOcorrencia: TComboBox;
     Panel5: TPanel;
@@ -33,37 +31,39 @@ type
     DataSource1: TDataSource;
     MemoDescricao: TMemo;
     SpeedButton2: TSpeedButton;
-    Image1: TImage;
     Panel7: TPanel;
-    Label15: TLabel;
     Panel28: TPanel;
     Label51: TLabel;
-    BtnAdicionarPatrimonio: TSpeedButton;
-    Panel29: TPanel;
-    Label54: TLabel;
-    SpeedButton1: TSpeedButton;
     Panel30: TPanel;
     Label69: TLabel;
-    BtnExcluir: TSpeedButton;
     Panel32: TPanel;
     Label72: TLabel;
-    SpeedButton5: TSpeedButton;
-    Panel31: TPanel;
-    Label71: TLabel;
-    SpeedButton4: TSpeedButton;
+    Label7: TLabel;
+    Label12: TLabel;
+    Image6: TImage;
+    Panel8: TPanel;
+    BtnExcluir: TSpeedButton;
+    BtnAtualizarMovi: TSpeedButton;
     Shape3: TShape;
-    Shape4: TShape;
     Shape5: TShape;
     Shape6: TShape;
-    Shape7: TShape;
+    Image2: TImage;
+    Image4: TImage;
+    Image5: TImage;
+    BtnAdicionarPatrimonio: TSpeedButton;
+    Panel4: TPanel;
+    Label1: TLabel;
+    Image1: TImage;
+    Image3: TImage;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure BtnRegistrarClick(Sender: TObject);
     procedure BtnCancelarClick(Sender: TObject);
-    procedure SpeedButton5Click(Sender: TObject);
+    procedure BtnAtualizarMoviClick(Sender: TObject);
     procedure BtnExcluirClick(Sender: TObject);
     procedure DBGridMinhasOcorrenciasCellClick(Column: TColumn);
     procedure BtnAdicionarPatrimonioClick(Sender: TObject);
+    procedure BtnEditarMoviClick(Sender: TObject);
     procedure Image1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -102,24 +102,24 @@ procedure TFormRegistrarOcorrencia.BtnExcluirClick(Sender: TObject);
 begin
 if FIdOcorrenciaSelecionada = 0 then
   begin
-    ShowMessage('Selecione uma ocorr�ncia para excluir!');
+    ShowMessage('Selecione uma ocorrencia para excluir!');
     Exit;
   end;
 
-  if MessageDlg('Deseja realmente excluir esta ocorr�ncia?',
+  if MessageDlg('Deseja realmente excluir esta ocorrencia?',
      mtConfirmation, [mbYes, mbNo], 0) = mrNo then
     Exit;
 
   try
     if FController.ExcluirOcorrencia(FIdOcorrenciaSelecionada) then
     begin
-      ShowMessage('Ocorr�ncia exclu�da com sucesso!');
+      ShowMessage('Ocorrencia excluida com sucesso!');
       CarregarGrid;
       LimparCampos;
     end;
   except
     on E: Exception do
-      ShowMessage('Erro ao excluir ocorr�ncia: ' + E.Message);
+      ShowMessage('Erro ao excluir ocorrencia: ' + E.Message);
   end;
 end;
 
@@ -131,7 +131,6 @@ begin
     Exit;
 
   try
-    DTO.FId := 0;
     DTO.FIdPatrimonio := ObterIdDoComboBox(CbPatrimonio);
     DTO.FIdUsuarioRelator := UserM.Id;
     DTO.FTipoOcorrencia := CbTipoOcorrencia.Text;
@@ -140,19 +139,31 @@ begin
     DTO.FStatus := 'PENDENTE';
     DTO.FFotoAnexo := '';
 
-    if FController.RegistrarOcorrencia(DTO) then
+    if FIdOcorrenciaSelecionada = 0 then
     begin
-      ShowMessage('Ocorr�ncia registrada com sucesso!' + #13#10 +
-                  'Aguarde a an�lise do gestor.');
-      LimparCampos;
-      CarregarGrid;
+      DTO.FId := 0;
+      if FController.RegistrarOcorrencia(DTO) then
+      begin
+        ShowMessage('Ocorrência registrada com sucesso!' + #13#10 +
+                    'Aguarde a análise do gestor.');
+      end;
+    end
+    else
+    begin
+      DTO.FId := FIdOcorrenciaSelecionada;
+      if FController.EditarOcorrencia(DTO) then
+      begin
+        ShowMessage('Ocorrência atualizada com sucesso!');
+      end;
     end;
+
+    LimparCampos;
+    CarregarGrid;
+    Panel3.Visible := False;
   except
     on E: Exception do
-      ShowMessage('Erro ao registrar ocorr�ncia: ' + E.Message);
+      ShowMessage('Erro ao salvar ocorrência: ' + E.Message);
   end;
-
-  Panel3.Visible := False;
 end;
 
 procedure TFormRegistrarOcorrencia.CarregarGrid;
@@ -256,7 +267,61 @@ begin
     Result := Integer(AComboBox.Items.Objects[AComboBox.ItemIndex]);
 end;
 
-procedure TFormRegistrarOcorrencia.SpeedButton5Click(Sender: TObject);
+procedure TFormRegistrarOcorrencia.BtnEditarMoviClick(Sender: TObject);
+var
+  IdPatrimonio: Integer;
+  TipoOcorrencia: String;
+  I: Integer;
+begin
+  if FIdOcorrenciaSelecionada = 0 then
+  begin
+    ShowMessage('Selecione uma ocorrência para editar!');
+    Exit;
+  end;
+
+  if not Assigned(DataSource1.DataSet) or DataSource1.DataSet.IsEmpty then
+    Exit;
+
+  try
+    if DataSource1.DataSet.FieldByName('status').AsString <> 'PENDENTE' then
+    begin
+      ShowMessage('Apenas ocorrências com status PENDENTE podem ser editadas!');
+      Exit;
+    end;
+
+    Panel3.Visible := True;
+    SetEstadoCamposFormulario(True);
+
+    IdPatrimonio := DataSource1.DataSet.FieldByName('fk_id_patrimonios').AsInteger;
+    TipoOcorrencia := DataSource1.DataSet.FieldByName('tipo_ocorrencia').AsString;
+    MemoDescricao.Text := DataSource1.DataSet.FieldByName('descricao').AsString;
+
+    for I := 0 to CbPatrimonio.Items.Count - 1 do
+    begin
+      if Integer(CbPatrimonio.Items.Objects[I]) = IdPatrimonio then
+      begin
+        CbPatrimonio.ItemIndex := I;
+        Break;
+      end;
+    end;
+
+    for I := 0 to CbTipoOcorrencia.Items.Count - 1 do
+    begin
+      if CbTipoOcorrencia.Items[I] = TipoOcorrencia then
+      begin
+        CbTipoOcorrencia.ItemIndex := I;
+        Break;
+      end;
+    end;
+
+    CbPatrimonio.SetFocus;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao carregar dados para edição: ' + E.Message);
+  end;
+end;
+
+procedure TFormRegistrarOcorrencia.BtnAtualizarMoviClick(Sender: TObject);
 begin
   LimparCampos;
   CarregarGrid;

@@ -333,7 +333,24 @@ begin
   Query := TFDQuery.Create(nil);
   try
     Query.Connection := FFDConnection;
-    Query.SQL.Text := 'SELECT id, nome FROM patrimonios WHERE ativo = true ORDER BY nome';
+
+    // Verificar se a tabela patrimonios existe
+    try
+      Query.SQL.Text := 'SELECT COUNT(*) as total FROM information_schema.tables WHERE table_name = ''patrimonios''';
+      Query.Open;
+      if Query.FieldByName('total').AsInteger = 0 then
+      begin
+        Result.Add('Tabela patrimonios não encontrada');
+        Exit;
+      end;
+      Query.Close;
+    except
+      Result.Add('Erro ao verificar tabela patrimonios');
+      Exit;
+    end;
+
+    // Agora buscar os itens
+    Query.SQL.Text := 'SELECT id, nome FROM patrimonios WHERE ativo = true ORDER BY nome LIMIT 100';
 
     try
       Query.Open;
@@ -344,12 +361,17 @@ begin
           Result.Add(Query.FieldByName('nome').AsString);
         Query.Next;
       end;
+
+      // Se não encontrou itens, adicionar mensagem informativa
+      if Result.Count = 1 then // Só tem o "Todos"
+        Result.Add('Nenhum patrimônio ativo encontrado');
+
     except
       on E: Exception do
       begin
         Result.Free;
         Result := TStringList.Create;
-        Result.Add('Todos');
+        Result.Add('Erro na consulta: ' + E.Message);
         raise Exception.Create('Erro ao carregar itens: ' + E.Message);
       end;
     end;

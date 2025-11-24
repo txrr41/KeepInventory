@@ -233,7 +233,7 @@ begin
       'FROM ocorrencias o ' +
       'INNER JOIN patrimonios p ON o.fk_id_patrimonios = p.id ' +
       'INNER JOIN usuarios u ON o.fk_id_usuario_relator = u.id ' +
-      'WHERE o.status = ''pendente'' ' +
+      'WHERE o.status = ''PENDENTE'' ' +
       '  AND (p.nome ILIKE :search ' +
       '       OR u.nome ILIKE :search ' +
       '       OR o.tipo_ocorrencia ILIKE :search ' +
