@@ -17,12 +17,12 @@ type
     SearchBox1: TSearchBox;
     DBGridUsuarios: TDBGrid;
     EdtNomeUser: TEdit;
-    EdtCPFUser: TEdit;
-    EdtTelefoneUser: TEdit;
+    EdtCPFUser: TMaskEdit;
+    EdtTelefoneUser: TMaskEdit;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
-    EdtRGUser: TEdit;
+    EdtRGUser: TMaskEdit;
     Label4: TLabel;
     EdtNascimentoUser: TEdit;
     Label5: TLabel;
@@ -99,6 +99,8 @@ type
     procedure LimparCampos;
     procedure AtualizarGrid;
     function ValidarCampos: Boolean;
+    function ValidarCPF(const CPF: string): Boolean;
+    function ValidarTelefone(const Telefone: string): Boolean;
     procedure CarregarDadosParaEdicao;
     function MontarDTO: TUsuarioDTO;
     procedure ConfigurarPermissoesCadastro(AMarcar: Boolean);
@@ -305,6 +307,25 @@ begin
     ShowMessage('Informe o CPF do usu�rio!');
     EdtCPFUser.SetFocus;
     Exit;
+  end;
+
+  // Valida CPF
+  if not ValidarCPF(EdtCPFUser.Text) then
+  begin
+    ShowMessage('CPF inv�lido! Verifique os n�meros digitados.');
+    EdtCPFUser.SetFocus;
+    Exit;
+  end;
+
+  // Valida telefone se preenchido
+  if Trim(EdtTelefoneUser.Text) <> '' then
+  begin
+    if not ValidarTelefone(EdtTelefoneUser.Text) then
+    begin
+      ShowMessage('Telefone inv�lido! Verifique o DDD e o n�mero digitados.');
+      EdtTelefoneUser.SetFocus;
+      Exit;
+    end;
   end;
 
   if CbFuncaoUser.ItemIndex = -1 then
@@ -649,6 +670,110 @@ begin
     CheckUsuarios.Checked := True
   else if not (CheckCadastrarUser.Checked or CheckPermissaoUser.Checked) then
     CheckUsuarios.Checked := False;
+end;
+
+// ============================================================================
+// VALIDAÇÕES DE CPF E TELEFONE
+// ============================================================================
+
+function TFormCadastroUsuario.ValidarCPF(const CPF: string): Boolean;
+var
+  numeros: string;
+  dig10, dig11: string;
+  soma, i, resto: Integer;
+begin
+  Result := False;
+
+  // Remove caracteres não numéricos
+  numeros := '';
+  for i := 1 to Length(CPF) do
+    if CPF[i] in ['0'..'9'] then
+      numeros := numeros + CPF[i];
+
+  // CPF deve ter 11 dígitos
+  if Length(numeros) <> 11 then
+    Exit;
+
+  // Verifica se todos os dígitos são iguais
+  if (numeros = '11111111111') or
+     (numeros = '22222222222') or
+     (numeros = '33333333333') or
+     (numeros = '44444444444') or
+     (numeros = '55555555555') or
+     (numeros = '66666666666') or
+     (numeros = '77777777777') or
+     (numeros = '88888888888') or
+     (numeros = '99999999999') or
+     (numeros = '00000000000') then
+    Exit;
+
+  // Cálculo do primeiro dígito verificador
+  soma := 0;
+  for i := 1 to 9 do
+    soma := soma + (StrToInt(numeros[i]) * (11 - i));
+  resto := soma mod 11;
+  if resto < 2 then
+    dig10 := '0'
+  else
+    dig10 := IntToStr(11 - resto);
+
+  // Cálculo do segundo dígito verificador
+  soma := 0;
+  for i := 1 to 10 do
+    soma := soma + (StrToInt(numeros[i]) * (12 - i));
+  resto := soma mod 11;
+  if resto < 2 then
+    dig11 := '0'
+  else
+    dig11 := IntToStr(11 - resto);
+
+  // Verifica se os dígitos calculados conferem
+  Result := (numeros[10] = dig10) and (numeros[11] = dig11);
+end;
+
+function TFormCadastroUsuario.ValidarTelefone(const Telefone: string): Boolean;
+var
+  numeros: string;
+  i: Integer;
+  DDD: string;
+begin
+  Result := False;
+
+  // Remove caracteres não numéricos
+  numeros := '';
+  for i := 1 to Length(Telefone) do
+    if Telefone[i] in ['0'..'9'] then
+      numeros := numeros + Telefone[i];
+
+  // Telefone deve ter 10 ou 11 dígitos
+  if (Length(numeros) <> 10) and (Length(numeros) <> 11) then
+    Exit;
+
+  // Verifica se o DDD é válido
+  if Length(numeros) >= 10 then
+  begin
+    DDD := Copy(numeros, 1, 2);
+
+    // Lista de DDDs válidos do Brasil (até 2024)
+    Result := (DDD = '11') or (DDD = '12') or (DDD = '13') or (DDD = '14') or (DDD = '15') or
+              (DDD = '16') or (DDD = '17') or (DDD = '18') or (DDD = '19') or (DDD = '21') or
+              (DDD = '22') or (DDD = '24') or (DDD = '27') or (DDD = '28') or (DDD = '31') or
+              (DDD = '32') or (DDD = '33') or (DDD = '34') or (DDD = '35') or (DDD = '37') or
+              (DDD = '38') or (DDD = '41') or (DDD = '42') or (DDD = '43') or (DDD = '44') or
+              (DDD = '45') or (DDD = '46') or (DDD = '47') or (DDD = '48') or (DDD = '49') or
+              (DDD = '51') or (DDD = '53') or (DDD = '54') or (DDD = '55') or (DDD = '61') or
+              (DDD = '62') or (DDD = '63') or (DDD = '64') or (DDD = '65') or (DDD = '66') or
+              (DDD = '67') or (DDD = '68') or (DDD = '69') or (DDD = '71') or (DDD = '73') or
+              (DDD = '74') or (DDD = '75') or (DDD = '77') or (DDD = '79') or (DDD = '81') or
+              (DDD = '82') or (DDD = '83') or (DDD = '84') or (DDD = '85') or (DDD = '86') or
+              (DDD = '87') or (DDD = '88') or (DDD = '89') or (DDD = '91') or (DDD = '92') or
+              (DDD = '93') or (DDD = '94') or (DDD = '95') or (DDD = '96') or (DDD = '97') or
+              (DDD = '98') or (DDD = '99');
+
+    // Verifica se o número não começa com 0 ou 1
+    if Result and (Length(numeros) >= 3) then
+      Result := (numeros[3] <> '0') and (numeros[3] <> '1');
+  end;
 end;
 
 end.

@@ -250,3 +250,93 @@ Query executada com sucesso!
 Registros retornados: 8
 =========================
 
+=== DEPURACAO RELATORIO ===
+Data/Hora: 24/11/2025 15:33:02
+Data Inicio: 01/07/2025
+Data Fim: 24/11/2025
+Tipo Ocorrencia: ""
+SQL Montada:
+SELECT     p.nome AS nome_patrimonio,     p.tipo AS tipo_patrimonio,     p.modelo AS modelo_patrimonio,     p.situacao AS situacao_patrimonio,     o.tipo_ocorrencia,     o.gravidade,     o.valor_antes,     o.valor_depois,     (o.valor_antes - o.valor_depois) AS valor_depreciado,     o.percentual_depreciacao,     o.data_ocorrencia,     COALESCE(s.nome, 'Sem sala') AS nome_sala,     COALESCE(pr.nome, 'Sem pr?dio') AS nome_predio   FROM ocorrencias o   INNER JOIN patrimonios p ON p.id = o.fk_id_patrimonios   LEFT JOIN salas s ON s.id = p.fk_id_salas   LEFT JOIN predios pr ON pr.id = s.fk_id_predios   WHERE o.valor_antes > o.valor_depois   AND o.data_ocorrencia::date >= :data_inicio   AND o.data_ocorrencia::date <= :data_fim   ORDER BY o.data_ocorrencia DESC, (o.valor_antes - o.valor_depois) DESC
+---------------------
+Parâmetros definidos:
+Total de parâmetros: 2
+data_inicio: 01/07/2025
+data_fim: 24/11/2025
+=========================
+
+Query executada com sucesso!
+Registros retornados: 7
+=========================
+
+=== DEPURACAO RELATORIO ===
+Data/Hora: 24/11/2025 15:34:36
+Data Inicio: 27/05/2024
+Data Fim: 24/11/2024
+Tipo Ocorrencia: ""
+SQL Montada:
+SELECT     p.nome AS nome_patrimonio,     p.tipo AS tipo_patrimonio,     p.modelo AS modelo_patrimonio,     p.situacao AS situacao_patrimonio,     o.tipo_ocorrencia,     o.gravidade,     o.valor_antes,     o.valor_depois,     (o.valor_antes - o.valor_depois) AS valor_depreciado,     o.percentual_depreciacao,     o.data_ocorrencia,     COALESCE(s.nome, 'Sem sala') AS nome_sala,     COALESCE(pr.nome, 'Sem pr?dio') AS nome_predio   FROM ocorrencias o   INNER JOIN patrimonios p ON p.id = o.fk_id_patrimonios   LEFT JOIN salas s ON s.id = p.fk_id_salas   LEFT JOIN predios pr ON pr.id = s.fk_id_predios   WHERE o.valor_antes > o.valor_depois   AND o.data_ocorrencia::date >= :data_inicio   AND o.data_ocorrencia::date <= :data_fim   ORDER BY o.data_ocorrencia DESC, (o.valor_antes - o.valor_depois) DESC
+---------------------
+Parâmetros definidos:
+Total de parâmetros: 2
+data_inicio: 27/05/2024
+data_fim: 24/11/2024
+=========================
+
+Query executada com sucesso!
+Registros retornados: 0
+=========================
+
+=== DEPURACAO RELATORIO ===
+Data/Hora: 24/11/2025 16:08:12
+Data Inicio: 03/11/2024
+Data Fim: 24/11/2025
+Tipo Ocorrencia: ""
+SQL Montada:
+SELECT     p.nome AS nome_patrimonio,     p.tipo AS tipo_patrimonio,     p.modelo AS modelo_patrimonio,     p.situacao AS situacao_patrimonio,     o.tipo_ocorrencia,     o.gravidade,     o.valor_antes,     o.valor_depois,     (o.valor_antes - o.valor_depois) AS valor_depreciado,     o.percentual_depreciacao,     o.data_ocorrencia,     COALESCE(s.nome, 'Sem sala') AS nome_sala,     COALESCE(pr.nome, 'Sem pr?dio') AS nome_predio   FROM ocorrencias o   INNER JOIN patrimonios p ON p.id = o.fk_id_patrimonios   LEFT JOIN salas s ON s.id = p.fk_id_salas   LEFT JOIN predios pr ON pr.id = s.fk_id_predios   WHERE o.valor_antes > o.valor_depois   AND o.data_ocorrencia::date >= :data_inicio   AND o.data_ocorrencia::date <= :data_fim   ORDER BY o.data_ocorrencia DESC, (o.valor_antes - o.valor_depois) DESC
+---------------------
+Parâmetros definidos:
+Total de parâmetros: 2
+data_inicio: 03/11/2024
+data_fim: 24/11/2025
+=========================
+
+Query executada com sucesso!
+Registros retornados: 9
+=========================
+
+=== DEPURACAO RELATORIO ===
+Data/Hora: 24/11/2025 16:35:13
+Data Inicio: 24/11/2024
+Data Fim: 24/11/2025
+Tipo Ocorrencia: ""
+SQL Montada:
+SELECT     p.nome AS nome_patrimonio,     p.tipo AS tipo_patrimonio,     p.modelo AS modelo_patrimonio,     p.situacao AS situacao_patrimonio,     o.tipo_ocorrencia,     o.gravidade,     o.valor_antes,     o.valor_depois,     (o.valor_antes - o.valor_depois) AS valor_depreciado,     o.percentual_depreciacao,     o.data_ocorrencia,     COALESCE(s.nome, 'Sem sala') AS nome_sala,     COALESCE(pr.nome, 'Sem pr?dio') AS nome_predio   FROM ocorrencias o   INNER JOIN patrimonios p ON p.id = o.fk_id_patrimonios   LEFT JOIN salas s ON s.id = p.fk_id_salas   LEFT JOIN predios pr ON pr.id = s.fk_id_predios   WHERE o.valor_antes > o.valor_depois   AND o.data_ocorrencia::date >= :data_inicio   AND o.data_ocorrencia::date <= :data_fim   ORDER BY o.data_ocorrencia DESC, (o.valor_antes - o.valor_depois) DESC
+---------------------
+Parâmetros definidos:
+Total de parâmetros: 2
+data_inicio: 24/11/2024
+data_fim: 24/11/2025
+=========================
+
+Query executada com sucesso!
+Registros retornados: 12
+=========================
+
+=== DEPURACAO RELATORIO ===
+Data/Hora: 24/11/2025 16:44:08
+Data Inicio: 24/11/2024
+Data Fim: 24/11/2025
+Tipo Ocorrencia: ""
+SQL Montada:
+SELECT     p.nome AS nome_patrimonio,     p.tipo AS tipo_patrimonio,     p.modelo AS modelo_patrimonio,     p.situacao AS situacao_patrimonio,     o.tipo_ocorrencia,     o.gravidade,     o.valor_antes,     o.valor_depois,     (o.valor_antes - o.valor_depois) AS valor_depreciado,     o.percentual_depreciacao,     o.data_ocorrencia,     COALESCE(s.nome, 'Sem sala') AS nome_sala,     COALESCE(pr.nome, 'Sem pr?dio') AS nome_predio   FROM ocorrencias o   INNER JOIN patrimonios p ON p.id = o.fk_id_patrimonios   LEFT JOIN salas s ON s.id = p.fk_id_salas   LEFT JOIN predios pr ON pr.id = s.fk_id_predios   WHERE o.valor_antes > o.valor_depois   AND o.data_ocorrencia::date >= :data_inicio   AND o.data_ocorrencia::date <= :data_fim   ORDER BY o.data_ocorrencia DESC, (o.valor_antes - o.valor_depois) DESC
+---------------------
+Parâmetros definidos:
+Total de parâmetros: 2
+data_inicio: 24/11/2024
+data_fim: 24/11/2025
+=========================
+
+Query executada com sucesso!
+Registros retornados: 14
+=========================
+

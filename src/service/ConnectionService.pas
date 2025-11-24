@@ -1,17 +1,19 @@
-unit ConnectionService;
+﻿unit ConnectionService;
 
 interface
 
 uses
-  FireDAC.Comp.Client, ConnectionModel, ConnectionRepository, Vcl.Forms, DB;
+  FireDAC.Comp.Client, ConnectionModel, ConnectionRepository, Vcl.Forms, DB, System.SysUtils, dialogs;
 
 type
   TConnectionService = class
   private
     FConnection: TFDConnection;
     FRepository: IConfigRepository;
+    FOwnsConnection: Boolean;
   public
     constructor Create;
+    destructor Destroy; override;
     function TestConnection(const Config: TConnectionConfig; out Msg: string): Boolean;
     function SaveConfig(const Config: TConnectionConfig; out Msg: string): Boolean;
     function LoadConfig: TConnectionConfig;
@@ -19,18 +21,31 @@ type
 
 implementation
 
-uses
-  System.SysUtils;
 
 { TConnectionService }
 
 constructor TConnectionService.Create;
 begin
   inherited Create;
-  FConnection := DataModule2.FDConnection;
+
+  // TEMPORÁRIO: Sempre criar conexão própria para evitar Access Violation
+  FConnection := TFDConnection.Create(nil);
+  FOwnsConnection := True;
+
+  // Configura o driver PostgreSQL
+  FConnection.DriverName := 'PG';
 
   // Cria o Repository internamente
   FRepository := TIniConfigRepository.Create(ExtractFilePath(Application.ExeName) + 'conexao.ini');
+end;
+
+destructor TConnectionService.Destroy;
+begin
+  // Libera a conexão apenas se foi criada localmente
+  if FOwnsConnection and Assigned(FConnection) then
+    FConnection.Free;
+
+  inherited Destroy;
 end;
 
 function TConnectionService.TestConnection(const Config: TConnectionConfig; out Msg: string): Boolean;
@@ -40,17 +55,34 @@ begin
     FConnection.Close;
     FConnection.Params.Clear;
 
-    FConnection.Params.Database := Config.Database;
-    FConnection.Params.UserName := Config.UserName;
-    FConnection.Params.Password := Config.Password;
-    FConnection.Params.Add('Server=' + Config.Server);
-    FConnection.Params.Add('Port=' + Config.Port);
-    FConnection.Params.Add('DriverID=PG');
+    // Configura os parâmetros de conexão
+    FConnection.Params.Values['DriverID'] := 'PG';
+    FConnection.Params.Values['Server'] := Config.Server;
+    FConnection.Params.Values['Port'] := Config.Port;
+    FConnection.Params.Values['Database'] := Config.Database;
+    FConnection.Params.Values['User_Name'] := Config.UserName;
+    FConnection.Params.Values['Password'] := Config.Password;
+
+    // Debug: mostra os parâmetros (remover depois)
+    var passwordStatus: string;
+    begin
+      if Config.Password = '' then
+        passwordStatus := '(vazio)'
+      else
+        passwordStatus := '(preenchida)';
+
+      ShowMessage('Parâmetros de conexão:' + sLineBreak +
+                  'Server: ' + Config.Server + sLineBreak +
+                  'Port: ' + Config.Port + sLineBreak +
+                  'Database: ' + Config.Database + sLineBreak +
+                  'User: ' + Config.UserName + sLineBreak +
+                  'Password: ' + passwordStatus);
+    end;
 
     FConnection.Open;
 
     Result := True;
-    Msg := 'Conex�o realizada com sucesso!';
+    Msg := 'Conexão realizada com sucesso!';
   except
     on E: Exception do
       Msg := 'Erro ao conectar: ' + E.Message;

@@ -1,0 +1,14 @@
+====================================
+Arquivo: C:\Users\Auditorio\Documents\KeepInventory\src\Win32\Debug\modelo_importacao_patrimonio.csv
+Data/Hora: 24/11/2025 15:36:09
+LOG DE ERROS - IMPORTAÇÃO CSV
+====================================
+Linha 28: Data inválida (DataAquisicao). Use formato DD/MM/AAAA
+Item 2: N?mero de s?rie SN001235 j? existe no sistema
+Item 3: N?mero de s?rie SN001236 j? existe no sistema
+Item 4: N?mero de s?rie SN001237 j? existe no sistema
+Item 5: N?mero de s?rie SN001238 j? existe no sistema
+====================================
+Total de itens importados: 1
+Total de erros: 4
+====================================

@@ -1192,7 +1192,8 @@ begin
         Mensagem := Mensagem + '• ' + Dependencias[i] + sLineBreak;
 
       Mensagem := Mensagem + sLineBreak +
-                  'Ao excluir esta sala, os itens relacionados também serão afetados.' + sLineBreak + sLineBreak +
+                  'ATENÇÃO: Ao excluir esta sala, todos os patrimônios vinculados serão INATIVADOS juntamente com ela.' + sLineBreak +
+                  'Os patrimônios inativados não aparecerão mais nas consultas e listagens ativas.' + sLineBreak + sLineBreak +
                   'Deseja continuar com a exclusão?';
 
       if MessageDlg(Mensagem, mtWarning, [mbYes, mbNo], 0) <> mrYes then

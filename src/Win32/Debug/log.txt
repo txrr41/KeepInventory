@@ -598,3 +598,131 @@
 24/11/2025 11:50:22 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
 24/11/2025 11:53:51 Usuário: suporte1 - Login realizado com sucesso
 24/11/2025 11:53:51 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 13:27:52 Usuário: admin - Login realizado com sucesso
+24/11/2025 13:27:52 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 13:28:07 Usuário: admin (ID: 1) - [DEBUG] ComboBox de itens carregado: 7 itens
+24/11/2025 13:28:28 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 13:29:54 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 13:30:40 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 13:31:06 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 13:31:16 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 13:31:41 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 13:37:12 Usuário: Sistema - Tentativa de login falhou - Usuário: suporte1
+24/11/2025 13:37:16 Usuário: admin - Login realizado com sucesso
+24/11/2025 13:37:16 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 13:40:47 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 13:41:52 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 13:50:37 Usuário: admin - Login realizado com sucesso
+24/11/2025 13:50:37 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 13:58:58 Usuário: Sistema - Tentativa de login falhou - Usuário: suporte1
+24/11/2025 13:59:03 Usuário: admin - Login realizado com sucesso
+24/11/2025 13:59:03 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 13:59:33 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 14:14:14 Usuário: admin - Login realizado com sucesso
+24/11/2025 14:14:14 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 14:16:40 Usuário: Sistema - Tentativa de login falhou - Usuário: suporte1
+24/11/2025 14:16:43 Usuário: admin - Login realizado com sucesso
+24/11/2025 14:16:43 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 14:17:08 Usuário: admin - Login realizado com sucesso
+24/11/2025 14:17:08 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 14:17:52 Usuário: Sistema - Tentativa de login falhou - Usuário: suporte1
+24/11/2025 14:17:56 Usuário: Sistema - Tentativa de login falhou - Usuário: adimn
+24/11/2025 14:18:04 Usuário: admin - Login realizado com sucesso
+24/11/2025 14:18:04 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 14:20:23 Usuário: Sistema - Tentativa de login falhou - Usuário: suporte1
+24/11/2025 14:20:26 Usuário: admin - Login realizado com sucesso
+24/11/2025 14:20:26 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 14:43:40 Usuário: admin - Login realizado com sucesso
+24/11/2025 14:43:40 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 14:44:00 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 14:44:06 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 14:46:19 Usuário: admin - Login realizado com sucesso
+24/11/2025 14:46:19 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 14:49:41 Usuário: Sistema - Tentativa de login falhou - Usuário: admin
+24/11/2025 14:49:44 Usuário: admin - Login realizado com sucesso
+24/11/2025 14:49:44 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 14:50:14 Usuário: admin - Login realizado com sucesso
+24/11/2025 14:50:14 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 14:50:22 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 14:50:56 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 15:19:46 Usuário: admin - Login realizado com sucesso
+24/11/2025 15:19:46 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 15:25:39 Usuário: Sistema - Tentativa de login falhou - Usuário: suporte1
+24/11/2025 15:25:42 Usuário: admin - Login realizado com sucesso
+24/11/2025 15:25:42 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 15:27:27 Usuário: admin - Login realizado com sucesso
+24/11/2025 15:27:27 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 15:29:46 Usuário: admin (ID: 1) - Gerou relatório - Status de Depreciação Período: 24/11/2024 a 24/11/2025
+24/11/2025 15:31:04 Usuário: admin (ID: 1) - [DEBUG] ComboBox de itens carregado: 7 itens
+24/11/2025 15:32:01 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Cadeira Escritório | Período: 24/11/2024 a 24/11/2025
+24/11/2025 15:32:12 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Cadeira Escritório | Período: 01/03/2024 a 24/11/2025
+24/11/2025 15:32:44 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 01/07/2025 a 24/11/2025
+24/11/2025 15:33:02 Usuário: admin (ID: 1) - Gerou relatório -  Período: 01/07/2025 a 24/11/2025
+24/11/2025 15:34:29 Usuário: admin (ID: 1) - [ERRO] Erro ao gerar relatório: Data inicial deve ser menor que data final!
+24/11/2025 15:34:36 Usuário: admin (ID: 1) - Gerou relatório -  Período: 27/05/2024 a 24/11/2024
+24/11/2025 15:37:48 Usuário: admin (ID: 1) - Cadastrou PatrimÃ´nio - pc (ID: 0)
+24/11/2025 15:38:09 Usuário: admin (ID: 1) - Excluiu PatrimÃ´nio - pc (ID: 22)
+24/11/2025 15:38:24 Usuário: admin (ID: 1) - Excluiu PatrimÃ´nio - pc (ID: 22)
+24/11/2025 15:38:32 Usuário: admin (ID: 1) - Excluiu PatrimÃ´nio - gELADEIRA (ID: 20)
+24/11/2025 15:42:52 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 15:43:35 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 15:43:41 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 15:52:27 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 15:53:03 Usuário: kuchma - Login realizado com sucesso
+24/11/2025 15:53:03 Usuário: kuchma (ID: 9) - Acessou o módulo de Dashboard
+24/11/2025 15:53:29 Usuário: kuchma (ID: 9) - Acessou o módulo de Movimentações
+24/11/2025 15:53:34 Usuário: kuchma (ID: 9) - Acessou o módulo de Movimentações
+24/11/2025 15:54:00 Usuário: kuchma (ID: 9) - Acessou o módulo de Movimentações
+24/11/2025 16:06:15 Usuário: admin - Login realizado com sucesso
+24/11/2025 16:06:15 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:07:01 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:08:12 Usuário: admin (ID: 1) - Gerou relatório -  Período: 03/11/2024 a 24/11/2025
+24/11/2025 16:09:01 Usuário: admin (ID: 1) - Gerou relatório - Status de Depreciação Período: 03/11/2024 a 24/11/2025
+24/11/2025 16:10:58 Usuário: admin (ID: 1) - [DEBUG] ComboBox de itens carregado: 9 itens
+24/11/2025 16:12:09 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 03/11/2024 a 24/11/2025
+24/11/2025 16:12:36 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Monitor Samsung 24 | Período: 03/11/2024 a 24/11/2025
+24/11/2025 16:12:47 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: gELADEIRA | Período: 03/11/2024 a 24/11/2025
+24/11/2025 16:13:14 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:15:07 Usuário: admin (ID: 1) - Cadastrou PatrimÃ´nio - Julliete de concreto (ID: 0)
+24/11/2025 16:17:26 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:17:28 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:18:05 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:18:06 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:18:07 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:18:26 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:18:27 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:27:19 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:27:48 Usuário: Guilherme Josetti - Login realizado com sucesso
+24/11/2025 16:27:48 Usuário: Guilherme Josetti (ID: 10) - Acessou o módulo de Dashboard
+24/11/2025 16:28:07 Usuário: Guilherme Josetti (ID: 10) - Acessou o módulo de Dashboard
+24/11/2025 16:30:25 Usuário: admin - Login realizado com sucesso
+24/11/2025 16:30:25 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:34:42 Usuário: admin - Login realizado com sucesso
+24/11/2025 16:34:42 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:35:13 Usuário: admin (ID: 1) - Gerou relatório -  Período: 24/11/2024 a 24/11/2025
+24/11/2025 16:35:17 Usuário: admin (ID: 1) - [DEBUG] ComboBox de itens carregado: 9 itens
+24/11/2025 16:35:30 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: gELADEIRA | Período: 24/11/2024 a 24/11/2025
+24/11/2025 16:35:35 Usuário: admin (ID: 1) - Gerou relatório - Status de Depreciação Período: 24/11/2024 a 24/11/2025
+24/11/2025 16:37:36 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:43:21 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:43:50 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:43:53 Usuário: admin (ID: 1) - [DEBUG] ComboBox de itens carregado: 7 itens
+24/11/2025 16:43:58 Usuário: admin (ID: 1) - Gerou relatório - Movimentações Item: Todos | Período: 24/11/2024 a 24/11/2025
+24/11/2025 16:44:02 Usuário: admin (ID: 1) - Gerou relatório - Status de Depreciação Período: 24/11/2024 a 24/11/2025
+24/11/2025 16:44:08 Usuário: admin (ID: 1) - Gerou relatório -  Período: 24/11/2024 a 24/11/2025
+24/11/2025 16:44:14 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:44:15 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:44:21 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:44:26 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:48:06 Usuário: admin - Login realizado com sucesso
+24/11/2025 16:48:06 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:49:18 Usuário: admin (ID: 1) - Cadastrou PatrimÃ´nio - aa (ID: 0)
+24/11/2025 16:50:00 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:54:39 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:55:52 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:55:59 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:56:01 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:58:21 Usuário: admin - Login realizado com sucesso
+24/11/2025 16:58:21 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 16:58:23 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 16:58:40 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações

@@ -85,9 +85,17 @@ begin
  Q := TFDQuery.Create(nil);
  try
    Q.Connection := DataModule2.FDConnection;
+
+   // Primeiro, inativar todos os patrimônios da sala
+   Q.SQL.Text := 'UPDATE patrimonios SET ativo = false WHERE fk_id_salas = :id_sala AND ativo = true';
+   Q.ParamByName('id_sala').AsInteger := AId;
+   Q.ExecSQL;
+
+   // Depois, inativar a sala
    Q.SQL.Text := 'UPDATE salas SET ativo = false WHERE id = :id';
    Q.ParamByName('id').AsInteger := AId;
    Q.ExecSQL;
+
    Q.Close;
  finally
   Q.Free;
@@ -101,9 +109,17 @@ begin
  Q := TFDQuery.Create(nil);
  try
    Q.Connection := DataModule2.FDConnection;
+
+   // Primeiro, reativar a sala
    Q.SQL.Text := 'UPDATE salas SET ativo = true WHERE id = :id';
    Q.ParamByName('id').AsInteger := AId;
    Q.ExecSQL;
+
+   // Depois, reativar os patrimônios que foram inativados junto com a sala
+   Q.SQL.Text := 'UPDATE patrimonios SET ativo = true WHERE fk_id_salas = :id_sala AND ativo = false';
+   Q.ParamByName('id_sala').AsInteger := AId;
+   Q.ExecSQL;
+
    Q.Close;
  finally
   Q.Free;
