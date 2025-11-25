@@ -26,8 +26,8 @@
 #
 
 Nome,Tipo,Situacao,Modelo,ValorAquisicao,ValorAtual,DataAquisicao,NumeroSerie,IdSala
-Notebook Dell Inspiron,Computador,Ativo,Inspiron 15,3500.00,2800.00,15/03/2024,SN001234,1
+Notebook Dell Inspiron,Computador,Ativo,Inspiron 15,3500.00,2800.00,15/03/2024,S1N00123,1
 Mouse Logitech,Periférico,Ativo,MX Master 3,150.00,120.00,15/03/2024,SN001235,1
-Cadeira Escritório,Mobiliário,Ativo,Presidente Giratória,800.00,600.00,10/01/2024,SN001236,2
-Monitor Samsung 24,Periférico,Ativo,S24F350,900.00,750.00,20/02/2024,SN001237,1
-Mesa Escritório,Mobiliário,Ativo,Mesa L 150x150cm,500.00,450.00,05/01/2024,SN001238,2
+Cadeira Escritório,Mobiliário,Ativo,Presidente Giratória,800.00,600.00,10/01/2024,SN00121,2
+Monitor Samsung 24,Periférico,Ativo,S24F350,900.00,750.00,20/02/2024,SN00123111,1
+Mesa Escritório,Mobiliário,Ativo,Mesa L 150x150cm,500.00,450.00,05/01/2024,SN001231118,2

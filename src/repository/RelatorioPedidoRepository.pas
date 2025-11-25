@@ -49,7 +49,7 @@ begin
     '  COALESCE(p.valor_atual, 0) as valor_atual, ' +
     '  p.data_aquisicao, ' +
 
-    // Percentual Depreciação
+    // Percentual Depreciaï¿½ï¿½o
     '  ROUND( ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100, 2 ) AS percentual_depreciacao, ' +
 
     // Meses Restantes
@@ -72,15 +72,21 @@ begin
 
     // Status Texto
     '  CASE ' +
-    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 100 THEN ''JÁ DEPRECIADOS 100%'' ' +
-    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 95 THEN ''URGENTE - PRÓXIMOS 3 MESES (95%+)'' ' +
-    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 85 THEN ''ATENÇÃO - 3 A 6 MESES (85-94%)'' ' +
+    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 100 THEN ''Jï¿½ DEPRECIADOS 100%'' ' +
+    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 95 THEN ''URGENTE - PRï¿½XIMOS 3 MESES (95%+)'' ' +
+    '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 85 THEN ''ATENï¿½ï¿½O - 3 A 6 MESES (85-94%)'' ' +
     '    WHEN ((p.valor_aquisicao - COALESCE(p.valor_atual,0)) / NULLIF(p.valor_aquisicao,0)) * 100 >= 75 THEN ''PLANEJAMENTO - 6 A 12 MESES (75-84%)'' ' +
     '    ELSE ''NORMAL'' ' +
     '  END as status_texto ' +
 
     'FROM patrimonios p ' +
-    'WHERE p.ativo = true ' +
+    'LEFT JOIN (' +
+    '  SELECT DISTINCT o.fk_id_patrimonios ' +
+    '  FROM ocorrencias o ' +
+    '  WHERE o.data_ocorrencia >= CURRENT_DATE - INTERVAL ''6 months'' ' +
+    '    AND o.tipo_ocorrencia = ''DEPRECIACAO'' ' +
+    ') ultimas_ocorrencias ON p.id = ultimas_ocorrencias.fk_id_patrimonios ' +
+    'WHERE (p.ativo = true OR (p.ativo = false AND ultimas_ocorrencias.fk_id_patrimonios IS NOT NULL)) ' +
     '  AND p.valor_aquisicao > 0 ' +
     '  AND p.valor_atual IS NOT NULL ' +
 
@@ -99,7 +105,7 @@ begin
   except
     on E: Exception do
     begin
-      ShowMessage('Erro ao abrir query do relatório: ' + E.Message);
+      ShowMessage('Erro ao abrir query do relatï¿½rio: ' + E.Message);
       raise;
     end;
   end;
@@ -132,8 +138,15 @@ begin
     '  COUNT(*) FILTER ( WHERE ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 >= 75 ) as total_itens, ' +
     '  SUM(valor_aquisicao) FILTER ( WHERE ((valor_aquisicao - COALESCE(valor_atual,0)) / NULLIF(valor_aquisicao,0)) * 100 >= 75 ) as investimento_total ' +
 
-    'FROM patrimonios ' +
-    'WHERE ativo = true AND valor_aquisicao > 0 AND valor_atual IS NOT NULL';
+    'FROM patrimonios p ' +
+    'LEFT JOIN (' +
+    '  SELECT DISTINCT o.fk_id_patrimonios ' +
+    '  FROM ocorrencias o ' +
+    '  WHERE o.data_ocorrencia >= CURRENT_DATE - INTERVAL ''6 months'' ' +
+    '    AND o.tipo_ocorrencia = ''DEPRECIACAO'' ' +
+    ') ultimas_ocorrencias ON p.id = ultimas_ocorrencias.fk_id_patrimonios ' +
+    'WHERE (p.ativo = true OR (p.ativo = false AND ultimas_ocorrencias.fk_id_patrimonios IS NOT NULL)) ' +
+    '  AND p.valor_aquisicao > 0 AND p.valor_atual IS NOT NULL';
 
   try
     qryResumo.Open;

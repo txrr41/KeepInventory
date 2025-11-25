@@ -137,7 +137,13 @@ begin
            '    END as cor_status ' +
            ' ' +
            'FROM patrimonios p ' +
-           'WHERE p.ativo = true ' +
+           'LEFT JOIN (' +
+           '    SELECT DISTINCT o.fk_id_patrimonios ' +
+           '    FROM ocorrencias o ' +
+           '    WHERE o.data_ocorrencia >= CURRENT_DATE - INTERVAL ''6 months'' ' +
+           '      AND o.tipo_ocorrencia = ''DEPRECIACAO'' ' +
+           ') ultimas_ocorrencias ON p.id = ultimas_ocorrencias.fk_id_patrimonios ' +
+           'WHERE (p.ativo = true OR (p.ativo = false AND ultimas_ocorrencias.fk_id_patrimonios IS NOT NULL)) ' +
            '  AND p.valor_aquisicao > 0 ' +
            '  AND ((p.valor_aquisicao - p.valor_atual)::numeric / NULLIF(p.valor_aquisicao, 0)::numeric) * 100 >= 75 ' +
            'ORDER BY ' +
@@ -212,7 +218,13 @@ begin
            '    SUM(CASE WHEN ((p.valor_aquisicao - p.valor_atual)::numeric / NULLIF(p.valor_aquisicao, 0)::numeric) * 100 >= 75 AND ((p.valor_aquisicao - p.valor_atual)::numeric / NULLIF(p.valor_aquisicao, 0)::numeric) * 100 < 85 THEN 1 ELSE 0 END) as planejamento, ' +
            '    SUM(CASE WHEN ((p.valor_aquisicao - p.valor_atual)::numeric / NULLIF(p.valor_aquisicao, 0)::numeric) * 100 < 75 THEN 1 ELSE 0 END) as monitorar ' +
            'FROM patrimonios p ' +
-           'WHERE p.ativo = true ' +
+           'LEFT JOIN (' +
+           '    SELECT DISTINCT o.fk_id_patrimonios ' +
+           '    FROM ocorrencias o ' +
+           '    WHERE o.data_ocorrencia >= CURRENT_DATE - INTERVAL ''6 months'' ' +
+           '      AND o.tipo_ocorrencia = ''DEPRECIACAO'' ' +
+           ') ultimas_ocorrencias ON p.id = ultimas_ocorrencias.fk_id_patrimonios ' +
+           'WHERE (p.ativo = true OR (p.ativo = false AND ultimas_ocorrencias.fk_id_patrimonios IS NOT NULL)) ' +
            '  AND p.valor_aquisicao > 0 ' +
            '  AND ((p.valor_aquisicao - p.valor_atual)::numeric / NULLIF(p.valor_aquisicao, 0)::numeric) * 100 >= 75';
 

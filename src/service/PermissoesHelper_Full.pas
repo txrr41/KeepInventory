@@ -42,11 +42,13 @@ begin
   if FUsuarioLogado = nil then
     Exit;
 
+  // Verifica o tipo de formulário e aplica as permissões específicas
   if AForm.ClassName = 'TFormCadastro' then
   begin
+    // Esconde todas as abas se não tem permissão de cadastros
     if not FUsuarioLogado.PermCadastros then
     begin
-      ShowMessage('Voce nao tem permissao para acessar o modulo de Cadastros!');
+      ShowMessage('Você não tem permissão para acessar o módulo de Cadastros!');
       AForm.Close;
     end
     else
@@ -56,7 +58,7 @@ begin
   begin
     if not FUsuarioLogado.PermMovimentacoes then
     begin
-      ShowMessage('Voce nao tem permissao para acessar o modulo de Movimentacoes!');
+      ShowMessage('Você não tem permissão para acessar o módulo de Movimentações!');
       AForm.Close;
     end
     else
@@ -66,7 +68,7 @@ begin
   begin
     if not FUsuarioLogado.PermOcorrencias then
     begin
-      ShowMessage('Voce nao tem permissao para acessar o modulo de Ocorrencias!');
+      ShowMessage('Você não tem permissão para acessar o módulo de Ocorrências!');
       AForm.Close;
     end
     else
@@ -76,7 +78,7 @@ begin
   begin
     if not FUsuarioLogado.PermUsuarios then
     begin
-      ShowMessage('Voce nao tem permissao para acessar o modulo de Usuarios!');
+      ShowMessage('Você não tem permissão para acessar o módulo de Usuários!');
       AForm.Close;
     end
     else
@@ -91,21 +93,27 @@ begin
   if FUsuarioLogado = nil then
     Exit;
 
+  // Percorre todas as abas do PageControl
   for I := APageControl.PageCount - 1 downto 0 do
   begin
+    // Aba Empresas (TabSheet1)
     if (APageControl.Pages[I].Name = 'TabSheet1') and (not FUsuarioLogado.PermCadEmpresa) then
       APageControl.Pages[I].TabVisible := False;
 
+    // Aba Prédios (TabSheet2)
     if (APageControl.Pages[I].Name = 'TabSheet2') and (not FUsuarioLogado.PermCadPredio) then
       APageControl.Pages[I].TabVisible := False;
 
+    // Aba Salas (TabSheet3)
     if (APageControl.Pages[I].Name = 'TabSheet3') and (not FUsuarioLogado.PermCadSala) then
       APageControl.Pages[I].TabVisible := False;
 
+    // Aba Patrimônios (TabSheet4)
     if (APageControl.Pages[I].Name = 'TabSheet4') and (not FUsuarioLogado.PermCadPatrimonio) then
       APageControl.Pages[I].TabVisible := False;
   end;
 
+  // Se ainda houver abas visíveis, seleciona a primeira
   for I := 0 to APageControl.PageCount - 1 do
   begin
     if APageControl.Pages[I].TabVisible then
@@ -121,87 +129,111 @@ var
   I: Integer;
   Comp: TComponent;
   ParentPanel: TPanel;
-
-  procedure OcultarParentSeVazio;
-  begin
-    if (Comp is TControl) and (TControl(Comp).Parent is TPanel) then
-    begin
-      ParentPanel := TPanel(TControl(Comp).Parent);
-      if not TemBotaoVisivelNoPanel(ParentPanel) then
-        ParentPanel.Visible := False;
-    end;
-  end;
-
 begin
   if FUsuarioLogado = nil then
     Exit;
 
+  // Percorre todos os componentes do formulário
   for I := 0 to AForm.ComponentCount - 1 do
   begin
     Comp := AForm.Components[I];
 
-    // --- EMPRESA ---
+    // Botões de EMPRESA
     if (Comp is TSpeedButton) and (Comp.Name = 'BtnAdicionarEmpresa') then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermCadEmpresa;
-      if not FUsuarioLogado.PermCadEmpresa then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermCadEmpresa) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    if (Comp is TSpeedButton) and ((Comp.Name = 'BtnEditarEmpresa') or
-        (Comp.Name = 'BtnExcluirEmpresa') or (Comp.Name = 'BtnAtualizarEmpresa')) then
+    if (Comp is TSpeedButton) and ((Comp.Name = 'BtnEditarEmpresa') or (Comp.Name = 'BtnExcluirEmpresa') or (Comp.Name = 'BtnAtualizarEmpresa')) then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermCadEmpresa;
-      if not FUsuarioLogado.PermCadEmpresa then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermCadEmpresa) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    // --- PRÉDIO ---
+    // Botões de PRÉDIO
     if (Comp is TSpeedButton) and (Comp.Name = 'BtnAdicionarPredio') then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermCadPredio;
-      if not FUsuarioLogado.PermCadPredio then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermCadPredio) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    if (Comp is TSpeedButton) and ((Comp.Name = 'BtnEditarPredio') or
-       (Comp.Name = 'BtnExcluirPredio') or (Comp.Name = 'BtnAtualizarPredio') or
-       (Comp.Name = 'BtnFiltrarPredio')) then
+    if (Comp is TSpeedButton) and ((Comp.Name = 'BtnEditarPredio') or (Comp.Name = 'BtnExcluirPredio') or (Comp.Name = 'BtnAtualizarPredio') or (Comp.Name = 'BtnFiltrarPredio')) then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermCadPredio;
-      if not FUsuarioLogado.PermCadPredio then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermCadPredio) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    // --- SALA ---
+    // Botões de SALA
     if (Comp is TSpeedButton) and (Comp.Name = 'BtnAdicionarSala') then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermCadSala;
-      if not FUsuarioLogado.PermCadSala then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermCadSala) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    if (Comp is TSpeedButton) and
-      ((Comp.Name = 'BtnEditarSala') or (Comp.Name = 'BtnExcluirSala') or
-       (Comp.Name = 'BtnAtualizarSala') or (Comp.Name = 'BtnFiltrarSala')) then
+    if (Comp is TSpeedButton) and ((Comp.Name = 'BtnEditarSala') or (Comp.Name = 'BtnExcluirSala') or (Comp.Name = 'BtnAtualizarSala') or (Comp.Name = 'BtnFiltrarSala')) then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermCadSala;
-      if not FUsuarioLogado.PermCadSala then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermCadSala) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    // --- PATRIMÔNIO ---
+    // Botões de PATRIMÔNIO
     if (Comp is TSpeedButton) and (Comp.Name = 'BtnAdicionarPatrimonio') then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermCadPatrimonio;
-      if not FUsuarioLogado.PermCadPatrimonio then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermCadPatrimonio) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    if (Comp is TSpeedButton) and
-      ((Comp.Name = 'BtnEditarPatrimonio') or (Comp.Name = 'BtnExcluirPatrimonio') or
-       (Comp.Name = 'BtnAtualizarPatrimonio') or (Comp.Name = 'BtnFiltrarPatrimonio')) then
+    if (Comp is TSpeedButton) and ((Comp.Name = 'BtnEditarPatrimonio') or (Comp.Name = 'BtnExcluirPatrimonio') or (Comp.Name = 'BtnAtualizarPatrimonio') or (Comp.Name = 'BtnFiltrarPatrimonio')) then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermCadPatrimonio;
-      if not FUsuarioLogado.PermCadPatrimonio then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermCadPatrimonio) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    // --- BOTÕES RECUPERAR ---
+    // Botões de RECUPERAR (excluir/inativar)
     if (Comp is TSpeedButton) and (Pos('Recuperar', Comp.Name) > 0) then
     begin
+      // Usa a mesma permissão do módulo correspondente
       if Pos('Empresa', Comp.Name) > 0 then
         TSpeedButton(Comp).Visible := FUsuarioLogado.PermCadEmpresa
       else if Pos('Predio', Comp.Name) > 0 then
@@ -211,14 +243,20 @@ begin
       else if Pos('Patrimonio', Comp.Name) > 0 then
         TSpeedButton(Comp).Visible := FUsuarioLogado.PermCadPatrimonio;
 
-      OcultarParentSeVazio;
+      if (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    // --- BOTÕES TButton ---
+    // Botões de BUTTON (não SpeedButton) - tratamento especial
     if (Comp is TButton) then
     begin
       if Pos('Enviar', Comp.Name) > 0 then
       begin
+        // Botões de envio/salvamento
         if Pos('Patrimonio', Comp.Name) > 0 then
           TButton(Comp).Visible := FUsuarioLogado.PermCadPatrimonio
         else if Pos('Sala', Comp.Name) > 0 then
@@ -230,6 +268,7 @@ begin
       end
       else if Pos('Confirmar', Comp.Name) > 0 then
       begin
+        // Botões de confirmação de edição
         if Pos('Patri', Comp.Name) > 0 then
           TButton(Comp).Visible := FUsuarioLogado.PermCadPatrimonio
         else if Pos('Sala', Comp.Name) > 0 then
@@ -240,8 +279,13 @@ begin
           TButton(Comp).Visible := FUsuarioLogado.PermCadEmpresa;
       end;
 
-      if not TButton(Comp).Visible then
-        OcultarParentSeVazio;
+      // Se o botão está invisível e está dentro de um Panel, desativa o Panel também
+      if (Comp is TButton) and (not TButton(Comp).Visible) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
   end;
 end;
@@ -251,48 +295,62 @@ var
   I: Integer;
   Comp: TComponent;
   ParentPanel: TPanel;
-
-  procedure OcultarParentSeVazio;
-  begin
-    if (Comp is TControl) and (TControl(Comp).Parent is TPanel) then
-    begin
-      ParentPanel := TPanel(TControl(Comp).Parent);
-      if not TemBotaoVisivelNoPanel(ParentPanel) then
-        ParentPanel.Visible := False;
-    end;
-  end;
-
 begin
   if FUsuarioLogado = nil then
     Exit;
 
+  // Percorre todos os componentes do formulário
   for I := 0 to AForm.ComponentCount - 1 do
   begin
     Comp := AForm.Components[I];
 
+    // Botão Adicionar Movimentação
     if (Comp is TSpeedButton) and (Comp.Name = 'BtnAddMovi') then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermMovAdicionar;
-      if not FUsuarioLogado.PermMovAdicionar then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermMovAdicionar) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
+    // Botão Excluir Movimentação
     if (Comp is TSpeedButton) and (Comp.Name = 'BtnExcluirMovi') then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermMovExcluir;
-      if not FUsuarioLogado.PermMovExcluir then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermMovExcluir) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
+    // Botão Analisar/Pendências
     if (Comp is TSpeedButton) and (Comp.Name = 'BtnPendencias') then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermMovAnalisar;
-      if not FUsuarioLogado.PermMovAnalisar then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermMovAnalisar) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
+    // Botões de aceitar/recusar pendência
     if (Comp is TSpeedButton) and
        ((Comp.Name = 'BtnAceitarPendencia') or (Comp.Name = 'BtnRecusarPendencia')) then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermMovAnalisar;
-      if not FUsuarioLogado.PermMovAnalisar then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermMovAnalisar) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
   end;
 end;
@@ -302,17 +360,6 @@ var
   I: Integer;
   Comp: TComponent;
   ParentPanel: TPanel;
-
-  procedure OcultarParentSeVazio;
-  begin
-    if (Comp is TControl) and (TControl(Comp).Parent is TPanel) then
-    begin
-      ParentPanel := TPanel(TControl(Comp).Parent);
-      if not TemBotaoVisivelNoPanel(ParentPanel) then
-        ParentPanel.Visible := False;
-    end;
-  end;
-
 begin
   if FUsuarioLogado = nil then
     Exit;
@@ -321,34 +368,56 @@ begin
   begin
     Comp := AForm.Components[I];
 
+    // Botão Salvar Análise (apenas quem pode analisar)
     if (Comp is TSpeedButton) and (Comp.Name = 'BtnSalvarAnalise') then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermOcorAnalisar;
-      if not FUsuarioLogado.PermOcorAnalisar then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermOcorAnalisar) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    if (Comp is TSpeedButton) and
-       ((Comp.Name = 'BtnAdicionarPatrimonio') or (Comp.Name = 'BtnRegistrar')) then
+    // Botão Adicionar/Registrar Ocorrência (apenas quem pode adicionar)
+    if (Comp is TSpeedButton) and ((Comp.Name = 'BtnAdicionarPatrimonio') or (Comp.Name = 'BtnRegistrar')) then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermOcorAdicionar;
-      if not FUsuarioLogado.PermOcorAdicionar then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermOcorAdicionar) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
+    // Botão Excluir Ocorrência
     if (Comp is TSpeedButton) and (Comp.Name = 'BtnExcluir') then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermOcorExcluir;
-      if not FUsuarioLogado.PermOcorExcluir then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermOcorExcluir) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    if (Comp is TSpeedButton) and
-       ((Comp.Name = 'BtnAtualizarMovi') or (Comp.Name = 'BtnEditarMovi')) then
+    // Botão Editar/Atualizar Ocorrência
+    if (Comp is TSpeedButton) and ((Comp.Name = 'BtnAtualizarMovi') or (Comp.Name = 'BtnEditarMovi')) then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermOcorAdicionar;
-      if not FUsuarioLogado.PermOcorAdicionar then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermOcorAdicionar) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
-    // bloqueios de campos
-    if not FUsuarioLogado.PermOcorAnalisar then
+    // Campos de análise (desabilita se não pode analisar)
+    if FUsuarioLogado.PermOcorAnalisar = False then
     begin
       if (Comp is TComboBox) and
          ((Comp.Name = 'CbGravidadeA') or (Comp.Name = 'CbResponsabilidadeA')) then
@@ -368,17 +437,6 @@ var
   I: Integer;
   Comp: TComponent;
   ParentPanel: TPanel;
-
-  procedure OcultarParentSeVazio;
-  begin
-    if (Comp is TControl) and (TControl(Comp).Parent is TPanel) then
-    begin
-      ParentPanel := TPanel(TControl(Comp).Parent);
-      if not TemBotaoVisivelNoPanel(ParentPanel) then
-        ParentPanel.Visible := False;
-    end;
-  end;
-
 begin
   if FUsuarioLogado = nil then
     Exit;
@@ -387,20 +445,33 @@ begin
   begin
     Comp := AForm.Components[I];
 
+    // Botões de adicionar e editar (permissão de cadastrar)
     if (Comp is TSpeedButton) and
        ((Comp.Name = 'BtnAddUser') or (Comp.Name = 'BtnSalavarUser') or
         (Comp.Name = 'BtnEditarUser')) then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermUserCadastrar;
-      if not FUsuarioLogado.PermUserCadastrar then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermUserCadastrar) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
+    // Botão Excluir
     if (Comp is TSpeedButton) and (Comp.Name = 'BtnExcluirUser') then
     begin
       TSpeedButton(Comp).Visible := FUsuarioLogado.PermUserCadastrar;
-      if not FUsuarioLogado.PermUserCadastrar then OcultarParentSeVazio;
+      if (not FUsuarioLogado.PermUserCadastrar) and (Comp.Parent is TPanel) then
+      begin
+        ParentPanel := TPanel(Comp.Parent);
+        if not TemBotaoVisivelNoPanel(ParentPanel) then
+          ParentPanel.Visible := False;
+      end;
     end;
 
+    // Painéis de permissões (apenas quem tem permissão de gerenciar permissões)
     if (Comp is TPanel) and
        ((Comp.Name = 'Panel9') or (Comp.Name = 'Panel11') or
         (Comp.Name = 'Panel12') or (Comp.Name = 'Panel13')) then
@@ -410,6 +481,7 @@ begin
         TPanel(Comp).Visible := False;
     end;
 
+    // Checkboxes de permissões
     if (Comp is TCheckBox) and FUsuarioLogado.PermUserPermissao then
       TCheckBox(Comp).Enabled := False;
   end;
@@ -425,16 +497,19 @@ begin
   if APanel = nil then
     Exit;
 
+  // Verifica se há algum SpeedButton ou Button visível no painel
   for I := 0 to APanel.ComponentCount - 1 do
   begin
     ChildComp := APanel.Components[I];
 
+    // Verifica SpeedButtons visíveis
     if (ChildComp is TSpeedButton) and TSpeedButton(ChildComp).Visible then
     begin
       Result := True;
       Exit;
     end;
 
+    // Verifica Buttons visíveis
     if (ChildComp is TButton) and TButton(ChildComp).Visible then
     begin
       Result := True;
@@ -450,4 +525,3 @@ finalization
     TPermissoesHelper.FUsuarioLogado.Free;
 
 end.
-

@@ -233,8 +233,7 @@ begin
   LabelSalaDestino.Caption := 'Selecione um item';
 
   BtnAdicionarMovi.Enabled := True;
-  BtnEditarMovi.Enabled := False;
-  BtnExcluirMovi.Enabled := False;
+  
 end;
 
 function TFormPedidoMovi.ValidarCampos: Boolean;
@@ -325,22 +324,22 @@ procedure TFormPedidoMovi.BtnExcluirMoviClick(Sender: TObject);
 begin
   if FIdMovimentacaoSelecionada = 0 then
   begin
-    ShowMessage('Selecione uma movimenta��o para excluir!');
+    ShowMessage('Selecione uma movimentação para excluir!');
     Exit;
   end;
 
-  if MessageDlg('Deseja realmente excluir esta movimenta��o?',
+  if MessageDlg('Deseja realmente excluir esta movimentação?',
      mtConfirmation, [mbYes, mbNo], 0) = mrNo then
     Exit;
 
   try
     FPedidoMoviController.ExcluirMovimentacao(FIdMovimentacaoSelecionada);
-    ShowMessage('Movimenta��o exclu�da com sucesso!');
+    ShowMessage('Movimentação excluida com sucesso!');
     CarregarGrid;
     LimparCampos;
   except
     on E: Exception do
-      ShowMessage('Erro ao excluir movimenta��o: ' + E.Message);
+      ShowMessage('Erro ao excluir movimentação: ' + E.Message);
   end;
 end;
 

@@ -1,0 +1,11 @@
+====================================
+Arquivo: C:\Users\Kauan\OneDrive\Documentos\KeepInventory\src\Win32\Debug\modelo_importacao_patrimonio.csv
+Data/Hora: 25/11/2025 09:26:50
+LOG DE ERROS - IMPORTAÇÃO CSV
+====================================
+Linha 28: Data inválida (DataAquisicao). Use formato DD/MM/AAAA
+Item 2: N?mero de s?rie SN001235 j? existe no sistema
+====================================
+Total de itens importados: 4
+Total de erros: 1
+====================================

@@ -726,3 +726,90 @@
 24/11/2025 16:58:21 Usuário: admin (ID: 1) - Acessou o módulo de Dashboard
 24/11/2025 16:58:23 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
 24/11/2025 16:58:40 Usuário: admin (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 20:42:56 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 20:42:56 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 20:43:10 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 20:43:20 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 20:46:37 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 20:46:37 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 20:58:06 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 20:58:06 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 21:12:57 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 21:12:57 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 21:14:07 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 21:14:56 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 21:14:58 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 21:15:45 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 21:19:53 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 21:19:53 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 21:19:56 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 21:21:10 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 21:21:10 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 22:16:20 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 22:16:20 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 22:19:43 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 22:19:43 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 22:20:45 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 22:20:45 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 22:49:30 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 22:49:30 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 22:54:41 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 24/11/2024 a 24/11/2025
+24/11/2025 23:00:32 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 23:00:32 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 23:01:15 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+24/11/2025 23:01:50 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 23:01:54 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 24/11/2024 a 24/11/2025
+24/11/2025 23:06:27 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 23:06:27 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 23:06:42 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 23:06:54 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 23:06:59 Usuário: suporte1 (ID: 1) - Gerou relatório - Status de Depreciação Período: 24/11/2024 a 24/11/2025
+24/11/2025 23:08:48 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 23:08:48 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 23:08:54 Usuário: suporte1 (ID: 1) - [ERRO] Erro ao preparar relatório de status: Erro ao preparar relatório FastReport: [FireDAC][Phys][PG][libpq] : 
+24/11/2025 23:28:43 Usuário: suporte1 - Login realizado com sucesso
+24/11/2025 23:28:44 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+24/11/2025 23:28:45 Usuário: suporte1 (ID: 1) - Acessou o módulo de Movimentações
+25/11/2025 09:24:05 Usuário: suporte1 - Login realizado com sucesso
+25/11/2025 09:24:05 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+25/11/2025 09:43:04 Usuário: suporte1 - Login realizado com sucesso
+25/11/2025 09:43:04 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+25/11/2025 09:43:52 Usuário: suporte1 (ID: 1) - Cadastrou PatrimÃ´nio - aaa (ID: 0)
+25/11/2025 10:01:23 Usuário: suporte1 - Login realizado com sucesso
+25/11/2025 10:01:23 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+25/11/2025 10:01:50 Usuário: suporte1 (ID: 1) - Cadastrou Patrimônio - wdwadwd (ID: 0)
+25/11/2025 10:02:49 Usuário: suporte1 (ID: 1) - Cadastrou Patrimônio - dawdawdwdawd (ID: 0)
+25/11/2025 10:03:36 Usuário: suporte1 (ID: 1) - Cadastrou Patrimônio - aaaaaaaaaaaa (ID: 0)
+25/11/2025 10:10:50 Usuário: suporte1 - Login realizado com sucesso
+25/11/2025 10:10:50 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+25/11/2025 10:11:46 Usuário: suporte1 (ID: 1) - Cadastrou Patrimônio - wdaw (ID: 0)
+25/11/2025 10:12:45 Usuário: suporte1 - Login realizado com sucesso
+25/11/2025 10:12:45 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+25/11/2025 10:14:14 Usuário: k - Login realizado com sucesso
+25/11/2025 10:14:14 Usuário: k (ID: 9) - Acessou o módulo de Dashboard
+25/11/2025 10:41:59 Usuário: suporte1 - Login realizado com sucesso
+25/11/2025 10:41:59 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+25/11/2025 10:43:10 Usuário: k - Login realizado com sucesso
+25/11/2025 10:43:10 Usuário: k (ID: 9) - Acessou o módulo de Dashboard
+25/11/2025 10:43:31 Usuário: k (ID: 9) - Acessou o módulo de Movimentações
+25/11/2025 11:12:39 Usuário: k - Login realizado com sucesso
+25/11/2025 11:12:39 Usuário: k (ID: 9) - Acessou o módulo de Dashboard
+25/11/2025 11:13:03 Usuário: k (ID: 9) - Acessou o módulo de Movimentações
+25/11/2025 11:13:17 Usuário: k (ID: 9) - Acessou o módulo de Movimentações
+25/11/2025 11:24:57 Usuário: suporte1 - Login realizado com sucesso
+25/11/2025 11:24:57 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+25/11/2025 11:25:10 Usuário: suporte1 - Login realizado com sucesso
+25/11/2025 11:25:10 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+25/11/2025 11:25:18 Usuário: suporte1 (ID: 1) - Acessou o módulo de Dashboard
+25/11/2025 11:26:10 Usuário: k - Login realizado com sucesso
+25/11/2025 11:26:10 Usuário: k (ID: 9) - Acessou o módulo de Dashboard
+25/11/2025 11:26:13 Usuário: k (ID: 9) - Acessou o módulo de Movimentações
+25/11/2025 11:29:15 Usuário: k - Login realizado com sucesso
+25/11/2025 11:29:15 Usuário: k (ID: 9) - Acessou o módulo de Dashboard
+25/11/2025 11:29:17 Usuário: k (ID: 9) - Acessou o módulo de Movimentações
+25/11/2025 11:30:40 Usuário: k - Login realizado com sucesso
+25/11/2025 11:30:40 Usuário: k (ID: 9) - Acessou o módulo de Dashboard
+25/11/2025 11:30:45 Usuário: k (ID: 9) - Acessou o módulo de Movimentações
+25/11/2025 11:35:31 Usuário: k - Login realizado com sucesso
+25/11/2025 11:35:31 Usuário: k (ID: 9) - Acessou o módulo de Dashboard
+25/11/2025 11:35:32 Usuário: k (ID: 9) - Acessou o módulo de Movimentações

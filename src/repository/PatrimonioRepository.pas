@@ -276,25 +276,7 @@ begin
   Query.Connection := DataModule2.FDConnection;
 
   Query.SQL.Text :=
-    'SELECT ' +
-    '  p.id, ' +
-    '  p.nome, ' +
-    '  p.tipo, ' +
-    '  p.situacao, ' +
-    '  p.modelo, ' +
-    '  p.valor_aquisicao, ' +
-    '  p.valor_atual, ' +
-    '  p.quantidade, ' +
-    '  p.data_aquisicao, ' +
-    '  p.numero_serie, ' +
-    '  s.nome AS nome_sala, ' +
-    '  pred.nome AS nome_predio, ' +
-    '  p.fk_id_salas ' +
-    'FROM patrimonios p ' +
-    'INNER JOIN salas s ON p.fk_id_salas = s.id ' +
-    'INNER JOIN predios pred ON s.fk_id_predios = pred.id ' +
-    'WHERE p.ativo = true ' +
-    'ORDER BY p.id';
+    'SELECT * FROM patrimonios WHERE ativo = true';
 
   Query.Open;
   Result := Query;

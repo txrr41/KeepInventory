@@ -65,10 +65,8 @@ begin
 
   ALabelTotalItens.Caption := IntToStr(Estatisticas.TotalItens);
 
-  // ✅ CORREÇÃO: Formato correto do FormatCurr
-  // Debug temporário para verificar o valor bruto
-  ShowMessage('Valor total bruto do banco: ' + CurrToStr(Estatisticas.ValorTotal));
-  ALabelValorTotal.Caption := FormatCurr('R$ #,##0.00', Estatisticas.ValorTotal);  // Era: 'R$ ,0.00'
+
+  ALabelValorTotal.Caption := FormatCurr('R$ #,##0.00', Estatisticas.ValorTotal);
 
   ALabelPatrimoniosAtivos.Caption := IntToStr(Estatisticas.PatrimoniosAtivos);
   ALabelEmManutencao.Caption := IntToStr(Estatisticas.EmManutencao);
@@ -85,7 +83,7 @@ end;
 procedure TControleDePatrimoniosController.CarregarDadosParaQuery(
   AQuery: TFDQuery; AFiltro: TControlePatrimonioFiltroDTO);
 begin
-  // Usa o novo método que configura a query diretamente sem copiar parâmetros
+
   FService.CarregarDadosParaQuery(AQuery, AFiltro);
 end;
 

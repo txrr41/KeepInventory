@@ -293,6 +293,7 @@ type
     procedure BtnRecuperarPredioClick(Sender: TObject);
     procedure BtnRecuperarSalaClick(Sender: TObject);
     procedure BtnRecuperarPatrimonioClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
 
      private
     procedure AtualizarTabelaPatrimonio;
@@ -598,6 +599,11 @@ begin
   Result := 'R$ ' + FormatFloat('#,##0.00', Valor, FS);
 end;
 
+procedure TFormCadastro.FormCreate(Sender: TObject);
+begin
+
+end;
+
 // ============================================================================
 // FORMATAÇÃO DE VALORES EM TEMPO REAL
 // ============================================================================
@@ -689,22 +695,31 @@ end;
 
 procedure TFormCadastro.FormShow(Sender: TObject);
 begin
-  TPermissoesHelper.AplicarPermissoesCadastros(PageControl1);
+    try
+    TPermissoesHelper.AplicarPermissoesCadastros(PageControl1);
 
-  // Popular ComboBox de tipos de patrimônio
-  PopularComboBoxTiposPatrimonio;
+    // Popular ComboBox de tipos de patrimônio
+    PopularComboBoxTiposPatrimonio;
 
-  // Inicializar campos desabilitados
-  SetEstadoCamposPatrimonio(False);
-  SetEstadoCamposSala(False);
-  SetEstadoCamposPredio(False);
-  SetEstadoCamposEmpresa(False);
+    // Inicializar campos desabilitados
+    SetEstadoCamposPatrimonio(False);
+    SetEstadoCamposSala(False);
+    SetEstadoCamposPredio(False);
+    SetEstadoCamposEmpresa(False);
 
-  // Inicializar botões de envio como invisíveis
-  BtnEnviarPatrimonio.Visible := False;
-  BtnEnviarSala.Visible := False;
-  BtnEnviarPredio.Visible := False;
-  BtnEnviar.Visible := False;
+    // Inicializar botões de envio como invisíveis
+    BtnEnviarPatrimonio.Visible := False;
+    BtnEnviarSala.Visible := False;
+    BtnEnviarPredio.Visible := False;
+    BtnEnviar.Visible := False;
+
+    // ✅ ADICIONAR: Carregar dados iniciais da aba ativa
+    PageControl1Change(PageControl1);
+
+  except
+    on E: Exception do
+      ShowMessage('Erro ao inicializar formulário: ' + E.Message);
+  end;
 end;
 
 procedure TFormCadastro.EditCepExit(Sender: TObject);
@@ -1397,9 +1412,8 @@ begin
             ShowMessage(Mensagem);
           end;
 
-          // Atualiza a grid/lista de patrimônios
-          // Ajuste conforme seu código de atualização
-          AtualizarTabelaPatrimonio; // ou o nome do seu método de atualização
+
+          AtualizarTabelaPatrimonio;
 
         end
         else
@@ -1464,8 +1478,39 @@ end;
 
 procedure TFormCadastro.AtualizarTabelaPatrimonio;
 begin
-  DSPatrimonio.DataSet := FPatrimonioController.ListarPatrimonio;
-  DBGridPatrimonio.DataSource := DSPatrimonio;
+try
+    // ✅ Fechar o DataSet anterior se estiver aberto
+    if Assigned(DSPatrimonio.DataSet) then
+    begin
+      if DSPatrimonio.DataSet.Active then
+        DSPatrimonio.DataSet.Close;
+      DSPatrimonio.DataSet.Free;
+      DSPatrimonio.DataSet := nil;
+    end;
+
+    // ✅ Obter novo DataSet do Controller
+    DSPatrimonio.DataSet := FPatrimonioController.ListarPatrimonio;
+
+    // ✅ Verificar se o DataSet foi criado
+    if Assigned(DSPatrimonio.DataSet) then
+    begin
+      // ✅ Abrir o DataSet se não estiver aberto
+      if not DSPatrimonio.DataSet.Active then
+        DSPatrimonio.DataSet.Open;
+
+      // ✅ Conectar ao DBGrid
+      DBGridPatrimonio.DataSource := DSPatrimonio;
+
+      // ✅ Forçar refresh do grid
+      DBGridPatrimonio.Refresh;
+    end
+    else
+      raise Exception.Create('Erro: DataSet não foi criado');
+
+  except
+    on E: Exception do
+      ShowMessage('Erro ao atualizar tabela de patrimônios: ' + E.Message);
+  end;
 end;
 
 procedure TFormCadastro.LimparCamposPatrimonio;
@@ -1554,21 +1599,22 @@ end;
 
 procedure TFormCadastro.PageControl1Change(Sender: TObject);
 begin
-  if PageControl1.ActivePage = TabSheet1 then
-  begin
-    AtualizarTabelaE;
-  end
-  else if PageControl1.ActivePage = TabSheet2 then
-  begin
-    AtualizarTabelaP;
-  end
-  else if PageControl1.ActivePage = TabSheet3 then
-  begin
-    AtualizarTabelaS;
-  end
-  else if PageControl1.ActivePage = TabSheet4 then
-  begin
-    AtualizarTabelaPatrimonio;
+ try
+    case PageControl1.ActivePageIndex of
+      0: AtualizarTabelaE;      // TabSheet1 - Empresas
+      1: AtualizarTabelaP;      // TabSheet2 - Prédios
+      2: AtualizarTabelaS;      // TabSheet3 - Salas
+      3: begin
+           AtualizarTabelaPatrimonio;  // TabSheet4 - Patrimônios
+
+
+           CheckBoxRecuperarPatri.Checked := False;
+           Panel35.Visible := False;
+         end;
+    end;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao mudar de aba: ' + E.Message);
   end;
 end;
 

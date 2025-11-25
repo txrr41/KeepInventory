@@ -1,33 +1,35 @@
-unit PatrimonioService;
+﻿unit PatrimonioService;
 
 interface
 
 uses
-PatrimonioDTO, PatrimonioModel, PatrimonioRepository, System.Classes, Data.DB, LogService;
+  PatrimonioDTO, PatrimonioModel, PatrimonioRepository, System.Classes,
+  Data.DB, LogService,  System.SysUtils;
 
 Type
-TPatrimonioService = class
-private
-  FRepository: TPatrimonioRepository;
-public
-  constructor Create;
-  procedure AdicionarPatrimonio(APatrimonioModel: TPatrimonioConfig);
-  procedure ExcluirPatrimonio(AId: Integer);
-  procedure RecuperarPatrimonio(AId: Integer);
-  procedure EditarPatrimonio(APatrimonioModel: TPatrimonioConfig);
-  function PesquisarPatrimonio(const aSearch: String): TDataSet;
-  function ObterNomesSalas: TStringList;
-  function ListarPatrimonio: TDataSet;
-  function ListarPatrimoniosInativos: TDataSet;
-  function GetNomePatrimonioById(AId: Integer): string;
+  TPatrimonioService = class
+  private
+    FRepository: TPatrimonioRepository;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure AdicionarPatrimonio(APatrimonioModel: TPatrimonioConfig);
+    procedure ExcluirPatrimonio(AId: Integer);
+    procedure RecuperarPatrimonio(AId: Integer);
+    procedure EditarPatrimonio(APatrimonioModel: TPatrimonioConfig);
+    function PesquisarPatrimonio(const aSearch: String): TDataSet;
+    function ObterNomesSalas: TStringList;
+    function ListarPatrimonio: TDataSet;
+    function ListarPatrimoniosInativos: TDataSet;
+    function GetNomePatrimonioById(AId: Integer): string;
 
-  // Novos m�todos para importa��o
-  procedure ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
-    var TotalImportados, TotalErros: Integer; Erros: TStringList);
-end;
+    // Métodos para importação
+    procedure ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
+      var TotalImportados, TotalErros: Integer; Erros: TStringList);
+  end;
 
 var
-FPatrimonioService: TPatrimonioService;
+  FPatrimonioService: TPatrimonioService;
 
 implementation
 
@@ -35,84 +37,146 @@ implementation
 
 constructor TPatrimonioService.Create;
 begin
+  inherited Create;
   FRepository := TPatrimonioRepository.Create;
+end;
+
+destructor TPatrimonioService.Destroy;
+begin
+  FRepository.Free;
+  inherited;
 end;
 
 procedure TPatrimonioService.AdicionarPatrimonio(APatrimonioModel: TPatrimonioConfig);
 begin
-  FRepository.AdicionarPatrimonio(APatrimonioModel);
+  try
+    FRepository.AdicionarPatrimonio(APatrimonioModel);
 
-  // Log da operação
-  TLogService.Instance.LogCadastro(
-    'Patrimônio',
-    APatrimonioModel.Nome,
-    APatrimonioModel.Id,
-    'Cadastrou'
-  );
+    // Log da operação
+    TLogService.Instance.LogCadastro(
+      'Patrimônio',
+      APatrimonioModel.Nome,
+      APatrimonioModel.Id,
+      'Cadastrou'
+    );
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao adicionar patrimônio: ' + E.Message);
+  end;
 end;
 
 procedure TPatrimonioService.EditarPatrimonio(APatrimonioModel: TPatrimonioConfig);
 begin
-  FRepository.EditarPatrimonio(APatrimonioModel);
+  try
+    // ✅ CORREÇÃO: Usar FRepository em vez de FPatrimonioService
+    FRepository.EditarPatrimonio(APatrimonioModel);
 
-  // Log da operação
-  TLogService.Instance.LogAlteracao(
-    'Patrimônio',
-    APatrimonioModel.Nome,
-    APatrimonioModel.Id
-  );
+    // Log da operação
+    TLogService.Instance.LogAlteracao(
+      'Patrimônio',
+      APatrimonioModel.Nome,
+      APatrimonioModel.Id
+    );
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao editar patrimônio: ' + E.Message);
+  end;
 end;
 
 procedure TPatrimonioService.ExcluirPatrimonio(AId: Integer);
 var
   NomePatrimonio: string;
 begin
-  // Busca o nome do patrimônio antes de excluir para o log
-  NomePatrimonio := GetNomePatrimonioById(AId);
-  FRepository.ExcluirPatrimonio(AId);
+  try
+    // Busca o nome do patrimônio antes de excluir para o log
+    NomePatrimonio := GetNomePatrimonioById(AId);
 
-  // Log da operação
-  TLogService.Instance.LogExclusao(
-    'Patrimônio',
-    NomePatrimonio,
-    AId
-  );
+    FRepository.ExcluirPatrimonio(AId);
+
+    // Log da operação
+    TLogService.Instance.LogExclusao(
+      'Patrimônio',
+      NomePatrimonio,
+      AId
+    );
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao excluir patrimônio: ' + E.Message);
+  end;
 end;
 
 procedure TPatrimonioService.RecuperarPatrimonio(AId: Integer);
 begin
-  FRepository.RecuperarPatrimonio(AId);
+  try
+    FRepository.RecuperarPatrimonio(AId);
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao recuperar patrimônio: ' + E.Message);
+  end;
 end;
 
 function TPatrimonioService.ListarPatrimonio: TDataSet;
 begin
-  Result := FRepository.ListarPatrimonio;
+  try
+    Result := FRepository.ListarPatrimonio;
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao listar patrimônios: ' + E.Message);
+  end;
 end;
 
 function TPatrimonioService.ListarPatrimoniosInativos: TDataSet;
 begin
-  Result := FRepository.ListarPatrimoniosInativos;
+  try
+    Result := FRepository.ListarPatrimoniosInativos;
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao listar patrimônios inativos: ' + E.Message);
+  end;
 end;
 
 function TPatrimonioService.ObterNomesSalas: TStringList;
 begin
-  Result := FRepository.ListarNomesSalas;
+  try
+    Result := FRepository.ListarNomesSalas;
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao obter nomes das salas: ' + E.Message);
+  end;
 end;
 
 function TPatrimonioService.PesquisarPatrimonio(const aSearch: String): TDataSet;
 begin
-  Result := FRepository.PesquisarPatrimonio(aSearch);
+  try
+    Result := FRepository.PesquisarPatrimonio(aSearch);
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao pesquisar patrimônio: ' + E.Message);
+  end;
 end;
 
 procedure TPatrimonioService.ImportarPatrimonios(const Itens: TArray<TPatrimonioDTO>;
   var TotalImportados, TotalErros: Integer; Erros: TStringList);
 begin
-  FRepository.ImportarPatrimonios(Itens, TotalImportados, TotalErros, Erros);
+  try
+    FRepository.ImportarPatrimonios(Itens, TotalImportados, TotalErros, Erros);
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao importar patrimônios: ' + E.Message);
+  end;
 end;
 
 function TPatrimonioService.GetNomePatrimonioById(AId: Integer): string;
 begin
-  Result := FRepository.GetNomePatrimonioById(AId);
+  try
+    Result := FRepository.GetNomePatrimonioById(AId);
+  except
+    on E: Exception do
+    begin
+      Result := '';
+      raise Exception.Create('Erro ao obter nome do patrimônio: ' + E.Message);
+    end;
+  end;
 end;
 
 end.

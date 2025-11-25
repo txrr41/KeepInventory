@@ -135,7 +135,7 @@ Query.SQL.Text :=
   'INNER JOIN patrimonios p ON m.fk_id_patrimonios = p.id ' +
   'INNER JOIN salas so ON m.fk_id_origem = so.id ' +
   'INNER JOIN salas sd ON m.fk_id_destino = sd.id ' +
-  'WHERE m.status = ''Pendente''';
+  'WHERE m.status = ''Pendente'' AND m.ativo = true';
 
   Query.Open;
   Result := Query;

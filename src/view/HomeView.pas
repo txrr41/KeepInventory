@@ -102,7 +102,6 @@ var User: TFormCadastroUsuario;
 begin
   LimparPanel;
 
-
 User := TFormCadastroUsuario.Create(Self);
 User.Parent := Self.Panel3;
 User.Align := alClient;
@@ -267,7 +266,10 @@ end;
 
 procedure TFormHome.Image8Click(Sender: TObject);
 begin
-  Halt;
+  if MessageDlg('Deseja realmente sair do sistema?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    Application.Terminate;
+  end;
 end;
 
 end.

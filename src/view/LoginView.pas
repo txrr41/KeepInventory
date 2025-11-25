@@ -1,4 +1,4 @@
-unit LoginView;
+﻿unit LoginView;
 
 interface
 
@@ -125,7 +125,7 @@ begin
 
     if UserM = nil then
     begin
-      ShowMessage('Erro ao carregar permiss�es do usu�rio!');
+      ShowMessage('Erro ao carregar permissoes do usuario!');
       Exit;
     end;
 

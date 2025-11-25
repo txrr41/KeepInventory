@@ -63,22 +63,6 @@ begin
     FConnection.Params.Values['User_Name'] := Config.UserName;
     FConnection.Params.Values['Password'] := Config.Password;
 
-    // Debug: mostra os parâmetros (remover depois)
-    var passwordStatus: string;
-    begin
-      if Config.Password = '' then
-        passwordStatus := '(vazio)'
-      else
-        passwordStatus := '(preenchida)';
-
-      ShowMessage('Parâmetros de conexão:' + sLineBreak +
-                  'Server: ' + Config.Server + sLineBreak +
-                  'Port: ' + Config.Port + sLineBreak +
-                  'Database: ' + Config.Database + sLineBreak +
-                  'User: ' + Config.UserName + sLineBreak +
-                  'Password: ' + passwordStatus);
-    end;
-
     FConnection.Open;
 
     Result := True;

@@ -1,4 +1,4 @@
-unit CadastroUsuarioView;
+﻿unit CadastroUsuarioView;
 
 interface
 
@@ -78,6 +78,7 @@ type
     DataSource1: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure BtnAddUserClick(Sender: TObject);
     procedure BtnSalavarUserClick(Sender: TObject);
     procedure BtnEditarUserClick(Sender: TObject);
@@ -95,6 +96,7 @@ type
   private
     FModoEdicao: Boolean;
     FIdUsuarioSelecionado: Integer;
+    FUsuarioController: TUsuarioController;
     procedure HabilitarCampos(AHabilitar: Boolean);
     procedure LimparCampos;
     procedure AtualizarGrid;
@@ -103,6 +105,9 @@ type
     function ValidarTelefone(const Telefone: string): Boolean;
     procedure CarregarDadosParaEdicao;
     function MontarDTO: TUsuarioDTO;
+    function LimparCPF(const CPF: string): string;
+    function LimparTelefone(const Telefone: string): string;
+    function LimparRG(const RG: string): string;
     procedure ConfigurarPermissoesCadastro(AMarcar: Boolean);
     procedure ConfigurarPermissoesMovimentacoes(AMarcar: Boolean);
     procedure ConfigurarPermissoesOcorrencias(AMarcar: Boolean);
@@ -157,17 +162,16 @@ var
   UsuarioLogado: TUsuarioModel;
 begin
   AtualizarGrid;
-  ShowMessage('Antes de GetUsuarioLogado');  // Log tempor�rio
-  UsuarioLogado := TPermissoesHelper.GetUsuarioLogado;
-  ShowMessage('Depois de GetUsuarioLogado: ' + IntToStr(Integer(UsuarioLogado)));  // Mostra o ponteiro
+
+
   if Assigned(UsuarioLogado) then
   begin
-    ShowMessage('Usuario logado: ' + UsuarioLogado.Nome);
+
     TPermissoesHelper.AplicarPermissoesUsuarios(Self);
   end
   else
   begin
-    ShowMessage('Nenhum usu�rio logado!');
+
     Close;
   end;
 
@@ -280,12 +284,20 @@ end;
 procedure TFormCadastroUsuario.AtualizarGrid;
 begin
   try
-    DataSource1.DataSet := FUsuarioController.ListarUsuarios;
-    DBGridUsuarios.DataSource := DataSource1;
+    if Assigned(FUsuarioController) then
+    begin
+      DataSource1.DataSet := FUsuarioController.ListarUsuarios;
+      DBGridUsuarios.DataSource := DataSource1;
+    end
+    else
+    begin
+      ShowMessage('Controlador de usuarios não inicializado!');
+      DBGridUsuarios.DataSource := nil;
+    end;
   except
     on E: Exception do
     begin
-      ShowMessage('Erro ao carregar usu�rios: ' + E.Message);
+      ShowMessage('Erro ao carregar usuarios: ' + E.Message);
       DBGridUsuarios.DataSource := nil;
     end;
   end;
@@ -310,9 +322,9 @@ begin
   end;
 
   // Valida CPF
-  if not ValidarCPF(EdtCPFUser.Text) then
+  if not ValidarCPF(LimparCPF(EdtCPFUser.Text)) then
   begin
-    ShowMessage('CPF inv�lido! Verifique os n�meros digitados.');
+    ShowMessage('CPF invalido! Verifique os numeros digitados.');
     EdtCPFUser.SetFocus;
     Exit;
   end;
@@ -320,9 +332,9 @@ begin
   // Valida telefone se preenchido
   if Trim(EdtTelefoneUser.Text) <> '' then
   begin
-    if not ValidarTelefone(EdtTelefoneUser.Text) then
+    if not ValidarTelefone(LimparTelefone(EdtTelefoneUser.Text)) then
     begin
-      ShowMessage('Telefone inv�lido! Verifique o DDD e o n�mero digitados.');
+      ShowMessage('Telefone invalido! Verifique o DDD e o numero digitados.');
       EdtTelefoneUser.SetFocus;
       Exit;
     end;
@@ -330,7 +342,7 @@ begin
 
   if CbFuncaoUser.ItemIndex = -1 then
   begin
-    ShowMessage('Selecione a fun��o do usu�rio!');
+    ShowMessage('Selecione a função do usuario!');
     CbFuncaoUser.SetFocus;
     Exit;
   end;
@@ -338,7 +350,7 @@ begin
   // Valida senha apenas no modo de inclus�o
   if (not FModoEdicao) and (Trim(EdtSenhaUser.Text) = '') then
   begin
-    ShowMessage('Informe a senha do usu�rio!');
+    ShowMessage('Informe a senha do usuario!');
     EdtSenhaUser.SetFocus;
     Exit;
   end;
@@ -347,7 +359,7 @@ begin
   if not (CheckCadastro.Checked or CheckMovimentacoes.Checked or
           CheckOcorrencias.Checked or CheckUsuarios.Checked) then
   begin
-    ShowMessage('Selecione pelo menos uma permiss�o para o usu�rio!');
+    ShowMessage('Selecione pelo menos uma permiss�o para o usuario!');
     Exit;
   end;
 
@@ -360,9 +372,9 @@ var
 begin
   Dto.FId := FIdUsuarioSelecionado;
   Dto.FNome := EdtNomeUser.Text;
-  Dto.FCpf := EdtCPFUser.Text;
-  Dto.FRg := EdtRGUser.Text;
-  Dto.FTelefone := EdtTelefoneUser.Text;
+  Dto.FCpf := LimparCPF(EdtCPFUser.Text);
+  Dto.FRg := LimparRG(EdtRGUser.Text);
+  Dto.FTelefone := LimparTelefone(EdtTelefoneUser.Text);
 
   if Trim(EdtNascimentoUser.Text) <> '' then
     Dto.FDataNascimento := StrToDate(EdtNascimentoUser.Text)
@@ -420,12 +432,12 @@ begin
     if FModoEdicao then
     begin
       FUsuarioController.EditarUsuario(Dto);
-      ShowMessage('Usu�rio atualizado com sucesso!');
+      ShowMessage('Usuario atualizado com sucesso!');
     end
     else
     begin
       FUsuarioController.AdicionarUsuario(Dto);
-      ShowMessage('Usu�rio cadastrado com sucesso!');
+      ShowMessage('Usuario cadastrado com sucesso!');
     end;
 
     LimparCampos;
@@ -435,7 +447,7 @@ begin
 
   except
     on E: Exception do
-      ShowMessage('Erro ao salvar usu�rio: ' + E.Message);
+      ShowMessage('Erro ao salvar usuario: ' + E.Message);
   end;
 end;
 
@@ -497,7 +509,7 @@ procedure TFormCadastroUsuario.BtnEditarUserClick(Sender: TObject);
 begin
   if DataSource1.DataSet.IsEmpty then
   begin
-    ShowMessage('Selecione um usu�rio para editar!');
+    ShowMessage('Selecione um usuario para editar!');
     Exit;
   end;
 
@@ -514,24 +526,24 @@ var
 begin
   if DataSource1.DataSet.IsEmpty then
   begin
-    ShowMessage('Selecione um usu�rio para excluir!');
+    ShowMessage('Selecione um usuario para excluir!');
     Exit;
   end;
 
   NomeUsuario := DataSource1.DataSet.FieldByName('nome').AsString;
 
-  if MessageDlg('Deseja realmente excluir o usu�rio "' + NomeUsuario + '"?',
+  if MessageDlg('Deseja realmente excluir o usuario "' + NomeUsuario + '"?',
                 mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     try
       IdUsuario := DataSource1.DataSet.FieldByName('id').AsInteger;
       FUsuarioController.ExcluirUsuario(IdUsuario);
-      ShowMessage('Usu�rio exclu�do com sucesso!');
+      ShowMessage('Usu�rio excluido com sucesso!');
       AtualizarGrid;
       LimparCampos;
     except
       on E: Exception do
-        ShowMessage('Erro ao excluir usu�rio: ' + E.Message);
+        ShowMessage('Erro ao excluir usuario: ' + E.Message);
     end;
   end;
 end;
@@ -543,10 +555,26 @@ end;
 
 procedure TFormCadastroUsuario.SearchBox1Change(Sender: TObject);
 begin
-  if Trim(SearchBox1.Text) <> '' then
-    DataSource1.DataSet := FUsuarioController.PesquisarUsuario(SearchBox1.Text)
-  else
-    AtualizarGrid;
+  try
+    if Assigned(FUsuarioController) then
+    begin
+      if Trim(SearchBox1.Text) <> '' then
+      begin
+        DataSource1.DataSet := FUsuarioController.PesquisarUsuario(SearchBox1.Text);
+        DBGridUsuarios.DataSource := DataSource1;
+      end
+      else
+      begin
+        AtualizarGrid;
+      end;
+    end;
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Erro ao pesquisar usuários: ' + E.Message);
+      AtualizarGrid;
+    end;
+  end;
 end;
 
 // ============================================================================
@@ -678,39 +706,32 @@ end;
 
 function TFormCadastroUsuario.ValidarCPF(const CPF: string): Boolean;
 var
-  numeros: string;
   dig10, dig11: string;
   soma, i, resto: Integer;
 begin
   Result := False;
 
-  // Remove caracteres não numéricos
-  numeros := '';
-  for i := 1 to Length(CPF) do
-    if CPF[i] in ['0'..'9'] then
-      numeros := numeros + CPF[i];
-
-  // CPF deve ter 11 dígitos
-  if Length(numeros) <> 11 then
+  // CPF deve ter 11 dígitos (já deve vir limpo)
+  if Length(CPF) <> 11 then
     Exit;
 
   // Verifica se todos os dígitos são iguais
-  if (numeros = '11111111111') or
-     (numeros = '22222222222') or
-     (numeros = '33333333333') or
-     (numeros = '44444444444') or
-     (numeros = '55555555555') or
-     (numeros = '66666666666') or
-     (numeros = '77777777777') or
-     (numeros = '88888888888') or
-     (numeros = '99999999999') or
-     (numeros = '00000000000') then
+  if (CPF = '11111111111') or
+     (CPF = '22222222222') or
+     (CPF = '33333333333') or
+     (CPF = '44444444444') or
+     (CPF = '55555555555') or
+     (CPF = '66666666666') or
+     (CPF = '77777777777') or
+     (CPF = '88888888888') or
+     (CPF = '99999999999') or
+     (CPF = '00000000000') then
     Exit;
 
   // Cálculo do primeiro dígito verificador
   soma := 0;
   for i := 1 to 9 do
-    soma := soma + (StrToInt(numeros[i]) * (11 - i));
+    soma := soma + (StrToInt(CPF[i]) * (11 - i));
   resto := soma mod 11;
   if resto < 2 then
     dig10 := '0'
@@ -720,7 +741,7 @@ begin
   // Cálculo do segundo dígito verificador
   soma := 0;
   for i := 1 to 10 do
-    soma := soma + (StrToInt(numeros[i]) * (12 - i));
+    soma := soma + (StrToInt(CPF[i]) * (12 - i));
   resto := soma mod 11;
   if resto < 2 then
     dig11 := '0'
@@ -728,31 +749,23 @@ begin
     dig11 := IntToStr(11 - resto);
 
   // Verifica se os dígitos calculados conferem
-  Result := (numeros[10] = dig10) and (numeros[11] = dig11);
+  Result := (CPF[10] = dig10) and (CPF[11] = dig11);
 end;
 
 function TFormCadastroUsuario.ValidarTelefone(const Telefone: string): Boolean;
 var
-  numeros: string;
-  i: Integer;
   DDD: string;
 begin
   Result := False;
 
-  // Remove caracteres não numéricos
-  numeros := '';
-  for i := 1 to Length(Telefone) do
-    if Telefone[i] in ['0'..'9'] then
-      numeros := numeros + Telefone[i];
-
-  // Telefone deve ter 10 ou 11 dígitos
-  if (Length(numeros) <> 10) and (Length(numeros) <> 11) then
+  // Telefone deve ter 10 ou 11 dígitos (já deve vir limpo)
+  if (Length(Telefone) <> 10) and (Length(Telefone) <> 11) then
     Exit;
 
   // Verifica se o DDD é válido
-  if Length(numeros) >= 10 then
+  if Length(Telefone) >= 10 then
   begin
-    DDD := Copy(numeros, 1, 2);
+    DDD := Copy(Telefone, 1, 2);
 
     // Lista de DDDs válidos do Brasil (até 2024)
     Result := (DDD = '11') or (DDD = '12') or (DDD = '13') or (DDD = '14') or (DDD = '15') or
@@ -771,9 +784,53 @@ begin
               (DDD = '98') or (DDD = '99');
 
     // Verifica se o número não começa com 0 ou 1
-    if Result and (Length(numeros) >= 3) then
-      Result := (numeros[3] <> '0') and (numeros[3] <> '1');
+    if Result and (Length(Telefone) >= 3) then
+      Result := (Telefone[3] <> '0') and (Telefone[3] <> '1');
   end;
+end;
+
+procedure TFormCadastroUsuario.FormDestroy(Sender: TObject);
+begin
+  if Assigned(FUsuarioController) then
+    FreeAndNil(FUsuarioController);
+  inherited;
+end;
+
+// ============================================================================
+// FUNÇÕES DE LIMPEZA DE FORMATAÇÃO
+// ============================================================================
+
+function TFormCadastroUsuario.LimparCPF(const CPF: string): string;
+var
+  i: Integer;
+begin
+  Result := '';
+  // Remove todos os caracteres que não são dígitos
+  for i := 1 to Length(CPF) do
+    if CPF[i] in ['0'..'9'] then
+      Result := Result + CPF[i];
+end;
+
+function TFormCadastroUsuario.LimparTelefone(const Telefone: string): string;
+var
+  i: Integer;
+begin
+  Result := '';
+  // Remove todos os caracteres que não são dígitos
+  for i := 1 to Length(Telefone) do
+    if Telefone[i] in ['0'..'9'] then
+      Result := Result + Telefone[i];
+end;
+
+function TFormCadastroUsuario.LimparRG(const RG: string): string;
+var
+  i: Integer;
+begin
+  Result := '';
+  // Remove todos os caracteres que não são dígitos
+  for i := 1 to Length(RG) do
+    if RG[i] in ['0'..'9'] then
+      Result := Result + RG[i];
 end;
 
 end.
